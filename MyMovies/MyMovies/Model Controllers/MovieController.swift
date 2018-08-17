@@ -7,18 +7,22 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let firebaseURL = URL(string: "https://stefanojournal.firebaseio.com")!
+    typealias CompletionHandler = (Error?) -> Void
     
     enum HTTPMethods: String {
         case get = "GET"
         case put = "PUT"
         case delete = "DELETE"
     }
+    
+    // MARK: - HTTPMethods
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -58,6 +62,101 @@ class MovieController {
             }
         }.resume()
     }
+    
+    func fetchFromServer(completion: @escaping CompletionHandler = { _ in }) {
+    
+    
+    }
+    
+    func putToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = movie.identifier else {
+            NSLog("Movie has no identifier")
+            completion(NSError())
+            return
+        }
+        
+        let url = firebaseURL
+            .appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethods.put.rawValue
+        
+        do {
+            let encodedMovie = try JSONEncoder().encode(movie)
+            request.httpBody = encodedMovie
+        } catch {
+            NSLog("Error encoding movie: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting movie to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
+    
+    func deleteFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = movie.identifier else {
+            NSLog("Movie has no identifier")
+            completion(NSError())
+            return
+        }
+        
+        let url = firebaseURL
+            .appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethods.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error deleting movie from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
+    
+    
+    // MARK: - Persistence Methods
+    
+    func create(title: String, context: NSManagedObjectContext) {
+        context.performAndWait {
+            let movie = Movie(title: title)
+            putToServer(movie: movie)
+        }
+    }
+    
+    func update(movie: Movie, context: NSManagedObjectContext) {
+        context.performAndWait {
+            movie.hasWatched = !movie.hasWatched
+            putToServer(movie: movie)
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving in context \(context): \(error)")
+            }
+        }
+    }
+    
+    func delete(movie: Movie, context: NSManagedObjectContext) {
+        context.performAndWait {
+            context.delete(movie)
+            deleteFromServer(movie: movie)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    
     
     // MARK: - Properties
     

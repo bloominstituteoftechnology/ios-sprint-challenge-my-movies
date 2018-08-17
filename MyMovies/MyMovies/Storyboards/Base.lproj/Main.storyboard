@@ -47,14 +47,14 @@
                                             <rect key="frame" x="16" y="6" width="343" height="31.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="V2X-yJ-62r">
-                                                    <rect key="frame" x="0.0" y="0.0" width="297" height="31.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="270" height="31.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIu-LJ-svE">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="31.5"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="270" y="0.0" width="73" height="31.5"/>
+                                                    <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="df1-eU-loK"/>
                                                     </connections>
@@ -106,14 +106,14 @@
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="266" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="282" y="0.0" width="61" height="30"/>
+                                                    <state key="normal" title="Watched"/>
                                                     <connections>
                                                         <action selector="toggleWatchedMovie:" destination="9cK-VO-zdo" eventType="touchUpInside" id="721-sS-cRA"/>
                                                     </connections>
