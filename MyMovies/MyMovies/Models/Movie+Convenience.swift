@@ -7,3 +7,13 @@
 //
 
 import Foundation
+import CoreData
+
+extension Movie {
+    convenience init(title: String, identifier: UUID? = UUID(), hasWatched: Bool? = false, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(context: managedObjectContext)
+        self.title = title
+        self.identifier = identifier
+        self.hasWatched = hasWatched!
+    }
+}

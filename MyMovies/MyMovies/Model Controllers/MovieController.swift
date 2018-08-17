@@ -10,6 +10,27 @@ import Foundation
 
 class MovieController {
     
+    // MARK: - CRUD
+    
+    func createMovie(withTitle title: String) {
+        let _ = Movie(title: title)
+        saveToPersistentStore()
+    }
+    
+    // MARK: - Local Persistence
+    
+    func saveToPersistentStore() {
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            try moc.save()
+        } catch {
+            moc.reset()
+            NSLog("Error saving to persistent store:\(error)")
+        }
+    }
+    
+    // MARK: - API and Networking
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     

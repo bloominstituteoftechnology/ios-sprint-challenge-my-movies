@@ -10,15 +10,14 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBAction func save(_ sender: Any) {
+        movieController?.createMovie(withTitle: titleLabel.text!)
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+    
+    //MARK: - Properties
+    
+    var movieController: MovieController?
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
 }

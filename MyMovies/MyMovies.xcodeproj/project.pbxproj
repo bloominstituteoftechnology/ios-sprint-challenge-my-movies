@@ -16,6 +16,9 @@
 		46E20A002126A91300E7FF73 /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FF2126A91300E7FF73 /* MovieController.swift */; };
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 		F8CFAA3821271D86006028C1 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F8CFAA3621271D86006028C1 /* MyMovies.xcdatamodeld */; };
+		F8CFAA3B21272252006028C1 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CFAA3A21272252006028C1 /* MovieSearchTableViewCell.swift */; };
+		F8CFAA3D212725E4006028C1 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CFAA3C212725E4006028C1 /* CoreDataStack.swift */; };
+		F8CFAA3F212726F2006028C1 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CFAA3E212726F2006028C1 /* Movie+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,9 @@
 		46E209FF2126A91300E7FF73 /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		F8CFAA3721271D86006028C1 /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
+		F8CFAA3A21272252006028C1 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
+		F8CFAA3C212725E4006028C1 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		F8CFAA3E212726F2006028C1 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +68,11 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
+				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
-				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				F8CFAA3921272210006028C1 /* Cells */,
 				46E20A092126AFC200E7FF73 /* Resources */,
 			);
 			path = MyMovies;
@@ -76,6 +83,8 @@
 			children = (
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				F8CFAA3621271D86006028C1 /* MyMovies.xcdatamodeld */,
+				F8CFAA3C212725E4006028C1 /* CoreDataStack.swift */,
+				F8CFAA3E212726F2006028C1 /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -114,6 +123,14 @@
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		F8CFAA3921272210006028C1 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				F8CFAA3A21272252006028C1 /* MovieSearchTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,9 +207,12 @@
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
+				F8CFAA3B21272252006028C1 /* MovieSearchTableViewCell.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				F8CFAA3821271D86006028C1 /* MyMovies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				F8CFAA3D212725E4006028C1 /* CoreDataStack.swift in Sources */,
+				F8CFAA3F212726F2006028C1 /* Movie+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
