@@ -14,7 +14,7 @@ class MovieTableViewCell: UITableViewCell {
     
     var movieRepresentation: MovieRepresentation? {
         didSet {
-            
+            updateViews()
         }
     }
     
@@ -34,10 +34,10 @@ class MovieTableViewCell: UITableViewCell {
     // MARK: - Functions
     
     func updateViews() {
-        guard let movieRep = movieRepresentation,
-            let hasWatched = movieRep.hasWatched else { return }
+        guard let movieRep = movieRepresentation else { return }
         
         movieTitleLabel.text = movieRep.title
-        isAddedButton.titleLabel?.text = !hasWatched ? "Add Movie" : "Added"
+        // Once a movie has been added it should update the movieRep's has watched
+        isAddedButton.titleLabel?.text = movieRep.hasWatched == nil ? "Add Movie" : "Added"
     }
 }

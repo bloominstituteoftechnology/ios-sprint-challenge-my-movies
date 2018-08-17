@@ -63,9 +63,11 @@ class MovieController {
     
     // MARK: - CRUD
     
-    func add(movie: Movie) {
+    func addMovie(from movieRep: MovieRepresentation) {
         // When we add a movie we're going to want to convert the movie rep into an actual movie
         // the moviecell will have the movie rep
+        
+        _ = Movie(movieRep: movieRep, context: CoreDataStack.moc)
     }
     
     func updateHasSeen(movie: Movie) {
