@@ -20,6 +20,7 @@
 		D6AA2F652127189400AA5A0D /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D6AA2F632127189400AA5A0D /* Model.xcdatamodeld */; };
 		D6AA2F6721271C5B00AA5A0D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA2F6621271C5B00AA5A0D /* CoreDataStack.swift */; };
 		D6AA2F6921271F3300AA5A0D /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA2F6821271F3300AA5A0D /* Movie+Convenience.swift */; };
+		D6AA2F6B2127295600AA5A0D /* Movie+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA2F6A2127295600AA5A0D /* Movie+Encodable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		D6AA2F642127189400AA5A0D /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D6AA2F6621271C5B00AA5A0D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		D6AA2F6821271F3300AA5A0D /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		D6AA2F6A2127295600AA5A0D /* Movie+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Encodable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				D6AA2F632127189400AA5A0D /* Model.xcdatamodeld */,
 				D6AA2F6621271C5B00AA5A0D /* CoreDataStack.swift */,
 				D6AA2F6821271F3300AA5A0D /* Movie+Convenience.swift */,
+				D6AA2F6A2127295600AA5A0D /* Movie+Encodable.swift */,
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 			);
 			path = "CoreData and Models";
@@ -208,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				D6AA2F6B2127295600AA5A0D /* Movie+Encodable.swift in Sources */,
 				D6AA2F622127169A00AA5A0D /* MyMovieTableViewCell.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				D6AA2F652127189400AA5A0D /* Model.xcdatamodeld in Sources */,

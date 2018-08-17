@@ -27,7 +27,7 @@ class MovieTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func toggleIsAdded(_ sender: Any) {
-        
+        // Add hasWatched = false to movieRep as well as create a Movie
     }
     
     
