@@ -12,7 +12,10 @@ class MovieController {
 
   private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
   private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-
+  private let firebaseURL = URL(string: "https://mymovies-bd8d2.firebaseio.com/")!
+  typealias CompletionHandler = (Error?) -> Void
+  
+  // API funcs
   func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
 
     var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -52,8 +55,10 @@ class MovieController {
     }.resume()
   }
 
-  func createMovie(title: String, identifier: UUID = UUID(), hasWatched: Bool = false) {
-    let _ = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
+  // Core Data funcs
+  func createMovieInCoreData(title: String, identifier: UUID = UUID(), hasWatched: Bool = false) {
+    let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
+    putMovieToFirebase(movie: movie)
   }
   
   func deleteMovieFromCoreData(movie: Movie) throws {
@@ -101,7 +106,34 @@ class MovieController {
       NSLog("Error saving managed object context: \(error)")
     }
   }
-  // MARK: - Properties
+  
+  // Firebase funcs
+  
+  func putMovieToFirebase(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+    let identifier = movie.identifier ?? UUID()
+    let url = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
 
+    var urlRequest = URLRequest(url: url)
+    urlRequest.httpMethod = "PUT"
+
+    do {
+      let encoder = JSONEncoder()
+      urlRequest.httpBody = try encoder.encode(movie)
+    } catch {
+      NSLog("Error with encoding movie: \(error)")
+    }
+
+    URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+      if let error = error {
+        NSLog("Error with PUTting data: \(error)")
+        completion(error)
+        return
+      }
+
+      completion(nil)
+    }.resume()
+  }
+  
+  // MARK: - Properties
   var searchedMovies: [MovieRepresentation] = []
 }

@@ -18,7 +18,7 @@ class MovieSearchTableViewCell: UITableViewCell {
   @IBAction func saveMovie(_ sender: Any) {
     guard let movieTitle = movieTitleLabel.text else { return }
     
-    movieController?.createMovie(title: movieTitle)
+    movieController?.createMovieInCoreData(title: movieTitle)
     movieController?.saveToPersistentStore()
   }
   
