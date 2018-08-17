@@ -9,16 +9,35 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-
-    // MARK: - Actions
     
-    @IBAction func toggleIsAdded(_ sender: Any) {
-        
+    // MARK: - Properties
+    
+    var movieRepresentation: MovieRepresentation? {
+        didSet {
+            
+        }
     }
     
     // MARK: - Outlets
     
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var isAddedButton: UIButton!
+
     
+    // MARK: - Actions
+    
+    @IBAction func toggleIsAdded(_ sender: Any) {
+        
+    }
+    
+    
+    // MARK: - Functions
+    
+    func updateViews() {
+        guard let movieRep = movieRepresentation,
+            let hasWatched = movieRep.hasWatched else { return }
+        
+        movieTitleLabel.text = movieRep.title
+        isAddedButton.titleLabel?.text = !hasWatched ? "Add Movie" : "Added"
+    }
 }

@@ -64,7 +64,8 @@ class MovieController {
     // MARK: - CRUD
     
     func add(movie: Movie) {
-        
+        // When we add a movie we're going to want to convert the movie rep into an actual movie
+        // the moviecell will have the movie rep
     }
     
     func updateHasSeen(movie: Movie) {
