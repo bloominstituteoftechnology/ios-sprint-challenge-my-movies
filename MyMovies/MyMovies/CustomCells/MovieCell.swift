@@ -19,17 +19,4 @@ class MovieCell: UITableViewCell
     var movie: Movie?
     var movieController: MovieController?
     
-    // MARK: - Actions
-    
-    @IBAction func addMovie(_ sender: Any)
-    {
-        do
-        {
-            try movieController?.saveToPersistentStore()
-        }
-        catch
-        {
-            NSLog("Error saving movie: \(error)")
-        }
-    }
 }
