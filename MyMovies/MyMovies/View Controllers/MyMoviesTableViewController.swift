@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     tableView.reloadData()

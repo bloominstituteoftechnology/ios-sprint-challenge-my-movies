@@ -19,7 +19,6 @@ class MovieSearchTableViewCell: UITableViewCell {
     guard let movieTitle = movieTitleLabel.text else { return }
     
     movieController?.createMovieInCoreData(title: movieTitle)
-    movieController?.saveToPersistentStore()
   }
   
   @IBOutlet var movieTitleLabel: UILabel!
