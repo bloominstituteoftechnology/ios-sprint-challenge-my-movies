@@ -10,11 +10,9 @@ import UIKit
 
 class MyMovieTableViewCell: UITableViewCell {
 
-    // MARK: - Actions
+    // MARK: - Properties
     
-    @IBAction func toggleHasSeen(_ sender: Any) {
-        
-    }
+    var movie: Movie?
     
     
     // MARK: - Outlets
@@ -22,4 +20,10 @@ class MyMovieTableViewCell: UITableViewCell {
     @IBOutlet weak var myMovieTitleLabel: UILabel!
     @IBOutlet weak var hasSeenButton: UIButton!
     
+    
+    // MARK: - Actions
+    
+    @IBAction func toggleHasSeen(_ sender: Any) {
+        
+    }
 }
