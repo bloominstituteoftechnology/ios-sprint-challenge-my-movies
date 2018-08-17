@@ -25,6 +25,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     {
         let movie = Movie(title: movie.title)
         movieController?.uploadToDatabase(with: movie)
+        guard let title = movie.title else { return }
+        let alert = UIAlertController(title: "Successfully added \(title) to your list!", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Great!", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
