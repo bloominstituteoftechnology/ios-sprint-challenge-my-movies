@@ -76,7 +76,7 @@
                                     <constraint firstItem="2l9-LZ-Oay" firstAttribute="centerY" secondItem="LbP-K0-bYG" secondAttribute="centerY" id="A9H-EV-nUB"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="searchTitleLabel" destination="2l9-LZ-Oay" id="YDx-eL-Lbg"/>
+                                    <outlet property="searchTitleLabel" destination="BkW-4V-N6Z" id="ThK-zs-z0F"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -138,7 +138,7 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="myMovieTitleLabel" destination="O4P-Iq-3DJ" id="KNO-VP-i14"/>
+                                    <outlet property="myMovieTitleLabel" destination="a6O-zS-fmH" id="5vW-28-R6z"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

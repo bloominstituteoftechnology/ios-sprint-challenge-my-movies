@@ -14,6 +14,16 @@ class MovieController
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
+    // MARK: - CoreData
+    
+    func saveToPersistentStore() throws
+    {
+        let moc = CoreDataStack.shared.mainContext
+        try moc.save()
+    }
+    
+    // MARK: - Search
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void)
     {
         
@@ -31,7 +41,8 @@ class MovieController
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             
-            if let error = error {
+            if let error = error
+            {
                 NSLog("Error searching for movie with search term \(searchTerm): \(error)")
                 completion(error)
                 return

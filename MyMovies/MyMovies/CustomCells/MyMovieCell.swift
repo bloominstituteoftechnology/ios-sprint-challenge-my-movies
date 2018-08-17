@@ -11,7 +11,8 @@ import UIKit
 class MyMovieCell: UITableViewCell
 {
 
-    @IBOutlet weak var myMovieTitleLabel: UIStackView!
+    
+    @IBOutlet weak var myMovieTitleLabel: UILabel!
     
     @IBAction func toggleWatched(_ sender: Any)
     {
