@@ -96,7 +96,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
                           commit editingStyle: UITableViewCellEditingStyle,
                           forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      
+      do {
+        try movieController.deleteMovieFromCoreData(movie: fetchedResultsController.object(at: indexPath))
+      } catch {
+        NSLog("Error deleting movie!")
+      }
     }
   }
   
