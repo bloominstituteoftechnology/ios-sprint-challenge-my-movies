@@ -11,6 +11,8 @@ import CoreData
 
 class MovieController {
     
+    // Why is it duplicating??
+    // an instance of movieController is being initialized twice (once in each tvc) but it shouldn't duplicate it because of the updateMovieList func??
     init() {
         fetch()
     }
