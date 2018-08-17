@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetch()
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
