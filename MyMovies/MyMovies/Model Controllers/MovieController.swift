@@ -17,6 +17,11 @@ class MovieController {
         saveToPersistentStore()
     }
     
+    func updateToggle(for movie: Movie) {
+        movie.hasWatched = !movie.hasWatched
+        saveToPersistentStore()
+    }
+    
     // MARK: - Local Persistence
     
     func saveToPersistentStore() {

@@ -36,10 +36,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMovieTableViewCell
 
-        // TODO cell implementation w. custom cell class
-
+        cell.titleLabel.text = fetchedResultsController.object(at: indexPath).title
+        cell.movieController = movieController
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        
         return cell
     }
 
@@ -102,4 +104,5 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return frc
     } ()
     
+    let movieController = MovieController() // careful to make sure it doesn't duplicate entries
 }
