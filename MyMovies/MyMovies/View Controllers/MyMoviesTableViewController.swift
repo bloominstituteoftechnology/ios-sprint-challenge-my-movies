@@ -13,8 +13,9 @@ private let moc = CoreDataStack.shared.mainContext
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     // MARK: - NSFetchedResultsControllerDelegate
     
@@ -47,9 +48,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
                     for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
-            tableView.insertSections(IndexSet(integer:sectionIndex), with: .automatic)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
         case .delete:
-            tableView.deleteSections(IndexSet(integer:sectionIndex), with: .automatic)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
         default:
             break
         }
@@ -61,7 +62,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedMoviesController.sections?[section].name
+        return fetchedMoviesController.sections?[section].name == "0" ? "Unwatched" : "Watched"
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -92,9 +93,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
                                              managedObjectContext: moc,
                                              sectionNameKeyPath: "hasWatched",
                                              cacheName: nil)
-        
-        try! frc.performFetch()
         frc.delegate = self
+        try! frc.performFetch()
+        
         return frc
     }()
     

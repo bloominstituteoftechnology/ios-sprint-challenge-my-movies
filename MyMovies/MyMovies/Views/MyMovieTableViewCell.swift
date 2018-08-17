@@ -14,11 +14,8 @@ class MyMovieTableViewCell: UITableViewCell {
     
     @IBAction func toggleHasWatched(_ sender: Any) {
         guard let movie = movie else {return}
-        var hasWatched:Bool {
-            return movie.hasWatched != movie.hasWatched
-        }
-        
-        movie.hasWatched = hasWatched
+ 
+        movie.hasWatched = !movie.hasWatched
         do{
             try moc.save()
         } catch {
@@ -26,6 +23,7 @@ class MyMovieTableViewCell: UITableViewCell {
             moc.reset()
             return
         }
+        updateCell()
         
     }
     
