@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 private let moc = CoreDataStack.shared.mainContext
 
@@ -33,6 +34,7 @@ class MyMovieTableViewCell: UITableViewCell {
     //MARK: - Properties
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasWatchedOutlet: UIButton!
+
     var movieController: MovieController?
     var movie: Movie? {
         didSet{

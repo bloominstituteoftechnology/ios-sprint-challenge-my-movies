@@ -154,20 +154,20 @@ class MovieController {
         }
     }
     
-    func updateAndSave(movie:Movie){
+    func updateAndSave(movie:Movie, context: NSManagedObjectContext = moc){
         movie.hasWatched = !movie.hasWatched
         put(movie: movie) { (error) in
-            moc.perform {
+            context.perform {
                 if let error = error {
                     NSLog("Error: \(error)")
-                    moc.reset()
+                    context.reset()
                     return
                 }
                 do{
-                    try moc.save()
+                    try context.save()
                 } catch {
                     NSLog("Error saving changes: \(error)")
-                    moc.reset()
+                    context.reset()
                     return
                 }
             }
@@ -175,14 +175,14 @@ class MovieController {
     }
     
     
-    func fetchSingleMovieFromPersistentStore(identifier: String) ->Movie?{
+    func fetchSingleMovieFromPersistentStore(identifier: String, context:NSManagedObjectContext) ->Movie?{
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()
         request.predicate = NSPredicate(format: "identifier == %@", identifier)
         var movie: Movie?
-        moc.performAndWait {
+        context.performAndWait {
             
             do{
-                movie = try moc.fetch(request).first
+                movie = try context.fetch(request).first
             } catch {
                 NSLog("Error fetching from persistent store: \(error)")
                 
@@ -207,12 +207,12 @@ class MovieController {
                 
                 backgroundContext.performAndWait{
                     for movieRepresentation in movieRepresentations{
-                        let movie = self.fetchSingleMovieFromPersistentStore(identifier: movieRepresentation.identifier!.uuidString)
+                        let movie = self.fetchSingleMovieFromPersistentStore(identifier: movieRepresentation.identifier!.uuidString, context: backgroundContext)
                         
                         //there is a duplicate or it needs to be updated
                         if let movie = movie {
-                            if movie != movieRepresentation{
-                                self.updateAndSave(movie: movie)
+                            if movie.hasWatched != movieRepresentation.hasWatched{
+                                self.updateAndSave(movie: movie, context: backgroundContext)
                             }
                         } else {
                             _ = Movie(movieRepresentation: movieRepresentation, context: backgroundContext)
