@@ -18,6 +18,9 @@ class MovieTableViewCell: UITableViewCell {
         }
     }
     
+    var movieController: MovieController?
+    
+    
     // MARK: - Outlets
     
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -28,6 +31,12 @@ class MovieTableViewCell: UITableViewCell {
     
     @IBAction func toggleIsAdded(_ sender: Any) {
         // Add hasWatched = false to movieRep as well as create a Movie
+        
+        guard let movieRep = movieRepresentation else { return }
+        movieController?.addMovie(from: movieRep, context: CoreDataStack.moc)
+        
+        // Won't be persisted yet
+        movieRepresentation?.hasWatched = false
     }
     
     

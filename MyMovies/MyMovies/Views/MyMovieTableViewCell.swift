@@ -12,7 +12,13 @@ class MyMovieTableViewCell: UITableViewCell {
 
     // MARK: - Properties
     
-    var movie: Movie?
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    var movieController: MovieController?
     
     
     // MARK: - Outlets
@@ -24,6 +30,17 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func toggleHasSeen(_ sender: Any) {
-        
+        guard let movie = movie else { return }
+        movieController?.toggleHasWatched(movie: movie, context: CoreDataStack.moc)
+        // Will fetchresultscontroller keep track of the change and update the table view or should I reload data?
+    }
+    
+    
+    // MARK: - Functions
+    
+    func updateViews() {
+        guard let thisMovie = movie else { return }
+        myMovieTitleLabel.text = thisMovie.title
+        hasSeenButton.titleLabel?.text = thisMovie.hasWatched ? "Watched" : "Unwatched"
     }
 }
