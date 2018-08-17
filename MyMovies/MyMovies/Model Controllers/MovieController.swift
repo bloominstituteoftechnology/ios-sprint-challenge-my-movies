@@ -206,6 +206,7 @@ class MovieController {
     func toggleHasWatched(movie: Movie, context: NSManagedObjectContext) {
         movie.hasWatched = !movie.hasWatched
         save(context: context)
+        put(movie: movie)
     }
     
     func delete(movie: Movie, context: NSManagedObjectContext) {
