@@ -8,17 +8,22 @@
 
 import UIKit
 
-protocol MyMovieTableViewCellDelegate: class {
-    func toggleHasWatched(for cell: MyMovieTableViewCell)
+protocol MyMovieTableViewCellDelegate {
+    func toggleWatched(cell: MyMovieTableViewCell)
 }
+
 
 class MyMovieTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var toggleWatchedButton: UIButton!
     
-    weak var delegate: MyMovieTableViewCellDelegate?
+    var delegate: MyMovieTableViewCellDelegate?
+    
+    
     @IBAction func toggleWatched(_ sender: UIButton) {
-        delegate?.toggleHasWatched(for: self)
+        
+        delegate?.toggleWatched(cell: self)
+        
     }
     
 }

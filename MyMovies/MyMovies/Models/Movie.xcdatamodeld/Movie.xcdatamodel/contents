@@ -4,8 +4,9 @@
         <attribute name="hasWatched" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="watchedTitle" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Movie" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="Movie" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>

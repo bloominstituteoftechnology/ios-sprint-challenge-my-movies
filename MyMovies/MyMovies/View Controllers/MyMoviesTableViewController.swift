@@ -11,24 +11,30 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
     
+    let firebaseController = FirebaseController()
     
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    func toggleWatched(cell: MyMovieTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let movie = fetchedResultsController.object(at: indexPath)
+        movie.hasWatched = !movie.hasWatched
+        if movie.hasWatched {
+            movie.watchedTitle = "Watched"
+        } else {
+            movie.watchedTitle = "Unwatched"
+        }
+        do {
+            try CoreDataStack.shared.save()
+            firebaseController.put(movie: movie)
+        } catch {
+            NSLog("Error Toggling Watched state: \(error)")
+        }
     }
-    
-    func toggleHasWatched(for cell: MyMovieTableViewCell) {
-       
-    }
-
 
     // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         
@@ -43,6 +49,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMovieTableViewCell
+        cell.delegate = self
         let movie = fetchedResultsController.object(at: indexPath)
         let buttonTitle = movie.hasWatched ? "Watched" : "Unwatched"
         cell.titleLabel.text = movie.title
@@ -102,15 +109,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     var movieController: MovieController!
     
@@ -121,7 +119,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
-                                             sectionNameKeyPath: "hasWatched",
+                                             sectionNameKeyPath: "watchedTitle",
                                              cacheName: nil)
         frc.delegate = self
         
