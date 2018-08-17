@@ -8,7 +8,8 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieControllerProtocol, MovieSearchTableViewCellDelegate {
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,29 +20,33 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
-        movieController.searchForMovie(with: searchTerm) { (error) in
+        movieController?.searchForMovie(with: searchTerm) { (error) in
             
             guard error == nil else { return }
             
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+            self.tableView.reloadData()
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieController.searchedMovies.count
+        return movieController?.searchedMovies.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieSearchTableViewCell
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieRepresentation = movieController?.searchedMovies[indexPath.row]
+        cell.delegate = self
         
         return cell
     }
     
-    var movieController = MovieController()
+    var movieController: MovieController?
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    func saveMovie(for cell: MovieSearchTableViewCell) {
+        guard let movieRepresentation = cell.movieRepresentation else { return }
+        movieController?.create(movieRepresentation: movieRepresentation)
+    }
 }
