@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MovieRepresentation: Equatable, Codable {
+struct MovieStub: Equatable, Codable {
     let title: String
     
     /*
@@ -25,5 +25,5 @@ struct MovieRepresentation: Equatable, Codable {
  The actual movies are in the "results" dictionary of the JSON.
  */
 struct MovieRepresentations: Codable {
-    let results: [MovieRepresentation]
+    let results: [MovieStub]
 }
