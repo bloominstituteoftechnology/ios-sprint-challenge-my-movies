@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetchFromServer()
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let firebaseURL = URL(string: "https://stefanojournal.firebaseio.com")!
@@ -128,14 +132,19 @@ class MovieController {
     
     // MARK: - Persistence Methods
     
-    func create(title: String, context: NSManagedObjectContext) {
+    func create(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         context.performAndWait {
             let movie = Movie(title: title)
             putToServer(movie: movie)
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving in context \(context): \(error)")
+            }
         }
     }
     
-    func update(movie: Movie, context: NSManagedObjectContext) {
+    func toggleWatched(for movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         context.performAndWait {
             movie.hasWatched = !movie.hasWatched
             putToServer(movie: movie)
@@ -147,7 +156,7 @@ class MovieController {
         }
     }
     
-    func delete(movie: Movie, context: NSManagedObjectContext) {
+    func delete(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         context.performAndWait {
             context.delete(movie)
             deleteFromServer(movie: movie)
@@ -156,7 +165,9 @@ class MovieController {
     
     // MARK: - Helper Methods
     
-    
+    private func fetchFromPersistenceStore(with movie: Movie, context: NSManagedObjectContext) {
+        
+    }
     
     // MARK: - Properties
     

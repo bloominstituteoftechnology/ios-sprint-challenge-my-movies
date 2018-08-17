@@ -11,7 +11,23 @@ import UIKit
 class MovieSearchTableViewCell: UITableViewCell {
 
     @IBAction func addMovie(_ sender: Any) {
+        if let movieController = movieController, let title = title {
+            movieController.create(title: title)
+        }
     }
+    
+    private func updateViews() {
+        if let title = title {
+            moveTextLabel?.text = title
+        }
+    }
+    
+    var title: String? {
+        didSet {
+            updateViews()
+        }
+    }
+    var movieController: MovieController?
     
     @IBOutlet weak var moveTextLabel: UILabel!
     @IBOutlet weak var addMovieButtonLabel: UIButton!

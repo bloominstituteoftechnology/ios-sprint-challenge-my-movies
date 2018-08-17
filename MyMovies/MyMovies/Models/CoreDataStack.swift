@@ -29,7 +29,7 @@ class CoreDataStack {
     }
     
     lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Entry")
+        let container = NSPersistentContainer(name: "Movie")
         container.loadPersistentStores  { (_, error) in
             if let error = error {
                 fatalError("Failed to load persistent store: \(error)")
