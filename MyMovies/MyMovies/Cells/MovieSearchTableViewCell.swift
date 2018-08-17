@@ -11,7 +11,8 @@ import UIKit
 class MovieSearchTableViewCell: UITableViewCell {
 
     @IBAction func save(_ sender: Any) {
-        movieController?.createMovie(withTitle: titleLabel.text!)
+        guard let title = titleLabel.text else { return }
+        movieController?.createMovie(withTitle: title)
     }
     
     //MARK: - Properties

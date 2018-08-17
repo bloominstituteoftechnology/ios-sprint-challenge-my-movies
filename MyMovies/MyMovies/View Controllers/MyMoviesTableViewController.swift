@@ -28,7 +28,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections?[section].name
+        return fetchedResultsController.sections?[section].name == "0" ? "Unwatched Movies" : "Watched Movies"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -38,9 +38,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMovieTableViewCell
 
-        cell.titleLabel.text = fetchedResultsController.object(at: indexPath).title
         cell.movieController = movieController
         cell.movie = fetchedResultsController.object(at: indexPath)
+        // cell.titleLabel.text = fetchedResultsController.object(at: indexPath).title
         
         return cell
     }

@@ -64,11 +64,19 @@ class MovieController {
     // MARK: - Remote Persistence
     
     private func put(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
-        let url = firebaseURL.appendingPathComponent(movie.identifier!.uuidString).appendingPathExtension("json")
+        // let uuid = movie.identifier ?? UUID()
+        let url = firebaseURL.appendingPathComponent((movie.identifier?.uuidString)!).appendingPathExtension("json")
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         do {
-            let data = try JSONEncoder().encode(movie)
+            guard var representation = movie.movieRepresentation else {
+                completion(NSError())
+                return
+            }
+            // representation.identifier = uuid
+            // movie.identifier = uuid
+            
+            let data = try JSONEncoder().encode(representation)
             request.httpBody = data
         } catch {
             NSLog("Error PUTting data: \(error)")
