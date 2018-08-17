@@ -13,6 +13,8 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    var myMovies: [Movie] = []
+    
     
     // MARK: - Networking
     
@@ -56,5 +58,20 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    
+    // MARK: - CRUD
+    
+    func add(movie: Movie) {
+        
+    }
+    
+    func updateHasSeen(movie: Movie) {
+        
+    }
+    
+    func delete(movie: Movie) {
+        
     }
 }
