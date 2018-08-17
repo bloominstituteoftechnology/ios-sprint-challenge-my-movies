@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -31,7 +32,7 @@ class MovieController {
         saveToPersistentStore()
     }
     
-    // MARK: - Local Persistence
+    // MARK: - Local Persistent Store
     
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -40,6 +41,19 @@ class MovieController {
         } catch {
             moc.reset()
             NSLog("Error saving to persistent store:\(error)")
+        }
+    }
+    
+    private func fetchSingleMovieFromPersistentStore(withID identifier: UUID) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            let movies = try moc.fetch(fetchRequest)
+            return movies.first
+        } catch {
+            NSLog("Error fetching single Movie: \(error).")
+            return nil
         }
     }
     
@@ -82,8 +96,60 @@ class MovieController {
                 return
             }
             completion(nil)
-            }.resume()
+        }.resume()
     }
+    
+    // MARK: - Synchronizing CoreData with Remote storage
+    
+    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        let url = firebaseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error with URLSession re: fetching movies: \(error).")
+                completion(error)
+            }
+            guard let data = data else { return }
+            
+            do {
+                let decodedData = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                try self.updateMovies(with: decodedData)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding Movies data from server: \(error)")
+            }
+        }.resume()
+    }
+    
+    private func updateMovies(with representations: [MovieRepresentation]) throws {
+        var error: Error?
+        let moc = CoreDataStack.shared.mainContext // until background conconcurrency is implemented
+        for movieRep in representations {
+            let movie = self.fetchSingleMovieFromPersistentStore(withID: movieRep.identifier!)
+            if movie != nil {
+                if movie! == movieRep {
+                    // do nothing
+                } else if movie! != movieRep {
+                    self.updateMovieRepresentation(with: movie!, movieRepresentation: movieRep)
+                }
+            } else {
+                let _ = Movie(movieRepresentation: movieRep)
+            }
+        }
+        do {
+            try moc.save()
+        } catch let saveError {
+            moc.reset()
+            error = saveError
+        }
+        if let error = error { throw error }
+    }
+    
+    private func updateMovieRepresentation(with movie: Movie, movieRepresentation: MovieRepresentation) {
+        movie.title = movieRepresentation.title
+        movie.identifier = movieRepresentation.identifier
+        movie.hasWatched = movieRepresentation.hasWatched!
+    }
+    
     
     // MARK: - API and Networking
     
