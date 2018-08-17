@@ -123,7 +123,7 @@
                                                     <rect key="frame" x="265" y="0.0" width="78" height="30"/>
                                                     <state key="normal" title="Unwatched"/>
                                                     <connections>
-                                                        <action selector="toggleIsSeen:" destination="9cK-VO-zdo" eventType="touchUpInside" id="Soc-Vq-A83"/>
+                                                        <action selector="toggleHasSeen:" destination="9cK-VO-zdo" eventType="touchUpInside" id="abf-UH-RQB"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -138,7 +138,7 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="isSeenButton" destination="3Ay-OW-Mt0" id="t7H-QB-7PF"/>
+                                    <outlet property="hasSeenButton" destination="3Ay-OW-Mt0" id="CtK-zY-Y1F"/>
                                     <outlet property="myMovieTitleLabel" destination="a6O-zS-fmH" id="XwS-HU-0ol"/>
                                 </connections>
                             </tableViewCell>

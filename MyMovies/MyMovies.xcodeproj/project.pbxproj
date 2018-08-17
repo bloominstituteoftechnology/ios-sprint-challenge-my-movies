@@ -17,6 +17,8 @@
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 		D6AA2F60212714EB00AA5A0D /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA2F5F212714EB00AA5A0D /* MovieTableViewCell.swift */; };
 		D6AA2F622127169A00AA5A0D /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA2F612127169A00AA5A0D /* MyMovieTableViewCell.swift */; };
+		D6AA2F652127189400AA5A0D /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D6AA2F632127189400AA5A0D /* Model.xcdatamodeld */; };
+		D6AA2F6721271C5B00AA5A0D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA2F6621271C5B00AA5A0D /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		D6AA2F5F212714EB00AA5A0D /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		D6AA2F612127169A00AA5A0D /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
+		D6AA2F642127189400AA5A0D /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		D6AA2F6621271C5B00AA5A0D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +68,7 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A052126AF5900E7FF73 /* Models */,
+				46E20A052126AF5900E7FF73 /* CoreData and Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
 				D6AA2F5E212714C600AA5A0D /* Views */,
@@ -74,12 +78,14 @@
 			path = MyMovies;
 			sourceTree = "<group>";
 		};
-		46E20A052126AF5900E7FF73 /* Models */ = {
+		46E20A052126AF5900E7FF73 /* CoreData and Models */ = {
 			isa = PBXGroup;
 			children = (
+				D6AA2F632127189400AA5A0D /* Model.xcdatamodeld */,
+				D6AA2F6621271C5B00AA5A0D /* CoreDataStack.swift */,
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 			);
-			path = Models;
+			path = "CoreData and Models";
 			sourceTree = "<group>";
 		};
 		46E20A072126AFA300E7FF73 /* Model Controllers */ = {
@@ -201,9 +207,11 @@
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				D6AA2F622127169A00AA5A0D /* MyMovieTableViewCell.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
+				D6AA2F652127189400AA5A0D /* Model.xcdatamodeld in Sources */,
 				D6AA2F60212714EB00AA5A0D /* MovieTableViewCell.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				D6AA2F6721271C5B00AA5A0D /* CoreDataStack.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,6 +410,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D6AA2F632127189400AA5A0D /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D6AA2F642127189400AA5A0D /* Model.xcdatamodel */,
+			);
+			currentVersion = D6AA2F642127189400AA5A0D /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 46E209D92126A63600E7FF73 /* Project object */;
 }
