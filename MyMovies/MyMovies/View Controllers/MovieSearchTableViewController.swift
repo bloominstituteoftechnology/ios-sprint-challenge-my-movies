@@ -21,7 +21,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let title = movieController.searchedMovies[indexPath.row].title
         
-        let movie = Movie(title: title)
+        let movie = Movie(title: title, hasWatched: false, identifier: UUID(), context: CoreDataStack.shared.mainContext)
         do {
             firebaseController.put(movie: movie)
             try CoreDataStack.shared.save()

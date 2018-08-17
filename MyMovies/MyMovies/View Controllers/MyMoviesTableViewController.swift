@@ -11,7 +11,7 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
     
-    var firebaseController: FirebaseController!
+    var firebaseController: FirebaseController?
     
     func toggleWatched(cell: MyMovieTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
@@ -24,7 +24,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         }
         do {
             try CoreDataStack.shared.save()
-            firebaseController.put(movie: movie)
+            guard let firebaseController = firebaseController else { return }
+             firebaseController.put(movie: movie)
         } catch {
             NSLog("Error Toggling Watched state: \(error)")
         }
@@ -55,7 +56,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         cell.titleLabel.text = movie.title
         cell.toggleWatchedButton.setTitle(buttonTitle, for: .normal)
         
-
         return cell
     }
     
@@ -65,6 +65,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
+            guard let firebaseController = firebaseController else { return }
             firebaseController.delete(movie: movie)
             tableView.reloadRows(at: [indexPath], with: .fade)
         }
