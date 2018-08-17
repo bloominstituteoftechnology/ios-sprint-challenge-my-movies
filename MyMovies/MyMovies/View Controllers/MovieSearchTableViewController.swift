@@ -8,15 +8,19 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
-    override func viewDidLoad() {
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
+{
+    var movie: Movie?
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    {
         guard let searchTerm = searchBar.text else { return }
         
         movieController.searchForMovie(with: searchTerm) { (error) in
@@ -29,16 +33,29 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return movieController.searchedMovies.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.searchTitleLabel.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
+    }
+    
+    @IBAction func addMovie(_ sender: Any)
+    {
+        print("button tapped")
+        guard let indexPath = tableView.indexPathForSelectedRow else {return}
+        let movie = movieController.searchedMovies[indexPath.row]
+        if movie == movie
+        {
+            movieController.createMovie(title: movie.title, identifier: movie.identifier!, hasWatched: movie.hasWatched!)
+        }
     }
     
     var movieController = MovieController()
