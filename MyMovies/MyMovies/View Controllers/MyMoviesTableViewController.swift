@@ -47,7 +47,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // TODO delete method on movieController, called here
+            movieController.delete(movie: fetchedResultsController.object(at: indexPath))
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

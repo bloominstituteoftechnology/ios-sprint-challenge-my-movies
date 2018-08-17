@@ -20,6 +20,7 @@
 		F8CFAA3D212725E4006028C1 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CFAA3C212725E4006028C1 /* CoreDataStack.swift */; };
 		F8CFAA3F212726F2006028C1 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CFAA3E212726F2006028C1 /* Movie+Convenience.swift */; };
 		F8CFAA4121273341006028C1 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CFAA4021273341006028C1 /* MyMovieTableViewCell.swift */; };
+		F8CFAA43212738E1006028C1 /* Movie+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CFAA42212738E1006028C1 /* Movie+Encodable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		F8CFAA3C212725E4006028C1 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		F8CFAA3E212726F2006028C1 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		F8CFAA4021273341006028C1 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
+		F8CFAA42212738E1006028C1 /* Movie+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Encodable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				F8CFAA3621271D86006028C1 /* MyMovies.xcdatamodeld */,
 				F8CFAA3C212725E4006028C1 /* CoreDataStack.swift */,
 				F8CFAA3E212726F2006028C1 /* Movie+Convenience.swift */,
+				F8CFAA42212738E1006028C1 /* Movie+Encodable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				F8CFAA43212738E1006028C1 /* Movie+Encodable.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				F8CFAA3B21272252006028C1 /* MovieSearchTableViewCell.swift in Sources */,

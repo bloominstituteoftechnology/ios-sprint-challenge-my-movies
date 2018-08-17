@@ -13,12 +13,21 @@ class MovieController {
     // MARK: - CRUD
     
     func createMovie(withTitle title: String) {
-        let _ = Movie(title: title)
+        let movie = Movie(title: title)
         saveToPersistentStore()
+        put(movie: movie)
     }
     
     func updateToggle(for movie: Movie) {
         movie.hasWatched = !movie.hasWatched
+        saveToPersistentStore()
+        put(movie: movie)
+    }
+    
+    func delete(movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        deleteMovieFromServer(movie: movie)
+        moc.delete(movie)
         saveToPersistentStore()
     }
     
@@ -32,6 +41,48 @@ class MovieController {
             moc.reset()
             NSLog("Error saving to persistent store:\(error)")
         }
+    }
+    
+    // MARK: - Remote Persistence
+    
+    private func put(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        let url = firebaseURL.appendingPathComponent(movie.identifier!.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        do {
+            let data = try JSONEncoder().encode(movie)
+            request.httpBody = data
+        } catch {
+            NSLog("Error PUTting data: \(error)")
+        }
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error using URLSession with PUT:\(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    private func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in } ) {
+        let url = firebaseURL.appendingPathComponent(movie.identifier!.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        do {
+            let data = try JSONEncoder().encode(movie)
+            request.httpBody = data
+        } catch {
+            NSLog("Error DELETEing data: \(error)")
+        }
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error using URLSession with DELETE:\(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            }.resume()
     }
     
     // MARK: - API and Networking
@@ -79,6 +130,8 @@ class MovieController {
     }
     
     // MARK: - Properties
+    
+    let firebaseURL = URL(string: "https://mymovies-27a55.firebaseio.com/")!
     
     var searchedMovies: [MovieRepresentation] = []
 }
