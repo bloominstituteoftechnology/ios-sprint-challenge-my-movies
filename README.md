@@ -14,13 +14,20 @@ Begin by forking this repository. Clone your forked repository to your machine. 
 
 Good luck!
 
-### Screen Recording
+### Screen Recordings
 
-Please view the screen recording so you will know what your finished project should look like:
+Please view the screen recordings so you will know what your finished project should look like:
 
-![](https://user-images.githubusercontent.com/16965587/43942387-0485bc3a-9c35-11e8-8553-2ed7afe6eb46.gif)
+Adding, updating, and deleting movies to/from Core Data and Firebase:
 
-(The gif is fairly large in size. It may take a few seconds for it to appear)
+![](https://user-images.githubusercontent.com/16965587/44258598-a0531580-a1cc-11e8-9412-703099badf8c.gif)
+
+Syncing between Firebase and Core Data:
+
+![](https://user-images.githubusercontent.com/16965587/44258613-a648f680-a1cc-11e8-9073-67e548947afc.gif)
+
+
+(The gifs are fairly large in size. It may take a few seconds for them to appear)
 
 ## Requirements
 
