@@ -68,8 +68,35 @@ class MovieController {
     }
     
     func fetchFromServer(completion: @escaping CompletionHandler = { _ in }) {
-    
-    
+        let url = firebaseURL.appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethods.get.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching movies: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from data task")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let movieRepresentations = try Array(JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                try self.syncPersistentStore(with: movieRepresentations, in: backgroundContext)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding movies: \(error)")
+                completion(error)
+                return
+            }
+            
+        }.resume()
     }
     
     func putToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
@@ -129,7 +156,6 @@ class MovieController {
         }.resume()
     }
     
-    
     // MARK: - Persistence Methods
     
     func create(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
@@ -141,6 +167,16 @@ class MovieController {
             } catch {
                 NSLog("Error saving in context \(context): \(error)")
             }
+        }
+    }
+    
+    func update(_ movie: Movie, with movieRep: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            guard let hasWatched = movieRep.hasWatched else { return }
+            
+            movie.title = movieRep.title
+            movie.hasWatched = hasWatched
+            movie.identifier = movieRep.identifier
         }
     }
     
@@ -160,14 +196,61 @@ class MovieController {
         context.performAndWait {
             context.delete(movie)
             deleteFromServer(movie: movie)
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving in context \(context): \(error)")
+            }
         }
+    }
+    
+    func syncPersistentStore(with movieReps: [MovieRepresentation], in context: NSManagedObjectContext) throws {
+        var error: Error?
+        
+        for movieRep in movieReps {
+            if let movie = self.fetchFromPersistenceStore(with: movieRep, context: context) {
+                if movie != movieRep {
+                    self.update(movie, with: movieRep)
+                }
+            } else {
+                let _ = Movie(title: movieRep.title)
+            }
+        }
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch let syncError {
+            NSLog("Error syncing with persistent store: \(syncError)")
+            error = syncError
+        }
+        
+        if let error = error { throw error }
+    }
+    
+    func fetchFromPersistenceStore(with movieRep: MovieRepresentation, context: NSManagedObjectContext) -> Movie? {
+        var movie: Movie?
+        guard let identifier = movieRep.identifier else {
+            NSLog("No identifier for movie: \(movieRep)")
+            return nil
+        }
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier as CVarArg)
+        fetchRequest.predicate = predicate
+        
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching movie from persistent store: \(error)")
+            }
+        }
+        
+        if let movie = movie { return movie } else { return nil }
     }
     
     // MARK: - Helper Methods
     
-    private func fetchFromPersistenceStore(with movie: Movie, context: NSManagedObjectContext) {
-        
-    }
+    
     
     // MARK: - Properties
     

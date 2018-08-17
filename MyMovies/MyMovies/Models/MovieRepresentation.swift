@@ -18,6 +18,24 @@ struct MovieRepresentation: Equatable, Codable {
     
     let identifier: UUID?
     let hasWatched: Bool?
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let title = try container.decode(String.self, forKey: .title)
+        let identifier = try container.decodeIfPresent(String.self, forKey: .identifier)
+        let hasWatched = try container.decodeIfPresent(Bool.self, forKey: .hasWatched)
+
+        self.title = title
+        if let identifier = identifier, let hasWatched = hasWatched {
+            self.identifier = UUID(uuidString: identifier)
+            self.hasWatched = hasWatched
+        } else {
+            self.identifier = nil
+            self.hasWatched = nil
+        }
+    }
+    
 }
 
 /*
@@ -26,4 +44,22 @@ struct MovieRepresentation: Equatable, Codable {
  */
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
+}
+
+func ==(lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return lhs.title == rhs.title &&
+           lhs.hasWatched == rhs.hasWatched &&
+           lhs.identifier == rhs.identifier
+}
+
+func ==(lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs == lhs
+}
+
+func !=(lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return !(rhs == lhs)
+}
+
+func !=(lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs != lhs
 }
