@@ -17,4 +17,5 @@ extension Movie {
         self.identifier = identifier
         self.hasWatched = hasWatched
     }
+    
 }
