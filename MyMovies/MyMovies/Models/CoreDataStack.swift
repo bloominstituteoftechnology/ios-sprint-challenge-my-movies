@@ -19,10 +19,12 @@ class CoreDataStack {
                 fatalError("Error loading persistent store")
             }
         })
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     
     var mainContext:NSManagedObjectContext {
         return container.viewContext
     }
+
 }

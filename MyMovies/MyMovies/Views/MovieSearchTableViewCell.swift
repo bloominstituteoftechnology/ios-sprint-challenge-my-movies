@@ -14,14 +14,8 @@ class MovieSearchTableViewCell: UITableViewCell {
 
     @IBAction func addMovie(_ sender: Any) {
         guard let movieRepresentation = movieRepresentation else {return}
-        Movie(title: movieRepresentation.title)
-        do{
-            try moc.save()
-        }catch{
-            NSLog("Error saving Movie: \(error)")
-            moc.reset()
-            return
-        }
+        movieController?.createAndSave(movieRepresentation: movieRepresentation)
+ //create and save to insert
     }
     
     func updateCell(){
@@ -31,6 +25,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     @IBOutlet weak var titleLabel: UILabel!
+    var movieController: MovieController?
     var movieRepresentation: MovieRepresentation? {
         didSet{
             updateCell()

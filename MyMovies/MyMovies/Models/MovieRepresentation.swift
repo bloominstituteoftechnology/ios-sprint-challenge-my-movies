@@ -9,6 +9,19 @@
 import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
+
+    init(ofMovie movie: Movie){
+        self.title = movie.title!
+        self.identifier = movie.identifier!
+        self.hasWatched = movie.hasWatched
+    }
+    
+    init(title: String, identifier: UUID?, hasWatched: Bool?){
+        self.title = title
+        self.identifier = identifier
+        self.hasWatched = hasWatched
+    }
+
     let title: String
     
     /*
@@ -18,8 +31,26 @@ struct MovieRepresentation: Equatable, Codable {
     
     let identifier: UUID?
     let hasWatched: Bool?
+
+}
+func ==(lhs:MovieRepresentation, rhs:Movie) -> Bool{
+    return lhs.title == rhs.title &&
+        lhs.title == rhs.title &&
+        lhs.identifier == rhs.identifier &&
+        lhs.hasWatched == rhs.hasWatched 
 }
 
+func ==(lhs:Movie, rhs:MovieRepresentation) -> Bool{
+    return rhs == lhs
+}
+
+func !=(lhs:MovieRepresentation, rhs:Movie) -> Bool{
+    return !(rhs == lhs)
+}
+
+func !=(lhs:Movie, rhs:MovieRepresentation) -> Bool{
+    return rhs != lhs
+}
 /*
  Represents the full JSON returned from searching for a movie.
  The actual movies are in the "results" dictionary of the JSON.

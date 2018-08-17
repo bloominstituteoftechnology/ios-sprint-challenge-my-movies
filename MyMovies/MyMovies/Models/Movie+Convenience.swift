@@ -17,14 +17,11 @@ extension Movie {
         self.identifier = identifier
         self.hasWatched = hasWatched
     }
-    static func save(){
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            try moc.save()
-        } catch {
-            NSLog("Error saving: \(error)")
-            moc.reset()
-            return
-        }
+    
+    convenience init(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
+        self.init(context: context)
+        self.title = movieRepresentation.title
+        self.identifier = movieRepresentation.identifier
+        self.hasWatched = movieRepresentation.hasWatched!
     }
 }

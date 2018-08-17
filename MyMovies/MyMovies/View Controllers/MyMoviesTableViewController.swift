@@ -17,6 +17,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        movieController.fetchMoviesFromServers()
+    }
+    
     // MARK: - NSFetchedResultsControllerDelegate
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -72,6 +77,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMovieTableViewCell
         cell.movie = fetchedMoviesController.object(at: indexPath)
+        cell.movieController = movieController
         return cell
     }
     
@@ -79,7 +85,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            moc.delete(fetchedMoviesController.object(at: indexPath))
+            movieController.deleteAndSave(movie: fetchedMoviesController.object(at: indexPath))
         }
     }
     
@@ -99,4 +105,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return frc
     }()
     
+    //MARK: Properties
+    
+    //this works fine because movieController does not hold any data. However ideally, I should pass the same movieController around
+    //to do that you need to do the parent class stuff. will do if i have time.
+    let movieController = MovieController()
 }
