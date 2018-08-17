@@ -85,7 +85,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return fetcher.sections?[section].name
+		return fetcher.sections?[section].name == "1" ? "Watched" : "Unwatched"
 	}
 
 
