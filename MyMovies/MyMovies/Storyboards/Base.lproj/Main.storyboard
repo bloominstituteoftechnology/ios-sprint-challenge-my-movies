@@ -63,6 +63,7 @@
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="UVi-ti-fo9"/>
+                                                        <segue destination="1Gb-tL-YFt" kind="show" id="gIz-2k-dnU"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -155,4 +156,7 @@
             <point key="canvasLocation" x="1496.8" y="699.40029985007504"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="gIz-2k-dnU"/>
+    </inferredMetricsTieBreakers>
 </document>

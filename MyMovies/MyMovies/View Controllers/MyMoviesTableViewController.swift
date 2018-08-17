@@ -11,7 +11,7 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
     
-    let firebaseController = FirebaseController()
+    var firebaseController: FirebaseController!
     
     func toggleWatched(cell: MyMovieTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
