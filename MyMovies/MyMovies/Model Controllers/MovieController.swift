@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     // MARK: - CRUD
     
     func createMovie(withTitle title: String) {
