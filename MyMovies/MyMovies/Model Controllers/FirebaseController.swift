@@ -110,6 +110,33 @@ class FirebaseController {
         
     }
     
+    func delete(movie: Movie) {
+        deleteMovieFromServer(movie: movie) { (error) in
+            
+            let moc = CoreDataStack.shared.mainContext
+            moc.performAndWait {
+                moc.delete(movie)
+            }
+            
+        }
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent("\(uuid)").appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error Deleting data on server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            }.resume()
+    }
+    
     private func movie(forUUID uuid: UUID, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
