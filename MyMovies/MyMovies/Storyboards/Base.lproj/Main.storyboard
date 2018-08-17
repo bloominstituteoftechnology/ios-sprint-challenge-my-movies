@@ -94,7 +94,7 @@
             </objects>
             <point key="canvasLocation" x="1497" y="-27"/>
         </scene>
-        <!--Item-->
+        <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
             <objects>
                 <tableViewController id="1Gb-tL-YFt" customClass="MyMoviesTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
@@ -148,7 +148,7 @@
                             <outlet property="delegate" destination="1Gb-tL-YFt" id="4Hh-DX-Gi9"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="1Oz-hj-wFW"/>
+                    <tabBarItem key="tabBarItem" title="My Movies" id="1Oz-hj-wFW"/>
                     <navigationItem key="navigationItem" id="9L1-Ba-YsO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>

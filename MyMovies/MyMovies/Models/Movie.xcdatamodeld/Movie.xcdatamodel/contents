@@ -4,7 +4,7 @@
         <attribute name="hasWatched" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="watchedTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="watchedTitle" optional="YES" attributeType="String" defaultValueString="&quot;Unwatched&quot;" syncable="YES"/>
     </entity>
     <elements>
         <element name="Movie" positionX="-63" positionY="-18" width="128" height="105"/>

@@ -11,20 +11,17 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
     
-    var firebaseController: FirebaseController?
-    
     func toggleWatched(cell: MyMovieTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let movie = fetchedResultsController.object(at: indexPath)
         movie.hasWatched = !movie.hasWatched
-        if movie.hasWatched {
-            movie.watchedTitle = "Watched"
-        } else {
+        if !movie.hasWatched {
             movie.watchedTitle = "Unwatched"
+        } else {
+            movie.watchedTitle = "Watched"
         }
         do {
             try CoreDataStack.shared.save()
-            guard let firebaseController = firebaseController else { return }
              firebaseController.put(movie: movie)
         } catch {
             NSLog("Error Toggling Watched state: \(error)")
@@ -65,7 +62,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
-            guard let firebaseController = firebaseController else { return }
             firebaseController.delete(movie: movie)
             tableView.reloadRows(at: [indexPath], with: .fade)
         }
@@ -116,7 +112,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "watchedTitle", ascending: true)]
         
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,

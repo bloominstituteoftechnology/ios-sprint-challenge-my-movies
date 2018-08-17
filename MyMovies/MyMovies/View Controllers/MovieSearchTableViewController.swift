@@ -7,9 +7,9 @@
 //
 
 import UIKit
-
+let firebaseController = FirebaseController()
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieTableViewCellDelegate {
-    let firebaseController = FirebaseController()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         } catch {
             NSLog("Error Saving to Core Data: \(error)")
         }
-        
+        tabBarController?.selectedIndex = 1
         
     }
     
