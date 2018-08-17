@@ -102,6 +102,17 @@ class MovieController {
             }.resume()
         
     }
+    //MARK: - Local Persistence Methods
+    func saveToPersistentStore(context: NSManagedObjectContext = moc){
+        do{
+            try context.save()
+        }catch{
+            NSLog("Error saving: \(error)")
+            moc.reset()
+            return
+        }
+    }
+    
     
     // MARK: - CRUD Methods
     func createAndSave(movieRepresentation: MovieRepresentation){
@@ -147,7 +158,6 @@ class MovieController {
         movie.hasWatched = !movie.hasWatched
         put(movie: movie) { (error) in
             moc.perform {
-                
                 if let error = error {
                     NSLog("Error: \(error)")
                     moc.reset()
@@ -163,17 +173,24 @@ class MovieController {
             }
         }
     }
+    
+    
     func fetchSingleMovieFromPersistentStore(identifier: String) ->Movie?{
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()
         request.predicate = NSPredicate(format: "identifier == %@", identifier)
-        
-        do{
-            return try moc.fetch(request).first
-        } catch {
-            NSLog("Error fetching from persistent store: \(error)")
-            return nil
+        var movie: Movie?
+        moc.performAndWait {
+            
+            do{
+                movie = try moc.fetch(request).first
+            } catch {
+                NSLog("Error fetching from persistent store: \(error)")
+                
+            }
         }
+        return movie
     }
+    
     
     func fetchMoviesFromServers(completion: @escaping CompletionHandler = {_ in}){
         let url = fireBaseURL.appendingPathExtension("json")
@@ -188,21 +205,20 @@ class MovieController {
                 let movieRepresentations = Array(decoded.values)
                 let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
                 
-                moc.perform{
+                backgroundContext.performAndWait{
                     for movieRepresentation in movieRepresentations{
                         let movie = self.fetchSingleMovieFromPersistentStore(identifier: movieRepresentation.identifier!.uuidString)
                         
                         //there is a duplicate or it needs to be updated
                         if let movie = movie {
                             if movie != movieRepresentation{
-                                movie.hasWatched = movieRepresentation.hasWatched!
+                                self.updateAndSave(movie: movie)
                             }
                         } else {
-
-                           _ = Movie(movieRepresentation: movieRepresentation, context: backgroundContext)
-
+                            _ = Movie(movieRepresentation: movieRepresentation, context: backgroundContext)
                         }
                     }
+                    self.saveToPersistentStore(context:backgroundContext)
                 }
                 completion(nil)
             } catch {
@@ -210,6 +226,7 @@ class MovieController {
                 return
             }
             }.resume()
+        
     }
     
     

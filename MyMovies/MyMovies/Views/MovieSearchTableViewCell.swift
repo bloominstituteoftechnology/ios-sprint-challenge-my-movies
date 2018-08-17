@@ -14,6 +14,8 @@ class MovieSearchTableViewCell: UITableViewCell {
 
     @IBAction func addMovie(_ sender: Any) {
         guard let movieRepresentation = movieRepresentation else {return}
+        
+        moc.object
         movieController?.createAndSave(movieRepresentation: movieRepresentation)
  //create and save to insert
     }
