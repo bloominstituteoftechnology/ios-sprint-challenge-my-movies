@@ -21,7 +21,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="YE2-Zi-kUT" kind="relationship" relationship="viewControllers" id="hiq-zR-DOx"/>
-                        <segue destination="y64-qF-9ZC" kind="relationship" relationship="viewControllers" id="cR2-oj-XlK"/>
+                        <segue destination="1Gb-tL-YFt" kind="relationship" relationship="viewControllers" id="5aB-rG-KhA"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qHm-Hp-Yx5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -63,7 +63,6 @@
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="UVi-ti-fo9"/>
-                                                        <segue destination="y64-qF-9ZC" kind="show" identifier="ShowMyMovies" id="gIz-2k-dnU"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -95,7 +94,7 @@
             </objects>
             <point key="canvasLocation" x="1497" y="-27"/>
         </scene>
-        <!--My Movies Table View Controller-->
+        <!--Item-->
         <scene sceneID="COr-3j-4xq">
             <objects>
                 <tableViewController id="1Gb-tL-YFt" customClass="MyMoviesTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
@@ -149,33 +148,12 @@
                             <outlet property="delegate" destination="1Gb-tL-YFt" id="4Hh-DX-Gi9"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="Item" id="1Oz-hj-wFW"/>
                     <navigationItem key="navigationItem" id="9L1-Ba-YsO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2436" y="699.40029985007504"/>
         </scene>
-        <!--My Movies-->
-        <scene sceneID="tyb-gF-wsS">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="y64-qF-9ZC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ogg-zU-xaz">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="1Gb-tL-YFt" kind="relationship" relationship="rootViewController" id="lWz-UA-NzD"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BtX-ni-RkZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1496.8" y="699.40029985007504"/>
-        </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="gIz-2k-dnU"/>
-    </inferredMetricsTieBreakers>
 </document>

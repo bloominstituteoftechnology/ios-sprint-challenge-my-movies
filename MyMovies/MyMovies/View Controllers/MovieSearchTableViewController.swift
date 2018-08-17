@@ -29,6 +29,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         } catch {
             NSLog("Error Saving to Core Data: \(error)")
         }
+        
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -60,11 +62,4 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowMyMovies" {
-            let destVC = segue.destination as! MyMoviesTableViewController
-            destVC.firebaseController = firebaseController
-        }
-    }
 }
