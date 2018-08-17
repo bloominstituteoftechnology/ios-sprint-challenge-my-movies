@@ -29,7 +29,7 @@
             </objects>
             <point key="canvasLocation" x="470" y="278"/>
         </scene>
-        <!--Movie Search-->
+        <!--Movie Search Table View Controller-->
         <scene sceneID="BjU-p7-zCe">
             <objects>
                 <tableViewController id="YE2-Zi-kUT" customClass="MovieSearchTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
@@ -53,15 +53,15 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="jC7-ww-pZF">
                                             <rect key="frame" x="24" y="19" width="327" height="41"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7O-8W-czl">
-                                                    <rect key="frame" x="0.0" y="0.0" width="273" height="41"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Z7O-8W-czl">
+                                                    <rect key="frame" x="0.0" y="0.0" width="246" height="41"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UIE-uq-Ed0">
-                                                    <rect key="frame" x="281" y="0.0" width="46" height="41"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="254" y="0.0" width="73" height="41"/>
+                                                    <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="saveMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="ADG-9u-eOR"/>
                                                     </connections>
@@ -87,7 +87,7 @@
                             <outlet property="delegate" destination="YE2-Zi-kUT" id="lIt-L5-G4h"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Movie Search" id="sdT-54-ch4"/>
+                    <tabBarItem key="tabBarItem" systemItem="search" id="sdT-54-ch4"/>
                     <connections>
                         <outlet property="searchBar" destination="dkD-cf-Lg3" id="GWC-CQ-FFh"/>
                     </connections>
@@ -115,17 +115,17 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
                                                     <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
                                                     <connections>
-                                                        <action selector="saveToList:" destination="9cK-VO-zdo" eventType="touchUpInside" id="58w-bB-p31"/>
+                                                        <action selector="toggleWatchedStatus:" destination="9cK-VO-zdo" eventType="touchUpInside" id="hQS-To-gSz"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -140,8 +140,8 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="saveToList" destination="3Ay-OW-Mt0" id="jnU-EU-3r4"/>
                                     <outlet property="titleLabel" destination="a6O-zS-fmH" id="NTs-UP-fn4"/>
+                                    <outlet property="toggleButton" destination="3Ay-OW-Mt0" id="eds-Wx-YBV"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -36,6 +36,6 @@ class MovieSearchTableViewCell: UITableViewCell {
         
         titleLabel.text = movieRepresentation.title
         
-        saveMovie.setTitle("Add Movie", for: .normal)
+//        saveMovie.setTitle("Add Movie", for: .normal)
     }
 }

@@ -23,9 +23,10 @@ class MovieTableViewCell: UITableViewCell {
     var delegate: MovieTableViewCellDelegate?
 
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var saveToList: UIButton!
+    @IBOutlet weak var toggleButton: UIButton!
     
-    @IBAction func saveToList(_ sender: Any) {
+    
+    @IBAction func toggleWatchedStatus(_ sender: Any) {
         delegate?.toggleHasWatched(for: self)
         
         updateViews()
@@ -37,9 +38,9 @@ class MovieTableViewCell: UITableViewCell {
         titleLabel.text = movie.title
         
         if movie.hasWatched == true {
-            saveToList.setTitle("Watched", for: .normal)
+            toggleButton.setTitle("Watched", for: .normal)
         } else {
-            saveToList.setTitle("Not Watched", for: .normal)
+            toggleButton.setTitle("Not Watched", for: .normal)
         }
     }
 }
