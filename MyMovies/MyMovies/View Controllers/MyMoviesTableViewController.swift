@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     tableView.reloadData()
@@ -77,9 +77,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return fetchedResultsController.sections?[section].numberOfObjects ?? 0
   }
-
+  
   // MARK: - Table view data source
-
+  
   override func tableView(_ tableView: UITableView,
                           cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView
@@ -87,6 +87,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     let movie = fetchedResultsController.object(at: indexPath)
     cell.movie = movie
+    cell.movieController = movieController
     
     return cell
   }
@@ -115,4 +116,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     return frc
   }()
+  
+  var movieController = MovieController()
 }

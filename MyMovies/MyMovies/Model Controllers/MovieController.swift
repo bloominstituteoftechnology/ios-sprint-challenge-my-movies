@@ -75,6 +75,24 @@ class MovieController {
     }
   }
   
+  func updateMovieInCoreData(movie: Movie) throws {
+    let moc = CoreDataManager.shared.mainContext
+    var error: Error?
+    
+    moc.performAndWait {
+      movie.hasWatched = !movie.hasWatched
+      do {
+        try moc.save()
+      } catch let saveError {
+        error = saveError
+      }
+    }
+    
+    if let error = error {
+      throw error
+    }
+  }
+  
   func saveToPersistentStore() {
     do {
       let moc = CoreDataManager.shared.mainContext
