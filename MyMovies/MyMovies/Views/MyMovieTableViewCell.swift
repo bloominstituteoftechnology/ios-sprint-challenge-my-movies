@@ -32,7 +32,6 @@ class MyMovieTableViewCell: UITableViewCell {
     @IBAction func toggleHasSeen(_ sender: Any) {
         guard let movie = movie else { return }
         movieController?.toggleHasWatched(movie: movie, context: CoreDataStack.moc)
-        // Will fetchresultscontroller keep track of the change and update the table view or should I reload data?
     }
     
     
@@ -41,6 +40,8 @@ class MyMovieTableViewCell: UITableViewCell {
     func updateViews() {
         guard let thisMovie = movie else { return }
         myMovieTitleLabel.text = thisMovie.title
-        hasSeenButton.titleLabel?.text = thisMovie.hasWatched ? "Watched" : "Unwatched"
+        
+        let title = thisMovie.hasWatched == true ? "Watched" : "Unwatched"
+        hasSeenButton.setTitle(title, for: .normal)
     }
 }
