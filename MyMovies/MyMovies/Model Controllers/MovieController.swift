@@ -190,6 +190,8 @@ class MovieController {
                     
                     if movie != movieRep {
                         updateFromRepresentaion(movie: movie, movieRep: movieRep)
+                    } else {
+                        continue
                     }
                     
                 } else {

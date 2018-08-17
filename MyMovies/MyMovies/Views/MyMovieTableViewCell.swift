@@ -41,7 +41,7 @@ class MyMovieTableViewCell: UITableViewCell {
         guard let thisMovie = movie else { return }
         myMovieTitleLabel.text = thisMovie.title
         
-        let title = thisMovie.hasWatched == true ? "Watched" : "Unwatched"
+        let title = thisMovie.hasWatched == true ? "Unwatch" : "Watch"
         hasSeenButton.setTitle(title, for: .normal)
     }
 }
