@@ -20,7 +20,7 @@ Please view the screen recordings so you will know what your finished project sh
 
 Adding, updating, and deleting movies to/from Core Data and Firebase:
 
-![](https://user-images.githubusercontent.com/16965587/44258598-a0531580-a1cc-11e8-9412-703099badf8c.gif)
+![](https://user-images.githubusercontent.com/16965587/44258815-18b9d680-a1cd-11e8-8c0f-f1fcef5de1c0.gif)
 
 Syncing between Firebase and Core Data:
 
