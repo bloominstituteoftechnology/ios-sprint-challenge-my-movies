@@ -153,7 +153,7 @@ class MovieController {
         }
     }
     
-    func fetchMovieFromPersistentStore(with identifier: UUID, context: NSManagedObjectContext) -> Movie? {
+    func fetchMovieWithIdentifier(_ identifier: UUID, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier = %@", identifier.uuidString)
         do {
@@ -164,12 +164,23 @@ class MovieController {
         }
     }
     
+    func fetchMovieWithTitle(_ title: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title = %@", title)
+        do {
+            return try context.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching movie with title \(title): \(error)")
+            return nil
+        }
+    }
+    
     func updateMovieList(for movieRepDicts: [String: MovieRepresentation], context: NSManagedObjectContext) throws {
         
         context.performAndWait {
             for movieRep in movieRepDicts.values {
                 guard let identifier = movieRep.identifier else { return }
-                let movie = fetchMovieFromPersistentStore(with: identifier, context: context)
+                let movie = fetchMovieWithIdentifier(identifier, context: context)
                 
                 if let movie = movie {
                     
@@ -189,12 +200,19 @@ class MovieController {
     // MARK: - CRUD
     
     func addMovie(from movieRep: MovieRepresentation, context: NSManagedObjectContext) {
-        // When we add a movie we're going to want to convert the movie rep into an actual movie
-        // the moviecell will have the movie rep
         
-        let movie = Movie(movieRep: movieRep, context: CoreDataStack.moc)
-        put(movie: movie)
-        save(context: context)
+        // Should check to see if movie already exists so it doesn't duplicate it
+        // Assuming each movie will have a unique name
+        guard let _ = fetchMovieWithTitle(movieRep.title, context: context) else {
+            let movie = Movie(movieRep: movieRep, context: CoreDataStack.moc)
+            put(movie: movie)
+            save(context: context)
+            return
+        }
+        
+        // Could change func name to toggleAddMovie and if you click it and it's already added it deletes it
+        NSLog("Movie is already added to your list")
+        return
     }
     
     func updateFromRepresentaion(movie: Movie, movieRep: MovieRepresentation) {
