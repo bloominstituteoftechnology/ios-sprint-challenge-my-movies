@@ -13,28 +13,57 @@ class MovieController {
     
     private let firebaseURL = URL(string: "https://lisasmoviesapp.firebaseio.com/")!
     
-    func create(withTitle title: String) {
+    func create(from movieRep: MovieRepresentation) {
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
         
+        moc.performAndWait {
+            guard let movie = Movie(movieRepresentation: movieRep, context: moc) else { return }
+            
+            do {
+                try CoreDataStack.shared.save(context: moc)
+            }
+            catch  {
+                NSLog("Could not save context")
+                return
+            }
+            self.put(movie: movie)
+        }
     }
     
-    func updateFromRep() {
-        
+    func updateFromRep(movie: Movie, movieRep: MovieRepresentation) {
+        guard let hasWatched = movieRep.hasWatched else { return }
+        movie.hasWatched = hasWatched
+        movie.title = movieRep.title
+        movie.identifier = movieRep.identifier
     }
     
-    func updateMovies(movieDicts: [String: MovieRepresentation], context: NSManagedObjectContext) throws {
+    func updateMovies(movieDicts: [MovieRepresentation], context: NSManagedObjectContext) throws {
         
         context.performAndWait {
-            for movieRep in movieDicts.values {
-                guard let identifier = movieRep.identifier else { return }
-                let movie = fetchMovieFromStore(identifier: identifier, context: context)
+            for movieRep in movieDicts {
+                guard let identifier = movieRep.identifier else { continue }
                 
-//                if let movie = movie {
-//                    if movie != movieRep {
-//                        updateFromRep()
-//                    }
-//                } else {
-//                    _ = Movie(movieRepresentation: movieRep, context: context)
-//                }
+                if let movie = self.fetchMovieFromStore(identifier: identifier, context: context) {
+                    self.updateFromRep(movie: movie, movieRep: movieRep)
+                } else {
+                    _ = Movie(movieRepresentation: movieRep, context: context)
+                }
+            }
+        }
+    }
+    
+    func delete(movie: Movie) {
+        deleteMovieFromServer(movie: movie)
+        let moc = CoreDataStack.shared.mainContext
+        
+        moc.perform {
+            do {
+                moc.delete(movie)
+                try CoreDataStack.shared.save(context: moc)
+            }
+            catch {
+                NSLog("Could not save context")
+                return 
             }
         }
     }
@@ -53,7 +82,7 @@ class MovieController {
                 return
             }
             completion(nil)
-        }.resume()
+            }.resume()
     }
     
     func toggleHasWatched(for movie: Movie) {
@@ -87,11 +116,20 @@ class MovieController {
                 return
             }
             completion(nil)
-        }.resume()
+            }.resume()
     }
     
-    func fetchMovieFromStore(identifier: UUID, context: NSManagedObjectContext) {
+    func fetchMovieFromStore(identifier: UUID, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
         
+        do {
+            return try context.fetch(fetchRequest).first
+        }
+        catch {
+            NSLog("Error fetching single movie: \(error)")
+            return nil
+        }
     }
     
     func fetch(completion: @escaping (Error?) -> Void = { _ in }) {
@@ -111,16 +149,18 @@ class MovieController {
             }
             
             do {
-                let movieDict = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                let movieDicts = try Array(JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
                 let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
-                try self.updateMovies(movieDicts: movieDict, context: backgroundContext)
+                try self.updateMovies(movieDicts: movieDicts, context: backgroundContext)
+                try CoreDataStack.shared.save(context: backgroundContext)
+                completion(nil)
             }
             catch {
                 NSLog("Error decoding data: \(error)")
                 completion(error)
                 return
             }
-        }.resume()
+            }.resume()
     }
     
     
@@ -164,7 +204,7 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
-        }.resume()
+            }.resume()
     }
     
     // MARK: - Properties

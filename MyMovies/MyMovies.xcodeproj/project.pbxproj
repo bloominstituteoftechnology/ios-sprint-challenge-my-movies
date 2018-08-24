@@ -20,6 +20,7 @@
 		FF5A8C5021305995000BA5F2 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FF5A8C4E21305995000BA5F2 /* MyMovies.xcdatamodeld */; };
 		FF5A8C5221305A9E000BA5F2 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A8C5121305A9E000BA5F2 /* Movie+Convenience.swift */; };
 		FF5A8C5421307DCB000BA5F2 /* Movie+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A8C5321307DCB000BA5F2 /* Movie+Encodable.swift */; };
+		FF5A8C5621309D96000BA5F2 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5A8C5521309D96000BA5F2 /* MovieSearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		FF5A8C4F21305995000BA5F2 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		FF5A8C5121305A9E000BA5F2 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		FF5A8C5321307DCB000BA5F2 /* Movie+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Encodable.swift"; sourceTree = "<group>"; };
+		FF5A8C5521309D96000BA5F2 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
 				FF5A8C47213057E7000BA5F2 /* MyMoviesTableViewCell.swift */,
+				FF5A8C5521309D96000BA5F2 /* MovieSearchTableViewCell.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				FF5A8C5021305995000BA5F2 /* MyMovies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				FF5A8C5621309D96000BA5F2 /* MovieSearchTableViewCell.swift in Sources */,
 				FF5A8C5221305A9E000BA5F2 /* Movie+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
