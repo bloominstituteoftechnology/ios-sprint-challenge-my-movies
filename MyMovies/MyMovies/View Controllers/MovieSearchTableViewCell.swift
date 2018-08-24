@@ -11,6 +11,7 @@ import UIKit
 
 
 class MovieSearchTableViewCell: UITableViewCell {
+    private let moc = CoreDataStack.shared.mainContext
     func update(){
         guard let movieRepresentation = movieRepresentation else {return}
         titleLabel.text = movieRepresentation.title
