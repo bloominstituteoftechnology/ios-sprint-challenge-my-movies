@@ -7,35 +7,53 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
-    init() {
-        
-    }
+    private let firebaseURL = URL(string: "https://lisasmoviesapp.firebaseio.com/")!
     
     func create(withTitle title: String) {
         
     }
     
-    func update() {
+    func updateFromRep() {
         
     }
     
-    func updateFromRepresentation() {
+    func updateMovies(movieDicts: [String: MovieRepresentation], context: NSManagedObjectContext) throws {
         
+        context.performAndWait {
+            for movieRep in movieDicts.values {
+                guard let identifier = movieRep.identifier else { return }
+                let movie = fetchMovieFromStore(identifier: identifier, context: context)
+                
+//                if let movie = movie {
+//                    if movie != movieRep {
+//                        updateFromRep()
+//                    }
+//                } else {
+//                    _ = Movie(movieRepresentation: movieRep, context: context)
+//                }
+            }
+        }
     }
     
-    func updateMovies() {
+    func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        guard let identifier = movie.identifier else { return }
         
-    }
-    
-    func delete(movie: Movie) {
+        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
         
-    }
-    
-    func deleteMovieFromServer() {
-        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting movie: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
     }
     
     func toggleHasWatched(for movie: Movie) {
@@ -46,16 +64,63 @@ class MovieController {
         }
     }
     
-    func put() {
-    
-    }
-    
-    func fetchMovieFromStore() {
-    
-    }
-    
-    func fetchMovieFromServer() {
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        guard let identifier = movie.identifier else { completion(NSError()); return }
         
+        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            //request.httpBody = try JSONEncoder().encode(movie)
+        }
+        catch {
+            NSLog("Error encoding data: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTing data: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    func fetchMovieFromStore(identifier: UUID, context: NSManagedObjectContext) {
+        
+    }
+    
+    func fetch(completion: @escaping (Error?) -> Void = { _ in }) {
+        let requestURL = firebaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching data: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("There is no data.")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let movieDict = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                try self.updateMovies(movieDicts: movieDict, context: backgroundContext)
+            }
+            catch {
+                NSLog("Error decoding data: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
     }
     
     
@@ -105,4 +170,5 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    var movies: [Movie] = []
 }
