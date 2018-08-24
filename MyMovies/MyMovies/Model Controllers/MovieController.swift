@@ -7,9 +7,15 @@
 //
 
 import Foundation
+import CoreData
+
+
+private let fireBaseURL = URL(string: "https://sprint4challenge.firebaseio.com/")!
+private let moc = CoreDataStack.shared.mainContext
 
 class MovieController {
     
+    // MARK: - Networking with Movie DB
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -49,8 +55,182 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
-        }.resume()
+            }.resume()
     }
+    // MARK: - Networking with Firebase
+    typealias CompletionHandler = (Error?) -> Void
+    
+    func put(movie: Movie, completion: @escaping CompletionHandler = {_ in}){
+        let url = fireBaseURL
+            .appendingPathComponent(movie.identifier!.uuidString)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        
+        do {
+            let movieRepresentation = MovieRepresentation(ofMovie: movie)
+            let data = try JSONEncoder().encode(movieRepresentation)
+            request.httpBody = data
+        } catch {
+            NSLog("Error encoding:\(error)")
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error sending data to firebase: \(error)")
+                completion(error)
+            }
+            completion(nil)
+            }.resume()
+        
+    }
+    
+    func deleteFromServer(movie: Movie, completion: @escaping CompletionHandler = {_ in}){
+        let url = fireBaseURL
+            .appendingPathComponent(movie.identifier!.uuidString)
+            .appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error{
+                NSLog("Error deleting: \(error)")
+                completion(error)
+            }
+            completion(nil)
+            }.resume()
+        
+    }
+    //MARK: - Local Persistence Methods
+    func saveToPersistentStore(context: NSManagedObjectContext = moc){
+        do{
+            try context.save()
+        }catch{
+            NSLog("Error saving: \(error)")
+            moc.reset()
+            return
+        }
+    }
+    
+    
+    // MARK: - CRUD Methods
+    func createAndSave(movieRepresentation: MovieRepresentation){
+        let movie = Movie(title: movieRepresentation.title)
+        
+        put(movie: movie) { (error) in
+            moc.perform {
+                if let error = error {
+                    NSLog("Error putting movie: \(error)")
+                    moc.reset()
+                    return
+                }
+                
+                do{
+                    try moc.save()
+                }catch{
+                    NSLog("Error saving Movie: \(error)")
+                    moc.reset()
+                    return
+                }
+            }
+        }
+    }
+    
+    func deleteAndSave(movie:Movie){
+        moc.delete(movie)
+        deleteFromServer(movie: movie) { (error) in
+            if let error = error {
+                NSLog("Error deleting from server: \(error)")
+                return
+            }
+        }
+        do{
+            try moc.save()
+        }catch{
+            NSLog("Error saving Movie: \(error)")
+            moc.reset()
+            return
+        }
+    }
+    
+    func updateAndSave(movie:Movie, context: NSManagedObjectContext = moc){
+        movie.hasWatched = !movie.hasWatched
+        put(movie: movie) { (error) in
+            context.perform {
+                if let error = error {
+                    NSLog("Error: \(error)")
+                    context.reset()
+                    return
+                }
+                do{
+                    try context.save()
+                } catch {
+                    NSLog("Error saving changes: \(error)")
+                    context.reset()
+                    return
+                }
+            }
+        }
+    }
+    
+    
+    func fetchSingleMovieFromPersistentStore(identifier: String, context:NSManagedObjectContext) ->Movie?{
+        let request: NSFetchRequest<Movie> = Movie.fetchRequest()
+        request.predicate = NSPredicate(format: "identifier == %@", identifier)
+        var movie: Movie?
+        context.performAndWait {
+            
+            do{
+                movie = try context.fetch(request).first
+            } catch {
+                NSLog("Error fetching from persistent store: \(error)")
+                
+            }
+        }
+        return movie
+    }
+    
+    
+    func fetchMoviesFromServers(completion: @escaping CompletionHandler = {_ in}){
+        let url = fireBaseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error{
+                NSLog("Error GETting: \(error)")
+                return
+            }
+            guard let data = data else {return}
+            do{
+                let decoded = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                let movieRepresentations = Array(decoded.values)
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                
+                backgroundContext.performAndWait{
+                    for movieRepresentation in movieRepresentations{
+                        let movie = self.fetchSingleMovieFromPersistentStore(identifier: movieRepresentation.identifier!.uuidString, context: backgroundContext)
+                        
+                        //there is a duplicate or it needs to be updated
+                        if let movie = movie {
+                            if movie.hasWatched != movieRepresentation.hasWatched{
+                                self.updateAndSave(movie: movie, context: backgroundContext)
+                            }
+                        } else {
+                            _ = Movie(movieRepresentation: movieRepresentation, context: backgroundContext)
+                        }
+                    }
+                    self.saveToPersistentStore(context:backgroundContext)
+                }
+                completion(nil)
+            } catch {
+                NSLog("Error decoding: \(error)")
+                return
+            }
+            }.resume()
+        
+    }
+    
+    
+    
     
     // MARK: - Properties
     

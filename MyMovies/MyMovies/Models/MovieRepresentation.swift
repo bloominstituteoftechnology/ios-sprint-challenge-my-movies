@@ -9,6 +9,19 @@
 import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
+
+    init(ofMovie movie: Movie){
+        self.title = movie.title!
+        self.identifier = movie.identifier!
+        self.hasWatched = movie.hasWatched
+    }
+    
+    init(title: String, identifier: UUID?, hasWatched: Bool?){
+        self.title = title
+        self.identifier = identifier
+        self.hasWatched = hasWatched
+    }
+
     let title: String
     
     /*
@@ -18,6 +31,7 @@ struct MovieRepresentation: Equatable, Codable {
     
     let identifier: UUID?
     let hasWatched: Bool?
+
 }
 
 /*
