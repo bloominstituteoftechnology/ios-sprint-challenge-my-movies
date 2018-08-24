@@ -17,11 +17,11 @@ extension Movie {
         self.identifier = identifier
     }
     
-//    convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-//        let title = movieRepresentation.title
-//        guard let hasWatched = movieRepresentation.hasWatched,
-//            let identifier = movieRepresentation.identifier else { return }
-//        
-//        self.init(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
-//    }
+    convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let title = movieRepresentation.title
+        guard let hasWatched = movieRepresentation.hasWatched,
+            let identifier = movieRepresentation.identifier else { return nil }
+        
+        self.init(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
+    }
 }

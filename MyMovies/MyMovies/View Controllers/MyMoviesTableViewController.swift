@@ -9,7 +9,15 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMoviesTableViewCellDelegate {
+    
+    func hasWatchedButtonWasTapped(on cell: MyMoviesTableViewCell) {
+        guard let indexPath = movieTableView.indexPath(for: cell) else { return }
+        guard let movie = cell.movie else { return }
+        
+        movieController.toggleHasWatched(for: movie)
+        movieTableView.reloadRows(at: [indexPath], with: .automatic)
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,6 +44,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
+        cell.delegate = self
 
         return cell
     }
@@ -43,7 +52,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
-            movieController.delete()
+            movieController.delete(movie: movie)
         }
     }
 
@@ -110,4 +119,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }()
 
     let movieController = MovieController()
+    
+    @IBOutlet var movieTableView: UITableView!
+    
 }

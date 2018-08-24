@@ -14,7 +14,7 @@ class MovieController {
         
     }
     
-    func create() {
+    func create(withTitle title: String) {
         
     }
     
@@ -30,12 +30,20 @@ class MovieController {
         
     }
     
-    func delete() {
+    func delete(movie: Movie) {
         
     }
     
     func deleteMovieFromServer() {
         
+    }
+    
+    func toggleHasWatched(for movie: Movie) {
+        if movie.hasWatched == false {
+            movie.hasWatched = true
+        } else {
+            movie.hasWatched = false
+        }
     }
     
     func put() {
