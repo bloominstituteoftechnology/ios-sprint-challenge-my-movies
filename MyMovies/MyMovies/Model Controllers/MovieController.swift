@@ -10,6 +10,48 @@ import Foundation
 
 class MovieController {
     
+    init() {
+        
+    }
+    
+    func create() {
+        
+    }
+    
+    func update() {
+        
+    }
+    
+    func updateFromRepresentation() {
+        
+    }
+    
+    func updateMovies() {
+        
+    }
+    
+    func delete() {
+        
+    }
+    
+    func deleteMovieFromServer() {
+        
+    }
+    
+    func put() {
+    
+    }
+    
+    func fetchMovieFromStore() {
+    
+    }
+    
+    func fetchMovieFromServer() {
+        
+    }
+    
+    
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
