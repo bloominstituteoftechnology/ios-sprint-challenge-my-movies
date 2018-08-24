@@ -67,6 +67,7 @@ class MovieController {
         do {
             let movieRepresentation = MovieRepresentation(forMovie: movie)
             let data = try JSONEncoder().encode(movieRepresentation)
+            request.httpBody = data
         }catch{
             NSLog("Error occured while encoding \(error)")
         }

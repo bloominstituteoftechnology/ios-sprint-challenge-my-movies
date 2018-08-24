@@ -48,22 +48,34 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="56.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4QH-EC-J5b">
-                                            <rect key="frame" x="26" y="18" width="81" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nVh-ed-bff">
-                                            <rect key="frame" x="278" y="19" width="69" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="AddMovie"/>
-                                            <connections>
-                                                <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="kRo-2L-jat"/>
-                                            </connections>
-                                        </button>
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pu5-j0-f1p">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="56.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4QH-EC-J5b">
+                                                    <rect key="frame" x="0.0" y="0.0" width="275" height="56.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nVh-ed-bff">
+                                                    <rect key="frame" x="275" y="0.0" width="100" height="56.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="Uau-rh-Rp3"/>
+                                                    </constraints>
+                                                    <state key="normal" title="AddMovie"/>
+                                                    <connections>
+                                                        <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="kRo-2L-jat"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="pu5-j0-f1p" secondAttribute="trailing" id="4qC-XR-n6x"/>
+                                        <constraint firstItem="pu5-j0-f1p" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" id="bAK-Ww-pmU"/>
+                                        <constraint firstAttribute="bottom" secondItem="pu5-j0-f1p" secondAttribute="bottom" id="cDa-Ri-Yb4"/>
+                                        <constraint firstItem="pu5-j0-f1p" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" id="chG-tf-Qjt"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="titleLabel" destination="4QH-EC-J5b" id="h6M-wb-Lug"/>
