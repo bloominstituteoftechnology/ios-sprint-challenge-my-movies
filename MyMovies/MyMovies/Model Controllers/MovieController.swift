@@ -11,7 +11,6 @@ import CoreData
 
 
 private let fireDataBaseURL = URL(string: "https://iossprint4project.firebaseio.com/")!
-private let moc = CoreDataStack.shared.mainContext
 
 class MovieController {
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"

@@ -8,7 +8,8 @@
 
 import UIKit
 
-private let moc = CoreDataStack.shared.mainContext
+
+
 class MovieSearchTableViewCell: UITableViewCell {
     func update(){
         guard let movieRepresentation = movieRepresentation else {return}
@@ -18,8 +19,11 @@ class MovieSearchTableViewCell: UITableViewCell {
  
     @IBAction func addMovie(_ sender: Any) {
         guard let movieRepresentation = movieRepresentation else {return}
+        moc.object
         movieController?.createMovie(movieRepresentation: movieRepresentation)
+        
     }
+    
     @IBOutlet weak var titleLabel: UILabel!
     var movieController: MovieController?
     var movieRepresentation: MovieRepresentation? {
