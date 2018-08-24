@@ -72,7 +72,7 @@ class MovieController {
         request.httpMethod = "PUT"
         
         do {
-            //request.httpBody = try JSONEncoder().encode(movie)
+            request.httpBody = try JSONEncoder().encode(movie)
         }
         catch {
             NSLog("Error encoding data: \(error)")
