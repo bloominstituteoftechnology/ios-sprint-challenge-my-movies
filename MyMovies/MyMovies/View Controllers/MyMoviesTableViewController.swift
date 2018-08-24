@@ -92,4 +92,5 @@ class MyMoviesTableViewController: UITableViewController {
     }
     */
 
+    let movieController  = MovieController()
 }
