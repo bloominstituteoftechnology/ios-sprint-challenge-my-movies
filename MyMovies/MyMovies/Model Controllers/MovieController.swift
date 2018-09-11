@@ -52,6 +52,7 @@ class MovieController {
         }.resume()
     }
     
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
