@@ -9,7 +9,16 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, DetailViewCellDelegate {
+    
+    // MARK: - Button Delegate
+    
+    func didPressWatched(_ sender: DetailTableViewCell) {
+        guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+        let movie = fetchedResultsController.object(at: tappedIndexPath)
+        movieController?.toggleIsWatched(movie: movie)
+    }
+    
    
     var movieController: MovieController?
     
@@ -99,6 +108,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? DetailTableViewCell else {return UITableViewCell()}
 
+        cell.delegate = self
         cell.movie = fetchedResultsController.object(at: indexPath)
         
         // Configure the cell...

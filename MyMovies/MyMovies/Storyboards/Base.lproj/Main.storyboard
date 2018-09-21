@@ -139,6 +139,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="titleLabel" destination="a6O-zS-fmH" id="nSf-aQ-hYU"/>
+                                    <outlet property="watchButton" destination="3Ay-OW-Mt0" id="fU0-pS-0gJ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -195,8 +195,8 @@ class MovieController {
                         let movie = self.fetchSingleMovieFromPersistentStore(identifier: identifier)
                         
                         if let movie = movie {
-                            if movieRep != movie {
-//                                backgroundContext.delete(movie)
+                            if movieRep == movie {
+                                
                             }
                             else {
                                 let _ = Movie(movieRep: movieRep, context: backgroundContext)
@@ -238,7 +238,9 @@ class MovieController {
         put(movie: movie)
     }
     
-    
+    func toggleIsWatched(movie: Movie){
+        movie.hasWatched = !(movie.hasWatched)
+    }
     
     // MARK: - Properties
     let databaseURL = URL(string: "https://mymovies-table.firebaseio.com/")

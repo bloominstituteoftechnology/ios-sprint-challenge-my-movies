@@ -24,6 +24,7 @@
 		D8D3DA3921555BC800001A65 /* Movie+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA3821555BC800001A65 /* Movie+Encodable.swift */; };
 		D8D3DA3B215560ED00001A65 /* SearchTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA3A215560ED00001A65 /* SearchTableViewCellDelegate.swift */; };
 		D8D3DA412155912400001A65 /* MyMoviesTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA402155912400001A65 /* MyMoviesTabBarController.swift */; };
+		D8D3DA4321559B1F00001A65 /* DetailViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA4221559B1F00001A65 /* DetailViewCellDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		D8D3DA3821555BC800001A65 /* Movie+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Movie+Encodable.swift"; path = "MyMovies/Models/Movie+Encodable.swift"; sourceTree = SOURCE_ROOT; };
 		D8D3DA3A215560ED00001A65 /* SearchTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCellDelegate.swift; sourceTree = "<group>"; };
 		D8D3DA402155912400001A65 /* MyMoviesTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTabBarController.swift; sourceTree = "<group>"; };
+		D8D3DA4221559B1F00001A65 /* DetailViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailViewCellDelegate.swift; path = MyMovies/Resources/DetailViewCellDelegate.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
+				D8D3DA4221559B1F00001A65 /* DetailViewCellDelegate.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
 				D8D3DA272155495100001A65 /* SearchTableViewCell.swift */,
 				D8D3DA3A215560ED00001A65 /* SearchTableViewCellDelegate.swift */,
@@ -222,6 +225,7 @@
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				D8D3DA282155495100001A65 /* SearchTableViewCell.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				D8D3DA4321559B1F00001A65 /* DetailViewCellDelegate.swift in Sources */,
 				D8D3DA342155506800001A65 /* HTTPMethod.swift in Sources */,
 				D8D3DA37215555C400001A65 /* Movie.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,

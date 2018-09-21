@@ -15,11 +15,16 @@ class DetailTableViewCell: UITableViewCell {
         // Initialization code
     }
     
+    weak var delegate: DetailViewCellDelegate?
+    
     
     @IBAction func toggleWatched(_ sender: Any) {
+        delegate?.didPressWatched(self)
     }
     
     @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBOutlet weak var watchButton: UIButton!
     
     var movie: Movie?{
         didSet{
@@ -28,7 +33,14 @@ class DetailTableViewCell: UITableViewCell {
     }
     
     func updateViews(){
-        guard let title = movie?.title else {return}
-        titleLabel.text = title
+        guard let movie = movie else {return}
+        titleLabel.text = movie.title
+        
+        if (movie.hasWatched){
+            watchButton.setTitle("Not Watched", for: UIControlState.normal)
+        } else {
+            watchButton.setTitle("Watched", for: UIControlState.normal)
+        }
+        
     }
 }
