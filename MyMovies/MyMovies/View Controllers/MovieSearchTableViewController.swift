@@ -13,6 +13,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.shouldRemoveShadow(true)
+        tableView.tableFooterView = UIView()
         searchBar.delegate = self
     }
     
