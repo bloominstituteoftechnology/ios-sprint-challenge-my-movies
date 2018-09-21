@@ -29,6 +29,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
