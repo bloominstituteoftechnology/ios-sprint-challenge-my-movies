@@ -16,6 +16,8 @@ class MovieSearchTableViewCell: UITableViewCell {
         guard let title = movieTitle else { return }
         
         titleLabel.text = title
+        addButton.tintColor = .red
+        addButton.setTitle("ADD TO MY MOVIES", for: .normal)
     }
 
     
