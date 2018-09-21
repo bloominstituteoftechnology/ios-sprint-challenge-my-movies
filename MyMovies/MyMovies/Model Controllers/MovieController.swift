@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -56,4 +57,53 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+}
+
+
+// Core Data
+extension MovieController {
+    
+    // Create a new movie in the managed object context & save it to persistent store
+    func addMovie(with title: String, hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let movie = Movie(title: title, hasWatched: hasWatched, context: context)
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving movie: \(error)")
+        }
+        put(movie: movie)
+    }
+    
+    // Update an existing movie in the managed object context and save it to persistent store
+    func update(movie: Movie) {
+        movie.hasWatched = !movie.hasWatched
+        
+        put(movie: movie)
+    }
+    
+    // Delete a movie in the managed object context and save the new managed object context
+    // to persistent store
+    func delete(movie: Movie) {
+        
+        deleteMovieFromServer(movie: movie)
+        
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        
+        do {
+            try CoreDataStack.shared.save(context: moc)
+        } catch {
+            moc.reset()
+            NSLog("Error saving moc after deleting movie: \(error)")
+        }
+        
+    }
+    
+    func movie(for identifier: String, in context: NSManagedObjectContext) -> Movie? {
+        
+        guard let identifier = UUID(uuidString: identifier) else { return nil }
+    
+    }
+    
 }
