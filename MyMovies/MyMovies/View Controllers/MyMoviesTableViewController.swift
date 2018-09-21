@@ -118,7 +118,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = fetchedResultsController.sections?[section]
         if sectionInfo?.name == "0" {
-            return "Unwatched"
+            return "Not Watched"
         } else {
             return "Watched"
         }
@@ -133,7 +133,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
         let moc = CoreDataStack.shared.mainContext
-        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "hasWatched", ascending: true)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
