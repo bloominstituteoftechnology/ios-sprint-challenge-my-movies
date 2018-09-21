@@ -20,6 +20,30 @@ struct MovieRepresentation: Equatable, Codable {
     let hasWatched: Bool?
 }
 
+
+func == (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    if lhs.title == rhs.title
+        && lhs.title == rhs.title
+        && lhs.hasWatched == rhs.hasWatched
+        && lhs.identifier == rhs.identifier {
+        return true
+    } else {
+        return false
+    }
+}
+
+func == (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs == lhs
+}
+
+func != (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return !(rhs == lhs)
+}
+
+func != (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return rhs != lhs
+}
+
 /*
  Represents the full JSON returned from searching for a movie.
  The actual movies are in the "results" dictionary of the JSON.

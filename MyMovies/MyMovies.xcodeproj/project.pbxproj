@@ -23,7 +23,7 @@
 		D8D3DA37215555C400001A65 /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA35215555C400001A65 /* Movie.xcdatamodeld */; };
 		D8D3DA3921555BC800001A65 /* Movie+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA3821555BC800001A65 /* Movie+Encodable.swift */; };
 		D8D3DA3B215560ED00001A65 /* SearchTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA3A215560ED00001A65 /* SearchTableViewCellDelegate.swift */; };
-		D8D3DA3F2155713F00001A65 /* MovieTabProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA3E2155713F00001A65 /* MovieTabProtocol.swift */; };
+		D8D3DA412155912400001A65 /* MyMoviesTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3DA402155912400001A65 /* MyMoviesTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +45,7 @@
 		D8D3DA36215555C400001A65 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D8D3DA3821555BC800001A65 /* Movie+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Movie+Encodable.swift"; path = "MyMovies/Models/Movie+Encodable.swift"; sourceTree = SOURCE_ROOT; };
 		D8D3DA3A215560ED00001A65 /* SearchTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCellDelegate.swift; sourceTree = "<group>"; };
-		D8D3DA3E2155713F00001A65 /* MovieTabProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTabProtocol.swift; sourceTree = "<group>"; };
+		D8D3DA402155912400001A65 /* MyMoviesTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +122,7 @@
 		46E20A092126AFC200E7FF73 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D8D3DA3E2155713F00001A65 /* MovieTabProtocol.swift */,
+				D8D3DA402155912400001A65 /* MyMoviesTabBarController.swift */,
 				D8D3DA332155506800001A65 /* HTTPMethod.swift */,
 				46E209E42126A63600E7FF73 /* AppDelegate.swift */,
 				46E209EB2126A63700E7FF73 /* Assets.xcassets */,
@@ -217,7 +217,7 @@
 				D8D3DA3021554F9200001A65 /* Movie+Convenience.swift in Sources */,
 				D8D3DA3221554FBF00001A65 /* CoreDataStack.swift in Sources */,
 				D8D3DA3921555BC800001A65 /* Movie+Encodable.swift in Sources */,
-				D8D3DA3F2155713F00001A65 /* MovieTabProtocol.swift in Sources */,
+				D8D3DA412155912400001A65 /* MyMoviesTabBarController.swift in Sources */,
 				D8D3DA2A21554AAA00001A65 /* DetailTableViewCell.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				D8D3DA282155495100001A65 /* SearchTableViewCell.swift in Sources */,

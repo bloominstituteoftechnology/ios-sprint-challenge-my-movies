@@ -80,7 +80,7 @@ class MovieController {
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             if let error = error {
-                NSLog("Error PUTing entry: \(error)")
+                NSLog("Error PUTing movie: \(error)")
                 completion(error)
                 return
             }
@@ -89,6 +89,18 @@ class MovieController {
             
             }.resume()
         
+    }
+    
+    func deleteMovie(movie: Movie){
+        let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+        
+        deletefromServer(movie: movie)
+        
+        backgroundContext.perform {
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(movie)
+        }
+      
     }
     
     func movie(for identifier: String, in context: NSManagedObjectContext) -> Movie? {
@@ -112,6 +124,47 @@ class MovieController {
         return result
     }
     
+    func fetchSingleMovieFromPersistentStore(identifier: String)-> Movie?{
+        
+        let requestURL = databaseURL?.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = HTTPMethod.get.rawValue
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        fetchRequest.predicate = predicate
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching movie with UUID")
+            return nil
+        }
+        
+    }
+    
+    func deletefromServer(movie: Movie, completion: @escaping (Error?) -> Void = {_ in}){
+        
+        guard let identifier = movie.identifier?.uuidString else {return}
+        
+        let requestURL = databaseURL!.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            if let error = error {
+                NSLog("Error DELETEing movie: \(error)")
+                completion(error)
+                return
+            }
+            print(response ?? "delete successful")
+            completion(nil)
+            
+            }.resume()
+        
+    }
     
     func fetchFromServer(completion: @escaping (Error?) -> Void = {_ in}) {
         
@@ -137,46 +190,58 @@ class MovieController {
                     
                     for movieRep in movieRepresentations{
                         
-                        let _ = Movie(movieRep: movieRep, context: backgroundContext)
+                        guard let identifier = movieRep.identifier?.uuidString else {return}
                         
+                        let movie = self.fetchSingleMovieFromPersistentStore(identifier: identifier)
+                        
+                        if let movie = movie {
+                            if movieRep != movie {
+//                                backgroundContext.delete(movie)
+                            }
+                            else {
+                                let _ = Movie(movieRep: movieRep, context: backgroundContext)
+                            }
+                        }
+                        
+                        do {
+                            try CoreDataStack.shared.save(context: backgroundContext)
+                        } catch {
+                            NSLog("Error saving background context: \(error)")
+                        }
                     }
                 }
+                completion(nil)
                 
-                do {
-                    try CoreDataStack.shared.save(context: backgroundContext)
-                } catch {
-                    NSLog("Error saving background context: \(error)")
-                }
+                
             }catch{
                 NSLog("error decoding: \(error)")
                 completion(error)
                 return
             }
-            completion(nil)
             }.resume()
         
         
     }
-
-
-// MARK: -- Local Methods
-
-func addMovie(title: String, hasWatched: Bool = false, identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
     
-    let movie = Movie(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
     
-    do {
-        try CoreDataStack.shared.save(context: context)
-    } catch {
-        NSLog("Error saving task: \(error)")
+    // MARK: -- Local Methods
+    
+    func addMovie(title: String, hasWatched: Bool = false, identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
+        
+        let movie = Movie(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving task: \(error)")
+        }
+        put(movie: movie)
     }
-    put(movie: movie)
-}
-
-
-
-// MARK: - Properties
-let databaseURL = URL(string: "https://mymovies-table.firebaseio.com/")
-var searchedMovies: [MovieRepresentation] = []
+    
+    
+    
+    // MARK: - Properties
+    let databaseURL = URL(string: "https://mymovies-table.firebaseio.com/")
+    var searchedMovies: [MovieRepresentation] = []
 }
 

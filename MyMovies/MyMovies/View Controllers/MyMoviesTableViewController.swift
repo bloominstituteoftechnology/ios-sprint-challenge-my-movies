@@ -10,7 +10,8 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-//    var movieController: MovieController?
+   
+    var movieController: MovieController?
     
     // MARK - NSFetched
     
@@ -108,13 +109,14 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
 
     // Override to support editing the table view.
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            // Delete the row from the data source
-//            
-////            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController?.deleteMovie(movie: movie)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
     
 
     /*
