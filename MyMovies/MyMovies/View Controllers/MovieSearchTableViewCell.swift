@@ -36,7 +36,8 @@ class MovieSearchTableViewCell: UITableViewCell {
         }
     }
     
-    @IBAction func addMovie(_ sender: Any) {
+    
+        @IBAction func addMovie(_ sender: Any) {
         guard let movieRep = movieRep else { return }
         delegate?.addMovie(movie: movieRep)
     }
