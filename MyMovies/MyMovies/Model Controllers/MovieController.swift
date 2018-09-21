@@ -134,6 +134,8 @@ class MovieController {
         let predicate = NSPredicate(format: "identifier == %@", identifier)
         fetchRequest.predicate = predicate
         
+        
+        
         do {
             let moc = CoreDataStack.shared.mainContext
             return try moc.fetch(fetchRequest).first

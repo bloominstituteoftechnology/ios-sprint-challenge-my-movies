@@ -77,10 +77,17 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     // MARK: - TABLEVIEW
     
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        let sectionInfo = fetchedResultsController.sections?[section]
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionInfo = fetchedResultsController.sections?[section]
+        if sectionInfo?.name == "0" {
+            return "Not Watched 🙈"
+        }
+        else{
+            return "Watched 🐵"
+        }
 //        return sectionInfo?.name
-//    }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

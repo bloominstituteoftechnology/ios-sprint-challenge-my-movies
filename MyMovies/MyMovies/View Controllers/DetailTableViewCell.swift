@@ -37,9 +37,9 @@ class DetailTableViewCell: UITableViewCell {
         titleLabel.text = movie.title
         
         if (movie.hasWatched){
-            watchButton.setTitle("Not Watched", for: UIControlState.normal)
-        } else {
             watchButton.setTitle("Watched", for: UIControlState.normal)
+        } else {
+            watchButton.setTitle("Not Watched", for: UIControlState.normal)
         }
         
     }
