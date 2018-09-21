@@ -40,12 +40,13 @@ class MovieSearchTableViewCell: UITableViewCell {
         guard let movieRep = movieRep else { return }
         delegate?.addMovie(movie: movieRep)
     }
-    
+
     var delegate: MovieSearchTableViewCellDelegate?
-    
+
 
     @IBOutlet weak var movieTitle: UILabel!
     
+
     
     
 

@@ -128,6 +128,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
         let moc = CoreDataStack.shared.mainContext
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self

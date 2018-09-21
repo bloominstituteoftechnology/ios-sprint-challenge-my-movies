@@ -48,6 +48,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let movieRep = movieController.searchedMovies[indexPath.row]
         cell.movieRep = movieRep
         cell.movieTitle.text = movieController.searchedMovies[indexPath.row].title
+        //cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         return cell
     }
     
