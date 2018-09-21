@@ -48,6 +48,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
+        cell.delegate = self
         
         return cell
     }
