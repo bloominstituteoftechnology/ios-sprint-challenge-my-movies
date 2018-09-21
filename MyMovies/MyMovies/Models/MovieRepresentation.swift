@@ -27,3 +27,20 @@ struct MovieRepresentation: Equatable, Codable {
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
 }
+
+// Equatable methods to see if a movie representation and movie are the same.
+func == (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return lhs.identifier == rhs.identifier && lhs.title == rhs.title && lhs.hasWatched == rhs.hasWatched
+}
+
+func == (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs == lhs
+}
+
+func != (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return !(rhs == lhs)
+}
+
+func != (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs != lhs
+}

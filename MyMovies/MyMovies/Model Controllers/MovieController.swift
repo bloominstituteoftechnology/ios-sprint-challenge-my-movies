@@ -19,17 +19,23 @@ class MovieController {
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let moviesBaseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
+    // MARK: - Initializers
+    init() {
+        fetchMovies()
+    }
+    
     // MARK: - CRUD Methods
-    func create(title: String, hasWatched: Bool = false, identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        let movie = Movie(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
+    func createMovie(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let hasWatched = movieRepresentation.hasWatched ?? false
+        let identifier = movieRepresentation.identifier ?? UUID()
         
-        context.performAndWait {
-            do {
-                try CoreDataStack.shared.save(context: context)
-            } catch {
-                NSLog("Error saving created movie: \(error)")
-                return
-            }
+        let movie = Movie(title: movieRepresentation.title, hasWatched: hasWatched, identifier: identifier, context: context)
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving created movie: \(error)")
+            return
         }
         
         put(movie: movie)
@@ -41,16 +47,19 @@ class MovieController {
         
         guard let context = movie.managedObjectContext else { fatalError("Movie has no context.") }
         
-        context.performAndWait {
-            do {
-                try CoreDataStack.shared.save(context: context)
-            } catch {
-                NSLog("Error saving updated movie: \(error)")
-                return
-            }
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving updated movie: \(error)")
+            return
         }
         
         put(movie: movie)
+    }
+    
+    func update(movie: Movie, with movieRepresentation: MovieRepresentation) {
+        movie.title = movieRepresentation.title
+        movie.hasWatched = movieRepresentation.hasWatched ?? false
     }
     
     func delete(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
@@ -58,12 +67,10 @@ class MovieController {
         
         context.delete(movie)
         
-        context.performAndWait {
-            do {
-                try CoreDataStack.shared.save(context: context)
-            } catch {
-                NSLog("Error saving after deleting movie: \(error)")
-            }
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving after deleting movie: \(error)")
         }
     }
     
@@ -104,6 +111,54 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
+        }.resume()
+    }
+    
+    private func fetchMovies(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = serverBaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching movies from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data was returned.")
+                completion(NSError())
+                return
+            }
+            
+            var movieRepresentations: [MovieRepresentation] = []
+            
+            do {
+                movieRepresentations = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map() { $0.value }
+                
+            } catch {
+                NSLog("Error decoding movie representations: \(error)")
+                completion(error)
+                return
+            }
+            
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+            
+            
+            backgroundContext.performAndWait {
+                self.updatePersistentStore(with: movieRepresentations, context: backgroundContext)
+            }
+            
+            do {
+                try CoreDataStack.shared.save(context: backgroundContext)
+            } catch {
+                NSLog("Error saving background context after updating with movies from server.")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            return
+            
         }.resume()
     }
     
@@ -162,5 +217,39 @@ class MovieController {
             completion(nil)
             return
         }.resume()
+    }
+    
+    // MARK: - Utility Methods
+    private func fetchSingleMovie(identifier: UUID, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        let predicate = NSPredicate(format: "identifier = %@", identifier as NSUUID)
+        
+        fetchRequest.predicate = predicate
+        
+        var movie: Movie? = nil
+        
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching single movie: \(error)")
+            }
+        }
+        return movie
+    }
+    
+    private func updatePersistentStore(with movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext) {
+        for movieRepresentation in movieRepresentations {
+            if let identifier = movieRepresentation.identifier, let movie = fetchSingleMovie(identifier: identifier, context: context) {
+                if movie != movieRepresentation {
+                    // Update movie, because one with the same identifier exists, but it isn't equal.
+                    update(movie: movie, with: movieRepresentation)
+                }
+            } else {
+                // There is no movie with that identifier, create a new one.
+                createMovie(movieRepresentation: movieRepresentation, context: context)
+            }
+        }
     }
 }

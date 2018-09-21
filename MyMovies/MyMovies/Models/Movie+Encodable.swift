@@ -23,3 +23,5 @@ extension Movie: Encodable {
         try container.encode(self.hasWatched, forKey: .hasWatched)
     }
 }
+
+
