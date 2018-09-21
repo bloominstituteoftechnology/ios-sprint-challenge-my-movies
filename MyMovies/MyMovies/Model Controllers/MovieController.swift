@@ -11,6 +11,8 @@ import CoreData
 
 class MovieController {
     
+    init() { fetchMoviesFromServer() }
+    
     static var shared = MovieController()
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"

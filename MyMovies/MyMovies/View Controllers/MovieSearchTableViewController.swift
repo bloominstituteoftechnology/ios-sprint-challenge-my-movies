@@ -22,6 +22,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     // MARK:- UISearchBar delegate methods
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)
+        
         guard let searchTerm = searchBar.text else { return }
         
         movieController.searchForMovie(with: searchTerm) { (error) in
