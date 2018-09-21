@@ -9,7 +9,9 @@
 import Foundation
 import CoreData
 
+
 extension Movie {
+    /// Convenience initializer for making a new movie with the given properties.
     convenience init (title: String, hasWatched: Bool, identifier: UUID, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         

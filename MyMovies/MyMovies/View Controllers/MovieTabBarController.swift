@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Passes the movie controller to the two child table view controllers.
 class MovieTabBarController: UITabBarController {
     
     let movieController = MovieController()

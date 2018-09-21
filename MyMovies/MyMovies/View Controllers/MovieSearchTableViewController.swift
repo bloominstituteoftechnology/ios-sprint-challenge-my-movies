@@ -10,12 +10,19 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieResultTableViewCellDelegate {
 
+    // MARK: - Properties
+    var movieController: MovieController?
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
     
+    // MARK: - UI Search Bar
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
@@ -51,8 +58,4 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     func addMovie(movieRepresentation: MovieRepresentation) {
         movieController?.createMovie(movieRepresentation: movieRepresentation)
     }
-    
-    var movieController: MovieController?
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }

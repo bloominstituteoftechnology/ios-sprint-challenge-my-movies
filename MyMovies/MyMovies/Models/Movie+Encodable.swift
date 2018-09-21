@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Makes movie encodable so that it can be put to the server.
 extension Movie: Encodable {
     enum CodingKeys: String, CodingKey {
         case title

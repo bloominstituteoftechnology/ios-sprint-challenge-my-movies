@@ -11,6 +11,7 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MovieTableViewCellDelegate {
     
+    // MARK: - Properties
     var movieController: MovieController?
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -28,19 +29,14 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return fetchedResultsController
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-    
+    // MARK: - Lifecycle Methods
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         tableView.reloadData()
     }
 
-    // MARK: - Table view data source
-
+    // MARK: - Table View Data Source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }

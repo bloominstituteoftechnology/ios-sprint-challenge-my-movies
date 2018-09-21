@@ -25,6 +25,7 @@ class MovieController {
     }
     
     // MARK: - CRUD Methods
+    /// Creates a movie from a movie representation, providing default values if there are none.
     func createMovie(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         let hasWatched = movieRepresentation.hasWatched ?? false
         let identifier = movieRepresentation.identifier ?? UUID()
@@ -57,11 +58,13 @@ class MovieController {
         put(movie: movie)
     }
     
+    /// Updates a movie with the properties of a movie representation. Intended to be called when pulling in data from server.
     func update(movie: Movie, with movieRepresentation: MovieRepresentation) {
         movie.title = movieRepresentation.title
         movie.hasWatched = movieRepresentation.hasWatched ?? false
     }
     
+    /// Deletes a movie from the server and the local persistent store.
     func delete(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         deleteFromServer(movie: movie)
         
@@ -75,6 +78,7 @@ class MovieController {
     }
     
     // MARK: - Networking
+    /// Searches the movie data base for movies and loads them into an array.
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: moviesBaseURL, resolvingAgainstBaseURL: true)
@@ -114,6 +118,7 @@ class MovieController {
         }.resume()
     }
     
+    /// Fetches movies from the server and updates the local persistent store.
     private func fetchMovies(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = serverBaseURL.appendingPathExtension("json")
         
@@ -143,7 +148,6 @@ class MovieController {
             
             let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
             
-            
             backgroundContext.performAndWait {
                 self.updatePersistentStore(with: movieRepresentations, context: backgroundContext)
             }
@@ -162,6 +166,7 @@ class MovieController {
         }.resume()
     }
     
+    /// PUTs the given movie to the server
     private func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         
         guard let identifier = movie.identifier else {
@@ -195,6 +200,7 @@ class MovieController {
         }.resume()
     }
     
+    /// DELETEs the given movie from the server
     private func deleteFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = movie.identifier else {
             NSLog("Movie has no identifier")
@@ -220,6 +226,7 @@ class MovieController {
     }
     
     // MARK: - Utility Methods
+    /// Fetches a single optional movie from the persistent store based on an Identifier
     private func fetchSingleMovie(identifier: UUID, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
@@ -239,15 +246,17 @@ class MovieController {
         return movie
     }
     
+    /// Updates the persistent store with the given array of movie representations.
     private func updatePersistentStore(with movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext) {
         for movieRepresentation in movieRepresentations {
             if let identifier = movieRepresentation.identifier, let movie = fetchSingleMovie(identifier: identifier, context: context) {
+                // There is a movie with the identifier in the store
                 if movie != movieRepresentation {
-                    // Update movie, because one with the same identifier exists, but it isn't equal.
+                    // But their properties aren't equal. Update them.
                     update(movie: movie, with: movieRepresentation)
                 }
             } else {
-                // There is no movie with that identifier, create a new one.
+                // There is no movie with that identifier. Create a new one.
                 createMovie(movieRepresentation: movieRepresentation, context: context)
             }
         }
