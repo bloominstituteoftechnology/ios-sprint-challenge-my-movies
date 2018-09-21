@@ -23,12 +23,15 @@ class MovieResultTableViewCell: UITableViewCell {
     }
 
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var addMovieButton: UIButton!
     
     
     // MARK: - UI Methods
     @IBAction func addMovie(_ sender: Any) {
         guard let movieRepresentation = movieRepresentation else { return }
         delegate?.addMovie(movieRepresentation: movieRepresentation)
+        addMovieButton.setTitle("Added", for: .normal)
+        addMovieButton.setTitleColor(.green, for: .normal)
     }
     
     // MARK: Utility Methods
