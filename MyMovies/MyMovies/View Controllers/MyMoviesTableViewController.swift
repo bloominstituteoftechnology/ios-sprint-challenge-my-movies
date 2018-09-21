@@ -11,9 +11,9 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
     func toggleMovie(movie: Movie, newHasWatched: Bool) {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        //guard let indexPath = tableView.indexPathForSelectedRow else { return }
         movieController.updateMovie(movie: movie, hasWatched: newHasWatched)
-        tableView.reloadRows(at: [indexPath], with: .fade)
+        //tableView.reloadRows(at: [indexPath], with: .fade)
     }
     
 
@@ -117,7 +117,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = fetchedResultsController.sections?[section]
-        return sectionInfo?.name
+        if sectionInfo?.name == "0" {
+            return "Unwatched"
+        } else {
+            return "Watched"
+        }
     }
     
     
