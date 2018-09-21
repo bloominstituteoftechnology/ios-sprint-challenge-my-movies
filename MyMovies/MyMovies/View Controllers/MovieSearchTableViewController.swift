@@ -49,7 +49,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     // MARK: - Movie Result Table View Cell
     func addMovie(movieRepresentation: MovieRepresentation) {
-        movieController.create(movieRepresentation: movieRepresentation)
+        movieController.create(title: movieRepresentation.title)
     }
     
     var movieController = MovieController()

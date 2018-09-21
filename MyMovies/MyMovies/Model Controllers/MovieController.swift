@@ -18,22 +18,8 @@ class MovieController {
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
     // MARK: - CRUD Methods
-    func create(title: String, hasWatched: Bool, identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    func create(title: String, hasWatched: Bool = false, identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         let movie = Movie(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
-        
-        context.performAndWait {
-            do {
-                try CoreDataStack.shared.save(context: context)
-            } catch {
-                NSLog("Error saving created movie: \(error)")
-            }
-        }
-        
-        // TODO: PUT the new movie to the server
-    }
-    
-    func create(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        let movie = Movie(movieRepresentation: movieRepresentation, context: context)
         
         context.performAndWait {
             do {

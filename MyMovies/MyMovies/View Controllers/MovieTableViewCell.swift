@@ -27,7 +27,9 @@ class MovieTableViewCell: UITableViewCell {
     
     // MARK: Utility Methods
     func updateViews() {
-        
+        guard let movie = movie else { return }
+        titleLabel.text = movie.title
+        watchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
     }
     
 }
