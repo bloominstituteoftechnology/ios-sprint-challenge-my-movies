@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MovieSearchTableViewCellDelegate: class {
+    func addMovie(movie: MovieRepresentation)
+}
+
 class MovieSearchTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
@@ -21,11 +25,25 @@ class MovieSearchTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    var movie: Movie?
-    
-    @IBAction func addMovie(_ sender: Any) {
+    func updateViews() {
+        guard let movieRep = movieRep else { return }
+        movieTitle.text = movieRep.title
     }
     
+    var movieRep: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    @IBAction func addMovie(_ sender: Any) {
+        guard let movieRep = movieRep else { return }
+        delegate?.addMovie(movie: movieRep)
+    }
+    
+    var delegate: MovieSearchTableViewCellDelegate?
+    
+
     @IBOutlet weak var movieTitle: UILabel!
     
     

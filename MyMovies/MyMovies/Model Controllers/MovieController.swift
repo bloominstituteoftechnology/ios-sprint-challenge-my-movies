@@ -15,6 +15,10 @@ class MovieController {
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     var searchedMovies: [MovieRepresentation] = []
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -54,8 +58,8 @@ class MovieController {
         }.resume()
     }
     
-    func addMovie(title: String, identifier: String, hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
+    func createMovie(title: String, hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let movie = Movie(title: title, hasWatched: hasWatched)
         do {
             try CoreDataStack.shared.save(context: context)
         } catch {
