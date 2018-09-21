@@ -17,8 +17,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
 
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         

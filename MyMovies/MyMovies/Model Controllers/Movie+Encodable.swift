@@ -18,7 +18,7 @@ extension Movie: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = try encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.title, forKey: .title)
-        try container.encode(self.identifier, forKey: .identifier)
+        try container.encode(self.hasWatched, forKey: .hasWatched)
         try container.encode(self.identifier, forKey: .identifier)
     }
 }
