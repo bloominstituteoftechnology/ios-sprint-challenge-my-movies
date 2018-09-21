@@ -10,18 +10,23 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
     
+    
+    // MARK:- View updater method
     private func updateViews() {
         guard let title = movieTitle else { return }
         
         titleLabel.text = title
     }
 
+    
+    // MARK:- IBActions
     @IBAction func addMovie(_ sender: Any) {
         guard let movieController = movieController,
               let title = movieTitle else { return }
         
         movieController.addMovie(with: title)
     }
+    
     
     // MARK:- IBOutlets
     @IBOutlet weak var titleLabel: UILabel!

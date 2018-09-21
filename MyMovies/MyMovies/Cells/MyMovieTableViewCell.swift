@@ -10,6 +10,8 @@ import UIKit
 
 class MyMovieTableViewCell: UITableViewCell {
     
+    
+    // MARK:- View updater method
     private func updateViews() {
         guard let movie = movie else { return }
         
@@ -19,6 +21,8 @@ class MyMovieTableViewCell: UITableViewCell {
         watchedStatusButton.setTitle(watchedStatusText, for: .normal)
     }
 
+    
+    // MARK:- IBActions
     @IBAction func updateWatchedStatus(_ sender: Any) {
         guard let movieController = movieController,
               let movie = movie else { return }
@@ -26,6 +30,7 @@ class MyMovieTableViewCell: UITableViewCell {
         movieController.update(movie: movie)
         updateViews()
     }
+    
     
     // MARK:- Properties & types
     var movieController: MovieController? { didSet { updateViews() }}

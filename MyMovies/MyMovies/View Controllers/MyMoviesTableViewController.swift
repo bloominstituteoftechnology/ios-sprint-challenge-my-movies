@@ -10,13 +10,22 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    
+    // MARK:- View lifecycle methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationController?.navigationBar.shouldRemoveShadow(true)
+        tableView.tableFooterView = UIView()
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
+    
 
-    // MARK: - Table view data source
+    // MARK:- UITableViewDataSource methods
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
@@ -46,6 +55,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             movieController.delete(movie: movie)
         }
     }
+    
     
     // MARK:- NSFetchedResultsController delegate methods
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -97,14 +107,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     
+    // MARK:- Properties & types
     let movieController = MovieController.shared
 
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        
         let sortDescriptor = NSSortDescriptor(key: "hasWatched", ascending: true)
-        
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         let moc = CoreDataStack.shared.mainContext
@@ -112,10 +121,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
         
         frc.delegate = self
-        
         try! frc.performFetch()
         
         return frc
-        
     }()
 }

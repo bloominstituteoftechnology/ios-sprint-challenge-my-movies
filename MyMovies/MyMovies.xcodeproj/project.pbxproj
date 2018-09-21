@@ -75,10 +75,9 @@
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
+				968656EA21555F2C00C8BE67 /* Cells */,
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
 				46E20A092126AFC200E7FF73 /* Resources */,
-				968656E121554F7100C8BE67 /* MovieSearchTableViewCell.swift */,
-				968656E32155520A00C8BE67 /* MyMovieTableViewCell.swift */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";
@@ -129,6 +128,15 @@
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		968656EA21555F2C00C8BE67 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				968656E121554F7100C8BE67 /* MovieSearchTableViewCell.swift */,
+				968656E32155520A00C8BE67 /* MyMovieTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

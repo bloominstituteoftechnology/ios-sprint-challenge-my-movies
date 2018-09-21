@@ -10,6 +10,8 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    
+    // MARK:- View lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.shouldRemoveShadow(true)
@@ -17,6 +19,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         searchBar.delegate = self
     }
     
+    
+    // MARK:- UISearchBar delegate methods
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
@@ -30,6 +34,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    
+    // MARK:- UITableViewDataSource methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -43,7 +49,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
+    
+    // MARK:- Properties & types
     let movieController = MovieController.shared
     
+    // MARK:- IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
 }
