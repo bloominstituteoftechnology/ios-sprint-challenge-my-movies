@@ -19,7 +19,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
-        movieController.searchForMovie(with: searchTerm) { (error) in
+        movieController?.searchForMovie(with: searchTerm) { (error) in
             
             guard error == nil else { return }
             
@@ -31,13 +31,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     // MARK: - UI Table View Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieController.searchedMovies.count
+        return movieController?.searchedMovies.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieResultTableViewCell
         
-        cell.movieRepresentation = movieController.searchedMovies[indexPath.row]
+        cell.movieRepresentation = movieController?.searchedMovies[indexPath.row]
         cell.delegate = self
         
         return cell
@@ -49,10 +49,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     // MARK: - Movie Result Table View Cell
     func addMovie(movieRepresentation: MovieRepresentation) {
-        movieController.create(title: movieRepresentation.title)
+        movieController?.create(title: movieRepresentation.title)
     }
     
-    var movieController = MovieController()
+    var movieController: MovieController?
     
     @IBOutlet weak var searchBar: UISearchBar!
 }

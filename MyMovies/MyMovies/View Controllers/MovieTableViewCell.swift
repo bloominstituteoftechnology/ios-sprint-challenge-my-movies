@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MovieTableViewCellDelegate: class {
+    func toggleHasWatchedOn(movie: Movie)
+}
+
 class MovieTableViewCell: UITableViewCell {
     
     // MARK: - Properties
@@ -16,13 +20,16 @@ class MovieTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    
+    weak var delegate: MovieTableViewCellDelegate?
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var watchedButton: UIButton!
     
     // MARK: - UI Methods
     @IBAction func toggleHasWatched(_ sender: Any) {
-        
+        guard let movie = movie else { return }
+        delegate?.toggleHasWatchedOn(movie: movie)
     }
     
     // MARK: Utility Methods

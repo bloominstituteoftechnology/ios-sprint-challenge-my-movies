@@ -32,11 +32,9 @@ class MovieController {
         // TODO: PUT the new movie to the server
     }
     
-    /// Updates the given movie with the given properties. Intended to update a single movie at a time, by the user's action.
-    func update(movie: Movie, title: String, hasWatched: Bool, identifier: UUID) {
-        movie.title = title
-        movie.hasWatched = hasWatched
-        movie.identifier = identifier
+    /// Toggles the hasWatched property on the given movie. Intended to update a single movie at a time, by the user's action.
+    func toggleHasWatchedOn(movie: Movie) {
+        movie.hasWatched = !movie.hasWatched
         
         guard let context = movie.managedObjectContext else { fatalError("Movie has no context.") }
         
@@ -46,6 +44,20 @@ class MovieController {
                 // TODO: PUT the updated movie to the server
             } catch {
                 NSLog("Error saving updated movie: \(error)")
+            }
+        }
+    }
+    
+    func delete(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        // TODO: DELETE from server
+        
+        context.delete(movie)
+        
+        context.performAndWait {
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving after deleting movie: \(error)")
             }
         }
     }

@@ -9,8 +9,9 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MovieTableViewCellDelegate {
     
+    var movieController: MovieController?
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
@@ -52,21 +53,18 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MovieTableViewCell
         
         cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.delegate = self
 
         return cell
     }
 
-    /*
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController?.delete(movie: movie)
+        }
     }
-    */
     
     // MARK: - NS Fetched Results Controller
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -103,5 +101,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
         default: break
         }
+    }
+    
+    // MARK: - Movie Table View Cell
+    func toggleHasWatchedOn(movie: Movie) {
+        movieController?.toggleHasWatchedOn(movie: movie)
     }
 }
