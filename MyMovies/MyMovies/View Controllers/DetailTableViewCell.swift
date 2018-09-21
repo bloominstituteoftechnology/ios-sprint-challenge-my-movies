@@ -21,4 +21,14 @@ class DetailTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    var movie: Movie?{
+        didSet{
+            updateViews()
+        }
+    }
+    
+    func updateViews(){
+        guard let title = movie?.title else {return}
+        titleLabel.text = title
+    }
 }
