@@ -10,6 +10,16 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MovieControllerProtocol {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //Set up refresh control
+        myMoviesRefreshControl.addTarget(self, action: #selector(fetchMovies), for: .valueChanged)
+        
+        //Add refresh control to the tableview
+        tableView.refreshControl = myMoviesRefreshControl
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -94,6 +104,17 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
     
+    
+    @objc private func fetchMovies() {
+        movieController?.fetchMoviesFromServer(completion: { (_) in
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.myMoviesRefreshControl.endRefreshing()
+            }
+        })
+    }
+    
+    let myMoviesRefreshControl = UIRefreshControl()
     var movieController: MovieController?
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
