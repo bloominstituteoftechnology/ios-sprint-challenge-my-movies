@@ -66,6 +66,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        return sectionInfo.indexTitle == "1" ? "Watched" : "Not Watched"
+    }
+    
     // MARK: - NS Fetched Results Controller
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

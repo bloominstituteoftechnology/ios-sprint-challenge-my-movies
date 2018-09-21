@@ -44,7 +44,6 @@ class MovieController {
         context.performAndWait {
             do {
                 try CoreDataStack.shared.save(context: context)
-                // TODO: PUT the updated movie to the server
             } catch {
                 NSLog("Error saving updated movie: \(error)")
                 return
@@ -55,7 +54,7 @@ class MovieController {
     }
     
     func delete(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        // TODO: DELETE from server
+        deleteFromServer(movie: movie)
         
         context.delete(movie)
         
@@ -141,4 +140,27 @@ class MovieController {
         }.resume()
     }
     
+    private func deleteFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = movie.identifier else {
+            NSLog("Movie has no identifier")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = serverBaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error DELETEing movie from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            return
+        }.resume()
+    }
 }
