@@ -106,21 +106,24 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = MovieController.firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
         do {
-            
-            let context = movie.managedObjectContext ?? CoreDataStack.shared.mainContext
-            try context.save()
-            
             request.httpBody = try JSONEncoder().encode(movie)
         } catch {
             NSLog("Error encoding movie: \(error)")
             completion(error)
             return
+        }
+        
+        do {
+            let context = movie.managedObjectContext ?? CoreDataStack.shared.mainContext
+            try context.save()
+        } catch {
+            NSLog("Error saving updated movie: /(error)")
         }
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
@@ -142,7 +145,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = MovieController.firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
@@ -178,7 +181,7 @@ class MovieController {
     }
     
     func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
-        let url = baseURL.appendingPathExtension("json")
+        let url = MovieController.firebaseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
@@ -246,5 +249,5 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
-    static let baseURL = URL(string: "https://mymovies-cce4f.firebaseio.com/")!
+    static let firebaseURL = URL(string: "https://mymovies-cce4f.firebaseio.com/")!
 }
