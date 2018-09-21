@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BeQ-Kf-2fy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.15" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BeQ-Kf-2fy">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.9"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,7 +19,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="value" red="0.93859294039999996" green="0.095666141240000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBar>
@@ -84,16 +84,18 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🎞" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pa6-WB-EKk">
-                                            <rect key="frame" x="14" y="26.5" width="26" height="26.5"/>
+                                            <rect key="frame" x="14" y="26.5" width="38" height="26.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="xrc-CS-OZf" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="0XB-Wa-8eN"/>
                                         <constraint firstItem="xrc-CS-OZf" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" constant="36" id="5xU-4t-ryk"/>
                                         <constraint firstItem="UwU-Kq-269" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="MiN-id-fM1"/>
+                                        <constraint firstItem="xrc-CS-OZf" firstAttribute="leading" secondItem="Pa6-WB-EKk" secondAttribute="trailing" id="QDL-hq-WuZ"/>
                                         <constraint firstItem="UwU-Kq-269" firstAttribute="trailing" secondItem="8Bc-u1-IMl" secondAttribute="trailingMargin" id="UKo-Gp-fR9"/>
                                         <constraint firstItem="UwU-Kq-269" firstAttribute="leading" secondItem="xrc-CS-OZf" secondAttribute="trailing" constant="8" id="bpQ-gP-5IO"/>
                                         <constraint firstItem="Pa6-WB-EKk" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="14" id="ft7-Q3-2gK"/>
@@ -117,7 +119,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2394" y="-27"/>
+            <point key="canvasLocation" x="2392.8000000000002" y="-27.436281859070466"/>
         </scene>
         <!--🍿 My Movies-->
         <scene sceneID="COr-3j-4xq">
@@ -226,5 +228,5 @@
         <image name="Add New Movies" width="29" height="32"/>
         <image name="Movies" width="29" height="32"/>
     </resources>
-    <color key="tintColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" red="0.9385929404145078" green="0.095666141239920413" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>
