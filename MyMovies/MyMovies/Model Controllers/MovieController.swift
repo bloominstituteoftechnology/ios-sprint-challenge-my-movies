@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -52,7 +53,61 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = {_ in}) {
+        
+        let requestURL = databaseURL?.appendingPathComponent(movie.identifier?.uuidString ?? UUID().uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do { request.httpBody = try JSONEncoder().encode(movie)}
+        catch{
+            NSLog("Error Encoding Data: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            if let error = error {
+                NSLog("Error PUTing entry: \(error)")
+                completion(error)
+                return
+            }
+            print(response ?? "PUT successful")
+            completion(nil)
+            
+            }.resume()
+        
+    }
     
+    func addMovie(title: String, hasWatched: Bool = false, identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
+        
+        let movie = Movie(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving task: \(error)")
+        }
+        put(movie: movie)
+    }
+    
+//    func createTask (with name: String, notes: String?, priority: TaskPriority, context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
+//        let task = Task(name: name, notes: notes, priority: priority, context: context)
+//
+//        do {
+//            try CoreDataStack.shared.save(context: context)
+//        } catch {
+//            NSLog("Error saving task: \(error)")
+//        }
+//
+//
+//        put(task: task)
+//        //        saveToPersistentStore()
+//    }
+    
+    // MARK: - Properties
+    let databaseURL = URL(string: "https://mymovies-table.firebaseio.com/")
     var searchedMovies: [MovieRepresentation] = []
 }
