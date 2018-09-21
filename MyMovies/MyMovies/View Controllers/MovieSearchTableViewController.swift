@@ -34,13 +34,16 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieResultTableViewCell
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.titleLabel.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
