@@ -9,10 +9,10 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MovieControllerProtocol {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         tableView.reloadData()
     }
@@ -30,7 +30,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
 
-        
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.movieController = movieController
 
         return cell
     }
@@ -38,7 +39,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController?.delete(movie: movie)
         }
     }
     
@@ -85,11 +87,14 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = fetchedResultsController.sections?[section]
         
-        //Might need to work on this
-        return sectionInfo?.name.capitalized
+        if sectionInfo?.name == "0" {
+            return "Unwatched"
+        } else {
+            return "Watched"
+        }
     }
     
-    var movieController = MovieController()
+    var movieController: MovieController?
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         

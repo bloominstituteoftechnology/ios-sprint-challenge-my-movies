@@ -8,22 +8,38 @@
 
 import UIKit
 
-class MyMovieTableViewCell: UITableViewCell {
+class MyMovieTableViewCell: UITableViewCell, MovieControllerProtocol {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    private func updateViews() {
+        guard let movie = movie else { return }
+        
+        movieLabel.text = movie.title
+        if movie.hasWatched {
+            hasWatchedButton.setTitle("Watched", for: .normal)
+        } else {
+            hasWatchedButton.setTitle("Unwatched", for: .normal)
+        }
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    @IBAction func changeHasWatched(_ sender: Any) {
+        
+        guard let movie = movie else { return }
+        
+        let newStatus = !movie.hasWatched
+        
+        movieController?.updateMovie(movie: movie, hasWatched: newStatus)
+        
     }
     
-    
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
+    var movieController: MovieController?
 
-    @IBOutlet weak var watchedButton: UIButton!
+    @IBOutlet weak var hasWatchedButton: UIButton!
     @IBOutlet weak var movieLabel: UILabel!
     
 }
