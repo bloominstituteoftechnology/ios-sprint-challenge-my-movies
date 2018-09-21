@@ -12,6 +12,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string: "https://mymovies-d5873.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
