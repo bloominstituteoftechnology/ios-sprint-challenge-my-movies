@@ -40,12 +40,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="502"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="ukg-5a-hrn" userLabel="Container view">
+                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="ukg-5a-hrn" userLabel="Container view">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search for a movie..." translatesAutoresizingMaskIntoConstraints="NO" id="zWF-99-NJ3">
-                                    <rect key="frame" x="8" y="0.0" width="359" height="62"/>
+                                    <rect key="frame" x="8" y="0.0" width="359" height="0.0"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </searchBar>
                             </subviews>
@@ -65,7 +65,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UwU-Kq-269">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UwU-Kq-269">
                                             <rect key="frame" x="219" y="25" width="140" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="k7u-BJ-pQI"/>
@@ -103,6 +103,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addButton" destination="UwU-Kq-269" id="h4V-r7-7ma"/>
                                     <outlet property="titleLabel" destination="xrc-CS-OZf" id="Lcs-7l-hdT"/>
                                 </connections>
                             </tableViewCell>

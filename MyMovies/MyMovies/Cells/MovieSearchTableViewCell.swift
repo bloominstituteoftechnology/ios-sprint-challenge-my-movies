@@ -25,11 +25,14 @@ class MovieSearchTableViewCell: UITableViewCell {
               let title = movieTitle else { return }
         
         movieController.addMovie(with: title)
+        addButton.tintColor = .orange
+        addButton.setTitle("ADDED!", for: .normal)
     }
     
     
     // MARK:- IBOutlets
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var addButton: UIButton!
     
     // MARK:- Properties & types
     var movieController: MovieController?
