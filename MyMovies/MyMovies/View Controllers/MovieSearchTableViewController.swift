@@ -12,7 +12,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.navigationBar.shouldRemoveShadow(true)
         searchBar.delegate = self
     }
     
@@ -34,14 +34,15 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchCell", for: indexPath) as? MovieSearchTableViewCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieTitle = movieController.searchedMovies[indexPath.row].title
+        cell.movieController = movieController
         
         return cell
     }
     
-    var movieController = MovieController()
+    let movieController = MovieController.shared
     
     @IBOutlet weak var searchBar: UISearchBar!
 }

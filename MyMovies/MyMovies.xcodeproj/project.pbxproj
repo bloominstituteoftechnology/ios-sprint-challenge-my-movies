@@ -19,6 +19,8 @@
 		968656DE2155434100C8BE67 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 968656DC2155434100C8BE67 /* MyMovies.xcdatamodeld */; };
 		968656E0215544B000C8BE67 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968656DF215544B000C8BE67 /* Movie+Convenience.swift */; };
 		968656E221554F7100C8BE67 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968656E121554F7100C8BE67 /* MovieSearchTableViewCell.swift */; };
+		968656E42155520A00C8BE67 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968656E32155520A00C8BE67 /* MyMovieTableViewCell.swift */; };
+		968656E6215558DC00C8BE67 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968656E5215558DC00C8BE67 /* Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		968656DD2155434100C8BE67 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		968656DF215544B000C8BE67 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		968656E121554F7100C8BE67 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
+		968656E32155520A00C8BE67 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
+		968656E5215558DC00C8BE67 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,7 @@
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
 				46E20A092126AFC200E7FF73 /* Resources */,
 				968656E121554F7100C8BE67 /* MovieSearchTableViewCell.swift */,
+				968656E32155520A00C8BE67 /* MyMovieTableViewCell.swift */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";
@@ -112,6 +117,7 @@
 				46E209E42126A63600E7FF73 /* AppDelegate.swift */,
 				46E209EB2126A63700E7FF73 /* Assets.xcassets */,
 				46E209F02126A63700E7FF73 /* Info.plist */,
+				968656E5215558DC00C8BE67 /* Helpers.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -200,10 +206,12 @@
 				968656DE2155434100C8BE67 /* MyMovies.xcdatamodeld in Sources */,
 				968656E0215544B000C8BE67 /* Movie+Convenience.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
+				968656E6215558DC00C8BE67 /* Helpers.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				968656E221554F7100C8BE67 /* MovieSearchTableViewCell.swift in Sources */,
 				968656DB2155430D00C8BE67 /* CoreDataStack.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				968656E42155520A00C8BE67 /* MyMovieTableViewCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
