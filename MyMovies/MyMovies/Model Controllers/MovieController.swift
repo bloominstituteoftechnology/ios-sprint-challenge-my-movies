@@ -16,7 +16,7 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     
     init() {
-        //fetchMoviesFromServer()
+        fetchMoviesFromServer()
     }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
