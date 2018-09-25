@@ -17,7 +17,7 @@ class MovieController {
         let moc = CoreDataStack.shared.container.newBackgroundContext()
         
         moc.performAndWait {
-            guard let movie = Movie(movieRepresentation: movieRep, context: moc) else { return }
+            let movie = Movie(movieRepresentation: movieRep, context: moc)
             
             do {
                 try CoreDataStack.shared.save(context: moc)

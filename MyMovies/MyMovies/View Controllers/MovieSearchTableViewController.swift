@@ -45,8 +45,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieSearchTableViewCell
         
-        
-        
+        let movieRep = movieController.searchedMovies[indexPath.row]
+        cell.movieRep = movieRep
         cell.delegate = self
         
         return cell

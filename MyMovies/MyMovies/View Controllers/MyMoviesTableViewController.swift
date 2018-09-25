@@ -28,7 +28,15 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections?[section].name.capitalized
+        let sectionName = fetchedResultsController.sections?[section].name
+        switch sectionName {
+        case "0":
+            return "Unwatched"
+        case "1":
+            return "Watched"
+        default:
+            return nil
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
