@@ -194,7 +194,7 @@ extension MovieController {
         
         URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
-                NSLog("Error fetching erntries: \(error)")
+                NSLog("Error fetching moview: \(error)")
                 completion(error)
                 return
             }
