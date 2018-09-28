@@ -10,8 +10,12 @@ import Foundation
 
 class MovieController {
     
+    // MARK: - BaseURL & APIkey
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
+    // MARK: - Search For Movie
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
