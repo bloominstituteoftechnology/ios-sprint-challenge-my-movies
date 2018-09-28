@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieResultTableViewCellDelegate {
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieDetailTableViewCellDelegate {
     
     // MARK: - Properties
     var movieController: MovieController?
@@ -42,7 +42,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieResultTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieDetailTableViewCell
         
         cell.movieRepresentation = movieController?.searchedMovies[indexPath.row]
         cell.delegate = self
