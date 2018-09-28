@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol MyMovieTableViewCellDelegate: class {
+    func unwatchedButtonTapped(on cell: MyMovieTableViewCell)
+}
+
 class MyMovieTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
+    weak var myMovieCellDelegate: MyMovieTableViewCellDelegate?
     var movieController: MovieController?
     var movie: Movie?
     
@@ -23,8 +28,6 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func unwatchedButtonTapped(_ sender: Any) {
+        myMovieCellDelegate?.unwatchedButtonTapped(on: self)
     }
-    
-    
-    
 }

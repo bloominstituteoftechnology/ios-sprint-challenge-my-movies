@@ -16,7 +16,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
-    weak var movieSearchDelegate: MovieSearchTableViewCellDelegate?
+    weak var movieSearchCellDelegate: MovieSearchTableViewCellDelegate?
     var movieController: MovieController?
     var movieRepresentation: MovieRepresentation? {
         didSet { updateView() }
@@ -30,7 +30,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        movieSearchDelegate?.addMovieTapped(on: self)
+        movieSearchCellDelegate?.addMovieTapped(on: self)
     }
     
     func updateView() {
