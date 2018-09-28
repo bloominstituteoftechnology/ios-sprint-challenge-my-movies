@@ -9,7 +9,11 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    var movieController = MovieController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,14 +38,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MoviesSearchTableViewCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieRepresentation = movieController.searchedMovies[indexPath.row]
+        cell.movieController = movieController
         
         return cell
     }
     
-    var movieController = MovieController()
     
-    @IBOutlet weak var searchBar: UISearchBar!
 }
