@@ -9,12 +9,11 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate/*, MyMovieTableViewCellDelegate*/ {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
     
     // MARK: - Properties
 
     var movieController: MovieController?
-    var movie: Movie?
     
     // MARK: - Lifecycle
     
@@ -44,7 +43,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let movie = fetchedResultsController.object(at: indexPath)
         
         cell.movie = movie
-        cell.updateViews()
+        cell.myMovieCellDelegate = self
 
         return cell
     }
@@ -59,16 +58,19 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     // MARK: - MyMovieTableViewCellDelegate
     
-//    func unwatchedButtonTapped(on cell: MyMovieTableViewCell) {
-//        <#code#>
-//    }
+    func unwatchedButtonTapped(on cell: MyMovieTableViewCell) {
+        
+        
+        
+        movieController?.updateWatchStatus(movie: <#T##Movie#>)
+    }
     
     // MARK: - FetchedResultsController
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        let sortDescriptor = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        let sortDescriptor = [NSSortDescriptor(key: "title", ascending: true)]
         fetchRequest.sortDescriptors = sortDescriptor
         
         let moc = CoreDataStack.shared.mainContext

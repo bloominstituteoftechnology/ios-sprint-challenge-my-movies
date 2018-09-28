@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MovieSearchTableViewCellDelegate: class {
-    func addMovieTapped(on cell: MovieSearchTableViewCell)
+    func addMovieTapped(for movieRepresentation: MovieRepresentation)
 }
 
 class MovieSearchTableViewCell: UITableViewCell {
@@ -29,13 +29,14 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        movieSearchCellDelegate?.addMovieTapped(on: self)
+        guard let movieRepresentation = movieRepresentation else { return }
+        movieSearchCellDelegate?.addMovieTapped(for: movieRepresentation)
+        addMovieButton.setTitle("added", for: .normal)
     }
     
     func updateView() {
-        guard let title = movieRepresentation?.title else { return }
-        
-        movieSearchLabel.text = title
-        
+        if let movieRepresentation = movieRepresentation {
+            movieSearchLabel.text = movieRepresentation.title
+        }
     }
 }

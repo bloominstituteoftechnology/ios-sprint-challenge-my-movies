@@ -69,9 +69,9 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="VZ7-Qs-tTh" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="egw-ix-Byh"/>
-                                        <constraint firstAttribute="trailing" secondItem="VZ7-Qs-tTh" secondAttribute="trailing" constant="16" id="pK7-sO-ZXs"/>
-                                        <constraint firstItem="VZ7-Qs-tTh" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="wFv-JB-4r7"/>
+                                        <constraint firstItem="VZ7-Qs-tTh" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="6Uc-oX-zvM"/>
+                                        <constraint firstItem="VZ7-Qs-tTh" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="FQw-ux-xFA"/>
+                                        <constraint firstAttribute="trailing" secondItem="VZ7-Qs-tTh" secondAttribute="trailing" constant="16" id="RMN-BF-rGL"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -111,16 +111,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
-                                            <rect key="frame" x="16" y="12.5" width="343" height="30"/>
+                                            <rect key="frame" x="32" y="12.5" width="311" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="244" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="212" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="260" y="0.0" width="83" height="30"/>
+                                                    <rect key="frame" x="228" y="0.0" width="83" height="30"/>
                                                     <state key="normal" title="Un/watched"/>
                                                     <connections>
                                                         <action selector="unwatchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="cZT-MW-bXx"/>
@@ -130,13 +130,11 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="O4P-Iq-3DJ" secondAttribute="trailing" constant="16" id="Nmh-VJ-Xbu"/>
-                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leading" constant="16" id="kzH-Xg-p5Y"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="O4P-Iq-3DJ" secondAttribute="trailing" constant="16" id="3mb-GL-eBW"/>
+                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leadingMargin" constant="16" id="7mD-zv-KoW"/>
+                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="eZe-MQ-1Id"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <constraints>
-                                    <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
-                                </constraints>
                                 <connections>
                                     <outlet property="myMovieLabel" destination="a6O-zS-fmH" id="sAz-6J-Z6G"/>
                                     <outlet property="unwatchedButton" destination="3Ay-OW-Mt0" id="TAe-xi-7m4"/>

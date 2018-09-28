@@ -59,8 +59,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     // MARK: Cell Delegate
     
-    func addMovieTapped(on cell: MovieSearchTableViewCell) {
-        guard let title = cell.movieSearchLabel.text else { return }
-        movieController.createMovie(movie: Movie(title: title))
+    func addMovieTapped(for movieRepresentation: MovieRepresentation) {
+        movieController.createMovie(movieRepresentation: movieRepresentation)
     }
 }

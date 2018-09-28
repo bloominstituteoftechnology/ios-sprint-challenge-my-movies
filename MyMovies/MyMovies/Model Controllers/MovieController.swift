@@ -11,6 +11,12 @@ import CoreData
 
 class MovieController {
     
+    // MARK: - Initializer
+    
+    init(){
+        fetchFromServer()
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
@@ -69,9 +75,9 @@ extension MovieController {
     
     // CRUD functions
     
-    func createMovie(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        guard let title = movie.title else { return }
-        let movie = Movie(title: title)
+    func createMovie(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        let movie = Movie(title: movieRepresentation.title)
         
         do {
            try CoreDataStack.shared.save(context: context)
