@@ -13,13 +13,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     // MARK: - Properties
 
-    var movieController: MovieController?
+    let movieController = MovieController()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.leftBarButtonItem = editButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,15 +51,21 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
-            movieController?.deleteMovie(movie: movie)
+            movieController.deleteMovie(movie: movie)
             tableView.reloadData()
         }
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let info = fetchedResultsController.sections?[section] else { return nil }
+        return info.name == "1" ? "Watched" : "Unwatched"
+    }
+    
     // MARK: - MyMovieTableViewCellDelegate
     
-    func unwatchedButtonTapped(for movie: Movie) {
-        movieController?.updateWatchStatus(movie: movie)
+    func unwatchedButtonTapped(on cell: MyMovieTableViewCell) {
+        guard let movie = cell.movie else { return }
+        movieController.updateWatchStatus(movie: movie)
     }
     
     // MARK: - FetchedResultsController
@@ -67,8 +73,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        let sortDescriptor = [NSSortDescriptor(key: "title", ascending: true)]
-        fetchRequest.sortDescriptors = sortDescriptor
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        let sortDescriptor2 = NSSortDescriptor(key: "hasWatched", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor, sortDescriptor2]
         
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)

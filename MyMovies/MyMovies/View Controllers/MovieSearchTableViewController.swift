@@ -12,7 +12,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     // MARK: - Properties
     
-    var movieController = MovieController()
+    let movieController = MovieController()
     
     // MARK: - Outlets
     
@@ -24,6 +24,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         super.viewDidLoad()
         
         searchBar.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     // MARK: - Search Bar Action
@@ -53,13 +58,16 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let movieRepresentation = movieController.searchedMovies[indexPath.row]
         
         cell.movieRepresentation = movieRepresentation
+        cell.movieSearchCellDelegate = self
         
         return cell
     }
     
     // MARK: Cell Delegate
     
-    func addMovieTapped(for movieRepresentation: MovieRepresentation) {
-        movieController.createMovie(movieRepresentation: movieRepresentation)
+    func addMovieTapped(on cell: MovieSearchTableViewCell) {
+        guard let title = cell.movieSearchLabel.text else { return }
+        
+        movieController.createMovie(title: title)
     }
 }

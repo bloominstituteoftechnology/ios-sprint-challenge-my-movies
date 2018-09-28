@@ -30,7 +30,7 @@ class MovieController {
     
     // MARK: - GET searchTerm
     
-    func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
+    func searchForMovie(with searchTerm: String, completion: @escaping CompletionHandler) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
         
@@ -73,11 +73,11 @@ class MovieController {
 
 extension MovieController {
     
-    // CRUD functions
+    // MARK: - CRUD functions
     
-    func createMovie(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    func createMovie(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        let movie = Movie(title: movieRepresentation.title)
+        let movie = Movie(title: title)
         
         do {
            try CoreDataStack.shared.save(context: context)
@@ -90,7 +90,12 @@ extension MovieController {
     }
     
     func updateWatchStatus(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        movie.hasWatched = !movie.hasWatched
+        
+        if movie.hasWatched == true {
+            movie.hasWatched = false
+        } else {
+            movie.hasWatched = true
+        }
         
         do {
             try CoreDataStack.shared.save(context: context)
@@ -101,51 +106,54 @@ extension MovieController {
         putMovieToServer(movie: movie)
     }
     
-    func deleteMovie(movie: Movie) {
+    func deleteMovie(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         deleteMovieFromServer(movie: movie)
         
-        let moc = CoreDataStack.shared.mainContext
         do {
-            moc.delete(movie)
-            try moc.save()
+            context.delete(movie)
+            try context.save()
         } catch {
-            moc.reset()
+            context.reset()
             NSLog("Error deleting movie: \(error)")
         }
     }
     
     // MARK: - Persistent Store
     
+    
+    // Set Movie's values to the MovieRepresentation's values
     func updateMovie(movie: Movie, movieRepresentation mr: MovieRepresentation) {
-        guard let id = mr.identifier?.uuidString,
-            let hasWatched = mr.hasWatched else {return}
+        
+        guard let id = mr.identifier?.uuidString else {return}
         
         movie.title = mr.title
         movie.identifier = id
-        movie.hasWatched = hasWatched
+        movie.hasWatched = mr.hasWatched ?? false
     }
     
-    func fetchMovieFromPersistentStore(identifier id: String, context: NSManagedObjectContext) -> Movie? {
+    func fetchSingleMovieFromPersistentStore(identifier id: String, context: NSManagedObjectContext) -> Movie? {
+        
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         let predicate = NSPredicate(format: "identifier == %@", id)
         fetchRequest.predicate = predicate
         
-        var entry: Movie?
+        var movie: Movie?
         
         context.performAndWait {
             do {
-                entry = try context.fetch(fetchRequest).first
+                movie = try context.fetch(fetchRequest).first
             } catch {
                 NSLog("Error fetching a movie: \(error)")
             }
         }
-        return entry
+        return movie
     }
     
     // MARK: - Firebase PUT, DELETE, GET
     
     func putMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        
         guard let id = movie.identifier else { completion(NSError()); return }
         
         let url = baseURL2.appendingPathComponent(id).appendingPathExtension("json")
@@ -162,7 +170,7 @@ extension MovieController {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 NSLog("Error puttind movie to the server: \(error)")
                 completion(error)
@@ -189,12 +197,13 @@ extension MovieController {
         }.resume()
     }
     
+    // GET everything from Server
     func fetchFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let url = baseURL2.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
-                NSLog("Error fetching moview: \(error)")
+                NSLog("Error fetching movie: \(error)")
                 completion(error)
                 return
             }
@@ -217,9 +226,12 @@ extension MovieController {
             let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
             
             backgroundContext.performAndWait {
+                
                 for movieRepresentation in movieRepresentations {
+                    
                     guard let id = movieRepresentation.identifier?.uuidString else { return }
-                    let movie = self.fetchMovieFromPersistentStore(identifier: id, context: backgroundContext)
+                    
+                    let movie = self.fetchSingleMovieFromPersistentStore(identifier: id, context: backgroundContext)
                     
                     if let movie = movie, movie != movieRepresentation {
                         self.updateMovie(movie: movie, movieRepresentation: movieRepresentation)
@@ -233,7 +245,7 @@ extension MovieController {
                     NSLog("Error comparing movie to movieRepresentation: \(error)")
                 }
             }
-            
+            completion(nil)
         }.resume()
     }
 }

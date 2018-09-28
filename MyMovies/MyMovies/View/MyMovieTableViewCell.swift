@@ -9,7 +9,8 @@
 import UIKit
 
 protocol MyMovieTableViewCellDelegate: class {
-    func unwatchedButtonTapped(for movie: Movie)
+    //func unwatchedButtonTapped(for movie: Movie)
+    func unwatchedButtonTapped(on cell: MyMovieTableViewCell)
 }
 
 class MyMovieTableViewCell: UITableViewCell {
@@ -29,18 +30,18 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func unwatchedButtonTapped(_ sender: Any) {
-        if let movie = movie {
-            myMovieCellDelegate?.unwatchedButtonTapped(for: movie)
-        }
+//        if let movie = movie {
+//            myMovieCellDelegate?.unwatchedButtonTapped(for: movie)
+//        }
+        myMovieCellDelegate?.unwatchedButtonTapped(on: self)
     }
     
     // MARK: - Update views
     
     func updateViews() {
-        if let movie = movie {
+        guard let movie = movie else { return }
             myMovieLabel.text = movie.title
-            let status = movie.hasWatched ? "watched" : "unwatched"
+            let status = movie.hasWatched ? "Watched" : "Unwatched"
             unwatchedButton.setTitle(status, for: .normal)
-        }
     }
 }
