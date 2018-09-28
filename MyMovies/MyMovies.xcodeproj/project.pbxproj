@@ -19,6 +19,7 @@
 		EBCFEA9D215E80D3006765AE /* Movie+Convinience.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCFEA9C215E80D3006765AE /* Movie+Convinience.swift */; };
 		EBCFEA9F215E8150006765AE /* Movie+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCFEA9E215E8150006765AE /* Movie+Encodable.swift */; };
 		EBCFEAA1215E821B006765AE /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCFEAA0215E821B006765AE /* CoreDataStack.swift */; };
+		EBCFEAA3215E8EB7006765AE /* MovieTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCFEAA2215E8EB7006765AE /* MovieTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		EBCFEA9C215E80D3006765AE /* Movie+Convinience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convinience.swift"; sourceTree = "<group>"; };
 		EBCFEA9E215E8150006765AE /* Movie+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Encodable.swift"; sourceTree = "<group>"; };
 		EBCFEAA0215E821B006765AE /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		EBCFEAA2215E8EB7006765AE /* MovieTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				EBCFEAA2215E8EB7006765AE /* MovieTabBarController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 				EBCFEA9D215E80D3006765AE /* Movie+Convinience.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				EBCFEA9B215E8040006765AE /* Movie.xcdatamodeld in Sources */,
+				EBCFEAA3215E8EB7006765AE /* MovieTabBarController.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
