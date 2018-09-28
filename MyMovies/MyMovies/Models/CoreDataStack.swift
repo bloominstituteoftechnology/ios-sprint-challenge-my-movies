@@ -15,10 +15,9 @@ class CoreDataStack {
     
     static let shared = CoreDataStack()
     
-    // Will use this instead of saveToPersistence()
     func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
         
-        var error: Error? // For thows function will need an optional Error
+        var error: Error? // For throws function will need an optional Error
         
         // This performs given code inside the context's queue
         context.performAndWait {
@@ -35,7 +34,7 @@ class CoreDataStack {
     
     lazy var container: NSPersistentContainer = {
         
-        let container = NSPersistentContainer(name: "MyMovies") // Needs to match up with data model file name
+        let container = NSPersistentContainer(name: "MyMovies") // Needs to match up with data model/app name
         container.loadPersistentStores { (_, error) in
             if let error = error {
                 fatalError("Failed to load persistenet stores: \(error)")
