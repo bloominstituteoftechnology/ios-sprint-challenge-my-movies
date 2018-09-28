@@ -14,7 +14,7 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
-    typealias ComplitionHandler = (Error?) -> Void
+    typealias CompletionHandler = (Error?) -> Void
     
     // MARK: - BaseURL & APIkey
     
@@ -83,7 +83,7 @@ extension MovieController {
         
     }
     
-    func updateStatus(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    func updateWatchStatus(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         movie.hasWatched = !movie.hasWatched
         
         do {
@@ -109,9 +109,37 @@ extension MovieController {
         }
     }
     
-    // MARK: - Serverside functions
+    // MARK: - Persistent Store
     
-    func putMovieToServer(movie: Movie, completion: @escaping ComplitionHandler = { _ in }) {
+    func updateMovie(movie: Movie, movieRepresentation mr: MovieRepresentation) {
+        guard let id = mr.identifier?.uuidString,
+            let hasWatched = mr.hasWatched else {return}
+        
+        movie.title = mr.title
+        movie.identifier = id
+        movie.hasWatched = hasWatched
+    }
+    
+    func fetchMovieFromPersistentStore(identifier id: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", id)
+        fetchRequest.predicate = predicate
+        
+        var entry: Movie?
+        
+        context.performAndWait {
+            do {
+                entry = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching a movie: \(error)")
+            }
+        }
+        return entry
+    }
+    
+    // MARK: - Firebase PUT, DELETE, GET
+    
+    func putMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let id = movie.identifier else { completion(NSError()); return }
         
         let url = baseURL2.appendingPathComponent(id).appendingPathExtension("json")
@@ -138,7 +166,7 @@ extension MovieController {
         }.resume()
     }
     
-    func deleteMovieFromServer(movie: Movie, completion: @escaping ComplitionHandler = { _ in }){
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }){
         guard let id = movie.identifier else {completion(NSError()); return }
         
         let url = baseURL2.appendingPathComponent(id).appendingPathExtension("json")
@@ -155,4 +183,46 @@ extension MovieController {
         }.resume()
     }
     
+    func fetchFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let url = baseURL2.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching erntries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned")
+                completion(error)
+                return
+            }
+            
+            var movieRepresentations = [MovieRepresentation]()
+            do {
+                movieRepresentations = try JSONDecoder().decode([String:MovieRepresentation].self, from: data).map { $0.value }
+            } catch {
+                NSLog("Error decoding data: \(error)")
+                completion(error)
+                return
+            }
+            
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+            
+            backgroundContext.performAndWait {
+                for movieRepresentation in movieRepresentations {
+                    guard let id = movieRepresentation.identifier?.uuidString else { return }
+                    let movie = self.fetchMovieFromPersistentStore(identifier: id, context: backgroundContext)
+                    
+                    if let movie = movie, movie != movieRepresentation {
+                        self.updateMovie(movie: movie, movieRepresentation: movieRepresentation)
+                    } else if movie == nil {
+                        _ = Movie(movieRepresentation: movieRepresentation, context: backgroundContext)
+                    }
+                }
+            }
+            
+        }.resume()
+    }
 }

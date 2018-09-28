@@ -17,7 +17,6 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     weak var movieSearchCellDelegate: MovieSearchTableViewCellDelegate?
-    var movieController: MovieController?
     var movieRepresentation: MovieRepresentation? {
         didSet { updateView() }
     }
