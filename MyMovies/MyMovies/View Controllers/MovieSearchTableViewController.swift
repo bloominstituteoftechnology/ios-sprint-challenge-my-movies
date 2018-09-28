@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieSearchTableViewCellDelegate {
     
     // MARK: - Lifecycle
 
@@ -40,11 +40,19 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else { return UITableViewCell()}
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        let movieRepresentation = movieController.searchedMovies[indexPath.row]
+        
+        cell.movieRepresentation = movieRepresentation
         
         return cell
+    }
+    
+    // MARK: Cell Delegate
+    
+    func addMovieTapped(on cell: MovieSearchTableViewCell) {
+        <#code#>
     }
     
     // MARK: - Properties
