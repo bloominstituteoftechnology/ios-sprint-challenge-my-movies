@@ -28,7 +28,7 @@ extension Movie {
     // Initialize with MovieRepresentation
     
     @discardableResult convenience init?(movieRepresentation mr: MovieRepresentation,
-                                        context: NSManagedObjectContext) {
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         guard let id  = mr.identifier,
             let hasWatched = mr.hasWatched else {return nil}

@@ -30,4 +30,8 @@ class MyMovieTableViewCell: UITableViewCell {
     @IBAction func unwatchedButtonTapped(_ sender: Any) {
         myMovieCellDelegate?.unwatchedButtonTapped(on: self)
     }
+    
+    func updateViews() {
+        //
+    }
 }

@@ -10,6 +10,14 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieSearchTableViewCellDelegate {
     
+    // MARK: - Properties
+    
+    var movieController = MovieController()
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -55,16 +63,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         guard let title = cell.movieSearchLabel.text else { return }
         
         if let movieRepresentation = cell.movieRepresentation {
-            
+            movieController.updateStatus(movie: Movie(movieRepresentation: movieRepresentation)!)
+        } else {
+           // movieController.createMovie(movie: <#T##Movie#>)
         }
         
     }
-    
-    // MARK: - Properties
-    
-    var movieController = MovieController()
-    
-    // MARK: - Outlets
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }
