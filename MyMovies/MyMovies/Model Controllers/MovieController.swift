@@ -82,7 +82,7 @@ extension MovieController {
         do {
            try CoreDataStack.shared.save(context: context)
         } catch {
-            NSLog("Error createing a movie: \(error)")
+            NSLog("Error creating a movie: \(error)")
         }
         
         putMovieToServer(movie: movie)
@@ -226,6 +226,11 @@ extension MovieController {
                     } else if movie == nil {
                         _ = Movie(movieRepresentation: movieRepresentation, context: backgroundContext)
                     }
+                }
+                do {
+                    try CoreDataStack.shared.save(context: backgroundContext)
+                } catch {
+                    NSLog("Error comparing movie to movieRepresentation: \(error)")
                 }
             }
             

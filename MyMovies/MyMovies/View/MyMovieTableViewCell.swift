@@ -34,6 +34,8 @@ class MyMovieTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Update views
+    
     func updateViews() {
         if let movie = movie {
             myMovieLabel.text = movie.title

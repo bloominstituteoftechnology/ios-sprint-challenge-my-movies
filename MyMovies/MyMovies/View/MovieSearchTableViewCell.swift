@@ -31,7 +31,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         guard let movieRepresentation = movieRepresentation else { return }
         movieSearchCellDelegate?.addMovieTapped(for: movieRepresentation)
-        addMovieButton.setTitle("added", for: .normal)
+        addMovieButton.setTitle("Added", for: .normal)
     }
     
     func updateView() {

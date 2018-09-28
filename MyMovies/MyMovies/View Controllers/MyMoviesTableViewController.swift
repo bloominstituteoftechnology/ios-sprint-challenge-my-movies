@@ -58,11 +58,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     // MARK: - MyMovieTableViewCellDelegate
     
-    func unwatchedButtonTapped(on cell: MyMovieTableViewCell) {
-        
-        
-        
-        movieController?.updateWatchStatus(movie: <#T##Movie#>)
+    func unwatchedButtonTapped(for movie: Movie) {
+        movieController?.updateWatchStatus(movie: movie)
     }
     
     // MARK: - FetchedResultsController
