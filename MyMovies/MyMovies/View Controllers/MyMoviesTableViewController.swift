@@ -43,6 +43,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let movie = fetchedResultsController.object(at: indexPath)
         
         cell.movie = movie
+        cell.updateViews()
         cell.myMovieCellDelegate = self
 
         return cell
