@@ -17,63 +17,19 @@ class MovieController {
         fetchFromServer()
     }
     
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
+    let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    let baseURL2 = URL(string: "https://mymovie-ilqarilyasov.firebaseio.com/")!
+    
     typealias CompletionHandler = (Error?) -> Void
     
-    // MARK: - BaseURL & APIkey
     
-    private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
-    private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let baseURL2 = URL(string: "https://mymovie-ilqarilyasov.firebaseio.com/")!
-    
-    // MARK: - GET searchTerm
-    
-    func searchForMovie(with searchTerm: String, completion: @escaping CompletionHandler) {
-        
-        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
-        
-        let queryParameters = ["query": searchTerm,
-                               "api_key": apiKey]
-        
-        components?.queryItems = queryParameters.map({URLQueryItem(name: $0.key, value: $0.value)})
-        
-        guard let requestURL = components?.url else {
-            completion(NSError())
-            return
-        }
-        
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-            
-            if let error = error {
-                NSLog("Error searching for movie with search term \(searchTerm): \(error)")
-                completion(error)
-                return
-            }
-            
-            guard let data = data else {
-                NSLog("No data returned from data task")
-                completion(NSError())
-                return
-            }
-            
-            do {
-                let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
-                self.searchedMovies = movieRepresentations
-                completion(nil)
-            } catch {
-                NSLog("Error decoding JSON data: \(error)")
-                completion(error)
-            }
-        }.resume()
-    }
-}
-
-
-extension MovieController {
-    
-    // MARK: - CRUD functions
+    // MARK: - CRUD Create
     
     func createMovie(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
@@ -88,6 +44,9 @@ extension MovieController {
         putMovieToServer(movie: movie)
         
     }
+    
+    
+    // MARK: - CRUD Update
     
     func updateWatchStatus(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
@@ -106,6 +65,9 @@ extension MovieController {
         putMovieToServer(movie: movie)
     }
     
+    
+    // MARK: - CRUD Delete
+    
     func deleteMovie(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         deleteMovieFromServer(movie: movie)
@@ -117,135 +79,5 @@ extension MovieController {
             context.reset()
             NSLog("Error deleting movie: \(error)")
         }
-    }
-    
-    // MARK: - Persistent Store
-    
-    
-    // Set Movie's values to the MovieRepresentation's values
-    func updateMovie(movie: Movie, movieRepresentation mr: MovieRepresentation) {
-        
-        guard let id = mr.identifier?.uuidString else {return}
-        
-        movie.title = mr.title
-        movie.identifier = id
-        movie.hasWatched = mr.hasWatched ?? false
-    }
-    
-    func fetchSingleMovieFromPersistentStore(identifier id: String, context: NSManagedObjectContext) -> Movie? {
-        
-        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        let predicate = NSPredicate(format: "identifier == %@", id)
-        fetchRequest.predicate = predicate
-        
-        var movie: Movie?
-        
-        context.performAndWait {
-            do {
-                movie = try context.fetch(fetchRequest).first
-            } catch {
-                NSLog("Error fetching a movie: \(error)")
-            }
-        }
-        return movie
-    }
-    
-    // MARK: - Firebase PUT, DELETE, GET
-    
-    func putMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        
-        guard let id = movie.identifier else { completion(NSError()); return }
-        
-        let url = baseURL2.appendingPathComponent(id).appendingPathExtension("json")
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.put.rawValue
-        
-        do {
-            let movieData = try JSONEncoder().encode(movie)
-            request.httpBody = movieData
-            completion(nil)
-        } catch {
-            NSLog("Error encoding movie: \(error)")
-            completion(error)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
-            if let error = error {
-                NSLog("Error puttind movie to the server: \(error)")
-                completion(error)
-                return
-            }
-            completion(nil)
-        }.resume()
-    }
-    
-    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }){
-        guard let id = movie.identifier else {completion(NSError()); return }
-        
-        let url = baseURL2.appendingPathComponent(id).appendingPathExtension("json")
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.delete.rawValue
-        
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
-            if let error = error {
-                NSLog("Error deleting data: \(error)")
-                completion(error)
-                return
-            }
-            completion(nil)
-        }.resume()
-    }
-    
-    // GET everything from Server
-    func fetchFromServer(completion: @escaping CompletionHandler = { _ in }) {
-        let url = baseURL2.appendingPathExtension("json")
-        
-        URLSession.shared.dataTask(with: url) { (data, _, error) in
-            if let error = error {
-                NSLog("Error fetching movie: \(error)")
-                completion(error)
-                return
-            }
-            
-            guard let data = data else {
-                NSLog("No data returned")
-                completion(error)
-                return
-            }
-            
-            var movieRepresentations = [MovieRepresentation]()
-            do {
-                movieRepresentations = try JSONDecoder().decode([String:MovieRepresentation].self, from: data).map { $0.value }
-            } catch {
-                NSLog("Error decoding data: \(error)")
-                completion(error)
-                return
-            }
-            
-            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
-            
-            backgroundContext.performAndWait {
-                
-                for movieRepresentation in movieRepresentations {
-                    
-                    guard let id = movieRepresentation.identifier?.uuidString else { return }
-                    
-                    let movie = self.fetchSingleMovieFromPersistentStore(identifier: id, context: backgroundContext)
-                    
-                    if let movie = movie, movie != movieRepresentation {
-                        self.updateMovie(movie: movie, movieRepresentation: movieRepresentation)
-                    } else if movie == nil {
-                        _ = Movie(movieRepresentation: movieRepresentation, context: backgroundContext)
-                    }
-                }
-                do {
-                    try CoreDataStack.shared.save(context: backgroundContext)
-                } catch {
-                    NSLog("Error comparing movie to movieRepresentation: \(error)")
-                }
-            }
-            completion(nil)
-        }.resume()
     }
 }

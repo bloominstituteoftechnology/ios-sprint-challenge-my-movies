@@ -28,7 +28,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
 
-    // MARK: - Table view data source
+    // MARK: - TableView Data Source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
@@ -61,12 +61,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return info.name == "1" ? "Watched" : "Unwatched"
     }
     
-    // MARK: - MyMovieTableViewCellDelegate
+    // MARK: - MyMovieTableViewCell Delegate
     
     func unwatchedButtonTapped(on cell: MyMovieTableViewCell) {
         guard let movie = cell.movie else { return }
         movieController.updateWatchStatus(movie: movie)
     }
+    
     
     // MARK: - FetchedResultsController
     
@@ -85,6 +86,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         
         return frc
     }()
+    
+    
+    // MARK: - FetchedResultsController Delegate
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

@@ -30,6 +30,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
+
     
     // MARK: - Search Bar Action
     

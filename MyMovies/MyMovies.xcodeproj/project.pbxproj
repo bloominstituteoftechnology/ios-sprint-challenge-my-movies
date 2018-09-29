@@ -22,6 +22,9 @@
 		82012C49215E878400F9EB6D /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82012C48215E878400F9EB6D /* MyMovieTableViewCell.swift */; };
 		82012C4C215E941400F9EB6D /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82012C4B215E941400F9EB6D /* HTTPMethod.swift */; };
 		82012C4F215E96B700F9EB6D /* Movie+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82012C4E215E96B700F9EB6D /* Movie+Encodable.swift */; };
+		82012C6F215EFE3900F9EB6D /* Movie+MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82012C6E215EFE3900F9EB6D /* Movie+MovieRepresentation.swift */; };
+		82012C71215EFF2F00F9EB6D /* Movie Search API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82012C70215EFF2F00F9EB6D /* Movie Search API.swift */; };
+		82012C73215F000A00F9EB6D /* Movie Firebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82012C72215F000A00F9EB6D /* Movie Firebase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,9 @@
 		82012C48215E878400F9EB6D /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
 		82012C4B215E941400F9EB6D /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		82012C4E215E96B700F9EB6D /* Movie+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Encodable.swift"; sourceTree = "<group>"; };
+		82012C6E215EFE3900F9EB6D /* Movie+MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+MovieRepresentation.swift"; sourceTree = "<group>"; };
+		82012C70215EFF2F00F9EB6D /* Movie Search API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie Search API.swift"; sourceTree = "<group>"; };
+		82012C72215F000A00F9EB6D /* Movie Firebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie Firebase.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,9 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				82012C6E215EFE3900F9EB6D /* Movie+MovieRepresentation.swift */,
+				82012C70215EFF2F00F9EB6D /* Movie Search API.swift */,
+				82012C72215F000A00F9EB6D /* Movie Firebase.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -222,11 +231,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				82012C41215E7CBF00F9EB6D /* CoreDataStack.swift in Sources */,
+				82012C73215F000A00F9EB6D /* Movie Firebase.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				82012C43215E7DFE00F9EB6D /* Movie+Convenience.swift in Sources */,
 				82012C4C215E941400F9EB6D /* HTTPMethod.swift in Sources */,
 				82012C4F215E96B700F9EB6D /* Movie+Encodable.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
+				82012C6F215EFE3900F9EB6D /* Movie+MovieRepresentation.swift in Sources */,
+				82012C71215EFF2F00F9EB6D /* Movie Search API.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				82012C47215E877900F9EB6D /* MovieSearchTableViewCell.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,

@@ -34,7 +34,7 @@ struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
 }
 
-// MARK: - Equatable
+// MARK: - Comparing Movie to MovieRepresentation
 
 func ==(lhs: MovieRepresentation, rhs: Movie) -> Bool {
     return rhs.title == lhs.title &&

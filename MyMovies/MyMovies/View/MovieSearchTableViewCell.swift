@@ -9,7 +9,6 @@
 import UIKit
 
 protocol MovieSearchTableViewCellDelegate: class {
-    //func addMovieTapped(for movieRepresentation: MovieRepresentation)
     func addMovieTapped(on cell: MovieSearchTableViewCell)
 }
 
@@ -30,8 +29,6 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        //guard let movieRepresentation = movieRepresentation else { return }
-        //movieSearchCellDelegate?.addMovieTapped(for: movieRepresentation)
         addMovieButton.setTitle("Added", for: .normal)
         movieSearchCellDelegate?.addMovieTapped(on: self)
     }
