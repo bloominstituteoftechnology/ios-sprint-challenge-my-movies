@@ -18,6 +18,12 @@ struct MovieRepresentation: Equatable, Codable {
     
     let identifier: UUID?
     let hasWatched: Bool?
+    
+    init(title: String, identifier: UUID? = UUID(), hasWatched: Bool? = false) {
+        self.title = title
+        self.identifier = identifier
+        self.hasWatched = hasWatched
+    }
 }
 
 /*
@@ -26,4 +32,24 @@ struct MovieRepresentation: Equatable, Codable {
  */
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
+}
+
+// MARK: - Comparing Movie to MovieRepresentation
+
+func ==(lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return rhs.title == lhs.title &&
+        rhs.hasWatched == lhs.hasWatched &&
+        rhs.identifier == lhs.identifier?.uuidString
+}
+
+func ==(lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs == lhs
+}
+
+func !=(lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return !(rhs == lhs)
+}
+
+func !=(lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs != lhs
 }
