@@ -8,31 +8,52 @@
 
 import UIKit
 
+protocol MovieSearchTableViewCellDelegate: class {
+    func saveMovieToList(cell: MovieSearchTableViewCell)
+}
+
 class MovieSearchTableViewCell: UITableViewCell {
+    
+    weak var delegate: MovieSearchTableViewCellDelegate?
     
     @IBOutlet weak var movieSearchLabel: UILabel!
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         
-        guard let title = myMoviesTableViewCell?.myMoviesListLabel.text else { return }
+        delegate?.saveMovieToList(cell: self)
         
-        if let movie = movie {
-            
-            movie.title = title
-            
-            movieController.put(movie: movie)
-
-        } else {
-            let _ = Movie(title: title)
-            
-            do {
-                let moc = CoreDataStack.shared.mainContext
-                try moc.save()
-                
-            } catch {
-                NSLog("Error saving managed object context: \(error)")
-            }
-            
-        }
+//        The MovieSearchTableViewController should conform to the protocol,
+//        then you implement the function. In the function, add a guard statement
+//        that creates a title and set that title to the cell’s movieSearchLabel
+//        outlet’s text. Then call the movieController’s create method and pass that title in there.
+        
+//        guard let title = myMoviesTableViewCell?.myMoviesListLabel.text else { return }
+//
+//        if let movie = movie {
+//
+//            movie.title = title
+//
+//            movieController.put(movie: movie)
+//
+//            do {
+//                let moc = CoreDataStack.shared.mainContext
+//                try moc.save()
+//
+//            } catch {
+//                NSLog("Error saving managed object context: \(error)")
+//            }
+//
+//        } else {
+//            let _ = Movie(title: title)
+//
+//            do {
+//                let moc = CoreDataStack.shared.mainContext
+//                try moc.save()
+//
+//            } catch {
+//                NSLog("Error saving managed object context: \(error)")
+//            }
+//
+//        }
     }
     
 
@@ -46,10 +67,14 @@ class MovieSearchTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    var movie: Movie? {
-        didSet{
-            
+    func updateView() {
+        if let movieRepresentation = movieRepresentation {
+            movieSearchLabel.text = movieRepresentation.title
         }
+    }
+    
+    var movieRepresentation: MovieRepresentation? {
+        didSet { updateView() }
     }
     var movieController = MovieController()
     var myMoviesTableViewCell: MyMoviesTableViewCell?

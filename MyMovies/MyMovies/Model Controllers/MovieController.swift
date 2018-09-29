@@ -167,7 +167,7 @@ class MovieController {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
         
-        var movie: Movie?
+        var movie: Movie? = nil
         
         context.performAndWait {
             do {
@@ -181,10 +181,16 @@ class MovieController {
     
     
     // Mark: CRUD Methods
-    func create(title: String, watched: Bool) {
+    func create(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        let movie = Movie(title: title, watched: watched)
-        saveToPersistentStore()
+        let movie = Movie(title: title)
+        
+        do {
+            try context.save()
+        } catch {
+            NSLog("Error saving managed object context\(error)")
+        }
+        
         put(movie: movie)
     
     }
@@ -202,6 +208,8 @@ class MovieController {
         put(movie: movie)
         
     }
+    
+    
     // MARK: - Persistent Store
     
     func saveToPersistentStore() {

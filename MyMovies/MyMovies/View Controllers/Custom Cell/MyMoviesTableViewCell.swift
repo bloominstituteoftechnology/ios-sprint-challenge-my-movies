@@ -8,37 +8,37 @@
 
 import UIKit
 
+protocol MyMoviesTableViewCellDelegate: class {
+    func hasWatchedToggle(cell: MyMoviesTableViewCell)
+}
+
 class MyMoviesTableViewCell: UITableViewCell {
+
+    weak var delegate: MyMoviesTableViewCellDelegate?
     
     @IBOutlet weak var myMoviesListLabel: UILabel!
     @IBOutlet weak var moviesWatchedButtonTitle: UIButton!
     
     @IBAction func watchedMovieButtonToggle(_ sender: Any) {
-        
-        if let movie = movie {
+        delegate?.hasWatchedToggle(cell: self) 
             
-            let watchedButtonTitle = movie.watched ? "Unwatched" : "Watched"
-            moviesWatchedButtonTitle.setTitle(watchedButtonTitle, for: .normal)
-            
-            movieController.updateWatchedButton(movie: movie)
-        } else {
-            return
-        }
     }
     
     var movie: Movie? {
         didSet{
-            //updateViews()
+            updateViews()
         }
     }
 
-    func updateViews() {
+    func updateViews(){
         
         
         guard let movie = movie else { return }
         
         myMoviesListLabel.text = movie.title
         
+        let watchedButtonTitle = movie.watched ? "Unwatched" : "Watched"
+        moviesWatchedButtonTitle.setTitle(watchedButtonTitle, for: .normal)
         
     }
 
@@ -47,7 +47,5 @@ class MyMoviesTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
-    var movieController = MovieController()
     
 }

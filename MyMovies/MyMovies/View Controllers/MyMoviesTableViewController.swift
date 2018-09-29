@@ -9,7 +9,13 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate  {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMoviesTableViewCellDelegate {
+    
+    func hasWatchedToggle(cell: MyMoviesTableViewCell) {
+        guard let movie = cell.movie else { return }
+        
+        movieController.updateWatchedButton(movie: movie)
+    }
 
     // MARK: - Table view data source
 
@@ -27,9 +33,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
 
-        let movie = fetchedResultsController.object(at: indexPath)
-        
-       cell.movie = movie
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.delegate = self
 
         return cell
     }

@@ -8,8 +8,14 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieSearchTableViewCellDelegate {
 
+    func saveMovieToList(cell: MovieSearchTableViewCell) {
+        guard let title = title else { return }
+        
+        movieController.create(title: title)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,12 +44,15 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         guard let MovieCell = cell as? MovieSearchTableViewCell else { return cell }
         
-        let movie =  movieController.searchedMovies[indexPath.row].title
+        let movie = movieController.searchedMovies[indexPath.row].title
         
         MovieCell.textLabel?.text = movie
+        MovieCell.delegate = self
         
         return cell
     }
+    
+    // Set up movie cell delegate
     
     var movieController = MovieController()
     

@@ -32,6 +32,4 @@ extension Movie {
                   watched: watched,
                   context: context)
     }
-
-
 }
