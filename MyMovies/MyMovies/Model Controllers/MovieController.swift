@@ -94,14 +94,10 @@ class MovieController {
     }
     
     func deleteMovie(movie: Movie){
-        let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
         
         deletefromServer(movie: movie)
-        
-        backgroundContext.perform {
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(movie)
-        }
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
       
     }
     
@@ -126,7 +122,7 @@ class MovieController {
         return result
     }
     
-    func fetchSingleMovieFromPersistentStore(identifier: String)-> Movie?{
+    func fetchSingleMovieFromPersistentStore(context: NSManagedObjectContext, identifier: String)-> Movie?{
         
         let requestURL = databaseURL?.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL!)
@@ -136,16 +132,17 @@ class MovieController {
         let predicate = NSPredicate(format: "identifier == %@", identifier)
         fetchRequest.predicate = predicate
         
+        var movie:Movie?
         
-        
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching movie with UUID")
-            return nil
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching movie with UUID")
+            }
+            
         }
-        
+        return movie
     }
     
     func deletefromServer(movie: Movie, completion: @escaping (Error?) -> Void = {_ in}){
@@ -196,23 +193,30 @@ class MovieController {
                         
                         guard let identifier = movieRep.identifier?.uuidString else {return}
                         
-                        let movie = self.fetchSingleMovieFromPersistentStore(identifier: identifier)
+                        let movie = self.fetchSingleMovieFromPersistentStore(context: backgroundContext, identifier: identifier)
+                        
+                        print(movie)
                         
                         if let movie = movie {
                             if movieRep == movie {
                                 
                             }
-                            else {
-                                let _ = Movie(movieRep: movieRep, context: backgroundContext)
-                            }
+                        
+                        }
+                            
+                        else {
+                            let _ = Movie(movieRep: movieRep, context: backgroundContext)
                         }
                         
-                        do {
-                            try CoreDataStack.shared.save(context: backgroundContext)
-                        } catch {
-                            NSLog("Error saving background context: \(error)")
-                        }
+                        
                     }
+                    
+                    do {
+                        try CoreDataStack.shared.save(context: backgroundContext)
+                    } catch {
+                        NSLog("Error saving background context: \(error)")
+                    }
+                    
                 }
                 completion(nil)
                 
