@@ -36,6 +36,8 @@ class MovieController {
             return
         }
         
+        print(requestURL)
+        
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             
             if let error = error {
@@ -242,6 +244,7 @@ class MovieController {
     
     func toggleIsWatched(movie: Movie){
         movie.hasWatched = !(movie.hasWatched)
+        put(movie: movie)
     }
     
     // MARK: - Properties
