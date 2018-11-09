@@ -60,7 +60,7 @@ class MovieController: MyMovieCellDelegate {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
-        }.resume()
+            }.resume()
     }
     
     // MARK: - Properties
@@ -70,7 +70,8 @@ class MovieController: MyMovieCellDelegate {
     func saveToPersistenceStore() {
         let moc = CoreDataStack.shared.mainContext
         do {
-            try moc.save()
+            //            try moc.save()
+            try CoreDataStack.shared.save(context: moc)
         } catch {
             NSLog("Could not save to disk: \(error)")
         }
@@ -110,13 +111,22 @@ class MovieController: MyMovieCellDelegate {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
+        //        do {
+        //            return try moc.fetch(fetchRequest)[0]
+        //        } catch {
+        //            NSLog("Error fetching tasks: \(error)")
+        //            return nil
+        //        }
         
-        do {
-            return try moc.fetch(fetchRequest)[0]
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return nil
+        var oneMovie: Movie?
+        moc.performAndWait {
+            do {
+                oneMovie = try moc.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching tasks: \(error)")
+            }
         }
+        return oneMovie
     }
     
     func matchStubToMovie(movie: Movie, stub: MovieRepresentation) {
@@ -126,8 +136,14 @@ class MovieController: MyMovieCellDelegate {
     }
     
     func updateMovie(movie: Movie, title: String, hasWatched: Bool) {
-        movie.setValue(title, forKey: "title")
-        movie.setValue(hasWatched, forKey: "hasWatched")
+        guard let moc = movie.managedObjectContext else {return}
+        
+        //        movie.setValue(title, forKey: "title")
+        //        movie.setValue(hasWatched, forKey: "hasWatched")
+        moc.performAndWait {
+            movie.setValue(title, forKey: "title")
+            movie.setValue(hasWatched, forKey: "hasWatched")
+        }
         
         saveToPersistenceStore()
         put(movie: movie)
@@ -145,8 +161,8 @@ class MovieController: MyMovieCellDelegate {
     let fireBaseUrl: URL = URL(string: "https://iomymovies.firebaseio.com/")!
     
     func put(movie: Movie, completion: @escaping (_ error: Error? ) -> Void = { _ in }) {
-        guard let identifier = movie.identifier else {fatalError("No identifier on movie")}
-        
+        let identifier = movie.identifier ?? UUID()
+        movie.identifier = identifier
         var request = URLRequest(url: fireBaseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json"))
         request.httpMethod = "PUT"
         
@@ -221,17 +237,28 @@ class MovieController: MyMovieCellDelegate {
                 completion(error)
                 return
             }
-            
-            for stub in stubs {
-                guard let identifier = stub.identifier else {fatalError("Stub from server has no identifier")}
-                let movie = self.fetchOneMovie(identifier: identifier)
-                if movie != nil {
-                    self.updateMovie(movie: movie!, title: stub.title, hasWatched: stub.hasWatched!)
-                } else {
-                    _ = self.stubToMovie(stub: stub)
-                    self.saveToPersistenceStore()
+            let moc2 = CoreDataStack.shared.container.newBackgroundContext()
+            do {
+                for stub in stubs {
+                    guard let identifier = stub.identifier else {fatalError("Stub from server has no identifier")}
+                    let movie = self.fetchOneMovie(identifier: identifier)
+                    if movie != nil {
+                        self.updateMovie(movie: movie!, title: stub.title, hasWatched: stub.hasWatched!)
+                    } else {
+                        
+                        moc2.perform {
+                            _ = self.stubToMovie(stub: stub)
+                        }
+                        //                    self.saveToPersistenceStore()
+                    }
                 }
+                try CoreDataStack.shared.save(context: moc2)
+            } catch {
+                NSLog("Error decoding tasks: \(error)")
+                completion(error)
+                return
             }
+            completion(nil)
         }
         dataTask.resume()
     }
