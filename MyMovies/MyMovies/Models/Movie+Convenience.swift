@@ -23,17 +23,17 @@ extension Movie { //This should be extending the Movie in the data model.
     }
     
     func grabMovie() -> MovieRepresentation {
-        return MovieRepresentation(title: title, identifier: identifier!, hasWatched: hasWatched)
+        return MovieRepresentation(title: title!, identifier: identifier!, hasWatched: hasWatched) //Might want to remove ! from title here.
     }
     
-    func assignMovie(movieRef: MovieRepresentation) {
-        self.title = movieRef.title
-        if let refIdentifier = movieRef.identifier {
-            self.identifier = refIdentifier
+    func assignMovie(movieRep: MovieRepresentation) {
+        self.title = movieRep.title
+        if let repIdentifier = movieRep.identifier {
+            self.identifier = repIdentifier
         }
         
-        if let refWatchStatus = movieRef.hasWatched {
-            self.hasWatched = refWatchStatus
+        if let repWatchStatus = movieRep.hasWatched {
+            self.hasWatched = repWatchStatus
         }
         
     }
