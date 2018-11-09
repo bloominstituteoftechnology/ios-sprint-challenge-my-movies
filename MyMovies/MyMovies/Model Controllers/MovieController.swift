@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     typealias CompletionHandler = (Error?) -> Void
     
     static let firebaseURL = URL(string: "https://mymoviestest-fe9af.firebaseio.com")!
@@ -27,6 +31,7 @@ class MovieController {
             NSLog("Error saving movie: \(error)")
         }
         
+        put(movie: movie)
         
     }
     
