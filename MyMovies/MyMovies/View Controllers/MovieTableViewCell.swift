@@ -26,7 +26,7 @@ class MovieTableViewCell: UITableViewCell {
         guard let movie = movieRepresentation else { return }
     
         // create movie
-        movieController.createMovie(title: movie.title)
+        movieController?.createMovie(title: movie.title)
         
     }
 
@@ -36,7 +36,7 @@ class MovieTableViewCell: UITableViewCell {
         }
     }
     
-    var movieController: MovieController!
+    var movieController: MovieController?
     
 
 }
