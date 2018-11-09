@@ -62,7 +62,7 @@
                                                     <rect key="frame" x="289" y="0.0" width="46" height="33.5"/>
                                                     <state key="normal" title="Button"/>
                                                     <connections>
-                                                        <action selector="saveMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="jDk-hC-NAE"/>
+                                                        <action selector="saveMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="sMw-IW-AwS"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

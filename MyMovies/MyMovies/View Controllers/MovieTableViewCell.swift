@@ -11,17 +11,33 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
     
-    
-    @IBOutlet weak var movieLabel: UILabel!
-    
-   
-    @IBAction func saveMovie(_ sender: Any) {
+    private func updateViews(){
+        guard let movieRepresentation = movieRepresentation else {return}
         
+        movieLabel.text = movieRepresentation.title
         
     }
     
+    
+    
+    
     // outlets
+    @IBOutlet weak var movieLabel: UILabel!
+    @IBAction func saveMovie(_ sender: Any) {
     
+        guard let movie = movieRepresentation else { return }
+        
+        // create movie
+        
+    }
+
+    var movieRepresentation: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
     
+    var movieController: MovieController!
     
+
 }
