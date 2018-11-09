@@ -71,7 +71,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections![section].name
+        if fetchedResultsController.sections![section].name == "1" {
+            return "Watched"
+        } else {
+            return "Not Watched Yet"
+        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -90,7 +94,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMovieTVCell
 
         let movie = fetchedResultsController.object(at: indexPath)
-        
+        cell.delegate = movieController
         cell.movie = movie
 
         return cell

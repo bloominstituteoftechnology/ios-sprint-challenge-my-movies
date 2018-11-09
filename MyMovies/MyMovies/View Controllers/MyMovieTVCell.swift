@@ -15,8 +15,19 @@ class MyMovieTVCell: UITableViewCell {
     @IBOutlet weak var saveButtonLabel: UIButton!
     
     @IBAction func saveButton(_ sender: UIButton) {
-        
+        guard let movie = movie else { return }
+        if movie.hasWatched {
+            movie.setValue(false, forKey: "hasWatched")
+            delegate?.saveToPersistenceStore()
+            print("Saved hasWatched change")
+        } else {
+            movie.setValue(true, forKey: "hasWatched")
+            delegate?.saveToPersistenceStore()
+            print("Saved hasWatched change")
+        }
     }
+    
+    weak var delegate: MyMovieCellDelegate?
     
     var movie: Movie? {
         didSet {
@@ -40,4 +51,8 @@ class MyMovieTVCell: UITableViewCell {
         self.layer.masksToBounds = true
     }
     
+}
+
+protocol MyMovieCellDelegate: class {
+    func saveToPersistenceStore()
 }
