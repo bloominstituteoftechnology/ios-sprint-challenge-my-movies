@@ -7,9 +7,48 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
+    typealias CompletionHandler = (Error?) -> Void
+    
+    // MARK: - CRUD Methods
+    
+    func createMovie(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let moc = CoreDataStack.shared.mainContext
+        let movie = Movie(title: title)
+        
+        do {
+            try CoreDataStack.shared.save(context: moc)
+        } catch {
+            NSLog("Error saving movie: \(error)")
+        }
+        
+        
+    }
+    
+    func updateMovie(movie: Movie, hasWatched: Bool){
+        movie.hasWatched = hasWatched
+    }
+    
+    func deleteMovie(movie: Movie){
+        let moc = CoreDataStack.shared.mainContext
+        
+        // delete from Server
+        
+        moc.delete(movie)
+        
+        do {
+            try CoreDataStack.shared.save(context: moc)
+        } catch {
+            NSLog("Error deleting movie: \(error)")
+        }
+
+    }
+    
+
+    // API call to server
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     

@@ -83,6 +83,7 @@
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				47B35CAB2195F2F80000416D /* Movie + Convenience.swift */,
 				47B35CAD2195F3320000416D /* CoreDataStack.swift */,
+				47B35CA62195E8FA0000416D /* MyMovies.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -91,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
-				47B35CA62195E8FA0000416D /* MyMovies.xcdatamodeld */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
