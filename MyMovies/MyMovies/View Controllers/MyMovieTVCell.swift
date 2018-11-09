@@ -47,14 +47,7 @@ class MyMovieTVCell: UITableViewCell {
         } else {
             saveButtonLabel.setTitle("Watch", for: .normal)
         }
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.layer.cornerRadius = 20
-        self.layer.masksToBounds = true
-    }
-    
+    }    
 }
 
 protocol MyMovieCellDelegate: class {

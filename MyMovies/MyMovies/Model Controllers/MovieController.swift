@@ -89,13 +89,16 @@ class MovieController: MyMovieCellDelegate {
         }
     }
     
-    func newMovie(title: String, hasWatched: Bool) -> Movie{
-        let movie = Movie(title: title, hasWatched: hasWatched)
-        
-        saveToPersistenceStore()
-        put(movie: movie)
-        
-        return movie
+    func newMovie(title: String, hasWatched: Bool) -> Movie {
+        let moc = CoreDataStack.shared.mainContext
+        var movie: Movie?
+        moc.performAndWait {
+            movie = Movie(title: title, hasWatched: hasWatched)
+            saveToPersistenceStore()
+            put(movie: movie!)
+//            return movie
+        }
+        return movie!
     }
     
     func stubToMovie(stub: MovieRepresentation) -> Movie{
@@ -146,6 +149,7 @@ class MovieController: MyMovieCellDelegate {
         }
         
         saveToPersistenceStore()
+        // If only this line worked...rip
         //put(movie: movie)
     }
     
