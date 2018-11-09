@@ -14,8 +14,7 @@ enum CodingKeys: String, CodingKey {
     
     case title
     case hasWatched
-    case identifier
-    
+    case identifier  
 }
 
 extension Movie: Encodable {
@@ -29,8 +28,5 @@ extension Movie: Encodable {
         
         
     }
-    
-    
-    
 }
 

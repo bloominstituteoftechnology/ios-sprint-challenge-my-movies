@@ -9,16 +9,34 @@
 import UIKit
 
 class SeatchTableViewCell: UITableViewCell {
-
+    
+    var movieRepresentation: MovieRepresentation?{
+        didSet{
+            updateViews()
+        }
+        
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func updateViews(){
+        guard let movieRepresentation = movieRepresentation else {return}
+        title.text = movieRepresentation.title
+        
     }
-
+    
+    
+    @IBAction func add(_ sender: Any) {
+        guard let movie = movieRepresentation else {return}
+        movieController?.create(title: movie.title)
+    }
+    
+    var movieController: MovieController?
+    
+    @IBOutlet weak var title: UILabel!
+    
+    
 }
