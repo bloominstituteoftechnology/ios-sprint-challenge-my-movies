@@ -13,6 +13,8 @@ class MovieController {
     
     typealias CompletionHandler = (Error?) -> Void
     
+     static let firebaseURL = URL(string: "https://mymoviestest-fe9af.firebaseio.com")!
+    
     // MARK: - CRUD Methods
     
     func createMovie(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
@@ -45,6 +47,72 @@ class MovieController {
             NSLog("Error deleting movie: \(error)")
         }
 
+    }
+    
+    // firebase server functions
+    
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        guard let identifier = movie.identifier else {
+            NSLog("No identifier")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = MovieController.firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movie)
+        } catch {
+            NSLog("Error encoding movie: \(error)")
+            completion(error)
+            return
+        }
+        
+        do {
+            let context = movie.managedObjectContext ?? CoreDataStack.shared.mainContext
+            try context.save()
+        } catch {
+            NSLog("Error saving updated movie: /(error)")
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTting movie: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            }.resume()
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        guard let identifier = movie.identifier else {
+            NSLog("No identifier for task to delete.")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = MovieController.firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            if let error = error {
+                NSLog("Error deleting movie from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            print(response!)
+            completion(nil)
+            }.resume()
     }
     
 
@@ -94,4 +162,5 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
 }
