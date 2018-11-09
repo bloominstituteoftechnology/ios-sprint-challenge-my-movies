@@ -146,11 +146,9 @@ class MovieController: MyMovieCellDelegate {
         moc.performAndWait {
             movie.setValue(title, forKey: "title")
             movie.setValue(hasWatched, forKey: "hasWatched")
+            saveToPersistenceStore()
+            put(movie: movie)
         }
-        
-        saveToPersistenceStore()
-        // If only this line worked...rip
-        //put(movie: movie)
     }
     
     func deleteMovie(movie: Movie) {
