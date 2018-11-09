@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+
 
 class MovieController {
     
@@ -55,4 +57,79 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    func saveToPersistenceStore() {
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            try moc.save()
+        } catch {
+            NSLog("Could not save to disk: \(error)")
+        }
+    }
+    
+    func loadFromPersistentStore() -> [Movie] {
+        let moc = CoreDataStack.shared.mainContext
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        do {
+            return try moc.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+            return []
+        }
+    }
+    
+    func newMovie(title: String, hasWatched: Bool) -> Movie{
+        let movie = Movie(title: title, hasWatched: hasWatched)
+        
+        saveToPersistenceStore()
+        // PUT TO SERVER
+        
+        return movie
+    }
+    
+    func stubToMovie(stub: MovieRepresentation) -> Movie{
+        if stub.hasWatched == nil {
+            return newMovie(title: stub.title, hasWatched: false)
+        } else {
+            return newMovie(title: stub.title, hasWatched: stub.hasWatched!)
+        }
+    }
+    
+    func fetchOneMovie(identifier: UUID) -> Movie? {
+        let moc = CoreDataStack.shared.mainContext
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
+        
+        do {
+            return try moc.fetch(fetchRequest)[0]
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+            return nil
+        }
+    }
+    
+    func matchStubToMovie(movie: Movie, stub: MovieRepresentation) {
+        movie.title = stub.title
+        movie.identifier = stub.identifier
+        movie.hasWatched = stub.hasWatched ?? false
+        
+    }
+    
+    func updateMovie(movie: Movie, title: String, hasWatched: Bool) {
+        movie.setValue(title, forKey: "title")
+        movie.setValue(hasWatched, forKey: "hasWatched")
+        
+        saveToPersistenceStore()
+        // PUT TO SERVER
+    }
+    
+    func deleteMovie(movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        saveToPersistenceStore()
+    }
+    
+    
 }

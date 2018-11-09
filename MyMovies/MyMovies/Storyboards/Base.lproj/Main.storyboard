@@ -52,14 +52,14 @@
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jeF-iZ-rfz">
-                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="293" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="drq-4B-oma">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="309" y="0.0" width="34" height="30"/>
+                                                    <state key="normal" title="Save"/>
                                                     <connections>
                                                         <action selector="saveButton:" destination="isY-dR-0rr" eventType="touchUpInside" id="cPK-BM-ESE"/>
                                                     </connections>
@@ -104,7 +104,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo" customClass="MyMovieTVCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cK-VO-zdo" id="F0q-Pd-Woa">
@@ -123,6 +123,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="saveButton:" destination="9cK-VO-zdo" eventType="touchUpInside" id="uaR-hB-yIe"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
@@ -135,6 +138,10 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="movieLabel" destination="a6O-zS-fmH" id="sb4-oI-Swd"/>
+                                    <outlet property="saveButtonLabel" destination="3Ay-OW-Mt0" id="8hb-31-El8"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

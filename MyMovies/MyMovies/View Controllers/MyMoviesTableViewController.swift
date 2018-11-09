@@ -7,45 +7,95 @@
 //
 
 import UIKit
+import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    let movieController = MovieController()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    // FetchedResultsController
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let fetchRequest = NSFetchRequest<Movie>(entityName: "Movie")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true)]
+        
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: moc,
+                                             sectionNameKeyPath: "hasWatched",
+                                             cacheName: nil)
+        frc.delegate = self
+        try! frc.performFetch()
+        return frc
+    }()
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections([sectionIndex], with: .fade)
+        case .delete:
+            tableView.deleteSections([sectionIndex], with: .fade)
+        default:
+            return
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else {return}
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else {return}
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let indexPath = indexPath,
+                let newIndexPath = newIndexPath else {return}
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else {return}
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
+    
+    
     // MARK: - Table view data source
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections![section].name
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return fetchedResultsController.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        let sectionInfo = fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMovieTVCell
+
+        let movie = fetchedResultsController.object(at: indexPath)
+        
+        cell.movie = movie
 
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
