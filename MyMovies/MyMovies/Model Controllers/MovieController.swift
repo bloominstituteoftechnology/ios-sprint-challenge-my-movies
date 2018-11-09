@@ -70,7 +70,7 @@ class MovieController: MyMovieCellDelegate {
     func saveToPersistenceStore() {
         let moc = CoreDataStack.shared.mainContext
         do {
-            //            try moc.save()
+//                        try moc.save()
             try CoreDataStack.shared.save(context: moc)
         } catch {
             NSLog("Could not save to disk: \(error)")
@@ -146,7 +146,7 @@ class MovieController: MyMovieCellDelegate {
         }
         
         saveToPersistenceStore()
-        put(movie: movie)
+        //put(movie: movie)
     }
     
     func deleteMovie(movie: Movie) {
