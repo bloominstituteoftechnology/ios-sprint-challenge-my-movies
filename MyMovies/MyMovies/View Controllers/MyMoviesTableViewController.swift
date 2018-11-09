@@ -105,17 +105,25 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     */
 
-    /*
+
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let movie = fetchedResultsController.object(at: indexPath)
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(movie)
+            
+            // DELETE ENTRY FROM SERVER
+           
+            do {
+                try moc.save()
+                tableView.reloadData()
+            } catch {
+                moc.reset()
+            }
+        }
     }
-    */
+ 
 
     /*
     // Override to support rearranging the table view.
