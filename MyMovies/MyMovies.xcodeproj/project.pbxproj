@@ -58,8 +58,6 @@
 		46E209D82126A63600E7FF73 = {
 			isa = PBXGroup;
 			children = (
-				47B35CB621963D470000416D /* MovieTabBarController.swift */,
-				47B35CB821963E140000416D /* MovieProtocol.swift */,
 				46E209E32126A63600E7FF73 /* MyMovies */,
 				46E209E22126A63600E7FF73 /* Products */,
 			);
@@ -100,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				47B35CB821963E140000416D /* MovieProtocol.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -107,6 +106,7 @@
 		46E20A082126AFAC00E7FF73 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				47B35CB621963D470000416D /* MovieTabBarController.swift */,
 				47B35CAF2196029F0000416D /* MyMovieCell.swift */,
 				47B35CA92195EC8B0000416D /* MovieTableViewCell.swift */,
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,

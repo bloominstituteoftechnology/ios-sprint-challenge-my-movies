@@ -13,7 +13,7 @@ class MovieController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-     static let firebaseURL = URL(string: "https://mymoviestest-fe9af.firebaseio.com")!
+    static let firebaseURL = URL(string: "https://mymoviestest-fe9af.firebaseio.com")!
     
     // MARK: - CRUD Methods
     
@@ -46,12 +46,50 @@ class MovieController {
         } catch {
             NSLog("Error deleting movie: \(error)")
         }
-
+        
     }
     
     // firebase server functions
     
-    func put(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let url = MovieController.firebaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching data: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            var movieRepresentations: [MovieRepresentation] = []
+            
+            do {
+                let resultsDictionary = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                movieRepresentations = resultsDictionary.map({  $0.value })
+                
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                
+                do {
+                    try CoreDataStack.shared.save(context: backgroundContext)
+                } catch {
+                    NSLog("Error saving movies after fetching them: \(error)")
+                }
+                
+                
+                completion(nil)
+            } catch {
+                NSLog("Error decoding data: \(error)")
+                completion(error)
+                return
+            }
+            
+            }.resume()
+    }
+    
+    // PUT
+    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         
         guard let identifier = movie.identifier else {
             NSLog("No identifier")
@@ -90,7 +128,8 @@ class MovieController {
             }.resume()
     }
     
-    func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+    // DELETE
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         
         guard let identifier = movie.identifier else {
             NSLog("No identifier for task to delete.")
@@ -115,7 +154,7 @@ class MovieController {
             }.resume()
     }
     
-
+    
     // API call to server
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -156,7 +195,7 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
-        }.resume()
+            }.resume()
     }
     
     // MARK: - Properties
@@ -164,6 +203,9 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     
 }
+
+// Extensions
+
 extension Movie: Encodable {
     enum CodingKeys: String, CodingKey {
         case title

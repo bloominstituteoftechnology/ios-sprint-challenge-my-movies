@@ -13,9 +13,7 @@ class CoreDataStack {
     static let shared = CoreDataStack()
     
     func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
-        
         var error: Error?
-        
         context.performAndWait {
             do {
                 try context.save()
@@ -36,7 +34,6 @@ class CoreDataStack {
         container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
-    
     
     var mainContext: NSManagedObjectContext  {
         return container.viewContext
