@@ -17,13 +17,17 @@ class MyMovieTVCell: UITableViewCell {
     @IBAction func saveButton(_ sender: UIButton) {
         guard let movie = movie else { return }
         if movie.hasWatched {
-            movie.setValue(false, forKey: "hasWatched")
-            delegate?.saveToPersistenceStore()
-            print("Saved hasWatched change")
+//            movie.setValue(false, forKey: "hasWatched")
+//            delegate?.saveToPersistenceStore()
+//            print("Saved hasWatched change")
+            delegate?.updateMovie(movie: movie, title: movie.title!, hasWatched: false)
+            print(movie.hasWatched)
         } else {
-            movie.setValue(true, forKey: "hasWatched")
-            delegate?.saveToPersistenceStore()
-            print("Saved hasWatched change")
+//            movie.setValue(true, forKey: "hasWatched")
+//            delegate?.saveToPersistenceStore()
+//            print("Saved hasWatched change")
+            delegate?.updateMovie(movie: movie, title: movie.title!, hasWatched: true)
+            print(movie.hasWatched)
         }
     }
     
@@ -55,4 +59,5 @@ class MyMovieTVCell: UITableViewCell {
 
 protocol MyMovieCellDelegate: class {
     func saveToPersistenceStore()
+    func updateMovie(movie: Movie, title: String, hasWatched: Bool)
 }

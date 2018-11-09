@@ -12,6 +12,15 @@ import CoreData
 
 class MovieController: MyMovieCellDelegate {
     
+    init() {
+        fetchAllMoviesFromServer { (error) in
+            if let error = error {
+                NSLog("error fetching from server: \(error)")
+                return
+            }
+        }
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -90,7 +99,7 @@ class MovieController: MyMovieCellDelegate {
     
     func stubToMovie(stub: MovieRepresentation) -> Movie{
         if stub.hasWatched == nil {
-            return newMovie(title: stub.title, hasWatched: false)
+            return newMovie(title: stub.title, hasWatched: true)
         } else {
             return newMovie(title: stub.title, hasWatched: stub.hasWatched!)
         }
@@ -179,5 +188,52 @@ class MovieController: MyMovieCellDelegate {
         dataTask.resume()
     }
     
+    // Sync Firebase
+    func fetchAllMoviesFromServer( completion: @escaping (_ error: Error?) -> Void = {_ in}) {
+        let url = fireBaseUrl.appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let dataTask = URLSession.shared.dataTask(with: request) {data, _, error in
+            if let error = error {
+                NSLog("Error creating dataTask: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else  {
+                NSLog("No data: \(String(describing: error))")
+                completion(error)
+                return
+            }
+            
+            var stubs: [MovieRepresentation] = []
+            let decoder = JSONDecoder()
+            do {
+                let json = try decoder.decode([String: MovieRepresentation].self, from: data)
+                for (_, entry) in json {
+                    stubs.append(entry)
+                }
+                
+            } catch {
+                NSLog("Couldn not decode json into stubs: \(error)")
+                completion(error)
+                return
+            }
+            
+            for stub in stubs {
+                guard let identifier = stub.identifier else {fatalError("Stub from server has no identifier")}
+                let movie = self.fetchOneMovie(identifier: identifier)
+                if movie != nil {
+                    self.updateMovie(movie: movie!, title: stub.title, hasWatched: stub.hasWatched!)
+                } else {
+                    _ = self.stubToMovie(stub: stub)
+                    self.saveToPersistenceStore()
+                }
+            }
+        }
+        dataTask.resume()
+    }
     
 }
