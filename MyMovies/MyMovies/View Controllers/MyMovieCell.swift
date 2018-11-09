@@ -43,5 +43,5 @@ class MyMovieCell: UITableViewCell {
     @IBOutlet weak var movieLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     
-    var movieController: MovieController?
+    var movieController: MovieController!
 }

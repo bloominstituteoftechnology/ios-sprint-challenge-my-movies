@@ -71,9 +71,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieCell else {return UITableViewCell()}
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
         
-        cell.movie = fetchedResultsController.object(at: indexPath)
+        let movie = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = movie.title
         
         return cell
     }

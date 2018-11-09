@@ -14,7 +14,7 @@ class MovieTableViewCell: UITableViewCell {
     private func updateViews(){
         guard let movieRepresentation = movieRepresentation else {return}
         
-        movieLabel?.text = movieRepresentation.title
+        movieLabel.text = movieRepresentation.title
         
     }
     
