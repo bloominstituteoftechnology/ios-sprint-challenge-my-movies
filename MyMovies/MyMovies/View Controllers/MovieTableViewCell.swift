@@ -14,20 +14,20 @@ class MovieTableViewCell: UITableViewCell {
     private func updateViews(){
         guard let movieRepresentation = movieRepresentation else {return}
         
-        movieLabel.text = movieRepresentation.title
+        movieLabel?.text = movieRepresentation.title
         
     }
     
     
-    
-    
     // outlets
     @IBOutlet weak var movieLabel: UILabel!
+    
     @IBAction func saveMovie(_ sender: Any) {
     
         guard let movie = movieRepresentation else { return }
         
         // create movie
+        movieController.createMovie(title: movie.title)
         
     }
 
