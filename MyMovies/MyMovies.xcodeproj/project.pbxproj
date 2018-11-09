@@ -75,6 +75,7 @@
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
+				7B4CAA4B2195E96200A109B6 /* Cells */,
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
 				46E20A092126AFC200E7FF73 /* Resources */,
 			);
@@ -105,8 +106,6 @@
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
-				7B4CAA452195E8A400A109B6 /* MovieSearchTableViewCell.swift */,
-				7B4CAA472195E8CF00A109B6 /* MyMovieTableViewCell.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -117,6 +116,7 @@
 				46E209E42126A63600E7FF73 /* AppDelegate.swift */,
 				46E209EB2126A63700E7FF73 /* Assets.xcassets */,
 				46E209F02126A63700E7FF73 /* Info.plist */,
+				7B4CAA492195E90800A109B6 /* Helpers.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -126,9 +126,17 @@
 			children = (
 				46E209E82126A63600E7FF73 /* Main.storyboard */,
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
-				7B4CAA492195E90800A109B6 /* Helpers.swift */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		7B4CAA4B2195E96200A109B6 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				7B4CAA452195E8A400A109B6 /* MovieSearchTableViewCell.swift */,
+				7B4CAA472195E8CF00A109B6 /* MyMovieTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
