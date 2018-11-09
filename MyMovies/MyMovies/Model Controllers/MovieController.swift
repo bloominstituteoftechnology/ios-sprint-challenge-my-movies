@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init(){
+        fetchMovieFromServer()
+    }
+    
     typealias CompletionHandler = (Error?)->Void
     
     
@@ -201,10 +205,11 @@ class MovieController {
                 return
             }
             
+            let moc = CoreDataStack.shared.container.newBackgroundContext()
             
             do {
                 let movieRepres = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({ $0.value })
-                let moc = CoreDataStack.shared.container.newBackgroundContext()
+               // let moc = CoreDataStack.shared.container.newBackgroundContext()
                 
                 moc.performAndWait {
                     
@@ -216,7 +221,9 @@ class MovieController {
                             let _ = Movie(movieRepresentation: mRep, context: moc)
                         }
                     }
-                    
+                moc.perform {
+                    try! moc.save()
+                    }
                     do {
                         try CoreDataStack.shared.save(context: moc)
                     } catch {
@@ -231,7 +238,7 @@ class MovieController {
                 completion(error)
                 return
             }
-            
+            completion(nil)
             }.resume()
         
     }
