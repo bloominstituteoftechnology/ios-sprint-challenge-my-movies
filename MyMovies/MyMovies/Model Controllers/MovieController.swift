@@ -83,7 +83,7 @@ class MovieController: MyMovieCellDelegate {
         let movie = Movie(title: title, hasWatched: hasWatched)
         
         saveToPersistenceStore()
-        // PUT TO SERVER
+        put(movie: movie)
         
         return movie
     }
@@ -114,7 +114,6 @@ class MovieController: MyMovieCellDelegate {
         movie.title = stub.title
         movie.identifier = stub.identifier
         movie.hasWatched = stub.hasWatched ?? false
-        
     }
     
     func updateMovie(movie: Movie, title: String, hasWatched: Bool) {
@@ -122,13 +121,62 @@ class MovieController: MyMovieCellDelegate {
         movie.setValue(hasWatched, forKey: "hasWatched")
         
         saveToPersistenceStore()
-        // PUT TO SERVER
+        put(movie: movie)
     }
     
     func deleteMovie(movie: Movie) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(movie)
+        deleteFromServer(movie: movie)
         saveToPersistenceStore()
+    }
+    
+    // FireBase
+    
+    let fireBaseUrl: URL = URL(string: "https://iomymovies.firebaseio.com/")!
+    
+    func put(movie: Movie, completion: @escaping (_ error: Error? ) -> Void = { _ in }) {
+        guard let identifier = movie.identifier else {fatalError("No identifier on movie")}
+        
+        var request = URLRequest(url: fireBaseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json"))
+        request.httpMethod = "PUT"
+        
+        do {
+            let data = try JSONEncoder().encode(movie)
+            request.httpBody = data
+        } catch {
+            NSLog("Error encoding data: \(error)")
+            completion(error)
+            return
+        }
+        
+        let dataTask = URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                NSLog("Error creating database: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+        dataTask.resume()
+    }
+    
+    func deleteFromServer(movie: Movie, completion: @escaping (_ error: Error?) -> Void = {_ in }) {
+        guard let identifier = movie.identifier else {fatalError("Movie has no identifier")}
+        
+        var request = URLRequest(url: fireBaseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json"))
+        request.httpMethod = "DELETE"
+        
+        let dataTask = URLSession.shared.dataTask(with: request) {data, _, error in
+            if let error = error {
+                NSLog("Error creating dataTask: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            return
+        }
+        dataTask.resume()
     }
     
     

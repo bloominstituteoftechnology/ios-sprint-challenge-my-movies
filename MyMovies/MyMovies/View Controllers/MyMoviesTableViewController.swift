@@ -115,9 +115,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
-            moc.delete(movie)
             
-            // DELETE ENTRY FROM SERVER
+            movieController.deleteMovie(movie: movie)
            
             do {
                 try moc.save()
