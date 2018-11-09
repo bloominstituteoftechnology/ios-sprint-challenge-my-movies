@@ -74,12 +74,12 @@ class MyMoviesTableViewController: UITableViewController {
     
     //Stretch Goal
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+       
         return nsfetchres.sections?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return nsfetchres.sections?[section].name == "1" ? "Watched" : "Unwatched"
+        return nsfetchres.sections?[section].name == "1" ? "Movies I've Seen" : "Movies I Haven't Seen"
     }
     
     
