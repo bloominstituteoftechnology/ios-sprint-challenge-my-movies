@@ -12,9 +12,6 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,7 +19,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         tableView.reloadData()
         
     }
@@ -61,14 +57,19 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     
     // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionInfo = fetchedResultsController.sections?[section]
+        return sectionInfo?.name == "0" ? "Unwatched" : "Watched"
 
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
-        return fetchedResultsController.fetchedObjects?.count ?? 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     
@@ -96,31 +97,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         let moc = CoreDataStack.shared.mainContext
@@ -128,7 +104,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         fetchRequest.sortDescriptors = [sortDescriptor]
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
-                                             sectionNameKeyPath:nil,
+                                             sectionNameKeyPath:"hasWatched",
                                              cacheName: nil)
         frc.delegate = self
         try! frc.performFetch()
