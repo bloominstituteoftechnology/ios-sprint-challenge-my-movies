@@ -60,8 +60,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return 0
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,10 +70,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+       guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieCell else {return UITableViewCell()}
         
-        let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        //cell.movieController = movieController)
         
         return cell
     }
@@ -128,6 +127,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         let moc = CoreDataStack.shared.mainContext
+        let sortDescriptor = NSSortDescriptor(key: "hasWatched", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
                                              sectionNameKeyPath:nil,

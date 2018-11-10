@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MyMovieCell: UITableViewCell {
+class MyMovieCell: UITableViewCell, MovieProtocol {
     
     private func updateViews(){
         guard let movie = movie else {return}
@@ -23,13 +23,12 @@ class MyMovieCell: UITableViewCell {
             hasWatchedButton.setTitle("Unwatched", for: .normal)
         }
     }
-
     
     
     @IBAction func toggleHasWatchedButton(_ sender: Any) {
         guard let movie = movie else {return}
         let newState = !movie.hasWatched
-        movieController?.updateMovie(movie: movie, hasWatched: newState)
+        movieController.updateMovie(movie: movie, hasWatched: newState)
         
     }
     
@@ -43,5 +42,5 @@ class MyMovieCell: UITableViewCell {
     @IBOutlet weak var movieLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     
-    var movieController: MovieController!
+    var movieController = MovieController()
 }

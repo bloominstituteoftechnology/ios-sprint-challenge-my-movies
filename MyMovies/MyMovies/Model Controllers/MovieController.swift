@@ -17,7 +17,7 @@ class MovieController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-    static let firebaseURL = URL(string: "https://mymoviestest-fe9af.firebaseio.com")!
+    static let firebaseURL = URL(string: "https://mymoviestest-fe9af.firebaseio.com/")!
     
     // MARK: - CRUD Methods
     

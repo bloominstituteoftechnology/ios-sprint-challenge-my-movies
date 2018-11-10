@@ -27,6 +27,7 @@ class MovieTableViewCell: UITableViewCell {
     
         // create movie
         movieController?.createMovie(title: movie.title)
+        print(movie.title, "YES ITS ADDING WHOO WHOO!")
         
     }
 

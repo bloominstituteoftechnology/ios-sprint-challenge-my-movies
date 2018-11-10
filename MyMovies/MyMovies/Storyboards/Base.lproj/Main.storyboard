@@ -123,7 +123,7 @@
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
                                                     <connections>
-                                                        <action selector="toggleHasWatchedButton:" destination="9cK-VO-zdo" eventType="touchUpInside" id="8HK-be-z8b"/>
+                                                        <action selector="toggleHasWatchedButton:" destination="9cK-VO-zdo" eventType="touchUpInside" id="khI-v3-v4F"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -140,7 +140,6 @@
                                 <connections>
                                     <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="bXx-GH-j6n"/>
                                     <outlet property="movieLabel" destination="a6O-zS-fmH" id="aKK-in-yhB"/>
-                                    <outlet property="toggleHasWatchedButton" destination="3Ay-OW-Mt0" id="9Tk-Rf-NWk"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
