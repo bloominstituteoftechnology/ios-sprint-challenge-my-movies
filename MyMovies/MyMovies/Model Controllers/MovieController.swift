@@ -77,6 +77,7 @@ class MovieController {
 
         guard let hasWatched = movieRepresentation.hasWatched else { return }
 
+        // must put this in a perform and wait block
         CoreDataStack.shared.mainContext.performAndWait {
             movie.title = movieRepresentation.title
             movie.identifier = movieRepresentation.identifier
@@ -85,17 +86,18 @@ class MovieController {
        
     }
 
-    private func observeMovie(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    // integrate movie either from server or Persistent storage
+    private func integrateMovie(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 
         let moc = CoreDataStack.shared.mainContext
         for movieRep in movieRepresentations {
 
-            guard let identifier = movieRep.identifier?.uuidString else { return }
+            guard let identifier = movieRep.identifier else { return }
 
-            if let movie = self.fetchPersistentMovie(identifier: identifier, context: moc) {
+            if let movie = self.fetchPersistentMovie(identifier: identifier.uuidString, context: moc) {
                 self.update(movie: movie, movieRepresentation: movieRep)
             } else {
-                print("there is nothing here")
+                _ = Movie(title: movieRep.title, hasWatched: movieRep.hasWatched ?? false, identifier: identifier, context: context)
             }
         }
     }
@@ -125,7 +127,7 @@ class MovieController {
                 let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
                 
                 backgroundContext.performAndWait {
-                    self.observeMovie(movieRepresentations: movieRepresentations, context: backgroundContext)
+                    self.integrateMovie(movieRepresentations: movieRepresentations, context: backgroundContext)
                     do {
                         try CoreDataStack.shared.save(context: backgroundContext)
                     } catch {

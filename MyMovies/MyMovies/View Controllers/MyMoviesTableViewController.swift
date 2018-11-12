@@ -14,8 +14,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // movieRefreshControl.addTarget(self, action: #selector(fetchMovies), for: .valueChanged)
+        movieRefreshControl.addTarget(self, action: #selector(fetchMovies), for: .valueChanged)
         tableView.refreshControl = movieRefreshControl
+        fetchMovies()
         
     }
     
