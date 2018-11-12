@@ -10,5 +10,5 @@ import Foundation
 import UIKit
 
 protocol MovieProtocol: class {
-    var movieController: MovieController {get set}
+    var movieController: MovieController? {get set}
 }

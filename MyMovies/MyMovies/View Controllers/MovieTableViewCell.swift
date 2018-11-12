@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MovieTableViewCell: UITableViewCell {
+class MovieTableViewCell: UITableViewCell, MovieProtocol {
     
     private func updateViews(){
         guard let movieRepresentation = movieRepresentation else {return}

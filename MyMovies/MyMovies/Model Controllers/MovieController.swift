@@ -37,13 +37,14 @@ class MovieController {
     
     func updateMovie(movie: Movie, hasWatched: Bool){
         movie.hasWatched = hasWatched
-    }
+        
+        put(movie: movie)    }
     
     func deleteMovie(movie: Movie){
+        
+        deleteMovieFromServer(movie: movie)
+        
         let moc = CoreDataStack.shared.mainContext
-        
-        // delete from Server
-        
         moc.delete(movie)
         
         do {
@@ -53,6 +54,50 @@ class MovieController {
         }
         
     }
+    
+    // Persistent Store
+    
+    func fetchPersistentMovie(identifier: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        var movie: Movie? = nil
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with given identifier: \(error)")
+            }
+        }
+        return movie
+    }
+    
+    private func update(movie: Movie, movieRepresentation: MovieRepresentation) {
+
+        guard let hasWatched = movieRepresentation.hasWatched else { return }
+
+        movie.title = movieRepresentation.title
+        movie.identifier = movieRepresentation.identifier
+        movie.hasWatched = hasWatched
+    }
+
+    private func observeMovie(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+
+        let moc = CoreDataStack.shared.mainContext
+        for movieRep in movieRepresentations {
+
+            guard let identifier = movieRep.identifier?.uuidString else { return }
+
+            if let movie = self.fetchPersistentMovie(identifier: identifier, context: moc) {
+                self.update(movie: movie, movieRepresentation: movieRep)
+            } else {
+                print("there is nothing here")
+            }
+        }
+    }
+    
+    
     
     // firebase server functions
     
@@ -76,12 +121,14 @@ class MovieController {
                 
                 let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
                 
-                do {
-                    try CoreDataStack.shared.save(context: backgroundContext)
-                } catch {
-                    NSLog("Error saving movies after fetching them: \(error)")
+                backgroundContext.performAndWait {
+                    self.observeMovie(movieRepresentations: movieRepresentations, context: backgroundContext)
+                    do {
+                        try CoreDataStack.shared.save(context: backgroundContext)
+                    } catch {
+                        NSLog("Error saving movies after fetching them: \(error)")
+                    }
                 }
-                
                 
                 completion(nil)
             } catch {
@@ -203,11 +250,14 @@ class MovieController {
             }.resume()
     }
     
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
     
 }
+
+
 
 // Extensions
 
