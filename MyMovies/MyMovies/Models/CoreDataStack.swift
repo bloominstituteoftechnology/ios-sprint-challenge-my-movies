@@ -32,6 +32,7 @@ class CoreDataStack {
             }
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
+        //container.viewContext.concurrencyType = .mainQueueConcurrencyType
         return container
     }()
     

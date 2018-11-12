@@ -77,9 +77,12 @@ class MovieController {
 
         guard let hasWatched = movieRepresentation.hasWatched else { return }
 
-        movie.title = movieRepresentation.title
-        movie.identifier = movieRepresentation.identifier
-        movie.hasWatched = hasWatched
+        CoreDataStack.shared.mainContext.performAndWait {
+            movie.title = movieRepresentation.title
+            movie.identifier = movieRepresentation.identifier
+            movie.hasWatched = hasWatched
+        }
+       
     }
 
     private func observeMovie(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
