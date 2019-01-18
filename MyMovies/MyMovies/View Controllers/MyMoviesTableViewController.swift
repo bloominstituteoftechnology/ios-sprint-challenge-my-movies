@@ -74,21 +74,17 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         
         let movie = fetchedResultsController.object(at: indexPath)
         //FIXME: Movie is saving with NO IDENTIFIER 🤬
-        guard let movieIdentifier = movie.identifier else {
-            print("movie has no identifier!")
-            return
-        }
-        myMoviesController.delete(movieWithIdentifier: movieIdentifier)
+        let movieIdentifier = movie.identifier
+        myMoviesController.deleteMovieFromServer(movieWithIdentifier: movieIdentifier ?? UUID())
         CoreDataStack.shared.mainContext.delete(movie)
-        try! CoreDataStack.shared.mainContext.save()
-//        do {
-//            try CoreDataStack.shared.mainContext.save()
-//            if let identifier = movieIdentifier {
-//                myMoviesController.delete(movieWithIdentifier: identifier)
-//            }
-//        } catch {
-//            print("Failed to delete movie: \(error)")
-//        }
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            if let identifier = movieIdentifier {
+                myMoviesController.deleteMovieFromServer(movieWithIdentifier: identifier)
+            }
+        } catch {
+            print("Failed to delete movie: \(error)")
+        }
         tableView.deleteRows(at: [indexPath], with: .fade)
     }
 

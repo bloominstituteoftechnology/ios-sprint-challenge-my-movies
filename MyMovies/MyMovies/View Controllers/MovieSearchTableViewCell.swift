@@ -31,11 +31,12 @@ class MovieSearchTableViewCell: UITableViewCell {
         let savedMovie = movie ?? Movie(context: moc)
         savedMovie.title = movieTitleLabel.text
         savedMovie.hasWatched = false
+        savedMovie.identifier = UUID()
         
         
         do {
             try moc.save()
-            myMovieController?.save(movie: savedMovie)
+            myMovieController?.saveMovieToServer(movie: savedMovie)
     
         } catch {
             print("Failed to save: \(error)")

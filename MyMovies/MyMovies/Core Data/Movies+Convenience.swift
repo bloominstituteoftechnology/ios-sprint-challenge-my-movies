@@ -3,22 +3,22 @@ import CoreData
 
 extension Movie {
     
-    convenience init(identifier: UUID? = UUID(),
+    convenience init(identifier: UUID = UUID(),
                      title: String,
-                     hasWatched: Bool?,
+                     hasWatched: Bool = false,
                      managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: managedObjectContext)
         self.identifier = identifier
         self.title = title
-        self.hasWatched = hasWatched!
+        self.hasWatched = hasWatched
         
     }
     
     convenience init(representation: MovieRepresentation, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        self.init(identifier: representation.identifier,
+        self.init(identifier: representation.identifier ?? UUID(),
                   title: representation.title,
-                  hasWatched: representation.hasWatched,
+                  hasWatched: representation.hasWatched ?? false,
                   managedObjectContext: managedObjectContext)
         
     }

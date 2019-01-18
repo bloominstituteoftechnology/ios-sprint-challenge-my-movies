@@ -28,7 +28,7 @@ class CoreDataStack {
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: mainContext,
-                                             sectionNameKeyPath: "title",
+                                             sectionNameKeyPath: "hasWatched",
                                              cacheName: nil)
         
         NSLog("Request: %@, Context: %@", frc, frc.managedObjectContext)

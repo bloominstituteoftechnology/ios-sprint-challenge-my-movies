@@ -18,13 +18,12 @@ class MyMoviesTableViewCell: UITableViewCell {
         
         myMovieTitleLabel.text = movie.title
         
-//        if movie.hasWatched == false {
-//            watchedButton.setTitle("Unwatched", for: [])
-////            movie.hasWatched = true
-//        }else if movie.hasWatched == true {
-//            watchedButton.setTitle("Watched", for: [])
-////            movie.hasWatched = false
-//        }
+        if movie.hasWatched == false {
+            watchedButton.setTitle("Unwatched", for: .normal)
+        }else if movie.hasWatched == true {
+            watchedButton.setTitle("Watched", for: .normal)
+
+        }
         
         
     }
@@ -38,10 +37,10 @@ class MyMoviesTableViewCell: UITableViewCell {
         print(movie?.hasWatched)
         if movie?.hasWatched == true {
             movie?.hasWatched = false
-            watchedButton.setTitle("Unwatched", for: [])
+            watchedButton.setTitle("Unwatched", for: .normal)
         }else if movie?.hasWatched == false {
             movie?.hasWatched = true
-            watchedButton.setTitle("Watched", for: [])
+            watchedButton.setTitle("Watched", for: .normal)
         }
     }
     

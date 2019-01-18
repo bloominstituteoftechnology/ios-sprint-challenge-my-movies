@@ -32,7 +32,7 @@ class MyMoviesController {
                 let decodedResponse = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
                 let movieRepresentations = Array(decodedResponse.values)
                 
-                self.importMovies(movieRepresentations, into: moc)
+                self.importMoviesFromServer(movieRepresentations, into: moc)
                 
                 try CoreDataStack.shared.save(context: moc)
                 
@@ -45,7 +45,7 @@ class MyMoviesController {
             }.resume()
     }
     
-    func save(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+    func saveMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         
         do {
             guard let representation = movie.movieRepresentation else { throw NSError() }
@@ -69,7 +69,7 @@ class MyMoviesController {
         }
     }
     
-    func delete(movieWithIdentifier: UUID, completion: @escaping CompletionHandler = { _ in }) {
+    func deleteMovieFromServer(movieWithIdentifier: UUID, completion: @escaping CompletionHandler = { _ in }) {
         let identifier = movieWithIdentifier.uuidString
         
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
@@ -83,11 +83,11 @@ class MyMoviesController {
             }.resume()
     }
     
-    private func importMovies(_ representations: [MovieRepresentation], into managedObjectContext: NSManagedObjectContext) {
+    func importMoviesFromServer(_ representations: [MovieRepresentation], into managedObjectContext: NSManagedObjectContext) {
         var importedMovieIdentifiers = Set<String>()
         
         for representation in representations {
-            if let existing = movie(for: representation.identifier!, in: managedObjectContext) {
+            if let existing = fetchMovieFromServer(for: representation.identifier!, in: managedObjectContext) {
                 update(movie: existing, with: representation)
                 importedMovieIdentifiers.insert((representation.identifier?.uuidString)!)
             } else {
@@ -109,7 +109,7 @@ class MyMoviesController {
         }
     }
     
-    private func movie(for uuid: UUID, in managedObjectContext: NSManagedObjectContext) -> Movie? {
+    func fetchMovieFromServer(for uuid: UUID, in managedObjectContext: NSManagedObjectContext) -> Movie? {
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()
         request.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
         
@@ -122,7 +122,7 @@ class MyMoviesController {
         return movie
     }
     
-    private func update(movie: Movie, with representation: MovieRepresentation) {
+    func update(movie: Movie, with representation: MovieRepresentation) {
         guard let context = movie.managedObjectContext else { return }
         
         context.perform {
@@ -135,6 +135,6 @@ class MyMoviesController {
 
         }
     }
-     var searchedMovies: [MovieRepresentation] = []
+     var movieRepresentations: [MovieRepresentation] = []
 }
 
