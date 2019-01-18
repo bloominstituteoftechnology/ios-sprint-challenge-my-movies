@@ -10,8 +10,6 @@ import Foundation
 
 class MovieController {
     
-    static var shared = MovieController()
-    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
