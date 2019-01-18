@@ -67,9 +67,9 @@ class MovieController {
         let movie = Movie(title: movieRepresentation.title, identifier: identifier, hasWatched: hasWatched, context: context)
         
         do {
-            try CoreDataStack.shared.save()
+            try context.save()
         } catch {
-            NSLog("Error saving managed object context\(error)")
+            print("Failed to save: \(error)")
         }
         
         //put(movie: movie)

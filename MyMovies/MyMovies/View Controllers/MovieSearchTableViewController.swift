@@ -11,17 +11,31 @@ import UIKit
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieSearchTableViewCellDelegate {
     
     func saveMovieToList(cell: MovieSearchTableViewCell) {
-        //guard let movie = movie,
-            //let movieRepresentation = movieRepresentation else { return }
+        guard let movieRepresentation = movieRepresentation else { return }
+        
         let moc = CoreDataStack.shared.mainContext
-        let _ = Movie(context: moc)
-        //savedMovie.title = cell.MovieTitleLabel?.text
+        let hasWatched = movieRepresentation.hasWatched ?? false
+        let identifier = movieRepresentation.identifier ?? UUID()
+        let movie = Movie(title: movieRepresentation.title, identifier: identifier, hasWatched: hasWatched, context: moc)
+        movie.title = cell.MovieTitleLabel.text
         
         do {
             try moc.save()
         } catch {
             print("Failed to save: \(error)")
         }
+        
+//        guard let movie = movie,
+//            let movieRepresentation = movieRepresentation else { return }
+//        let moc = CoreDataStack.shared.mainContext
+//        let _ = Movie(context: moc)
+//        savedMovie.title = cell.MovieTitleLabel?.text
+//
+//        do {
+//            try moc.save()
+//        } catch {
+//            print("Failed to save: \(error)")
+//        }
     }
     
     override func viewDidLoad() {

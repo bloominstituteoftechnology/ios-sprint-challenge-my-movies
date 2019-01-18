@@ -60,7 +60,6 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bcg-or-iYQ">
                                                     <rect key="frame" x="270" y="0.0" width="73" height="27.5"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="27" id="K4W-O2-69d"/>
                                                         <constraint firstAttribute="height" constant="27.5" id="TiZ-30-Pfv"/>
                                                         <constraint firstAttribute="width" constant="73" id="f72-0N-vNc"/>
                                                     </constraints>
