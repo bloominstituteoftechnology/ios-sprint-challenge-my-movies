@@ -17,7 +17,7 @@ class MyMoviesController{
 
     init() {
         // TODO: Implement init
-//        fetchEntriesFromServer()
+        fetchEntriesFromServer()
         
     }
     
@@ -112,6 +112,34 @@ class MyMoviesController{
         
     }
     
+    func deleteMovieFromServer(movie: Movie, completionHandler: @escaping CompletionHandler = {_ in }) {
+        //turn the task into a movie Representation
+        
+        // ssend the task representation to the server
+        
+        do {
+            guard let representation = movie.movieRepresentation else { throw NSError() }
+            
+            guard let uuid = representation.identifier else {fatalError("identifier was not populated and should have been")}
+            
+            let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = "DELETE"
+            
+            URLSession.shared.dataTask(with: request) { (_, _, error) in
+                if let error = error {
+                    print("error deleting task: \(error)")
+                }
+                completionHandler(error)
+                }.resume()
+            
+        } catch {
+            print("error deleting movie")
+            completionHandler(error)
+            
+        }
+    }
+    
     func saveToPersistentStore(){
         let moc = CoreDataStack.shared.mainContext
         do {
@@ -121,6 +149,8 @@ class MyMoviesController{
         }
         
     }
+    
+    
     
     func createMovie(title: String){
         

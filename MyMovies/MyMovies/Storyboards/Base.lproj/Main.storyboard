@@ -49,18 +49,18 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="8NT-d7-2Sa">
-                                            <rect key="frame" x="20" y="8" width="335" height="27.5"/>
+                                            <rect key="frame" x="20" y="2" width="335" height="39.5"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJC-ZB-QZK">
-                                                    <rect key="frame" x="0.0" y="0.0" width="225" height="27.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJC-ZB-QZK">
+                                                    <rect key="frame" x="0.0" y="0.0" width="235" height="39.5"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AgW-Hn-3WZ">
-                                                    <rect key="frame" x="245" y="0.0" width="90" height="27.5"/>
+                                                    <rect key="frame" x="255" y="0.0" width="80" height="39.5"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="90" id="8mu-jl-qcg"/>
+                                                        <constraint firstAttribute="width" constant="80" id="8mu-jl-qcg"/>
                                                     </constraints>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
@@ -71,8 +71,8 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="8NT-d7-2Sa" secondAttribute="bottom" constant="8" id="CDM-Gv-F7t"/>
-                                        <constraint firstItem="8NT-d7-2Sa" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="8" id="Qhw-7p-gvi"/>
+                                        <constraint firstAttribute="bottom" secondItem="8NT-d7-2Sa" secondAttribute="bottom" constant="2" id="CDM-Gv-F7t"/>
+                                        <constraint firstItem="8NT-d7-2Sa" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="2" id="Qhw-7p-gvi"/>
                                         <constraint firstAttribute="trailing" secondItem="8NT-d7-2Sa" secondAttribute="trailing" constant="20" id="f91-bU-mHw"/>
                                         <constraint firstItem="8NT-d7-2Sa" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="20" id="r5a-Ut-AEZ"/>
                                     </constraints>

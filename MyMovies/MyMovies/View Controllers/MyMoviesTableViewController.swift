@@ -30,7 +30,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
@@ -64,7 +64,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             let movie = fetchedResultsController.object(at: indexPath)
             
             // delete the task from the server
-            myMoviesController.deleteEntryFromServer(movie: movie) { (error) in
+            myMoviesController.deleteMovieFromServer(movie: movie) { (error) in
                 
                 // make sure we were actually able to delete on the server
                 // were not going
@@ -77,11 +77,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
                 // assume the remove from server failed, we
                 // create a new background context
                 // we want to make it run on a background context
-                guard let moc = entry.managedObjectContext else { return }
+                guard let moc = movie.managedObjectContext else { return }
                 
                 // do the delete on the background context
                 moc.perform {
-                    moc.delete(entry)
+                    moc.delete(movie)
                 }
                 
                 // then we save the context (using our new save function on CDS.shared
@@ -100,7 +100,14 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        return fetchedResultsController.sections?[section].name
+        var sectionName: String = ""
+        if fetchedResultsController.sections?[section].name == "0"{
+            sectionName = "Unwatched"
+        } else {
+            sectionName = "Watched"
+        }
+        
+        return sectionName
     }
     
     
