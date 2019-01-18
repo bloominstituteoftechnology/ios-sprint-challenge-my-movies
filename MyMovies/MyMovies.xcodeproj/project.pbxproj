@@ -94,6 +94,7 @@
 				D13AD4F821F23A07006D9E3A /* Movie+Encodable.swift */,
 				D13AD4FA21F23A5D006D9E3A /* Movie+Convenience.swift */,
 				D13AD4F021F2334C006D9E3A /* MyMovies.xcdatamodeld */,
+				D13AD4EE21F2330C006D9E3A /* CoreDataStack.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -103,7 +104,6 @@
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
 				D13AD4FC21F23DF9006D9E3A /* MyMoviesController.swift */,
-				D13AD4EE21F2330C006D9E3A /* CoreDataStack.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";

@@ -14,12 +14,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.reloadData()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -39,9 +33,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else {fatalError("Unable to dequeue cell as EntryTableViewCell")}
         
         
-        cell.titleLabel.text = fetchedResultsController.object(at: indexPath).title
+        let movie = fetchedResultsController.object(at: indexPath)
+        cell.titleLabel.text = movie.title
         
         cell.myMoviesController = myMoviesController
+        cell.movie = movie
         
         if fetchedResultsController.object(at: indexPath).hasWatched == false {
             cell.hasBeenWatchedButton.setTitle("Unwatched", for: .normal)

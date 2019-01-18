@@ -17,6 +17,14 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     @IBAction func changedHasBeenWatchedValue(_ sender: Any) {
         
+        guard let movie = movie else { fatalError(" Failed to get movie to change") }
+        guard let representation = movie.movieRepresentation else {
+            fatalError(" Failed to get movieRepresentation to change")
+        }
+        movie.hasWatched = !movie.hasWatched
+        myMoviesController?.update(movie: movie, with: representation)
+        print("button clicked")
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -13,13 +13,16 @@ class MovieSearchTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        addMovieButton.setTitleColor(UIColor.darkColor, for: .normal)
     }
     
     @IBAction func addMovieButtonClicked(_ sender: Any) {
         
-        // TODO: Implement add movie to CoreData and Firebase
         guard let titleLabelText = titleLabel.text else { return }
         myMoviesController?.createMovie(title: titleLabelText)
+        addMovieButton.backgroundColor = UIColor.darkColor
+        addMovieButton.setTitleColor(UIColor.accentColor, for: .normal)
+        addMovieButton.setTitle("Movie Added", for: .normal)
         print("button clicked")
     }
 
