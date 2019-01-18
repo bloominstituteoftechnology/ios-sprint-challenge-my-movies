@@ -11,7 +11,7 @@ import Foundation
 class FirebaseController {
     
     //Firebase
-    private let firebaseURL = URL(string: "https://sprint-4-challenge.firebaseio.com/")!
+    private let firebaseURL = URL(string: "https://core-data-sprint.firebaseio.com/")!
     
     //Put new movie on FB
     func sendMovie(movie:Movie, _ completion: @escaping Completions = Empties)

@@ -13,11 +13,22 @@ class SearchCellController: UITableViewCell {
     
     @IBOutlet weak var searchedMovieLabel: UILabel!
     @IBOutlet weak var saveMovieButton: UIButton!
-    @IBAction func clickedSaveButton(_ sender: UIButton) { }
+    @IBAction func clickedSaveButton(_ sender: UIButton) {
+        CoreDataController().newMovie(title: movie.title)
+        saveMovieButton.isEnabled = false
+        saveMovieButton.setTitle("", for:.normal)
+    }
+
     
-    var movie: MovieRepresentation?
-    
-    //Try a Did Set here if this doesn't show up instantaneously.
+    var movie: MovieRepresentation! {
+        didSet {
+                searchedMovieLabel.text = movie?.title
+                if CoreDataController().existingMovie(title: movie.title) {
+                saveMovieButton.isEnabled = false
+                saveMovieButton.setTitle("", for:.normal)
+            }
+        }
+    }
     
     
 }
