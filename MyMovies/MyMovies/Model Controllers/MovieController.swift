@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetchEntriesFromServer() { (_) in }
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -61,26 +65,49 @@ class MovieController {
                 fatalError("Failed to saveToPersistentStore:\(error)")
             }
         }
+    
         func createMovie(title: String, hasWatched: Bool, identifier: UUID){
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
             let newMovie = Movie(context: CoreDataStack.shared.mainContext)
             newMovie.title = title
             newMovie.identifier = UUID()
             putPostOrDeleteToFirebase(movie: newMovie, method: "POST") { (_) in }
             saveToPersistentStore(context: CoreDataStack.shared.mainContext)
         }
-        func updateMovie(movie: Movie, hasWatched: Bool) {
+    
+    func updateMovie(movie: Movie, hasWatched: Bool?, movieRepresentation: MovieRepresentation?) {
+        if let hasWatched = hasWatched {
             movie.hasWatched = hasWatched
             putPostOrDeleteToFirebase(movie: movie, method: "PUT") { (_) in }
             saveToPersistentStore(context: CoreDataStack.shared.mainContext)
         }
+        else {
+            guard let movieRepresentation = movieRepresentation else {return}
+            movie.title = movieRepresentation.title
+            movie.hasWatched = movieRepresentation.hasWatched!
+            
+        }
+    }
         func deleteMovie(movie: Movie) {
             putPostOrDeleteToFirebase(movie: movie, method: "DELETE") { (_) in }
             CoreDataStack.shared.mainContext.delete(movie)
             self.saveToPersistentStore(context: CoreDataStack.shared.mainContext)
         }
-    func getMovieFromPersistentStore(title: String, context: NSManagedObjectContext) -> Movie? {
+    func getMovieFromPersistentStoreByTitle(title: String, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         let predicate = NSPredicate(format: "title == %@", title)
+        fetchRequest.predicate = predicate
+        var movie: Movie?
+        
+        context.performAndWait {
+            movie = (try? context.fetch(fetchRequest))?.first
+        }
+        
+        return movie ?? nil
+    }
+    func getMovieFromPersistentStoreByIdentifier(identifier: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
         fetchRequest.predicate = predicate
         var movie: Movie?
         
@@ -109,6 +136,46 @@ class MovieController {
             completionHandler(error)
             }.resume()
     }
+    
+func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler) {
+    let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+    let requestURL = firebaseURL?.appendingPathExtension("json")
+    var request = URLRequest(url: requestURL!)
+    request.httpMethod = "GET"
+    
+    URLSession.shared.dataTask(with: request) { (data, _, error) in
+        if let error = error {
+            print("error initiaing dataTask")
+            completionHandler(error)
+            return
+        }
+        backgroundContext.performAndWait {
+            guard let data = data else {fatalError("Could not get data in 'GET' request.")}
+            do {
+                var movieRepresentations: [MovieRepresentation] = []
+                print(try JSONDecoder().decode([String: MovieRepresentation].self, from: data))
+                let results = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                movieRepresentations = Array(results.values)
+                self.iterateThroughMovieRepresentations(movieRepresentations: movieRepresentations, context: backgroundContext)
+                self.saveToPersistentStore(context: backgroundContext)
+                try! backgroundContext.save()
+                completionHandler(nil)
+            } catch {
+                print("error performing dataTask in fetchEntriesFromServer: \(error)")
+            }
+        }
+        }.resume()
+}
+func iterateThroughMovieRepresentations(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext) {
+    for movieRepresentation in movieRepresentations {
+        let movie = self.getMovieFromPersistentStoreByIdentifier(identifier: movieRepresentation.identifier!, context: context)
+        if movie != nil {
+            self.updateMovie(movie: movie!, hasWatched: nil, movieRepresentation: movieRepresentation)
+        } else {
+            _ = Movie(movieRepresentation: movieRepresentation).self
+        }
+    }
+}
     
     
     

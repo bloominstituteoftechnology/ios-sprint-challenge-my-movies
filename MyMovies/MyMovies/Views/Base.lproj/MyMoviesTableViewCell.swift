@@ -22,15 +22,15 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     @IBAction func watchedNotWatchedButtonWasTapped(_ sender: Any) {
-        guard let movie = movieController.getMovieFromPersistentStore(title: myMovieTitle.text!, context: CoreDataStack.shared.mainContext) else {fatalError("Could not get movie")}
+        guard let movie = movieController.getMovieFromPersistentStoreByTitle(title: myMovieTitle.text!, context: CoreDataStack.shared.mainContext) else {fatalError("Could not get movie")}
         
         switch movie.hasWatched {
         case true:
             watchedNotWatchedButton.setTitle("Not Watched", for: .normal)
-            movieController.updateMovie(movie: movie, hasWatched: false)
+            movieController.updateMovie(movie: movie, hasWatched: false, movieRepresentation: nil)
         case false:
             watchedNotWatchedButton.setTitle("Watched", for: .normal)
-            movieController.updateMovie(movie: movie, hasWatched: true)
+            movieController.updateMovie(movie: movie, hasWatched: true, movieRepresentation: nil)
         
     }
         movieController.saveToPersistentStore(context: CoreDataStack.shared.mainContext)

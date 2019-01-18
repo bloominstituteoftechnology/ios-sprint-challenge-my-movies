@@ -91,7 +91,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         case .move:
             guard let oldIndexPath = indexPath else {return}
             guard let newIndexPath = newIndexPath else {return}
-            tableView.moveRow(at: oldIndexPath, to: newIndexPath)
+            
             
         case .update:
             guard let indexPath = indexPath else {return}
