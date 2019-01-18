@@ -23,7 +23,7 @@ class MovieSearchTableViewCell: UITableViewCell {
         addMovieButton.backgroundColor = UIColor.darkColor
         addMovieButton.setTitleColor(UIColor.accentColor, for: .normal)
         addMovieButton.setTitle("Movie Added", for: .normal)
-        print("button clicked")
+        
     }
 
     @IBOutlet weak var titleLabel: UILabel!

@@ -17,7 +17,7 @@ class MyMoviesController{
 
     init() {
         // TODO: Implement init
-        //fetchEntriesFromServer()
+        fetchEntriesFromServer()
         
     }
     
@@ -158,25 +158,29 @@ class MyMoviesController{
         saveToPersistentStore()
     }
     
-    func updateMovie(movie: Movie){
-        
-//        movie.hasWatched = movie.hasWatched
-        
-        put(movie: movie)
-        saveToPersistentStore()
-    }
     
    func update(movie: Movie, with representation: MovieRepresentation){
+    
         guard let moc = movie.managedObjectContext else { return }
         guard let hasWatched = representation.hasWatched else {
             fatalError("Movie title did not contain a hasWatched value and should have")
         }
         moc.performAndWait {
-            movie.hasWatched = !hasWatched
+            movie.hasWatched = hasWatched
             movie.title = representation.title
             movie.identifier = representation.identifier
+            put(movie: movie)
+            
         }
-        updateMovie(movie: movie)
+    
+        do {
+            try CoreDataStack.shared.save(context: moc)
+        } catch {
+            // the save to local storage failed
+            NSLog("Error saving managed object context: \(error)")
+        }
+    
+    
     }
     
     /**
