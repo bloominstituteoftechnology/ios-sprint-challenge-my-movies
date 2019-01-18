@@ -36,7 +36,7 @@ class CoreDataStack {
         
         var theError: Error? //Allow for an error
         
-        //moc.performAndWait {
+        moc.performAndWait {
             
             do {
                 try moc.save() //Attempt to save
@@ -45,7 +45,7 @@ class CoreDataStack {
                 
                 theError = error //If there's an error, assign it for use
             }
-        //} End of Perform and Wait
+        } //End of Perform and Wait
         
         if let SAMerror = theError { //Unwrap the error
             throw SAMerror //Report the error

@@ -21,6 +21,7 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
         cdc.fetchResults.delegate = self as? NSFetchedResultsControllerDelegate
         fbc.getMovieOnFB()
+        tableView.reloadData()
     }
     
     //Set up the Sections
@@ -53,7 +54,7 @@ class MyMoviesTableViewController: UITableViewController {
     // Swipe to Delete
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-             cdc.deleteMovie(movie: cdc.fetchResults.object(at: indexPath))
+            cdc.deleteMovie(movie: cdc.fetchResults.object(at: indexPath))
         }
     }
     
