@@ -67,11 +67,10 @@ class MovieController {
         }
     
         func createMovie(title: String, hasWatched: Bool, identifier: UUID){
-            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
             let newMovie = Movie(context: CoreDataStack.shared.mainContext)
             newMovie.title = title
             newMovie.identifier = UUID()
-            putPostOrDeleteToFirebase(movie: newMovie, method: "POST") { (_) in }
+            putPostOrDeleteToFirebase(movie: newMovie, method: "PUT") { (_) in }
             saveToPersistentStore(context: CoreDataStack.shared.mainContext)
         }
     
@@ -131,7 +130,7 @@ class MovieController {
         }
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                print("error initiaing dataTask")
+                print("error initiaing dataTask: \(error)")
             }
             completionHandler(error)
             }.resume()
@@ -152,15 +151,16 @@ func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler) {
         backgroundContext.performAndWait {
             guard let data = data else {fatalError("Could not get data in 'GET' request.")}
             do {
-                var movieRepresentations: [MovieRepresentation] = []
                 print(try JSONDecoder().decode([String: MovieRepresentation].self, from: data))
-                let results = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
-                movieRepresentations = Array(results.values)
+                let results = try JSONDecoder().decode([String : MovieRepresentation].self, from: data)
+                let movieRepresentations = results.map{ $0.value }
+//                let movieRepresentations = movieRepresentationDictionaries.flatMap{ $0.values }
                 self.iterateThroughMovieRepresentations(movieRepresentations: movieRepresentations, context: backgroundContext)
                 self.saveToPersistentStore(context: backgroundContext)
                 try! backgroundContext.save()
                 completionHandler(nil)
             } catch {
+                print(requestURL)
                 print("error performing dataTask in fetchEntriesFromServer: \(error)")
             }
         }

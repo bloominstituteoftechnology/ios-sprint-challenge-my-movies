@@ -20,7 +20,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     
 
     // MARK: - Table view data source
@@ -50,6 +53,16 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         }
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if fetchedControllerProperty.sections?[section].name == "0" {
+            return "Not Watched"
+        }
+        if fetchedControllerProperty.sections?[section].name == "1" {
+            return "Watched"
+        }
+        return "Not Watched"
     }
 
     // Override to support editing the table view.
@@ -91,7 +104,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         case .move:
             guard let oldIndexPath = indexPath else {return}
             guard let newIndexPath = newIndexPath else {return}
-            
+            tableView.moveRow(at: oldIndexPath, to: newIndexPath)
             
         case .update:
             guard let indexPath = indexPath else {return}
