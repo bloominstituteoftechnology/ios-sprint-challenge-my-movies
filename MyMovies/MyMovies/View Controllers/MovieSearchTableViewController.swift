@@ -8,8 +8,22 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieSearchTableViewCellDelegate {
+    
+    func saveMovieToList(cell: MovieSearchTableViewCell) {
+        //guard let movie = movie,
+            //let movieRepresentation = movieRepresentation else { return }
+        let moc = CoreDataStack.shared.mainContext
+        let _ = Movie(context: moc)
+        //savedMovie.title = cell.MovieTitleLabel?.text
+        
+        do {
+            try moc.save()
+        } catch {
+            print("Failed to save: \(error)")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,14 +48,18 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieSearchTableViewCell
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        let movie = movieController.searchedMovies[indexPath.row].title
+        cell.textLabel?.text = movie
+        cell.delegate = self
         
         return cell
     }
     
+    let movie: Movie? = nil
     var movieController = MovieController()
+    var movieRepresentation: MovieRepresentation?
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
