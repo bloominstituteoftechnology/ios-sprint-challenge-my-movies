@@ -17,13 +17,16 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     @IBAction func changedHasBeenWatchedValue(_ sender: Any) {
         
-        guard var movie = movie else { fatalError(" Failed to get movie to change") }
-        guard let representation = movie.movieRepresentation else {
-            fatalError(" Failed to get movieRepresentation to change")
+        print(movie.hasWatched)
+        if movie.hasWatched == true {
+            movie.hasWatched = false
+        } else {
+            movie.hasWatched = true
         }
-        movie.hasWatched = !movie.hasWatched
+        guard let representation = movie.movieRepresentation else {fatalError("unable to get movie representation")}
         myMoviesController?.update(movie: movie, with: representation)
-        
+        print(movie.hasWatched)
+        print("here")
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -32,7 +35,7 @@ class MyMoviesTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    var movie: Movie?
+    var movie: Movie!
     var myMoviesController: MyMoviesController?
     
     @IBOutlet weak var titleLabel: UILabel!

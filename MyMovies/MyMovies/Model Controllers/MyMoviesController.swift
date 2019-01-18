@@ -164,6 +164,7 @@ class MyMoviesController{
         guard let moc = movie.managedObjectContext else { return }
         guard let hasWatched = representation.hasWatched else {
             fatalError("Movie title did not contain a hasWatched value and should have")
+            
         }
         moc.performAndWait {
             movie.hasWatched = hasWatched
