@@ -53,9 +53,44 @@ class MyMoviesTableViewController: UITableViewController {
     // Swipe to Delete
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+             cdc.deleteMovie(movie: cdc.fetchResults.object(at: indexPath))
         }
     }
+    
+    
+//Instructions for the Fetch Results Controller
+    
+    //When any of the movies are changed, update the content
+    func contentChanged(_ controller: NSFetchedResultsController<NSFetchRequestResult> ) {
+        
+        tableView.beginUpdates()
+    }
+    
+    //
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert: tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete: tableView.deleteSections(IndexSet(integer:sectionIndex), with: .automatic)
+        default: break
+        }
+    }
+    
+    //
+    func controller(controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert: tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        case .delete: tableView.deleteRows(at: [indexPath!], with: .automatic)
+        case .update: tableView.reloadRows(at: [indexPath!], with: .automatic)
+        case .move: tableView.deleteRows(at: [indexPath!], with: .automatic)
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        }
+    }
+    
+    //
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
 
 }
