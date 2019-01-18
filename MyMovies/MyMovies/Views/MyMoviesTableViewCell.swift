@@ -26,6 +26,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     var movie: Movie?
+    var myMoviesController: MyMoviesController?
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasBeenWatchedButton: UIButton!

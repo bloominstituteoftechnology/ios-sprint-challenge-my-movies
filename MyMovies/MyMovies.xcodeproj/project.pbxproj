@@ -22,6 +22,7 @@
 		D13AD4F721F23878006D9E3A /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13AD4F621F23878006D9E3A /* MovieSearchTableViewCell.swift */; };
 		D13AD4F921F23A07006D9E3A /* Movie+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13AD4F821F23A07006D9E3A /* Movie+Encodable.swift */; };
 		D13AD4FB21F23A5D006D9E3A /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13AD4FA21F23A5D006D9E3A /* Movie+Convenience.swift */; };
+		D13AD4FD21F23DF9006D9E3A /* MyMoviesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13AD4FC21F23DF9006D9E3A /* MyMoviesController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		D13AD4F621F23878006D9E3A /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 		D13AD4F821F23A07006D9E3A /* Movie+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Encodable.swift"; sourceTree = "<group>"; };
 		D13AD4FA21F23A5D006D9E3A /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		D13AD4FC21F23DF9006D9E3A /* MyMoviesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				D13AD4FC21F23DF9006D9E3A /* MyMoviesController.swift */,
 				D13AD4EE21F2330C006D9E3A /* CoreDataStack.swift */,
 			);
 			path = "Model Controllers";
@@ -223,6 +226,7 @@
 			files = (
 				D13AD4F721F23878006D9E3A /* MovieSearchTableViewCell.swift in Sources */,
 				D13AD4F921F23A07006D9E3A /* Movie+Encodable.swift in Sources */,
+				D13AD4FD21F23DF9006D9E3A /* MyMoviesController.swift in Sources */,
 				D13AD4FB21F23A5D006D9E3A /* Movie+Convenience.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				D13AD4F521F233EB006D9E3A /* Appearance.swift in Sources */,

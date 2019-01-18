@@ -38,10 +38,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         cell.titleLabel?.text = movieController.searchedMovies[indexPath.row].title
         
+        cell.myMoviesController = myMoviesController
+        
         return cell
     }
     
     var movieController = MovieController()
+    var myMoviesController = MyMoviesController()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }

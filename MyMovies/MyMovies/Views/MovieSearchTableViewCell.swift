@@ -16,11 +16,16 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
     
     @IBAction func addMovieButtonClicked(_ sender: Any) {
-        print("button clicked")
+        
         // TODO: Implement add movie to CoreData and Firebase
+        guard let titleLabelText = titleLabel.text else { return }
+        myMoviesController?.createMovie(title: titleLabelText)
+        print("button clicked")
     }
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
+    
+    var myMoviesController: MyMoviesController?
     
 }

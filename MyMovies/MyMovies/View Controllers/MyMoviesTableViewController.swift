@@ -41,6 +41,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         
         cell.titleLabel.text = fetchedResultsController.object(at: indexPath).title
         
+        cell.myMoviesController = myMoviesController
+        
         if fetchedResultsController.object(at: indexPath).hasWatched == false {
             cell.hasBeenWatchedButton.setTitle("Unwatched", for: .normal)
         } else {
@@ -61,35 +63,35 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
             
-//            // delete the task from the server
-//            movieController.deleteEntryFromServer(movie: movie) { (error) in
-//                
-//                // make sure we were actually able to delete on the server
-//                // were not going
-//                if let error = error {
-//                    NSLog("error deleting entry from server: \(error)")
-//                    // if it failed, we are also not going to delete it locally
-//                    return
-//                }
-//                
-//                // assume the remove from server failed, we
-//                // create a new background context
-//                // we want to make it run on a background context
-//                guard let moc = entry.managedObjectContext else { return }
-//                
-//                // do the delete on the background context
-//                moc.perform {
-//                    moc.delete(entry)
-//                }
-//                
-//                // then we save the context (using our new save function on CDS.shared
-//                do {
-//                    try CoreDataStack.shared.save(context: moc)
-//                } catch {
-//                    // the save to local storage failed
-//                    NSLog("Error saving managed object context: \(error)")
-//                }
-//            }
+            // delete the task from the server
+            myMoviesController.deleteEntryFromServer(movie: movie) { (error) in
+                
+                // make sure we were actually able to delete on the server
+                // were not going
+                if let error = error {
+                    NSLog("error deleting entry from server: \(error)")
+                    // if it failed, we are also not going to delete it locally
+                    return
+                }
+                
+                // assume the remove from server failed, we
+                // create a new background context
+                // we want to make it run on a background context
+                guard let moc = entry.managedObjectContext else { return }
+                
+                // do the delete on the background context
+                moc.perform {
+                    moc.delete(entry)
+                }
+                
+                // then we save the context (using our new save function on CDS.shared
+                do {
+                    try CoreDataStack.shared.save(context: moc)
+                } catch {
+                    // the save to local storage failed
+                    NSLog("Error saving managed object context: \(error)")
+                }
+            }
             
             
         }
@@ -152,7 +154,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     // MARK: - Properties
     
-    let movieController = MovieController()
+    var myMoviesController = MyMoviesController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         
