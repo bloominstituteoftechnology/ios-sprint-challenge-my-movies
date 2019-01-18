@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -52,7 +53,69 @@ class MovieController {
         }.resume()
     }
     
+        
+    func saveToPersistentStore(context: NSManagedObjectContext) {
+            do {
+                try context.save()
+            } catch {
+                fatalError("Failed to saveToPersistentStore:\(error)")
+            }
+        }
+        func createMovie(title: String, hasWatched: Bool, identifier: UUID){
+            let newMovie = Movie(context: CoreDataStack.shared.mainContext)
+            newMovie.title = title
+            newMovie.identifier = UUID()
+            putPostOrDeleteToFirebase(movie: newMovie, method: "POST") { (_) in }
+            saveToPersistentStore(context: CoreDataStack.shared.mainContext)
+        }
+        func updateMovie(movie: Movie, hasWatched: Bool) {
+            movie.hasWatched = hasWatched
+            putPostOrDeleteToFirebase(movie: movie, method: "PUT") { (_) in }
+            saveToPersistentStore(context: CoreDataStack.shared.mainContext)
+        }
+        func deleteMovie(movie: Movie) {
+            putPostOrDeleteToFirebase(movie: movie, method: "DELETE") { (_) in }
+            CoreDataStack.shared.mainContext.delete(movie)
+            self.saveToPersistentStore(context: CoreDataStack.shared.mainContext)
+        }
+    func getMovieFromPersistentStore(title: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "title == %@", title)
+        fetchRequest.predicate = predicate
+        var movie: Movie?
+        
+        context.performAndWait {
+            movie = (try? context.fetch(fetchRequest))?.first
+        }
+        
+        return movie ?? nil
+    }
+
+    func putPostOrDeleteToFirebase(movie: Movie, method: String, completionHandler: @escaping CompletionHandler) {
+        let requestURL = firebaseURL?.appendingPathComponent((movie.identifier?.uuidString)!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = method
+        do {
+            request.httpBody = try JSONEncoder().encode(movie)
+        } catch {
+            print("error encoding 'Entry' object into JSON")
+            completionHandler(error)
+            return
+        }
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("error initiaing dataTask")
+            }
+            completionHandler(error)
+            }.resume()
+    }
+    
+    
+    
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    typealias CompletionHandler = (Error?) -> Void
+    let firebaseURL = URL(string:"https://ios-movies-a964d.firebaseio.com/")
 }
