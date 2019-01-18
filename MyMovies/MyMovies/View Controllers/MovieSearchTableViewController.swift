@@ -30,22 +30,22 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
-    
-    //Normal TableView Set up
-    
+    //Set up Table View Rows
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
     
+    //Set up Cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath) as! SearchCellController
         
-        //movieController.searchedMovies[indexPath.row].title
+        cell.movie = movieController.searchedMovies[indexPath.row]
         
         return cell
     }
     
+    //Properties and Outlets
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!

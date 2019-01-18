@@ -15,6 +15,10 @@ class SearchCellController: UITableViewCell {
     @IBOutlet weak var saveMovieButton: UIButton!
     @IBAction func clickedSaveButton(_ sender: UIButton) { }
     
-    var movie: Movie?
+    var movie: MovieRepresentation?
+    
+    //Try a Did Set here if this doesn't show up instantaneously.
+    
+    
 }
 

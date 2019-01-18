@@ -20,6 +20,8 @@
 		4CF2014221F239FD002CC51B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2014121F239FD002CC51B /* CoreDataStack.swift */; };
 		4CF2014421F24C1A002CC51B /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2014321F24C1A002CC51B /* SearchCell.swift */; };
 		4CF2014621F24C21002CC51B /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2014521F24C21002CC51B /* MovieCell.swift */; };
+		4CF2014A21F25407002CC51B /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2014921F25407002CC51B /* FirebaseController.swift */; };
+		4CF2014C21F25410002CC51B /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF2014B21F25410002CC51B /* CoreDataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		4CF2014121F239FD002CC51B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		4CF2014321F24C1A002CC51B /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		4CF2014521F24C21002CC51B /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		4CF2014921F25407002CC51B /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
+		4CF2014B21F25410002CC51B /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				4CF2014921F25407002CC51B /* FirebaseController.swift */,
+				4CF2014B21F25410002CC51B /* CoreDataController.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -199,12 +205,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CF2014A21F25407002CC51B /* FirebaseController.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				4CF2014021F23977002CC51B /* MovieConvenience.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				4CF2014421F24C1A002CC51B /* SearchCell.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				4CF2014C21F25410002CC51B /* CoreDataController.swift in Sources */,
 				4CF2013E21F2364A002CC51B /* Movies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 				4CF2014621F24C21002CC51B /* MovieCell.swift in Sources */,

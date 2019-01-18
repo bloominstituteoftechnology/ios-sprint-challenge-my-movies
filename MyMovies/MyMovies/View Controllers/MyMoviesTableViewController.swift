@@ -12,11 +12,8 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
-
-    // MARK: - Table view data source
-
+    
     //Set up the Sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
