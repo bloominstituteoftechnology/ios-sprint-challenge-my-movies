@@ -68,6 +68,7 @@ class MovieController {
     
         func createMovie(title: String, hasWatched: Bool, identifier: UUID){
             let newMovie = Movie(context: CoreDataStack.shared.mainContext)
+            newMovie.hasWatched = false
             newMovie.title = title
             newMovie.identifier = UUID()
             putPostOrDeleteToFirebase(movie: newMovie, method: "PUT") { (_) in }
@@ -151,7 +152,6 @@ func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler) {
         backgroundContext.performAndWait {
             guard let data = data else {fatalError("Could not get data in 'GET' request.")}
             do {
-                print(try JSONDecoder().decode([String: MovieRepresentation].self, from: data))
                 let results = try JSONDecoder().decode([String : MovieRepresentation].self, from: data)
                 let movieRepresentations = results.map{ $0.value }
 //                let movieRepresentations = movieRepresentationDictionaries.flatMap{ $0.values }
@@ -172,7 +172,7 @@ func iterateThroughMovieRepresentations(movieRepresentations: [MovieRepresentati
         if movie != nil {
             self.updateMovie(movie: movie!, hasWatched: nil, movieRepresentation: movieRepresentation)
         } else {
-            _ = Movie(movieRepresentation: movieRepresentation).self
+            _ = Movie(title: movieRepresentation.title, hasWatched: movieRepresentation.hasWatched!, identifier: UUID(uuidString: movieRepresentation.identifier!)!, context: context).self
         }
     }
 }

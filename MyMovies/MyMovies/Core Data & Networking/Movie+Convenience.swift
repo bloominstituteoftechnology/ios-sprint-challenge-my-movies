@@ -19,9 +19,9 @@ extension Movie {
     
     convenience init?(movieRepresentation: MovieRepresentation) {
         self.init()
-        title = movieRepresentation.title
-        hasWatched = movieRepresentation.hasWatched!
-        identifier = UUID(uuidString: movieRepresentation.identifier!)
+        self.title = movieRepresentation.title
+        self.hasWatched = movieRepresentation.hasWatched!
+        self.identifier = UUID(uuidString: movieRepresentation.identifier!)
     }
     
 }
