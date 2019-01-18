@@ -11,8 +11,10 @@ import CoreData
 
 class CoreDataController {
     
+    static var shared = CoreDataController()
+    
     //Fetch Results
-    lazy var fetchResults:NSFetchedResultsController<Movie> = {
+    lazy var fetchResults: NSFetchedResultsController<Movie> = {
         let context = CoreDataStack.shared.mainContext
         var request: NSFetchRequest<Movie> = Movie.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true), NSSortDescriptor(key:"title", ascending:true)]

@@ -13,8 +13,19 @@ class MovieCellController: UITableViewCell {
     
     @IBOutlet weak var myMovieLabel: UILabel!
     @IBOutlet weak var statusButton: UIButton!
-    @IBAction func toggledWatchStatus(_ sender: UIButton) { }
     
-    var movie: Movie?
+    var movie: Movie! {
+        didSet {
+            myMovieLabel.text = movie.title!
+            statusButton.setTitle(
+                movie.hasWatched ? "Watched": "Unwatched",
+                for:.normal )
+        }
+    }
+    
+    @IBAction func toggledWatchStatus(_ sender: UIButton) { CoreDataController().watchToggle(movie)
+        statusButton.setTitle(
+            movie.hasWatched ? "Watched": "Unwatched",
+            for:.normal) }
     
 }

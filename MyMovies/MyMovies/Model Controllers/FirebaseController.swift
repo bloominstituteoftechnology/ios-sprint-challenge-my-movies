@@ -10,6 +10,8 @@ import Foundation
 
 class FirebaseController {
     
+    static var shared = FirebaseController()
+    
     //Firebase
     private let firebaseURL = URL(string: "https://core-data-sprint.firebaseio.com/")!
     
