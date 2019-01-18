@@ -36,22 +36,16 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let movie = fetchedResultsController.object(at: indexPath)
         cell.titleLabel.text = movie.title
         
+        cell.myMoviesController = myMoviesController
+        cell.movie = movie
+        
         if cell.movie?.hasWatched == true {
             cell.hasBeenWatchedButton.setTitle("Watched", for: .normal)
         } else {
             cell.hasBeenWatchedButton.setTitle("Unwatched", for: .normal)
         }
         
-        cell.myMoviesController = myMoviesController
-        cell.movie = movie
-        
-        
-        if fetchedResultsController.object(at: indexPath).hasWatched == false {
-            cell.hasBeenWatchedButton.setTitle("Unwatched", for: .normal)
-        } else {
-            cell.hasBeenWatchedButton.setTitle("Watched", for: .normal)
-        }
-
+    
         // Configure the cell...
 
         return cell
