@@ -18,6 +18,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         super.viewDidLoad()
 
     }
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let frc = CoreDataStack.shared.makeNewFetchedResultsController()
 
@@ -68,6 +69,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return fetchedResultsController.sections?[section].name
     }
+    
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
@@ -75,8 +77,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let movie = fetchedResultsController.object(at: indexPath)
         //FIXME: Movie is saving with NO IDENTIFIER 🤬
         let movieIdentifier = movie.identifier
-        myMoviesController.deleteMovieFromServer(movieWithIdentifier: movieIdentifier ?? UUID())
         CoreDataStack.shared.mainContext.delete(movie)
+        try! CoreDataStack.shared.mainContext.save()
         do {
             try CoreDataStack.shared.mainContext.save()
             if let identifier = movieIdentifier {
@@ -86,6 +88,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             print("Failed to delete movie: \(error)")
         }
         tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
     }
 
     /*
