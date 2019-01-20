@@ -16,7 +16,7 @@ class MovieCellController: UITableViewCell {
     
     var movie: Movie! {
         didSet {
-            myMovieLabel.text = movie.title!
+                myMovieLabel.text = movie.title!
             statusButton.setTitle(
                 movie.hasWatched ? "Watched": "Unwatched",
                 for:.normal )

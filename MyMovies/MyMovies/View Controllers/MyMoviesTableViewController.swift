@@ -9,17 +9,22 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     //Properties
     var cdc = CoreDataController.shared
     var fbc = FirebaseController.shared
     
+    //
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     
     //View Did Load Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        cdc.fetchResults.delegate = self as? NSFetchedResultsControllerDelegate
+        cdc.fetchResults.delegate = self
         fbc.getMovieOnFB()
         tableView.reloadData()
     }
@@ -52,22 +57,22 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     // Swipe to Delete
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            cdc.deleteMovie(movie: cdc.fetchResults.object(at: indexPath))
+            // guard cdc.fetchResults.object(at: indexPath).isDeleted == false else { return }
+            
+            cdc.deleteMovie(movie: cdc.fetchResults.object(at: indexPath), index: indexPath)
         }
     }
     
     
 //Instructions for the Fetch Results Controller
     
-    //When any of the movies are changed, update the content
-    func contentChanged(_ controller: NSFetchedResultsController<NSFetchRequestResult> ) {
-        
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
     
-    //
+    // controller(_:didChange:atSectionIndex:for:)
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert: tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
@@ -76,8 +81,7 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
     
-    //
-    func controller(controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {
         case .insert: tableView.insertRows(at: [newIndexPath!], with: .automatic)
@@ -88,10 +92,8 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
     
-    //
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-    
 
 }

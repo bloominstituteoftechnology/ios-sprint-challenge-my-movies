@@ -53,7 +53,7 @@ class CoreDataController {
     }
     
     //Fetch the existing movie if there's already one with the same title.
-    func existingMovie(title:String, moc: NSManagedObjectContext = CoreDataStack.shared.mainContext) -> Bool
+    func movieExistsLocally(title:String, moc: NSManagedObjectContext = CoreDataStack.shared.mainContext) -> Bool
     {
         var result = false
         moc.performAndWait {
@@ -114,21 +114,26 @@ class CoreDataController {
     }
     
     //Delete Movie
-    func deleteMovie(movie:Movie, _ completion:@escaping Completions = Empties)
+    func deleteMovie( movie: Movie, index: IndexPath, _ completion:@escaping Completions = Empties)
     {
-        let stub = movie.getMovie()
+        let stub = movie.getMovie() //Get a reference of the movie on Firebase
+        
         guard let moc = movie.managedObjectContext else { return }
+        
         moc.performAndWait {
-            moc.delete(movie)
+            moc.delete(movie) //Delete the movie
+            
             do {
-                try moc.save()
+                try moc.save() //Save the change
+                
             } catch {
+                
                 self.showErrors(completion, "Unable to save moc")
                 return
             }
         }
         
-       let req = FirebaseController().buildRequest([stub.identifier!.uuidString], "DELETE")
+        let req = FirebaseController().buildURLRequest([stub.identifier!.uuidString], "DELETE")
         
         URLSession.shared.dataTask(with: req) { (_, _, error) in
             if let error = error {
