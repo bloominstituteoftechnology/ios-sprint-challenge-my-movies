@@ -59,7 +59,7 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s3H-sy-xNn">
                                                     <rect key="frame" x="67.5" y="0.0" width="276.5" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <state key="normal" title="Save"/>
                                                     <connections>
                                                         <action selector="clickedSaveButton:" destination="d7W-qE-xfL" eventType="touchUpInside" id="whU-AP-kWI"/>
                                                     </connections>

@@ -17,17 +17,22 @@ class SearchCellController: UITableViewCell {
     var movie: MovieRepresentation! {
         didSet {
             searchedMovieLabel.text = movie?.title
-            if CoreDataController().existingMovie(title: movie.title) {
+            if CoreDataController.shared.movieExistsLocally(title: movie.title) == true {
                 saveMovieButton.isEnabled = false
-                saveMovieButton.setTitle("", for:.normal)
+                saveMovieButton.setTitle("Already Saved", for:.normal)
             }
         }
     }
     
+    override func prepareForReuse() {
+        saveMovieButton.isEnabled = true
+        saveMovieButton.setTitle("Save", for: .normal)
+    }
+    
     @IBAction func clickedSaveButton(_ sender: UIButton) {
-        CoreDataController().newMovie(title: movie.title)
+        CoreDataController.shared.newMovie(title: movie.title)
         saveMovieButton.isEnabled = false
-        saveMovieButton.setTitle("", for:.normal)
+        saveMovieButton.setTitle("Saved", for:.normal)
     }
 
     

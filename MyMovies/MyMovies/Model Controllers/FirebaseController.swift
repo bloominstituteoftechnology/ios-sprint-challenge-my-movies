@@ -26,7 +26,7 @@ class FirebaseController {
             showErrors(completion, "Couldn't encode movie: \(error)")
         }
         
-        let req = buildRequest([movie.identifier!.uuidString], "PUT", data)
+        let req = buildURLRequest([movie.identifier!.uuidString], "PUT", data)
         URLSession.shared.dataTask(with: req) { (_, _, error) in
             if let error = error {
                 self.showErrors(completion, "Error putting: \(error)")
@@ -40,7 +40,7 @@ class FirebaseController {
     func getMovieOnFB(_ completion:@escaping Completions = Empties)
     {
         let moc = CoreDataStack.shared.container.newBackgroundContext()
-        let req = buildRequest([], "GET")
+        let req = buildURLRequest([], "GET")
         URLSession.shared.dataTask(with: req) { data, _, error in
             if let error = error {
                 self.showErrors(completion, "Error fetching: \(error)")
@@ -61,13 +61,8 @@ class FirebaseController {
             }.resume()
     }
     
-    
-    
-    
-    
-    
-    
-    func buildRequest(_ ids:[String], _ httpMethod:String, _ data:Data?=nil) -> URLRequest
+    //Create the URL Request with the entered httpMethod and add movies to the URL path
+    func buildURLRequest(_ ids:[String], _ httpMethod:String, _ data:Data?=nil) -> URLRequest
     {
         var url = firebaseURL
         url.appendPathComponent("movies")
