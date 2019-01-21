@@ -5,47 +5,58 @@
 //  Created by Spencer Curtis on 8/17/18.
 //  Copyright © 2018 Lambda School. All rights reserved.
 //
-
+import CoreData
 import UIKit
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
+    let myMoviesController = MyMoviesController()
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let frc = CoreDataStack.shared.makeNewFetchedResultsController()
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+//        let predicate = NSPredicate(format: "hasWatched == %@", true)
+//        frc.fetchRequest.predicate = predicate
+
+        frc.delegate = self
+        try? frc.performFetch()
+        return frc
+    }()
+    
+    @IBAction func beginRefresh(_ sender: UIRefreshControl) {
+        myMoviesController.fetchMoviesFromServer { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                sender.endRefreshing()
+            }
+        }
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return fetchedResultsController.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
+        
+        let movie = fetchedResultsController.object(at: indexPath)
+        cell.myMovieTitleLabel.text = movie.title
+        
+        
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -54,18 +65,31 @@ class MyMoviesTableViewController: UITableViewController {
         return true
     }
     */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
     }
-    */
+    
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        
+        let movie = fetchedResultsController.object(at: indexPath)
+        //FIXME: Movie is saving with NO IDENTIFIER 🤬
+        let movieIdentifier = movie.identifier
+        CoreDataStack.shared.mainContext.delete(movie)
+        try! CoreDataStack.shared.mainContext.save()
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            if let identifier = movieIdentifier {
+                myMoviesController.deleteMovieFromServer(movieWithIdentifier: identifier)
+            }
+        } catch {
+            print("Failed to delete movie: \(error)")
+        }
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
+    }
 
     /*
     // Override to support rearranging the table view.
@@ -91,5 +115,42 @@ class MyMoviesTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - NSFetchedResultsControllerDelegate
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+        tableView.beginUpdates()
+        
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type {
+            
+        case .insert:
+            guard let indexPath = newIndexPath else { return }
+            tableView.insertRows(at: [indexPath], with: .automatic)
+            
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+        case .move:
+            guard let oldIndexPath = indexPath else { return }
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.moveRow(at: oldIndexPath, to: newIndexPath)
+            
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+        
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+        tableView.endUpdates()
+    }
 
 }
