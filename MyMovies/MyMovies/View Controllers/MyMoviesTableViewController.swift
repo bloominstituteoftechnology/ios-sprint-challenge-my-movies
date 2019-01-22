@@ -11,9 +11,8 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMoviesWatchedButtonDelegate {
     
-    func hasWatchedToggle(cell: MyMoviesTableViewCell) {
-        guard let movieRepresentation = movieRepresentation else { return }
-        movieController.updateWatchedButton(movie: movieRepresentation)
+    func hasWatchedToggle(movie: Movie) {
+        movieController.updateWatchedButton(movie: movie)
     }
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
@@ -26,22 +25,28 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
-                                             sectionNameKeyPath: nil, // This might need to be "hasWatched"
+                                             sectionNameKeyPath: "hasWatched", // This might need to be "hasWatched"
                                              cacheName: nil)
         frc.delegate = self
         try? frc.performFetch()
         return frc
     }()
     
-    override func viewDidLoad() {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewDidLoad()
         
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionCount = fetchedResultsController.sections?[section] else { return nil }
+        return sectionCount.indexTitle == "1" ? "Watched" : "Not Watched"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,18 +66,18 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
- 
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+            let movie = fetchedResultsController.object(at: indexPath)
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(movie)
+            movieController.delete(movie: movie)
+            
+            do {
+                try CoreDataStack.shared.save(context: moc)
+                tableView.reloadData()
+            } catch {
+                print("Failed to save after deleting movie: \(error)")
+            }
+        }
     }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -108,6 +113,16 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.endUpdates()
     }
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default: break
+        }
+    }
+    
     var movieRepresentation: MovieRepresentation?
-    let movieController = MovieController()
+    var movieController = MovieController()
 }

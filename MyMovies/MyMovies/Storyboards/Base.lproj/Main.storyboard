@@ -61,7 +61,7 @@
                                                     <rect key="frame" x="270" y="0.0" width="73" height="27.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="27.5" id="TiZ-30-Pfv"/>
-                                                        <constraint firstAttribute="width" constant="73" id="f72-0N-vNc"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="73" id="f72-0N-vNc"/>
                                                     </constraints>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
@@ -84,6 +84,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="MovieTitleLabel" destination="pJg-Dv-FoL" id="FZN-9E-Zse"/>
                                     <outlet property="addMovieButton" destination="Bcg-or-iYQ" id="H8a-C4-fvv"/>
                                 </connections>
                             </tableViewCell>
@@ -93,7 +94,7 @@
                             <outlet property="delegate" destination="YE2-Zi-kUT" id="lIt-L5-G4h"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Movie Search" id="sdT-54-ch4"/>
+                    <tabBarItem key="tabBarItem" title="Movie Search" image="icons8-search-filled-30" id="sdT-54-ch4"/>
                     <connections>
                         <outlet property="searchBar" destination="dkD-cf-Lg3" id="GWC-CQ-FFh"/>
                     </connections>
@@ -152,8 +153,8 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="MovieTitleLabel" destination="a6O-zS-fmH" id="u95-GD-bmG"/>
                                     <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="1ly-uX-4oS"/>
-                                    <outlet property="myMoviesListLabel" destination="a6O-zS-fmH" id="Tsz-5J-iBY"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -162,11 +163,15 @@
                             <outlet property="delegate" destination="1Gb-tL-YFt" id="4Hh-DX-Gi9"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
+                    <tabBarItem key="tabBarItem" title="My Movies" image="icons8-bookmark-filled-30" id="y85-fk-XTV"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1496.8" y="699.40029985007504"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icons8-bookmark-filled-30" width="30" height="30"/>
+        <image name="icons8-search-filled-30" width="30" height="30"/>
+    </resources>
 </document>

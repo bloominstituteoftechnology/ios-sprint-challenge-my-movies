@@ -9,18 +9,20 @@
 import UIKit
 
 protocol MyMoviesWatchedButtonDelegate: class {
-    func hasWatchedToggle(cell: MyMoviesTableViewCell)
+    func hasWatchedToggle(movie: Movie)
 }
 
 class MyMoviesTableViewCell: UITableViewCell {
 
     weak var delegate: MyMoviesWatchedButtonDelegate?
     
-    @IBOutlet weak var myMoviesListLabel: UILabel!
+    @IBOutlet weak var MovieTitleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     
     @IBAction func hasWatchedButtonTapped(_ sender: Any) {
-        
+        guard let movie = movie else { return }
+        delegate?.hasWatchedToggle(movie: movie)
+        updateViews()
     }
     
     var movie: Movie? {
@@ -32,7 +34,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     func updateViews(){
         
         guard let movie = movie else { return }
-        myMoviesListLabel.text = movie.title
+        MovieTitleLabel.text = movie.title
         
         let watchedButtonTitle = movie.hasWatched ? "Unwatched" : "Watched"
         hasWatchedButton.setTitle(watchedButtonTitle, for: .normal)

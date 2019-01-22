@@ -13,17 +13,15 @@ class MovieTBController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        for childVC in childViewControllers {
+            guard let movieController = movieController else { return }
+            if let childVC = childVC as? MovieSearchTableViewController {
+                childVC.movieController = movieController
+            } else if let childVC = childVC as? MyMoviesTableViewController {
+                childVC.movieController = movieController
+            }
+        }
     }
     
-
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-    }
-    
-
+    let movieController: MovieController? = nil
 }

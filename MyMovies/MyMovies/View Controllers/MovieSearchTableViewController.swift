@@ -10,32 +10,8 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieSearchTableViewCellDelegate {
     
-    func saveMovieToList(cell: MovieSearchTableViewCell) {
-        guard let movieRepresentation = movieRepresentation else { return }
-        
-        let moc = CoreDataStack.shared.mainContext
-        let hasWatched = movieRepresentation.hasWatched ?? false
-        let identifier = movieRepresentation.identifier ?? UUID()
-        let movie = Movie(title: movieRepresentation.title, identifier: identifier, hasWatched: hasWatched, context: moc)
-        movie.title = cell.MovieTitleLabel.text
-        
-        do {
-            try moc.save()
-        } catch {
-            print("Failed to save: \(error)")
-        }
-        
-//        guard let movie = movie,
-//            let movieRepresentation = movieRepresentation else { return }
-//        let moc = CoreDataStack.shared.mainContext
-//        let _ = Movie(context: moc)
-//        savedMovie.title = cell.MovieTitleLabel?.text
-//
-//        do {
-//            try moc.save()
-//        } catch {
-//            print("Failed to save: \(error)")
-//        }
+    func saveMovieToList(movie: MovieRepresentation) {
+        movieController.create(movieRepresentation: movie)
     }
     
     override func viewDidLoad() {
@@ -62,18 +38,20 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieSearchTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
-        let movie = movieController.searchedMovies[indexPath.row].title
-        cell.textLabel?.text = movie
-        cell.delegate = self
+        guard let MovieCell = cell as? MovieSearchTableViewCell else { return cell }
+        
+        let movie = movieController.searchedMovies[indexPath.row]
+        MovieCell.movieRepresentation = movie
+        MovieCell.delegate = self
         
         return cell
     }
     
-    let movie: Movie? = nil
+    //let movie: Movie? = nil
     var movieController = MovieController()
-    var movieRepresentation: MovieRepresentation?
+    //var movieRepresentation: MovieRepresentation?
     
     @IBOutlet weak var searchBar: UISearchBar!
 }

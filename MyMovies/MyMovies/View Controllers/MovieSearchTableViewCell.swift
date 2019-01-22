@@ -9,30 +9,32 @@
 import UIKit
 
 protocol MovieSearchTableViewCellDelegate: class {
-    func saveMovieToList(cell: MovieSearchTableViewCell)
+    func saveMovieToList(movie: MovieRepresentation)
 }
 
 class MovieSearchTableViewCell: UITableViewCell {
 
-    var delegate: MovieSearchTableViewCellDelegate!
+    weak var delegate: MovieSearchTableViewCellDelegate!
+    
+    var movieRepresentation: MovieRepresentation? {
+        didSet {
+            updateView()
+        }
+    }
     
     @IBOutlet weak var MovieTitleLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        delegate?.saveMovieToList(cell: self)
+        guard let movieRepresentation = movieRepresentation else { return }
+        delegate?.saveMovieToList(movie: movieRepresentation)
+        addMovieButton.setTitle("Added", for: .normal)
     }
     
     
     func updateView() {
-        if let movieRepresentation = movieRepresentation {
-            MovieTitleLabel.text = movieRepresentation.title
-        }
+        guard let movieRepresentation = movieRepresentation else { return }
+        MovieTitleLabel.text = movieRepresentation.title
+        
     }
-    
-    var movieRepresentation: MovieRepresentation? {
-        didSet { updateView() }
-    }
-    
-    var movieController = MovieController()
 }

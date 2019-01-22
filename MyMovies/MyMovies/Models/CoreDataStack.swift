@@ -12,8 +12,9 @@ import CoreData
 class CoreDataStack {
     static let shared = CoreDataStack()
     
-    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+    func save(context: NSManagedObjectContext) throws {
         var error: Error?
+        
         context.performAndWait {
             do {
                 try context.save()
@@ -37,9 +38,5 @@ class CoreDataStack {
     
     var mainContext: NSManagedObjectContext  {
         return container.viewContext
-    }
-    
-    var backgroundContext: NSManagedObjectContext {
-        return container.newBackgroundContext()
     }
 }
