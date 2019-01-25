@@ -17,7 +17,6 @@ extension Movie {
         self.hasWatched = hasWatched
     }
     
-
     convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         // Dillon way....
 //        guard let title = movieRepresentation.title,
@@ -31,5 +30,4 @@ extension Movie {
         hasWatched = movieRepresentation.hasWatched!
         // I can force I uwrapp because I provide hasWatched with a default...
     }
-    
 }
