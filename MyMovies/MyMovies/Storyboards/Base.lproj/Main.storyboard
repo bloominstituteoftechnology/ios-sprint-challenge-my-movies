@@ -62,9 +62,7 @@
                                                     <rect key="frame" x="286" y="0.0" width="73" height="30"/>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
-                                                        <action selector="addMovieButton:" destination="d7W-qE-xfL" eventType="touchUpInside" id="5Yo-3n-gGh"/>
-                                                        <action selector="addMovieButton:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="iWF-Ui-Ioa"/>
-                                                        <segue destination="1Gb-tL-YFt" kind="show" id="jCb-sC-Pgj"/>
+                                                        <action selector="addMovieButton:" destination="d7W-qE-xfL" eventType="touchUpInside" id="dcv-ld-bal"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -78,6 +76,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="movieButtonOutlet" destination="62v-bJ-B5k" id="Xrl-UR-qXQ"/>
                                     <outlet property="movieTitleLabel" destination="eKT-kp-Pxx" id="xj7-jI-8c2"/>
                                 </connections>
                             </tableViewCell>
@@ -192,7 +191,4 @@
         <image name="Movie" width="30" height="30"/>
         <image name="search" width="30" height="30"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="YaR-yx-QB2"/>
-    </inferredMetricsTieBreakers>
 </document>

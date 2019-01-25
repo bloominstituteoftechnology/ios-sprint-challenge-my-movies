@@ -1,7 +1,18 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieSearchTableViewCellDelegate {
+    
+    func addMovie(cell: MovieSearchTableViewCell, movie: MovieRepresentation) {
+        
+        // Deal with saving it to Core Data with the MovieDataController, with the createMovie function
+        // Give a movie back to the table view controller
+        
+        movieDataController?.createMovie(title: movie.title, hasWatched: false)
+
+    
+    }
+    
     
     var movieController = MovieController()
     
@@ -31,12 +42,22 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieSearchTableViewCell.reuseIdentifier, for: indexPath) as? MovieSearchTableViewCell else {
             fatalError("Could not dequeue cell")
         }
         
-        cell.movieTitleLabel.text = movieController.searchedMovies[indexPath.row].title
-        //cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.delegate = self
+        
+        // Let the cell know which movie was tapped by passing the movie to it
+        // Now the cell itself knows which movie it is
+        let tappedMovie = movieController.searchedMovies[indexPath.row]
+        
+        cell.movieRepresentation = tappedMovie
+        
+        //cell.movie = movieController.searchedMovies[indexPath.row]
+        
+        //cell.movieTitleLabel.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
@@ -44,16 +65,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
     
     @IBOutlet weak var searchBar: UISearchBar!
-    
-    @IBAction func addMovieButton(_ sender: Any) {
-        
-        
-//        if let movie = movie {
-//            movieDataController?.updateMovie(movie: movieController.searchedMovies[indexPath.row].title, hasWatched: <#T##Bool#>)
-//        }
-
-        
-    }
     
     var movie: Movie?
     

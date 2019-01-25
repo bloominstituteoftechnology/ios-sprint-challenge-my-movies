@@ -8,6 +8,9 @@ class MovieDataController {
     
     let baseURL = URL(string: "https://mymovies-59952.firebaseio.com/")!
     
+    init() {
+        fetchMoviesFromServer()
+    }
     
     // MARK: - Core Data Functions
     
@@ -105,12 +108,8 @@ class MovieDataController {
             fatalError("Updating the wrong movie!")
         }
         
-        // Unwrap hasWatched bool b/c it's optional
-        guard let hasWatchedRepresentation = representation.hasWatched else { return }
-        
-        movie.hasWatched = hasWatchedRepresentation
-        movie.identifier = representation.identifier
-    
+        // hasWatched is optional - give it a default
+        movie.hasWatched = representation.hasWatched ?? false
     }
     
     // Fetch from Core Data
@@ -215,10 +214,6 @@ class MovieDataController {
             return
         }
 
-        
-
-        
-        
         
     }
     
