@@ -19,10 +19,15 @@ class MyMovieCell: UITableViewCell {
     func updateViews() {
       
         guard let movie = movie else { return }
-        hasWatchedButton.titleLabel!.text = "Unwatched"
+        
         movieTitleLabel.text = movie.title
-      
         timestampLabel.text = movie.timeFormatted
+        
+        if movie.hasWatched == true {
+            hasWatchedButton.titleLabel!.text = "Watched"
+        } else  {
+            hasWatchedButton.titleLabel!.text = "Unwatched"
+        }
     }
     
     @IBOutlet weak var timestampLabel: UILabel!
@@ -33,9 +38,9 @@ class MyMovieCell: UITableViewCell {
         guard movie != nil else { return }
         if hasWatchedButton.titleLabel!.text == "Unwatched" {
             movieController.update(movie: movie!, title: (movie?.title)!, hasWatched: true, timestamp: Date())
-           hasWatchedButton.setTitle("Watched", for: .normal)
+           
         } else {
-            hasWatchedButton.setTitle("Unwatched", for: .normal)
+           
             movieController.update(movie: movie!, title: (movie?.title)!, hasWatched: false, timestamp: Date())
         }
         
