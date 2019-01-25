@@ -12,7 +12,7 @@ import CoreData
 extension Movies {
     
     
-    convenience init(title: String, identifier: UUID, hasWatched: Bool, timestamp: Date = Date(), context: NSManagedObjectContext) {
+    convenience init(title: String, identifier: UUID = UUID(), hasWatched: Bool, timestamp: Date = Date(), context: NSManagedObjectContext) {
         
         self.init(context: context)
         
@@ -26,7 +26,7 @@ extension Movies {
     convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
         
             let title = movieRepresentation.title
-            let timestamp = movieRepresentation.timestamp
+            let timestamp = Date()
            guard let hasWatched = movieRepresentation.hasWatched,
             let identifier = movieRepresentation.identifier
         

@@ -52,14 +52,14 @@
                                             <rect key="frame" x="24" y="18.5" width="327" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OQH-hd-1eb">
-                                                    <rect key="frame" x="0.0" y="0.0" width="261" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="234" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Nq-rh-8gz">
-                                                    <rect key="frame" x="281" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="254" y="0.0" width="73" height="30"/>
+                                                    <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="movieSearchAddButtonAction:" destination="d7W-qE-xfL" eventType="touchUpInside" id="pmL-aE-cNP"/>
                                                     </connections>
@@ -109,18 +109,24 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="212" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CgM-MF-BAh">
+                                                    <rect key="frame" x="220" y="0.0" width="42" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="270" y="0.0" width="73" height="30"/>
+                                                    <state key="normal" title="Unwached"/>
                                                     <connections>
                                                         <action selector="hasWatchedButtonAction:" destination="9cK-VO-zdo" eventType="touchUpInside" id="2WY-xC-bsl"/>
                                                     </connections>
@@ -139,6 +145,7 @@
                                 <connections>
                                     <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="gOg-zz-W4M"/>
                                     <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="xaR-5B-Q46"/>
+                                    <outlet property="timestampLabel" destination="CgM-MF-BAh" id="dbm-C5-Lgx"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -148,6 +155,12 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="3An-5B-744">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="beginRefresh:" destination="1Gb-tL-YFt" eventType="valueChanged" id="VbI-87-kw1"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
