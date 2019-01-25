@@ -27,3 +27,23 @@ struct MovieRepresentation: Equatable, Codable {
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
 }
+
+//MARK: - Equatable methods
+
+// these are necessary for updatePersistentStore binary operations to work
+func == (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return lhs.identifier == rhs.identifier && lhs.title == rhs.title && lhs.hasWatched == rhs.hasWatched
+}
+
+func == (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs == lhs
+}
+
+func != (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return !(rhs == lhs)
+}
+
+func != (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs != lhs
+}
+
