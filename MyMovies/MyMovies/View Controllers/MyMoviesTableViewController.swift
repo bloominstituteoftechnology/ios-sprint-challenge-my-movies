@@ -11,10 +11,11 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-    let movieController = MovieController()
+    
     
     @IBAction func beginRefresh(_ sender: UIRefreshControl) {
-        movieController.fetchMoviesFromServer(context: CoreDataStack.shared.mainContext) { _ in
+        let movieController = MovieController()
+        movieController.fetchMoviesFromServer() { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 sender.endRefreshing()
             }
@@ -30,12 +31,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         fetchRequest.sortDescriptors = [
             
-            NSSortDescriptor(key: "title", ascending: true)
+            NSSortDescriptor(key: "hasWatched", ascending: true)
         ]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
-                                             sectionNameKeyPath: "identifier",
+                                             sectionNameKeyPath: "hasWatched",
                                              cacheName: nil)
         
         frc.delegate = self
@@ -65,6 +66,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            let movieController = MovieController()
             // Delete the row from the data source
             let movieInRow = fetchedResultsController.object(at: indexPath)
             movieController.deleteMovieFromServer(movie: movieInRow)

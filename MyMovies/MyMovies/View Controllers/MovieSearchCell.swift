@@ -10,7 +10,7 @@ import UIKit
 
 class MovieSearchCell: UITableViewCell {
 
-    
+    var movie: Movies?
     var movieController = MovieController()
     
     override func awakeFromNib() {
@@ -26,7 +26,11 @@ class MovieSearchCell: UITableViewCell {
     @IBOutlet weak var searchMovieTitleLabel: UILabel!
     @IBOutlet weak var movieSearchAddButton: UIButton!
     @IBAction func movieSearchAddButtonAction(_ sender: Any) {
-        movieController.create(title: searchMovieTitleLabel.text!, hasWatched: false, timestamp: Date(), identifier: UUID())
+        
+        
+        movieController.create(title: searchMovieTitleLabel.text!, hasWatched: false, identifier: UUID())
+        guard let movie = movie else { return }
+        movieController.put(movie: movie)
     }
     
 }

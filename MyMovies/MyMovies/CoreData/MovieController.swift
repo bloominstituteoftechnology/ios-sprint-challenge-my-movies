@@ -13,7 +13,7 @@ class MovieController {
     
     
     init() {
-        fetchMoviesFromServer(context: CoreDataStack.shared.mainContext)
+        fetchMoviesFromServer()
     }
     
     func saveToPersistentStore() {
@@ -74,17 +74,18 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     
     
-    func create(title: String, hasWatched: Bool?, timestamp: Date, identifier: UUID?) {
+    func create(title: String, hasWatched: Bool?, identifier: UUID?) {
         
         let newMovie = Movies(context: CoreDataStack.shared.mainContext)
         
         
         newMovie.title = title
-        newMovie.hasWatched = false
+        newMovie.hasWatched = hasWatched ?? false
         newMovie.timestamp = Date()
         newMovie.identifier = identifier ?? UUID()
         put(movie: newMovie)
         saveToPersistentStore()
+        put(movie: newMovie)
     }
     
     func update(movie: Movies, title: String, hasWatched: Bool, timestamp: Date) {
@@ -159,7 +160,7 @@ class MovieController {
             
             toMovies.title = fromMovieRepresentation.title
             toMovies.hasWatched = fromMovieRepresentation.hasWatched ?? false
-            toMovies.timestamp = Date()
+            toMovies.timestamp = fromMovieRepresentation.timestamp ?? Date()
             
             
         }
@@ -180,11 +181,11 @@ class MovieController {
         return movie
     }
     
-    func fetchMoviesFromServer(context: NSManagedObjectContext, complition: @escaping ComplitionHandler = { _ in }) {
+    func fetchMoviesFromServer(complition: @escaping ComplitionHandler = { _ in }) {
         
         let requestURL = firebaseURL.appendingPathExtension("json")
         
-        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
@@ -199,7 +200,7 @@ class MovieController {
                 return
             }
             
-            DispatchQueue.main.async {
+           
                 
                 do {
                     var movieRepresentations: [MovieRepresentation] = []
@@ -217,14 +218,15 @@ class MovieController {
                         }
                     }
                     
-                    self.saveToPersistentStore()
-                    try! context.save()
+                  
+                    try CoreDataStack.shared.save(context: context)
+                  
                     complition(nil)
                     
                 } catch {
                     NSLog("Error")
                     complition(error)
-                }
+                
             }
             
             }.resume()

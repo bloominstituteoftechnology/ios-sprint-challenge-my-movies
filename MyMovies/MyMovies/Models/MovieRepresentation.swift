@@ -15,7 +15,7 @@ struct MovieRepresentation: Equatable, Codable {
      identifier and hasWatched are not a part of The Movie DB API, however they will be used both on Firebase and on the application itself.
      In order make the MovieRepresentation struct decode properly when fetching from the API, their types should stay optional.
      */
-    //let timestamp: Date
+    let timestamp: Date?
     let identifier: UUID?
     let hasWatched: Bool?
 }

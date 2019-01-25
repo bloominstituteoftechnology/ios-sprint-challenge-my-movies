@@ -10,24 +10,21 @@ import UIKit
 
 class MyMovieCell: UITableViewCell {
 
-    let movieController = MovieController()
+   let movieController = MovieController()
     var movie: Movies? {
         didSet {
-            updateViews()
+          updateViews()
         }
     }
     func updateViews() {
       
         guard let movie = movie else { return }
-        
+        let buttonTitle = movie.hasWatched ? "Watched" : "Unwatched"
+        hasWatchedButton.setTitle(buttonTitle, for: .normal)
         movieTitleLabel.text = movie.title
         timestampLabel.text = movie.timeFormatted
         
-        if movie.hasWatched == true {
-            hasWatchedButton.titleLabel!.text = "Watched"
-        } else  {
-            hasWatchedButton.titleLabel!.text = "Unwatched"
-        }
+        
     }
     
     @IBOutlet weak var timestampLabel: UILabel!
@@ -35,16 +32,12 @@ class MyMovieCell: UITableViewCell {
     @IBOutlet weak var hasWatchedButton: UIButton!
     @IBAction func hasWatchedButtonAction(_ sender: Any) {
         
-        guard movie != nil else { return }
-        if hasWatchedButton.titleLabel!.text == "Unwatched" {
-            movieController.update(movie: movie!, title: (movie?.title)!, hasWatched: true, timestamp: Date())
-           
-        } else {
-           
-            movieController.update(movie: movie!, title: (movie?.title)!, hasWatched: false, timestamp: Date())
-        }
+        guard let movie = movie else { return }
         
-    }
+        movie.hasWatched = !movie.hasWatched
+       movieController.saveToPersistentStore()
+       movieController.put(movie: movie)
+        
     
-   
+    }
 }
