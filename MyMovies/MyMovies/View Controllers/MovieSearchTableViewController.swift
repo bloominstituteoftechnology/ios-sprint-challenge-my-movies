@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+import Foundation
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
@@ -54,9 +56,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieSearchTableViewCell
         
         cell.movieRepresentation = movieController.searchedMovies[indexPath.row]
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieTitleLabel.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55.5
     }
     
     
