@@ -31,7 +31,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         fetchRequest.sortDescriptors = [
             
-            NSSortDescriptor(key: "hasWatched", ascending: true)
+            NSSortDescriptor(key: "hasWatched", ascending: true),
+            NSSortDescriptor(key: "title", ascending: true)
         ]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -62,7 +63,21 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.textColor = UIColor.brown
+        header.textLabel?.frame = header.frame
+        header.textLabel?.textAlignment = .center
+    }
   
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if fetchedResultsController.sections?[section].name == "1" {
+        return "Watched"
+        }
+        return "Unwatched"
+    }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

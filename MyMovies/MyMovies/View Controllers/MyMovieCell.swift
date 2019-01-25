@@ -37,7 +37,7 @@ class MyMovieCell: UITableViewCell {
         movie.hasWatched = !movie.hasWatched
        movieController.saveToPersistentStore()
        movieController.put(movie: movie)
-        
+        //updateViews()
     
     }
 }
