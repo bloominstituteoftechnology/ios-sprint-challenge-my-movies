@@ -7,56 +7,48 @@
 //
 
 import Foundation
+import UIKit
 import CoreData
 
-class CoreDataStack {
+class MyMoviesTableViewCell: UITableViewCell {
     
-    static let shared = CoreDataStack()
+    let  myMoviesController = MyMoviesController()
     
-    let container: NSPersistentContainer
-    let mainContext: NSManagedObjectContext
-    
-    init() {
-        container = NSPersistentContainer(name: "Movies")
-        container.loadPersistentStores { (description, error) in
-            if let e = error {
-                fatalError("Couldn't load the data store: \(e)")
-            }
+    var movie: Movie? {
+        didSet {
+            updateViews()
         }
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        mainContext = container.viewContext
     }
     
-    func makeNewFetchedResultsController() -> NSFetchedResultsController<Movie> {
-        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "hasWatched", ascending: false),
-            NSSortDescriptor(key: "title", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
-            
-        ]
+    func updateViews() {
         
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                             managedObjectContext: mainContext,
-                                             sectionNameKeyPath: "hasWatched",
-                                             cacheName: nil)
+        guard let movie = movie else { return }
+        myMovieTitleLabel.text = movie.title
+        watchedButton.setTitle(movie.hasWatched ? "Watched" : "Not Watched", for: [])
         
-        NSLog("Request: %@, Context: %@", frc, frc.managedObjectContext)
-        return frc
+        
     }
     
-    func save(context: NSManagedObjectContext) throws {
-        var saveError: Error?
-        context.performAndWait {
-            do {
-                try context.save()
-            } catch {
-                saveError = error
-            }
+    @IBOutlet weak var myMovieTitleLabel: UILabel!
+    
+    @IBOutlet weak var watchedButton: UIButton!
+    
+    
+    @IBAction func didWatchMovie(_ sender: UIButton) {
+        guard let movie = movie else { return }
+        movie.hasWatched = !movie.hasWatched
+        
+        do {
+            try CoreDataStack.shared.save(context: movie.managedObjectContext!)
+        } catch {
+            NSLog("Error saving updated movie: \(error)")
+            return
         }
         
-        if let saveError = saveError {
-            throw saveError
-        }
+        //Firebase save
+        myMoviesController.putFirebase(movie: movie)
+        
+        updateViews()
     }
     
 }

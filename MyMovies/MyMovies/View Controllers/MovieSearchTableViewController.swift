@@ -10,6 +10,23 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    let movieController = MovieController()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // reset search screen to original state
+        if !(searchBar.text?.isEmpty)! {
+            movieController.searchForMovie(with: " ") { (error) in
+                guard error == nil else { return }
+                
+                DispatchQueue.main.async {
+                    self.searchBar.text = nil
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,14 +51,14 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieSearchTableViewCell
         
+        cell.movieRepresentation = movieController.searchedMovies[indexPath.row]
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
     
-    var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }

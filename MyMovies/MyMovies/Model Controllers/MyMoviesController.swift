@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class MyMovieController {
+class MyMoviesController {
     
     typealias CompletionHandler = (Error?) -> Void
     var movieRepresentations: [MovieRepresentation] = []
