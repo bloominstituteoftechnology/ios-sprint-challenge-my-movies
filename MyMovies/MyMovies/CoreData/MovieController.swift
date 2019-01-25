@@ -21,7 +21,7 @@ class MovieController {
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
-            fatalError("Can;t save Data \(error)")
+            fatalError("Can't save Data \(error)")
         }
         
     }
@@ -74,7 +74,7 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     
     
-    func create(title: String, hasWatched: Bool, timestamp: Date, identifier: UUID?) {
+    func create(title: String, hasWatched: Bool?, timestamp: Date, identifier: UUID?) {
         
         let newMovie = Movies(context: CoreDataStack.shared.mainContext)
         

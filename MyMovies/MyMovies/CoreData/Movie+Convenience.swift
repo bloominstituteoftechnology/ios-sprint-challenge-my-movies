@@ -40,7 +40,7 @@ extension Movies {
             return nil
         }
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
         let timeAndDate = dateFormatter.string(from: timestamp)
         return timeAndDate

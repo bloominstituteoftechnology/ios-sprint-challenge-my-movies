@@ -10,6 +10,7 @@ import UIKit
 
 class MyMovieCell: UITableViewCell {
 
+    let movieController = MovieController()
     var movie: Movies? {
         didSet {
             updateViews()
@@ -18,7 +19,7 @@ class MyMovieCell: UITableViewCell {
     func updateViews() {
       
         guard let movie = movie else { return }
-        
+        hasWatchedButton.titleLabel!.text = "Unwatched"
         movieTitleLabel.text = movie.title
       
         timestampLabel.text = movie.timeFormatted
@@ -29,11 +30,13 @@ class MyMovieCell: UITableViewCell {
     @IBOutlet weak var hasWatchedButton: UIButton!
     @IBAction func hasWatchedButtonAction(_ sender: Any) {
         
-        guard let movie = movie else { return }
-        if movie.hasWatched {
+        guard movie != nil else { return }
+        if hasWatchedButton.titleLabel!.text == "Unwatched" {
+            movieController.update(movie: movie!, title: (movie?.title)!, hasWatched: true, timestamp: Date())
            hasWatchedButton.setTitle("Watched", for: .normal)
         } else {
             hasWatchedButton.setTitle("Unwatched", for: .normal)
+            movieController.update(movie: movie!, title: (movie?.title)!, hasWatched: false, timestamp: Date())
         }
         
     }

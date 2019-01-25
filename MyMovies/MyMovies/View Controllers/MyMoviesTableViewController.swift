@@ -29,7 +29,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     lazy var fetchedResultsController: NSFetchedResultsController<Movies> = {
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "timestamp", ascending: true),
+            
             NSSortDescriptor(key: "title", ascending: true)
         ]
         let moc = CoreDataStack.shared.mainContext
