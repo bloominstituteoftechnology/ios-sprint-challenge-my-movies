@@ -40,7 +40,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 0
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -51,6 +51,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movieTitleLabel.text = movie.title
+//        if movie.hasWatched {
+//            cell.hasWatchedButton.setTitle("Watched", for: .normal)
+//        } else {
+//            cell.hasWatchedButton.setTitle("Unwatched", for: .normal)
+//        }
         return cell
     }
     

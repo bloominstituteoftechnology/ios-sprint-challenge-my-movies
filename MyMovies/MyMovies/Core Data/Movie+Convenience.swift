@@ -18,16 +18,15 @@ extension Movie {
     }
     
     convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        // Dillon way....
-//        guard let title = movieRepresentation.title,
-//            let identifier = movieRepresentation.identifier,
-//            let hasWatched = movieRepresentation.hasWatched,
-//        self.init(title: String, identifier: UUID, hasWatched: Bool, context: context)
+        let title = movieRepresentation.title
+        let identifier = movieRepresentation.identifier
+        let hasWatched = movieRepresentation.hasWatched
+        self.init(title: title, identifier: identifier ?? UUID(), hasWatched: hasWatched ?? false, context: context)
 //        Initializer for conditional binding must have Optional type, not 'String'
-        self.init()
-        title = movieRepresentation.title
-        identifier = movieRepresentation.identifier
-        hasWatched = movieRepresentation.hasWatched!
+//        self.init()
+//        title = movieRepresentation.title
+//        identifier = movieRepresentation.identifier
+//        hasWatched = movieRepresentation.hasWatched!
         // I can force I uwrapp because I provide hasWatched with a default...
     }
 }

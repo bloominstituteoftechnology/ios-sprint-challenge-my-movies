@@ -16,9 +16,9 @@ class MovieController {
     typealias CompletionHandler = (Error?) -> Void
     private let firebaseURL = URL(string: "https://core-data-mymovies-project.firebaseio.com/")!
     
-    //init() {
-    //    fetchMoviesFromServer()
-    //}
+//    init() {
+//        fetchMoviesFromServer()
+//    }
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = firebaseURL.appendingPathExtension("json")
@@ -44,7 +44,7 @@ class MovieController {
                     for movieRepresentation in movieRepresentations {
                         guard let identifier = movieRepresentation.identifier else { continue }
                         if let movie = self.fetchSingleMovieFromPersistentStore(identifier: identifier.uuidString) {
-                            self.updateMovie(movie: movie, hasWatched: movie.hasWatched)
+                            self.updateMovie(movie: movie, title: movie.title!, hasWatched: movie.hasWatched)
                         } else {
                             _ = Movie(movieRepresentation: movieRepresentation)
                         }
@@ -85,7 +85,6 @@ class MovieController {
             self.saveToPersistentStore()
         }
         
-        
         let requestURL = firebaseURL.appendingPathComponent((movie.identifier?.uuidString)!).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
@@ -114,7 +113,9 @@ class MovieController {
     }
     
     // Confusing myself...
-    func updateMovie(movie: Movie, hasWatched: Bool?) {
+    func updateMovie(movie: Movie, title: String, hasWatched: Bool?) {
+        movie.title = title
+        movie.hasWatched = hasWatched ?? false
         put(movie: movie) { (_) in}
         saveToPersistentStore()
     }
