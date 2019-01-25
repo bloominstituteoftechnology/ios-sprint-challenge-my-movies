@@ -25,7 +25,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "title", ascending: true)
+            NSSortDescriptor(key: "title", ascending: false)
         ]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -55,14 +55,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
     
      // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -72,7 +64,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections?[section].name
+        if fetchedResultsController.sections?[section].name == "1" {
+            return "Watched"
+        } else {
+            return "Unwatched"
+        }
     }
     
     // MARK: - NSFetchResultsControllerDelgate

@@ -15,8 +15,9 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     @IBAction func hasWatchButtonTapped(_ sender: Any) {
-        movie?.hasWatched = !(movie?.hasWatched)!
-        if (movie?.hasWatched)!{
+        guard let movie = movie else { return }
+        movie.hasWatched = !movie.hasWatched
+        if movie.hasWatched{
             hasWatchedButton.setTitle("Watched", for: .normal)
         } else {
             hasWatchedButton.setTitle("Unwatched", for: .normal)
@@ -24,7 +25,6 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     
-        
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
