@@ -85,7 +85,8 @@ class MovieController {
             self.saveToPersistentStore()
         }
         
-        let requestURL = firebaseURL.appendingPathComponent((uuid?.uuidString)!).appendingPathExtension("json")
+        
+        let requestURL = firebaseURL.appendingPathComponent((movie.identifier?.uuidString)!).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         do {

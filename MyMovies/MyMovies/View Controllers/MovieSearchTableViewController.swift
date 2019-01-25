@@ -37,7 +37,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieSearchTableViewCell
         
         cell.movieTitleLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
         return cell
     }
     
