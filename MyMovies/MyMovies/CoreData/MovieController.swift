@@ -74,13 +74,13 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     
     
-    func create(title: String, hasWatched: Bool?, timestamp: Date, identifier: UUID?) {
+    func create(title: String, hasWatched: Bool, timestamp: Date, identifier: UUID?) {
         
         let newMovie = Movies(context: CoreDataStack.shared.mainContext)
         
         
         newMovie.title = title
-        newMovie.hasWatched = hasWatched ?? false
+        newMovie.hasWatched = false
         newMovie.timestamp = Date()
         newMovie.identifier = identifier ?? UUID()
         put(movie: newMovie)

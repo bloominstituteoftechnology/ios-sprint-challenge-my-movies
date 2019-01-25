@@ -10,6 +10,9 @@ import UIKit
 
 class MovieSearchCell: UITableViewCell {
 
+    
+    var movieController = MovieController()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,7 +26,7 @@ class MovieSearchCell: UITableViewCell {
     @IBOutlet weak var searchMovieTitleLabel: UILabel!
     @IBOutlet weak var movieSearchAddButton: UIButton!
     @IBAction func movieSearchAddButtonAction(_ sender: Any) {
-        
+        movieController.create(title: searchMovieTitleLabel.text!, hasWatched: false, timestamp: Date(), identifier: UUID())
     }
     
 }

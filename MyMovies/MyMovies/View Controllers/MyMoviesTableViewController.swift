@@ -35,7 +35,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
-                                             sectionNameKeyPath: "mood",
+                                             sectionNameKeyPath: "identifier",
                                              cacheName: nil)
         
         frc.delegate = self
