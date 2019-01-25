@@ -13,6 +13,12 @@ extension Movie {
         
     }
     
+    convenience init?(movieRepresentation: MovieRepresentation) {
+        self.init(title: movieRepresentation.title, identifier: movieRepresentation.identifier!, hasWatched: movieRepresentation.hasWatched!, context: CoreDataStack.shared.mainContext)
+        
+        
+    }
+    
     var movieRepresentation: MovieRepresentation? {
         guard let title = title else { return nil }
         
