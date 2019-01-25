@@ -24,6 +24,7 @@ class MovieDataController {
         saveToPersistentStore()
         
         // Save to the server (PUT)
+        put(movie: newMovie)
         
     }
     
@@ -49,6 +50,7 @@ class MovieDataController {
         saveToPersistentStore()
         
         // Save to the server (PUT)
+        put(movie: movie)
         
     }
     
@@ -58,7 +60,8 @@ class MovieDataController {
         // Save this deletion to the persistent store
         saveToPersistentStore()
         
-        // Save to the server
+        // Save this deletion on the server
+        deleteMovieFromServer(movie: movie)
         
     }
     
