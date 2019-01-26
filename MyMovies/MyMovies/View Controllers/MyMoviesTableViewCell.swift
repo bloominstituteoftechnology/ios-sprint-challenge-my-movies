@@ -14,38 +14,18 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     @IBAction func hasWatchedAction(_ sender: Any) {
         
-//        if shouldChange == false {
-//            hasWatchedOutlet.setTitle("Unwatched", for: .normal)
-//            MovieDataController.shared.updateMovie(movie: movie!, hasWatched: false)
-//        } else {
-//            hasWatchedOutlet.setTitle("Watched", for: .normal)
-//            MovieDataController.shared.updateMovie(movie: movie!, hasWatched: true)
-//        }
-//        shouldChange = !shouldChange
-        
         guard let movie = movie else { return }
         
-        //movie?.hasWatched == true
-        
-        if movie.hasWatched == false {
-            hasWatchedOutlet.setTitle("Unwatched", for: .normal)
-            //movie.hasWatched = false
-            MovieDataController.shared.updateMovie(movie: movie, hasWatched: false)
-            movie.hasWatched = true
-            MovieDataController.shared.updateMovie(movie: movie, hasWatched: true)
-        } else {
-            hasWatchedOutlet.setTitle("Watched", for: .normal)
-            //movie.hasWatched = true
-            MovieDataController.shared.updateMovie(movie: movie, hasWatched: true)
+        switch movie.hasWatched {
+        case true:
             movie.hasWatched = false
+            hasWatchedOutlet.setTitle("Unwatched", for: .normal)
             MovieDataController.shared.updateMovie(movie: movie, hasWatched: false)
+        case false:
+            movie.hasWatched = true
+            hasWatchedOutlet.setTitle("Watched", for: .normal)
+            MovieDataController.shared.updateMovie(movie: movie, hasWatched: true)
         }
-        
-        
-        
-        //toggleHasWatched = !toggleHasWatched
-        
-        //movieDataController?.updateMovie(movie: movie, hasWatched: true)
         
     }
     
