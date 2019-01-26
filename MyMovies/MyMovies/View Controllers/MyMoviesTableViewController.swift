@@ -92,7 +92,18 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections?[section].name
+        
+        if section == 0 {
+            return "Not Watched"
+        } else {
+            return "Watched"
+        }
+//        return fetchedResultsController.sections?[section].name
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel.font = UIFont.boldSystemFont(ofSize: <#T##CGFloat#>)
     }
 
     
