@@ -6,13 +6,16 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     let movieDataController = MovieDataController.shared
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         tableView.reloadData()
     }
     

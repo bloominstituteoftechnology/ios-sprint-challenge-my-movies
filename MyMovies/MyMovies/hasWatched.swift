@@ -1,9 +1,9 @@
-
-import Foundation
-
-//enum hasWatchedProperty: Bool {
 //
-//    case hasWatchedTrue = "Watched"
-//    case hasWatchedFalse = "Not Watched"
+//import Foundation
+//
+//enum hasWatched: String {
+//
+//    case Seen
+//    case Unseen
 //
 //}

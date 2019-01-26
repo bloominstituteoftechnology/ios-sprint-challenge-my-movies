@@ -26,6 +26,9 @@ class CoreDataStack {
         
         mainContext = container.viewContext
         
+        // Tell it to automatically merge the changes from parent
+        mainContext.automaticallyMergesChangesFromParent = true
+        
     }
     
     func makeNewFetchedResultsController() -> NSFetchedResultsController<Movie> {
