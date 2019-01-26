@@ -4,8 +4,16 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
+    var movieDataController: MovieDataController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
     }
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
@@ -56,9 +64,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyMoviesTableViewCell.reuseIdentifier, for: indexPath) as? MyMoviesTableViewCell else {
+            fatalError("Could not dequeue cell")
+        }
 
-        // Configure the cell...
+        // Pass a Movie to the cell's movie property in order for it to call the updateViews() method to fill in the information for the cell's label
+        cell.movie = fetchedResultsController.object(at: indexPath)
 
         return cell
     }
@@ -68,11 +79,17 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            
+            let movie = fetchedResultsController.object(at: indexPath)
+            
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            movieDataController?.deleteMovie(movie: movie)
+            
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
     }
 
     

@@ -123,6 +123,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="hasWatchedAction:" destination="9cK-VO-zdo" eventType="touchUpInside" id="y0W-Mj-Ldm"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
@@ -135,6 +138,10 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="hasWatchedOutlet" destination="3Ay-OW-Mt0" id="osA-Nd-p5R"/>
+                                    <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="k5h-N6-Mi0"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

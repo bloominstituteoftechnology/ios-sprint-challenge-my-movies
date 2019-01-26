@@ -13,8 +13,8 @@ extension Movie {
         
     }
     
-    convenience init?(movieRepresentation: MovieRepresentation) {
-        self.init(title: movieRepresentation.title, identifier: movieRepresentation.identifier!, hasWatched: movieRepresentation.hasWatched!, context: CoreDataStack.shared.mainContext)
+    convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(title: movieRepresentation.title, identifier: movieRepresentation.identifier!, hasWatched: movieRepresentation.hasWatched!, context: context)
         
         
     }

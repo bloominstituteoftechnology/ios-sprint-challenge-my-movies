@@ -4,6 +4,8 @@ import CoreData
 
 class MovieDataController {
     
+    static let shared = MovieDataController()
+    
     typealias  CompletionHandler = (Error?) -> Void
     
     let baseURL = URL(string: "https://mymovies-59952.firebaseio.com/")!
@@ -104,24 +106,33 @@ class MovieDataController {
     
     func update(movie: Movie, with representation: MovieRepresentation) {
         
-        guard movie.identifier == representation.identifier else {
-            fatalError("Updating the wrong movie!")
-        }
+        // Perform this function on background
+        guard let context = movie.managedObjectContext else { return }
         
-        // hasWatched is optional - give it a default
-        movie.hasWatched = representation.hasWatched ?? false
+        context.perform {
+            guard movie.identifier == representation.identifier else {
+                fatalError("Updating the wrong movie!")
+            }
+            
+            // hasWatched is optional - give it a default
+            movie.hasWatched = representation.hasWatched ?? false
+        }
+
     }
     
-    // Fetch from Core Data
-    func fetchSingleMovieFromPersistentStore(identifier: String) -> Movie? {
+    // Fetch from Core Data - Perform on background
+    func fetchSingleMovieFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Movie? {
+        
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()
         let predicate = NSPredicate(format: "identifier == %@", identifier)
         request.predicate = predicate
         
-        let moc = CoreDataStack.shared.mainContext
-        
-        // Return first movie from the array
-        let movie = (try? moc.fetch(request))?.first
+        var movie: Movie?
+        context.performAndWait {
+            
+            // Return first movie from the array
+            movie = (try? context.fetch(request))?.first
+        }
         
         return movie
     }
@@ -149,11 +160,11 @@ class MovieDataController {
 //
 //            let uuid = representation.identifier?.uuidString
             
-            let moc = CoreDataStack.shared.mainContext
+            // Use container to get a new background context
+            let moc = CoreDataStack.shared.container.newBackgroundContext()
             
             var dataArray: [MovieRepresentation] = []
             
-            DispatchQueue.main.async {
                 do {
                     dataArray = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({$0.value})
                     
@@ -161,7 +172,7 @@ class MovieDataController {
                         
                         // Assign to the result of the fetchSingleMovie func so that we can compare it to the movie representation.
                         // This checks to see if there is already a corresponding movie in the persistent store
-                        if let movie = self.fetchSingleMovieFromPersistentStore(identifier: (eachMovie.identifier?.uuidString)!) {
+                        if let movie = self.fetchSingleMovieFromPersistentStore(identifier: (eachMovie.identifier?.uuidString)!, context: moc) {
                             self.update(movie: movie, with: eachMovie)
                         } else {
                             
@@ -169,19 +180,21 @@ class MovieDataController {
                             
                             // But if there was no movie returned, that means the server has an movie that the device doesn't have.
                             // So initialize a new Movie using the convenience initializer that takes in a Movie Representation
-                            _ = Movie(movieRepresentation: eachMovie)
+                            moc.perform {
+                                _ = Movie(movieRepresentation: eachMovie, context: moc)
+                            }
+
                         }
                         
                     }
                     
-                    self.saveToPersistentStore()
+                    try CoreDataStack.shared.saveTo(context: moc)
                     completion(nil)
                     
                 } catch {
                     NSLog("Error decoding or importing tasks: \(error)")
                     completion(error)
                 }
-            }
             
         }.resume()
     }
