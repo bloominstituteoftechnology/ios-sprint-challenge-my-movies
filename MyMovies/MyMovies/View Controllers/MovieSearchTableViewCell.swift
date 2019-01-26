@@ -43,6 +43,9 @@ class MovieSearchTableViewCell: UITableViewCell {
         // Set the cell's text to the passed movie title
         movieTitleLabel.text = movieRepresentation?.title
         
+        movieButtonOutlet.isEnabled = true
+        movieButtonOutlet.setTitle("Add Movie", for: .normal)
+        
     }
     
     

@@ -8,21 +8,23 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         // Deal with saving it to Core Data with the MovieDataController, with the createMovie function
         // Give a movie back to the table view controller
         
-        movieDataController?.createMovie(title: movie.title, hasWatched: false)
+        movieDataController.createMovie(title: movie.title, hasWatched: false)
 
 
     
     }
     
+    let movieSearchTableViewCell = MovieSearchTableViewCell()
     
     var movieController = MovieController()
     
-    var movieDataController: MovieDataController?
+    let movieDataController = MovieDataController.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

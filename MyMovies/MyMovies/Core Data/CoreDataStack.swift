@@ -37,7 +37,7 @@ class CoreDataStack {
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: mainContext,
-                                             sectionNameKeyPath: nil, // "hasWatched"
+                                             sectionNameKeyPath: "hasWatched", // "hasWatched"
                                              cacheName: nil)
         
         return frc

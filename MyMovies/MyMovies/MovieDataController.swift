@@ -62,11 +62,12 @@ class MovieDataController {
     func deleteMovie(movie: Movie) {
         CoreDataStack.shared.mainContext.delete(movie)
 
-        // Save this deletion to the persistent store
-        saveToPersistentStore()
-        
         // Save this deletion on the server
         deleteMovieFromServer(movie: movie)
+        
+        // Save this deletion to the persistent store
+        saveToPersistentStore()
+
         
     }
     
@@ -155,10 +156,6 @@ class MovieDataController {
                 completion(NSError())
                 return
             }
-            
-//            guard let representation = movie.movieRepresentation else { throw NSError() }
-//
-//            let uuid = representation.identifier?.uuidString
             
             // Use container to get a new background context
             let moc = CoreDataStack.shared.container.newBackgroundContext()

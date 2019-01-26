@@ -4,7 +4,7 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-    var movieDataController: MovieDataController?
+    let movieDataController = MovieDataController.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,7 +83,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             let movie = fetchedResultsController.object(at: indexPath)
             
             // Delete the row from the data source
-            movieDataController?.deleteMovie(movie: movie)
+            movieDataController.deleteMovie(movie: movie)
             
         }
     }

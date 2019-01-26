@@ -3,6 +3,7 @@ import Foundation
 
 //enum hasWatchedProperty: Bool {
 //
-//    case
+//    case hasWatchedTrue = "Watched"
+//    case hasWatchedFalse = "Not Watched"
 //
 //}
