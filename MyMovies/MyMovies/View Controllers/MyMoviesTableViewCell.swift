@@ -52,9 +52,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     func updateViews() {
         movieTitleLabel.text = movie?.title
-        
-        //hasWatchedOutlet.setTitle("Unwatched", for: .normal)
-        
+                
         if movie?.hasWatched == false {
             hasWatchedOutlet.setTitle("Unwatched", for: .normal)
         } else {

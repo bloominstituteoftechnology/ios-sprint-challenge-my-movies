@@ -103,7 +103,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
-        header.textLabel.font = UIFont.boldSystemFont(ofSize: <#T##CGFloat#>)
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        view.tintColor = #colorLiteral(red: 0.8808686818, green: 0.9638480253, blue: 1, alpha: 1)
+
     }
 
     
