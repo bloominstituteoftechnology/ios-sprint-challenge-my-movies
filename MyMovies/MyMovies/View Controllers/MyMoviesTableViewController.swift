@@ -12,14 +12,22 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var movieController = MovieController()
+    let movieRefreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        movieRefreshControl.addTarget(self, action: #selector(beginRefresh(_:)), for: .valueChanged)
+        tableView.refreshControl = movieRefreshControl
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+    @IBAction func beginRefresh(_ sender: UIRefreshControl) {
+        movieController.fetchMoviesFromServer { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                sender.endRefreshing()
+            }
+        }
     }
+
     
     // MARK: - Properties
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
@@ -38,7 +46,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }()
     
     // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
@@ -105,5 +112,4 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-    
 }
