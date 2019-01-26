@@ -112,4 +112,20 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.black
+        header.textLabel?.frame = header.frame
+        header.textLabel?.textAlignment = .left
+        header.textLabel?.font = UIFont(name: "Copperplate", size: 40)!
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = .black
+        header.textLabel?.backgroundColor = .white
+        header.textLabel?.textAlignment = .left
+        header.textLabel?.font = UIFont(name: "Copperplate", size: 40)!
+    }
 }
