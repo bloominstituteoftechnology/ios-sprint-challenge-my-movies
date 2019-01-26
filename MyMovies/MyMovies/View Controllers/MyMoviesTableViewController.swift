@@ -13,7 +13,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     var movieController = MovieController()
     let movieRefreshControl = UIRefreshControl()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         movieRefreshControl.addTarget(self, action: #selector(beginRefresh(_:)), for: .valueChanged)
@@ -27,7 +26,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             }
         }
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     
     // MARK: - Properties
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
@@ -46,6 +49,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }()
     
     // MARK: - Table view data source
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
@@ -128,4 +132,5 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         header.textLabel?.textAlignment = .left
         header.textLabel?.font = UIFont(name: "Copperplate", size: 40)!
     }
+    
 }

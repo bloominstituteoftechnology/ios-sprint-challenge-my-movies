@@ -48,23 +48,27 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="faE-Ze-uzl">
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="faE-Ze-uzl">
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="TitleLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="oeR-rV-1hZ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="254" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="257.5" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTZ-6U-AvN">
-                                                    <rect key="frame" x="270" y="0.0" width="73" height="30"/>
+                                                    <rect key="frame" x="257.5" y="0.0" width="85.5" height="30"/>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="679-ko-gFW"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="oeR-rV-1hZ" firstAttribute="width" secondItem="faE-Ze-uzl" secondAttribute="width" multiplier="0.75" id="qge-7b-Dyn"/>
+                                                <constraint firstItem="GTZ-6U-AvN" firstAttribute="width" secondItem="faE-Ze-uzl" secondAttribute="width" multiplier="0.25" id="zNy-yI-YLE"/>
+                                            </constraints>
                                         </stackView>
                                     </subviews>
                                     <constraints>
