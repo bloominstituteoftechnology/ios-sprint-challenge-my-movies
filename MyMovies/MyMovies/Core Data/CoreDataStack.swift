@@ -35,7 +35,7 @@ class CoreDataStack {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "title", ascending: true)
+            NSSortDescriptor(key: "hasWatched", ascending: true)
         ]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,

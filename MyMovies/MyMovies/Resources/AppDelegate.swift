@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  MyMovies
-//
-//  Created by Spencer Curtis on 8/17/18.
-//  Copyright © 2018 Lambda School. All rights reserved.
-//
 
 import UIKit
 
@@ -15,8 +8,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        //UINavigationBar.appearance().backgroundColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
         
         return true
     }
