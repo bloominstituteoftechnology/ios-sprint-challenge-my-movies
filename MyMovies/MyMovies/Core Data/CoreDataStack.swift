@@ -24,5 +24,18 @@ class CoreDataStack{
             }
         }
         mainContext = container.viewContext
+        mainContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    func save(context: NSManagedObjectContext) throws {
+        var saveError: Error?
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                saveError = error
+            }
+        }
+        if let error = saveError { throw error }
     }
 }

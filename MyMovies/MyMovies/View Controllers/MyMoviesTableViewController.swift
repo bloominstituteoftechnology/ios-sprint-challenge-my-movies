@@ -9,9 +9,15 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate{//, MovieTableViewCellDelegate {
     
-    let movieController = MovieController()
+//    func hasWatchTapped(movie: Movie) {
+//        print("Hello Delegate")
+//        movie.hasWatched = !movie.hasWatched
+//    }
+    
+    
+    var movieController = MovieController()
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -49,8 +55,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
-        let movie = fetchedResultsController.object(at: indexPath)
-        cell.movieTitleLabel.text = movie.title
+        cell.movie = fetchedResultsController.object(at: indexPath)
+ //       cell.movieTitleLabel.text = movie.title
+        //cell.delegate = self
 //        if movie.hasWatched {
 //            cell.hasWatchedButton.setTitle("Watched", for: .normal)
 //        } else {
@@ -72,7 +79,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if fetchedResultsController.sections?[section].name == "1" {
             return "Watched"
         } else {
-            return "Unwatched"
+            return "Not Watched"
         }
     }
     

@@ -8,32 +8,53 @@
 
 import UIKit
 
+//protocol MovieTableViewCellDelegate {
+//    func hasWatchTapped(movie: Movie)
+//}
+
+
 class MyMoviesTableViewCell: UITableViewCell {
     // Variables
     let movieController = MovieController()
-    var movie: Movie?{
+    //var wasTapped: Bool = false
+    //var delegate: MovieTableViewCellDelegate?
+    var movie: Movie? {
         didSet {
             updateViews()
         }
     }
     
+    
     // Outlets and Actions
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     @IBAction func hasWatchButtonTapped(_ sender: Any) {
+//        print ("Helllllloooooooooo.")
+//        if hasWatchedButton.titleLabel!.text == "Unwatched" {
+//            movieController.updateMovie(movie: movie!, title: movieTitleLabel.text!, hasWatched: true)
+//        } else {
+//            movieController.updateMovie(movie: movie!, title: movieTitleLabel.text!, hasWatched: false)
+//        }
+//        movie.hasWatched = !movie.hasWatched
+//        movieController.updateMovie(movie: movie, title: movieTitleLabel.text!, hasWatched: movie.hasWatched)
+//        wasTapped = !wasTapped
+//        print("hasWatch: \(wasTapped)\n")
+        
         guard let movie = movie else { return }
         movie.hasWatched = !movie.hasWatched
-        movieController.saveToPersistentStore()
         movieController.put(movie: movie)
-        updateViews()
-        print("Hello")
+        movieController.saveToPersistentStore()
+        
+        hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
+        print ("Hello")
     }
     
     // Functions
     func updateViews(){
+        
         guard let movie = movie else { return }
         movieTitleLabel.text = movie.title
-        hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
+//        hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
     }
     
     

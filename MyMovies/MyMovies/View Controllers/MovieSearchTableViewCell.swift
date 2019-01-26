@@ -11,6 +11,7 @@ import UIKit
 class MovieSearchTableViewCell: UITableViewCell {
 
     let movieController = MovieController()
+    var movie: Movie?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,7 +22,8 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
 
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        movieController.createMovie(title: movieTitleLabel.text!)
+        movieController.createMovie(title: movieTitleLabel.text!, hasWatched: false, identifier: UUID())
     }
+    
     @IBOutlet weak var movieTitleLabel: UILabel!
 }
