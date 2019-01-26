@@ -83,7 +83,7 @@ class MovieDataController {
             var request = URLRequest(url: requestURL)
             request.httpMethod = "PUT"
             
-            // Should this encode (movie)
+            // Should this encode (movie)?
             let body = try JSONEncoder().encode(representation)
             request.httpBody = body
             
@@ -216,24 +216,4 @@ class MovieDataController {
 
         
     }
-    
-    
-    
-    
-    
-    
-    func loadFromPersistentStore() -> [Movie] {
-
-        var movie: [Movie] {
-            do {
-                let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-                let result = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-                return result
-            } catch {
-                fatalError("Can't fetch Data \(error)")
-            }
-        }
-        return movie
-    }
-
 }

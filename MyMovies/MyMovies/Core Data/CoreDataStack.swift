@@ -28,5 +28,22 @@ class CoreDataStack {
         
     }
     
+    func makeNewFetchedResultsController() -> NSFetchedResultsController<Movie> {
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "title", ascending: true)
+        ]
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: mainContext,
+                                             sectionNameKeyPath: nil, // "hasWatched"
+                                             cacheName: nil)
+        
+        return frc
+        
+        
+    }
+    
     
 }

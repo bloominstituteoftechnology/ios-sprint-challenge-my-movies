@@ -10,6 +10,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         movieDataController?.createMovie(title: movie.title, hasWatched: false)
 
+
     
     }
     
