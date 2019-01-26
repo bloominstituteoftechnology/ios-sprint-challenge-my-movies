@@ -9,13 +9,7 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate{//, MovieTableViewCellDelegate {
-    
-//    func hasWatchTapped(movie: Movie) {
-//        print("Hello Delegate")
-//        movie.hasWatched = !movie.hasWatched
-//    }
-    
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var movieController = MovieController()
     override func viewDidLoad() {
@@ -56,17 +50,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
         cell.movie = fetchedResultsController.object(at: indexPath)
- //       cell.movieTitleLabel.text = movie.title
-        //cell.delegate = self
-//        if movie.hasWatched {
-//            cell.hasWatchedButton.setTitle("Watched", for: .normal)
-//        } else {
-//            cell.hasWatchedButton.setTitle("Unwatched", for: .normal)
-//        }
         return cell
     }
-    
-    
     
      // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
