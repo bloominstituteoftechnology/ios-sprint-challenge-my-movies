@@ -9,9 +9,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         // Give a movie back to the table view controller
         
         movieDataController.createMovie(title: movie.title, hasWatched: false)
-
-
-    
     }
     
     let movieSearchTableViewCell = MovieSearchTableViewCell()
@@ -26,6 +23,30 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         searchBar.delegate = self
         
     }
+    
+    
+    // State Restoration Methods for searched movies
+    var movieRepresentation: MovieRepresentation?
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        
+        defer { super.encodeRestorableState(with: coder)}
+        guard let movieRepresentation = movieRepresentation else { return }
+        
+        if let movieData = try? PropertyListEncoder().encode(movieRepresentation) {
+            coder.encode(movieData, forKey: "movieData")
+        }
+    }
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        defer { super.decodeRestorableState(with: coder)}
+        
+        guard let movieData = coder.decodeObject(forKey: "movieData") as? Data else { return }
+        movieRepresentation = try? PropertyListDecoder().decode(MovieRepresentation.self, from: movieData)
+        
+    }
+    
+    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }

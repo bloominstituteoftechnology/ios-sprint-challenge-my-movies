@@ -14,6 +14,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         NotificationCenter.default.addObserver(self, selector: #selector(shouldShowMovieAdded(_:)), name: .shouldShowMovieAdded, object: nil)
     }
     
+    // don't need this anymore because I added a notification
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

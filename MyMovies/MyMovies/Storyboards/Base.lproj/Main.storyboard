@@ -13,7 +13,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="PW1-0G-Dhq">
             <objects>
-                <tabBarController id="BeQ-Kf-2fy" sceneMemberID="viewController">
+                <tabBarController restorationIdentifier="RootTabBarController" id="BeQ-Kf-2fy" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="OoF-9o-gJc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -31,7 +31,7 @@
         <!--Movie Search-->
         <scene sceneID="BjU-p7-zCe">
             <objects>
-                <tableViewController id="YE2-Zi-kUT" customClass="MovieSearchTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="MovieSearchTableViewController" id="YE2-Zi-kUT" customClass="MovieSearchTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bfm-vz-lLP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -98,7 +98,7 @@
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
             <objects>
-                <tableViewController id="1Gb-tL-YFt" customClass="MyMoviesTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="MyMoviesTableViewController" id="1Gb-tL-YFt" customClass="MyMoviesTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="YvK-xa-TA1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -158,7 +158,7 @@
         <!--Movie Search-->
         <scene sceneID="EPH-4e-wAb">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="d8P-Pl-ifE" sceneMemberID="viewController">
+                <navigationController restorationIdentifier="MovieSearchNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="d8P-Pl-ifE" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Movie Search" image="search" id="sdT-54-ch4"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="vCD-iX-D3J">
@@ -177,7 +177,7 @@
         <!--My Movies-->
         <scene sceneID="KSM-3Q-iHS">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ceB-85-bVh" sceneMemberID="viewController">
+                <navigationController restorationIdentifier="MyMoviesNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="ceB-85-bVh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="My Movies" image="Movie" id="y85-fk-XTV"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Gfe-VH-Qzo">
