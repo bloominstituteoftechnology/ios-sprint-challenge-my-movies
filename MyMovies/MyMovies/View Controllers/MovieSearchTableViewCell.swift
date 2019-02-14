@@ -1,6 +1,10 @@
 
 import UIKit
 
+extension NSNotification.Name {
+    static let shouldShowMovieAdded = NSNotification.Name("ShouldShowMovieAdded")
+}
+
 protocol MovieSearchTableViewCellDelegate: class {
     func addMovie(cell: MovieSearchTableViewCell, movie: MovieRepresentation)
 }
@@ -29,6 +33,9 @@ class MovieSearchTableViewCell: UITableViewCell {
         
         // Deactivate the button
         movieButtonOutlet.isEnabled = false
+        
+        // Post a notification when button is tapped indicating a movie has been saved
+        NotificationCenter.default.post(name: .shouldShowMovieAdded, object: self)
 
     }
     

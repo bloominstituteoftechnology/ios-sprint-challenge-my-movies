@@ -6,16 +6,22 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     let movieDataController = MovieDataController.shared
     
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Add observer to be notified of our notification
+        NotificationCenter.default.addObserver(self, selector: #selector(shouldShowMovieAdded(_:)), name: .shouldShowMovieAdded, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        tableView.reloadData()
+    }
+    
+    // MARK: - Notifications
+    @objc func shouldShowMovieAdded(_ notification: Notification) {
         tableView.reloadData()
     }
     
@@ -28,33 +34,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         
         
     }()
-    
-//    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
-//        
-//        let fetchRequest = NSFetchRequest<Movie> = Movie.fetchRequest()
-//        
-//        // Sort in alphabetical order
-//        fetchRequest.sortDescriptors = [
-//            NSSortDescriptor(key: "title", ascending: true)
-//        ]
-//        
-//        let moc = CoreDataStack.shared.mainContext
-//        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
-//                                             managedObjectContext: moc,
-//                                             sectionNameKeyPath: "hasWatched",
-//                                             cacheName: nil)
-//        
-//        // Adopt the NSFetchedResultsControllerDelegate protocol
-//        frc.delegate = self
-//        
-//        // Perform the fetch request
-//        try? frc.performFetch()
-//        
-//        return frc
-//        
-//        
-//    }()
-
 
     // MARK: - Table view data source
 
