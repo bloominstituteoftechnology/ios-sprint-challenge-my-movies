@@ -27,3 +27,21 @@ struct MovieRepresentation: Equatable, Codable {
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
 }
+
+func ==(lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return rhs.identifier == lhs.identifier &&
+        rhs.title == lhs.title &&
+        rhs.hasWatched == lhs.hasWatched
+}
+
+func ==(lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs == lhs
+}
+
+func !=(lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return !(lhs == rhs)
+}
+
+func !=(lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs != lhs
+}

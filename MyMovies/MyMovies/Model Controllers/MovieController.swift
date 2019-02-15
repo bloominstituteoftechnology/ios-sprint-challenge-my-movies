@@ -162,7 +162,7 @@ class MovieController {
         
         movie.identifier = movieRep.identifier
         movie.title = movieRep.title
-        movie.hasWatched = movieRep.hasWatched
+        movie.hasWatched = movieRep.hasWatched ?? false
         
     }
     
@@ -182,12 +182,12 @@ class MovieController {
     }
     
     func updatePersistentStore(_ movieRepresentations: [MovieRepresentation],
-                    context: NSManagedObjectContext) {
-        
+                                         context: NSManagedObjectContext) {
         context.performAndWait {
             for mr in movieRepresentations {
-                let movie = self.fetchSingleEntryFromPersistentStore(identifier: mr.identifier, context: context)
-        
+                let movie = self.fetchSingleEntryFromPersistentStore(identifier: (mr.identifier?.uuidString)!,
+                            context: context)
+                
                 if let movie = movie, movie != mr {
                     self.updateFetch(movie: movie, movieRep: mr)
                 } else if movie == nil {
@@ -196,6 +196,38 @@ class MovieController {
             }
         }
     }
+   
     
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        let urlPlusJSON = firebaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: urlPlusJSON) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else  {
+                NSLog("No data returned from server")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let movieRepDict = try decoder.decode([String: MovieRepresentation].self, from: data)
+                let movieRepresentations = movieRepDict.map{ $0.value }
+                
+                self.updatePersistentStore(movieRepresentations, context: self.backgroundMoc)
+                self.saveToBackgroundMoc()
+                completion(nil)
+            } catch {
+                NSLog("Error decoding entry representation: \(error)")
+                completion(error)
+            }
+            
+            }.resume()
+    }
     
 }
