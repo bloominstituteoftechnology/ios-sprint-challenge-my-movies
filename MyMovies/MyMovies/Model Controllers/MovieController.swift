@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum HTTPMethod: String {
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
@@ -53,7 +58,44 @@ class MovieController {
         }.resume()
     }
     
+    func put(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let identifier = movie.identifier ?? UUID().uuidString
+        
+        let url = fireBaseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HTTPMethod.put.rawValue
+        
+        let jsonEncoder = JSONEncoder()
+        
+        do {
+            
+            let movieData = try jsonEncoder.encode(movie)
+            urlRequest.httpBody = movieData
+        } catch {
+            NSLog("Error encoding entry: \(error)")
+            completion(error)
+        }
+        
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting entry to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+        dataTask.resume()
+    }
     
+    func saveToPersistentStore() {
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            CoreDataStack.shared.mainContext.reset()
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
     
     // MARK: - Properties
     
