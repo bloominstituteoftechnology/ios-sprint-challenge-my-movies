@@ -64,13 +64,13 @@ class MyMovieController {
                 let movieRepresentations = try jsonDecoder.decode([String: MovieRepresentation].self, from: data)
               
                 let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
+                
                 backgroundMoc.performAndWait {
                     
                     for (_, movieRep) in movieRepresentations {
                         
-                        if let movie = movie(for: movieRep.identifier, context: backgroundMoc) {
-                            //let identifier = movie.identifier ?? UUID() {
-                            update(movie, title: movieRep.title, hasWatched: movieRep.hasWatched)
+                        if let movie = self.movie(for: movieRep.identifier!, context: backgroundMoc) {
+                            self.update(movie, title: movieRep.title, hasWatched: movieRep.hasWatched)
 
                         } else {
                             Movie(movieRepresentation: movieRep, context: backgroundMoc)
