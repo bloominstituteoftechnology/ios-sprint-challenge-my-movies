@@ -9,20 +9,27 @@
 import UIKit
 
 protocol MovieTableViewCellDelegate: class {
-    func AddMovie(for cell: MovieTableViewCell)
+    func addMovie(for cell: MovieTableViewCell)
 }
 
 class MovieTableViewCell: UITableViewCell {
     
     //MARK: - Properties
-    var movieRepresentation: MovieRepresentation?
+    weak var delegate: MovieTableViewCellDelegate?
+    var movieRepresentation: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
     
+    //MARK: - Outlets
     @IBOutlet weak var addMovie: UIButton!
     
     @IBAction func addMovie(_ sender: Any) {
-        guard let movieRepresentation = movieRepresentation else { return }
+        delegate?.addMovie(for: self)
+    }
         
-        
+    private func updateViews() {
         
         do {
             let moc = CoreDataStack.shared.mainContext
