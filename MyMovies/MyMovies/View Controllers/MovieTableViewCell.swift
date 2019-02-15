@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MovieTableViewCellDelegate: class {
+    func AddMovie(for cell: MovieTableViewCell)
+}
+
 class MovieTableViewCell: UITableViewCell {
     
     //MARK: - Properties

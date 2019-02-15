@@ -8,10 +8,14 @@
 
 import UIKit
 
+protocol MyMovieTableViewCellDelegate: class {
+    func toggleHasWatched(for cell: MyMoviesTableViewCell)
+}
+
 class MyMoviesTableViewCell: UITableViewCell {
 
     //MARK: - Properties
-    weak var delegate: MovieTableViewCellDelegate?
+    weak var delegate: MyMovieTableViewCellDelegate?
     var movieRepresentation: MovieRepresentation? {
         didSet {
             updateViews()
