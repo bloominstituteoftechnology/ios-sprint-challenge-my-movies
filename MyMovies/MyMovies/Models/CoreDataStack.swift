@@ -30,7 +30,7 @@ class CoreDataStack {
     
     lazy var container: NSPersistentContainer = {
         
-        let container = NSPersistentContainer(name: "Tasks")
+        let container = NSPersistentContainer(name: "MyMovies")
         
         container.loadPersistentStores { (_, error) in
             if let error = error {
