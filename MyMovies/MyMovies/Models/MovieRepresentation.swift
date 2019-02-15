@@ -17,7 +17,13 @@ struct MovieRepresentation: Equatable, Codable {
      */
     
     let identifier: UUID?
-    let hasWatched: Bool?
+    var hasWatched: Bool?
+    
+    init(title: String){
+        self.title = title
+        self.identifier = UUID()
+        self.hasWatched = false
+    }
 }
 
 /*

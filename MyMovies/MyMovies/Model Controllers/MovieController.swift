@@ -12,6 +12,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string: "https://movie-db-284b3.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -50,6 +51,51 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    
+    func createMovie(withName name: String, hasWatched: Bool) -> MovieRepresentation{
+        let movie = MovieRepresentation(title: name)
+        saveToPersistentStore()
+        putMovie(movie)
+        return movie
+    }
+    
+    
+    func putMovie(_ movie: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in}){
+        let identifier = movie.identifier ?? UUID()
+        let url = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathComponent("json")
+        print(url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        let jsonEncoder = JSONEncoder()
+        do{
+            request.httpBody = try jsonEncoder.encode(movie)
+        }catch{
+            NSLog("Unable to encode task representation: \(error)")
+            completion(error)
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error{
+                print(error)
+                completion(error)
+                return
+            }
+            completion(nil)
+            }.resume()
+        
+        
+    }
+    
+    
+    func saveToPersistentStore(){
+        let moc = CoreDataStack.shared.mainContext
+        do{
+            try moc.save()
+        }catch{
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
     
     // MARK: - Properties
