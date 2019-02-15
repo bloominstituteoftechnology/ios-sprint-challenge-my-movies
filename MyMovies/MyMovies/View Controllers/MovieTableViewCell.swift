@@ -11,11 +11,16 @@ import UIKit
 class MovieTableViewCell: UITableViewCell {
     
     //MARK: - Properties
+    
+    var movieRepresentation: MovieRepresentation?
+    
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet weak var addMovie: UIButton!
     
     @IBAction func addMovie(_ sender: Any) {
-        guard let title = movieNameLabel.text, !title.isEmpty else { return }
+        guard let movieRepresentation = movieRepresentation else { return }
+        
+        movieNameLabel.text = movieRepresentation.title
         
         do {
             let moc = CoreDataStack.shared.mainContext
