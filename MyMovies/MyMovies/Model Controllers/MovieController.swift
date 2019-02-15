@@ -17,7 +17,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let fireBaseURL = URL(string: "https://mosesmymovies.firebaseio.com/")!
+    private let firebaseURL = URL(string: "https://mosesmymovies.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -62,7 +62,7 @@ class MovieController {
         
         let identifier = movie.identifier ?? UUID().uuidString
         
-        let url = fireBaseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        let url = firebaseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.put.rawValue
         
@@ -88,6 +88,59 @@ class MovieController {
         dataTask.resume()
     }
     
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        let identifier = movie.identifier ?? UUID().uuidString
+        
+        let url = firebaseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HTTPMethod.delete.rawValue
+        
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting entry to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+        dataTask.resume()
+    }
+    
+    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let url = firebaseURL.appendingPathExtension("json")
+        
+        let urlRequest = URLRequest(url: url)
+        
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entry: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from data task ")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let jsonDecoder = JSONDecoder()
+                
+                let movieRepresentations = try jsonDecoder.decode([String : MovieRepresentation].self, from: data).map( { $0.value } )
+                
+                // iterate through movies
+                
+                completion(nil)
+            } catch {
+                NSLog("Error decoding Entry Representation: \(error)")
+                completion(error)
+            }
+        }
+        dataTask.resume()
+    }
+    
     func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.save()
@@ -95,6 +148,34 @@ class MovieController {
             CoreDataStack.shared.mainContext.reset()
             NSLog("Error saving managed object context: \(error)")
         }
+    }
+    
+    func create(title: String) {
+        let movie = Movie(title: title)
+        
+        put(movie)
+        saveToPersistentStore()
+    }
+    
+    func update(movie: Movie) {
+    
+        movie.hasWatched.toggle()
+        
+        put(movie)
+        saveToPersistentStore()
+    }
+    
+    func updateFromMovieRep(movie: Movie, movieRepresentation: MovieRepresentation) {
+        
+        movie.title = movieRepresentation.title
+        movie.identifier = movieRepresentation.identifier
+        movie.hasWatched = movieRepresentation.hasWatched ?? false
+    }
+    
+    func delete(movie: Movie) {
+        
+        deleteMovieFromServer(movie)
+        CoreDataStack.shared.mainContext.delete(movie)
     }
     
     // MARK: - Properties
