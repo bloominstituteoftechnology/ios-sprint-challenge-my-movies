@@ -21,12 +21,37 @@ class SavedMoviesTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    func updateViews() {
+        
+        guard let movie = movie else { return }
+        
+        movieTitleLabel.text = movie.title
+        
+        if movie.hasWatched == false {
+            toggleLabel.setTitle("Unwatched", for: .normal)
+        } else {
+            toggleLabel.setTitle("Watched", for: .normal)
+        }
+    }
+    
     @IBOutlet weak var toggleLabel: UIButton!
     
     @IBOutlet weak var movieTitleLabel: UILabel!
     
     @IBAction func toggleWatched(_ sender: Any) {
-        
+        if movie?.hasWatched == false {
+            movie?.hasWatched = true
+            updateViews()
+        } else {
+            movie?.hasWatched = false
+            updateViews()
+        }
     }
     
     

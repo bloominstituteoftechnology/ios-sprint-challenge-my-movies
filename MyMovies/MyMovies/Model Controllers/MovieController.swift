@@ -55,4 +55,110 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    // MARK: - CORE DATA MOVIE IMPLEMENTATION
+    
+    private let firebaseURL = URL(string: "https://my-movies-f2248.firebaseio.com/")!
+    let moc = CoreDataStack.shared.mainContext
+    let backgroundMoc = CoreDataStack.shared.backgroundContext
+    
+    // MARK: - Persistent Coordinator
+    
+    func saveToPersistentStore() {
+        moc.performAndWait {
+            do {
+                try moc.save()
+            } catch {
+                moc.reset()
+                NSLog("Error saving managed object context: \(error)")
+            }
+        }
+    }
+    
+    func saveToBackgroundMoc() {
+        self.backgroundMoc.performAndWait {
+            do {
+                try self.backgroundMoc.save()
+            } catch {
+                NSLog("Error saving background context: \(error)")
+            }
+        }
+    }
+    
+    
+    func addMovie(withTitle title: String) {
+        let movie = Movie(title: title, hasWatched: false)
+        
+        put(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    func updateMovie(withMovie movie: Movie, andTitle title: String, andToggle hasWatched: Bool) {
+        
+        movie.title = title
+        movie.hasWatched = hasWatched
+        
+        put(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    func delete(withMovie movie: Movie) {
+        moc.delete(movie)
+        
+        deleteFromServer(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let identifier = movie.identifier ?? UUID()
+        
+        let url = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        
+        do {
+            let encoder = JSONEncoder()
+            let movieJSON = try encoder.encode(movie)
+            request.httpBody = movieJSON
+        } catch {
+            NSLog("Error encoding error: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error putting entry tot the server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            }.resume()
+    }
+    
+    func deleteFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        guard let identifier = movie.identifier else { return }
+        
+        let url = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            }.resume()
+    }
+    
+    
+    
+    
 }

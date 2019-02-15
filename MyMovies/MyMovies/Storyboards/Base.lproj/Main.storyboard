@@ -75,6 +75,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addLabel" destination="9B2-4G-eqb" id="3Iw-cm-2rI"/>
                                     <outlet property="movieTitleLabel" destination="jyd-Rh-xiL" id="Moo-Kg-XsG"/>
                                 </connections>
                             </tableViewCell>
