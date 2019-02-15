@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum HTTPMethod: String {
     case put = "PUT"
@@ -18,6 +19,7 @@ class MovieController {
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let firebaseURL = URL(string: "https://mosesmymovies.firebaseio.com/")!
+    private let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -55,7 +57,7 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
-        }.resume()
+            }.resume()
     }
     
     func put(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
@@ -73,13 +75,13 @@ class MovieController {
             let movieData = try jsonEncoder.encode(movie)
             urlRequest.httpBody = movieData
         } catch {
-            NSLog("Error encoding entry: \(error)")
+            NSLog("Error encoding movie: \(error)")
             completion(error)
         }
         
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             if let error = error {
-                NSLog("Error putting entry to server: \(error)")
+                NSLog("Error putting movie to server: \(error)")
                 completion(error)
                 return
             }
@@ -97,7 +99,7 @@ class MovieController {
         
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             if let error = error {
-                NSLog("Error putting entry to server: \(error)")
+                NSLog("Error putting movie to server: \(error)")
                 completion(error)
                 return
             }
@@ -114,7 +116,7 @@ class MovieController {
         
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             if let error = error {
-                NSLog("Error fetching entry: \(error)")
+                NSLog("Error fetching movie: \(error)")
                 completion(error)
                 return
             }
@@ -130,15 +132,52 @@ class MovieController {
                 
                 let movieRepresentations = try jsonDecoder.decode([String : MovieRepresentation].self, from: data).map( { $0.value } )
                 
-                // iterate through movies
+                self.checkMovieRepresentations(movieRepresentations: movieRepresentations, context: self.backgroundMoc)
                 
                 completion(nil)
             } catch {
-                NSLog("Error decoding Entry Representation: \(error)")
+                NSLog("Error decoding Movie Representation: \(error)")
                 completion(error)
             }
         }
         dataTask.resume()
+    }
+    
+    func fetchSingleMovieFromPersistentStore(foruuid uuid: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
+        
+        var movie: Movie?
+        
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching movie with \(uuid): \(error)")
+            }
+        }
+        return movie
+    }
+    
+    func checkMovieRepresentations(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext) {
+        
+        context.performAndWait {
+            for movieRep in movieRepresentations {
+                
+                if let identifier = movieRep.identifier,
+                    let movie = self.fetchSingleMovieFromPersistentStore(foruuid: identifier, context: context) {
+                    self.updateFromMovieRep(movie: movie, movieRepresentation: movieRep)
+                } else {
+                    _ = Movie(movieRepresentation: movieRep, context: context)
+                }
+            }
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving context")
+            }
+        }
     }
     
     func saveToPersistentStore() {
@@ -158,7 +197,7 @@ class MovieController {
     }
     
     func update(movie: Movie) {
-    
+        
         movie.hasWatched.toggle()
         
         put(movie)
