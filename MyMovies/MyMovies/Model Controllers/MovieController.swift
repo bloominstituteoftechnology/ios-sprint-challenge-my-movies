@@ -167,6 +167,7 @@ class MovieController {
                 
                 if let identifier = movieRep.identifier,
                     let movie = self.fetchSingleMovieFromPersistentStore(foruuid: identifier, context: context) {
+                    
                     self.updateFromMovieRep(movie: movie, movieRepresentation: movieRep)
                 } else {
                     _ = Movie(movieRepresentation: movieRep, context: context)

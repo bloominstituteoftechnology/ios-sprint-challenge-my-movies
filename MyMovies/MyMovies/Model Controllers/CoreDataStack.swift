@@ -17,7 +17,6 @@ class CoreDataStack {
         var error: Error?
         
         context.performAndWait {
-            
             do {
                 try context.save()
             } catch let saveError {
