@@ -11,9 +11,9 @@ import UIKit
 class MovieTableViewCell: UITableViewCell {
     
     //MARK: - Properties
-    
     var movieRepresentation: MovieRepresentation?
     
+    //MARK: - Outlets
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet weak var addMovie: UIButton!
     

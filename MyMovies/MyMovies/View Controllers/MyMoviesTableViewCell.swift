@@ -10,6 +10,31 @@ import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
 
-   
+    //MARK: - Properties
+    weak var delegate: MovieTableViewCellDelegate?
+    var movieRepresentation: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
 
+    
+    //MARK: - Outlets
+    @IBOutlet weak var movieNameLabel: UILabel!
+    @IBOutlet weak var hasWatched: UIButton!
+    
+    @IBAction func hasWatched(_ sender: Any) {
+        delegate?.toggleHasWatched(for: self)
+    }
+    
+    private func updateViews() {
+        guard let movieRepresentation = movieRepresentation else { return }
+        
+        movieNameLabel.text = movieRepresentation.title
+        if movieRepresentation.hasWatched == true {
+            hasWatched.setTitle("Watched", for: .normal)
+        } else {
+            hasWatched.setTitle("Unwatched", for: .normal)
+        }
+    }
 }

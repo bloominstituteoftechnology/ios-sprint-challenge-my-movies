@@ -9,5 +9,5 @@
 import UIKit
 
 protocol MovieTableViewCellDelegate: class {
-    func toggleHasWatched(for cell: MovieTableViewCell)
+    func toggleHasWatched(for cell: MyMoviesTableViewCell)
 }
