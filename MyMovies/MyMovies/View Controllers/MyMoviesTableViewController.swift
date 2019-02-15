@@ -29,7 +29,21 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.reloadData()
     }
 
-    
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "hasWatched", ascending: true),
+            NSSortDescriptor(key: "title", ascending: true)
+        ]
+        
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
+        
+        frc.delegate = self
+        try! frc.performFetch()
+        return frc
+    }()
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
