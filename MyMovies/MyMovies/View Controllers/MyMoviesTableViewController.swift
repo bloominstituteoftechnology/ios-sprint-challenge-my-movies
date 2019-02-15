@@ -64,7 +64,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
 
         let movieCell = cell as! SavedMoviesTableViewCell
         
@@ -81,6 +81,17 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
             movieController.delete(withMovie: movie)
+        }
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        if sectionInfo.name == "0" {
+            return "Not Watched"
+        } else {
+            return "Watched"
         }
         
     }

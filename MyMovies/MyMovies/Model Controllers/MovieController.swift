@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -59,7 +63,7 @@ class MovieController {
     
     // MARK: - CORE DATA MOVIE IMPLEMENTATION
     
-    private let firebaseURL = URL(string: "https://my-movies-f2248.firebaseio.com/")!
+    let firebaseURL = URL(string: "https://my-movies-f2248.firebaseio.com/")!
     let moc = CoreDataStack.shared.mainContext
     let backgroundMoc = CoreDataStack.shared.backgroundContext
     
@@ -89,7 +93,7 @@ class MovieController {
     
     func addMovie(withTitle title: String) {
         let movie = Movie(title: title, hasWatched: false)
-        
+        print(movie)
         put(movie: movie)
         saveToPersistentStore()
     }
@@ -118,8 +122,9 @@ class MovieController {
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         
+        let encoder = JSONEncoder()
         do {
-            let encoder = JSONEncoder()
+            
             let movieJSON = try encoder.encode(movie)
             request.httpBody = movieJSON
         } catch {
@@ -128,9 +133,9 @@ class MovieController {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                NSLog("Error putting entry tot the server: \(error)")
+                NSLog("Error putting movie to the server: \(error)")
                 completion(error)
                 return
             }
@@ -198,7 +203,7 @@ class MovieController {
     }
    
     
-    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
         let urlPlusJSON = firebaseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: urlPlusJSON) { (data, _, error) in

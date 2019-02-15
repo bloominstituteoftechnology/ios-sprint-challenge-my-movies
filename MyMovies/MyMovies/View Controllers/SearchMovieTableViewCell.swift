@@ -21,13 +21,11 @@ class SearchMovieTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    var movieController: MovieController?
+    //var movieController: MovieController?
     
-    var movie: Movie? {
-        didSet {
-            
-        }
-    }
+    let movieController = MovieController()
+    
+    var movie: Movie?
     
     @IBOutlet weak var addLabel: UIButton!
     
@@ -35,7 +33,9 @@ class SearchMovieTableViewCell: UITableViewCell {
     
     @IBAction func addMovieTapped(_ sender: Any) {
         guard let movieTitle = movieTitleLabel.text else { return }
-        movieController?.addMovie(withTitle: movieTitle)
+        
+        movieController.addMovie(withTitle: movieTitle)
+        print(movieTitle)
         addLabel.setTitle("Added", for: .normal)
         addLabel.tintColor = .gray
     }

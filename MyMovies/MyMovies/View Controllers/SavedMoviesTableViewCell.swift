@@ -27,6 +27,8 @@ class SavedMoviesTableViewCell: UITableViewCell {
         }
     }
     
+    var movieController: MovieController?
+    
     func updateViews() {
         
         guard let movie = movie else { return }
@@ -46,10 +48,14 @@ class SavedMoviesTableViewCell: UITableViewCell {
     
     @IBAction func toggleWatched(_ sender: Any) {
         if movie?.hasWatched == false {
+           // print(movie?.title)
             movie?.hasWatched = true
+            movieController?.updateMovie(withMovie: movie!, andToggle: true)
             updateViews()
         } else {
+           // print(movie?.title)
             movie?.hasWatched = false
+            movieController?.updateMovie(withMovie: movie!, andToggle: false)
             updateViews()
         }
     }
