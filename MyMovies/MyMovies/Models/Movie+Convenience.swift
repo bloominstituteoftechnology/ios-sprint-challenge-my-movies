@@ -8,20 +8,20 @@
 
 import CoreData
 
-extension MovieRepresentation {
+extension Movie {
     
-    @discardableResult convenience init(title: String, identifier: UUID? = UUID(), hasWatched: Bool?, context: NSManagedObjectContext = CoreDataStack.shared.mainContext {
+    @discardableResult convenience init(title: String, identifier: UUID? = UUID(), hasWatched: Bool?, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         
         self.title = title
         self.identifier = identifier
-        self.hasWatched = hasWatched
+        self.hasWatched = hasWatched ?? false
     }
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        guard let title = movieRepresentation.title else { return nil }
+        guard movieRepresentation.identifier != nil else { return nil }
         
         self.init(title: movieRepresentation.title, identifier: movieRepresentation.identifier, hasWatched: movieRepresentation.hasWatched, context: context)
         
@@ -30,10 +30,9 @@ extension MovieRepresentation {
     var movieRepresentation: MovieRepresentation? {
         
         guard let title = title,
-        let identifier = identifier?,
-            let hasWatched = hasWatched? else { return nil }
+        let identifier = identifier else { return nil }
         
-        let movieRepresentation = MovieRepresentation(title: title, identitifer: identifier, hasWatched: hasWatched)
+        let movieRepresentation = MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
         
         return movieRepresentation
         
