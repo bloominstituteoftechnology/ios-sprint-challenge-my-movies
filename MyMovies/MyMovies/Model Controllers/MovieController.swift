@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -93,9 +94,8 @@ class MovieController {
         saveToPersistentStore()
     }
     
-    func updateMovie(withMovie movie: Movie, andTitle title: String, andToggle hasWatched: Bool) {
+    func updateMovie(withMovie movie: Movie, andToggle hasWatched: Bool) {
         
-        movie.title = title
         movie.hasWatched = hasWatched
         
         put(movie: movie)
@@ -158,7 +158,44 @@ class MovieController {
             }.resume()
     }
     
+    func updateFetch(movie: Movie, movieRep: MovieRepresentation) {
+        
+        movie.identifier = movieRep.identifier
+        movie.title = movieRep.title
+        movie.hasWatched = movieRep.hasWatched
+        
+    }
     
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        var movie: Movie?
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching single entry from Persistent Store")
+            }
+        }
+        return movie
+    }
+    
+    func updatePersistentStore(_ movieRepresentations: [MovieRepresentation],
+                    context: NSManagedObjectContext) {
+        
+        context.performAndWait {
+            for mr in movieRepresentations {
+                let movie = self.fetchSingleEntryFromPersistentStore(identifier: mr.identifier, context: context)
+        
+                if let movie = movie, movie != mr {
+                    self.updateFetch(movie: movie, movieRep: mr)
+                } else if movie == nil {
+                    Movie(movieRep: mr, context: context)
+                }
+            }
+        }
+    }
     
     
 }

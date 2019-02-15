@@ -21,6 +21,7 @@
 		BB2D50162217205E002D2B26 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D50152217205E002D2B26 /* CoreDataStack.swift */; };
 		BB2D501A221722DC002D2B26 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D5019221722DC002D2B26 /* Movie+Convenience.swift */; };
 		BB2D501C221726D2002D2B26 /* Entry+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501B221726D2002D2B26 /* Entry+Encodable.swift */; };
+		BB2D501E22172E8B002D2B26 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D501D22172E8B002D2B26 /* MovieRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		BB2D50152217205E002D2B26 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		BB2D5019221722DC002D2B26 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		BB2D501B221726D2002D2B26 /* Entry+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Encodable.swift"; sourceTree = "<group>"; };
+		BB2D501D22172E8B002D2B26 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				BB2D501D22172E8B002D2B26 /* MovieRepresentation.swift */,
 				BB2D501B221726D2002D2B26 /* Entry+Encodable.swift */,
 			);
 			path = "Model Controllers";
@@ -209,6 +212,7 @@
 				BB2D501422171F64002D2B26 /* SavedMoviesTableViewCell.swift in Sources */,
 				BB2D50162217205E002D2B26 /* CoreDataStack.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
+				BB2D501E22172E8B002D2B26 /* MovieRepresentation.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				BB2D501022171B8B002D2B26 /* MyMovies.xcdatamodeld in Sources */,
 				BB2D501222171DD5002D2B26 /* SearchMovieTableViewCell.swift in Sources */,
