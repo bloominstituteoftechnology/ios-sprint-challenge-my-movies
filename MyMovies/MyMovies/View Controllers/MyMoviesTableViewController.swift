@@ -13,7 +13,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        movieController?.fetchMoviesFromServer()
+        movieController.fetchMoviesFromServer()
     }
     
 //    @IBAction func refresh(_ sender: UIRefreshControl) {
@@ -38,7 +38,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         
-        return sectionInfo.indexTitle
+        return sectionInfo.name
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,7 +55,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
         let movie = fetchedResultsController.object(at: indexPath)
-        movieController?.update(movie: movie, hasWatched: movie.hasWatched)
+        movieController.update(movie: movie)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -63,7 +63,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             
            let movie = fetchedResultsController.object(at: indexPath)
             
-            movieController?.delete(movie: movie)
+            movieController.delete(movie: movie)
         }
     }
 
@@ -112,14 +112,14 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     // MARK: - Properties
     
-    var movieController: MovieController?
+    let movieController = MovieController()
 
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "hasWatched", ascending: false),
-            NSSortDescriptor(key: "title", ascending: false)
+            NSSortDescriptor(key: "title", ascending: true)
         ]
         
         let moc = CoreDataStack.shared.mainContext

@@ -197,9 +197,8 @@ class MovieController {
         saveToPersistentStore()
     }
     
-    func update(movie: Movie, hasWatched: Bool) {
+    func update(movie: Movie) {
         
-        movie.hasWatched = hasWatched
         movie.hasWatched.toggle()
         
         put(movie)
