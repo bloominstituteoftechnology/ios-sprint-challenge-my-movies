@@ -13,14 +13,12 @@ class MovieTableViewCell: UITableViewCell {
     //MARK: - Properties
     var movieRepresentation: MovieRepresentation?
     
-    //MARK: - Outlets
-    @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet weak var addMovie: UIButton!
     
     @IBAction func addMovie(_ sender: Any) {
         guard let movieRepresentation = movieRepresentation else { return }
         
-        movieNameLabel.text = movieRepresentation.title
+        
         
         do {
             let moc = CoreDataStack.shared.mainContext
