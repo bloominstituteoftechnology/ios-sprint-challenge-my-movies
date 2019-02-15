@@ -126,4 +126,25 @@ class MyMovieController {
             completion(nil)
         }.resume()
     }
+    
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in}) {
+        guard let identifier = movie.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error deleting movie: \(error)")
+                completion(error)
+            }
+            completion(nil)
+        }.resume()
+    }
 }
