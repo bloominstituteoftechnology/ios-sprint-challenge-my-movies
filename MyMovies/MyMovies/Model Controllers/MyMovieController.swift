@@ -68,9 +68,9 @@ class MyMovieController {
                     
                     for (_, movieRep) in movieRepresentations {
                         
-                        if let movie = self.movie(for: movieRep.identifier, context: backgroundMoc),
-                            let identifier = UUID?(uuid as NSUUID) {
-                            self.update(movie, title: movieRep.title, hasWatched: movieRep.hasWatched)
+                        if let movie = movie(for: movieRep.identifier, context: backgroundMoc) {
+                            //let identifier = movie.identifier ?? UUID() {
+                            update(movie, title: movieRep.title, hasWatched: movieRep.hasWatched)
 
                         } else {
                             Movie(movieRepresentation: movieRep, context: backgroundMoc)
@@ -90,6 +90,40 @@ class MyMovieController {
                 NSLog("error decoding MovieRepresentations: \(error)")
                 completion(error)
             }
+        }.resume()
+    }
+    
+    func put(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        let identifier = movie.identifier ?? UUID()
+        
+        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        
+        guard let movieRepresentation = movie.movieRepresentation else {
+            NSLog("Unable to convert movie to movierepresentation")
+            completion(NSError())
+            return
+        }
+        
+        let encoder = JSONEncoder()
+        
+        do {
+            let movieJSON = try encoder.encode(movieRepresentation)
+            
+            request.httpBody = movieJSON
+        } catch {
+            NSLog("unable to encode movie representation: \(error)")
+            completion(error)
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting movie to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
         }.resume()
     }
 }
