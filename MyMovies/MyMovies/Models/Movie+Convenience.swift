@@ -11,12 +11,14 @@ import CoreData
 extension Movie {
     
     @discardableResult convenience init(title: String, identifier: UUID? = UUID(), hasWatched: Bool?, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        
+
         self.init(context: context)
         
+        guard let hasWatched = hasWatched else { return }
+
         self.title = title
         self.identifier = identifier
-        self.hasWatched = hasWatched ?? false
+        self.hasWatched = hasWatched
     }
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {

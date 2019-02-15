@@ -19,13 +19,13 @@ class MyMovieController {
     func movie(for uuid: UUID, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
         
         var movie: Movie?
         
         context.performAndWait {
             do {
-                task = try context.fetch(fetchRequest).first
+                movie = try context.fetch(fetchRequest).first
             } catch {
                 NSLog("Error fetching movie with \(uuid): \(error)")
             }
@@ -34,8 +34,10 @@ class MyMovieController {
     }
     
     func update(_ movie: Movie, title: String, hasWatched: Bool?) {
+        guard let hasWatched = hasWatched else { return }
+        
         movie.title = title
-        movie.hasWatched = hasWatched ?? false
+        movie.hasWatched = hasWatched
         
     }
     
@@ -66,9 +68,10 @@ class MyMovieController {
                     
                     for (_, movieRep) in movieRepresentations {
                         
-                        if let movie = self.movie(for: movieRep.identifier, context: backgroundMoc) {
+                        if let movie = self.movie(for: movieRep.identifier, context: backgroundMoc),
+                            let identifier = UUID?(uuid as NSUUID) {
                             self.update(movie, title: movieRep.title, hasWatched: movieRep.hasWatched)
-                            
+
                         } else {
                             Movie(movieRepresentation: movieRep, context: backgroundMoc)
                         }
