@@ -69,7 +69,9 @@ class MyMovieController {
                     
                     for (_, movieRep) in movieRepresentations {
                         
-                        if let movie = self.movie(for: movieRep.identifier!, context: backgroundMoc) {
+                        guard let identifier = movieRep.identifier else { return }
+                        
+                        if let movie = self.movie(for: identifier, context: backgroundMoc) {
                             self.update(movie, title: movieRep.title, hasWatched: movieRep.hasWatched)
 
                         } else {
@@ -127,7 +129,7 @@ class MyMovieController {
         }.resume()
     }
     
-    func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in}) {
+    func delete(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in}) {
         guard let identifier = movie.identifier else {
             completion(NSError())
             return
