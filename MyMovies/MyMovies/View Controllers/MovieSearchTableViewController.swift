@@ -47,9 +47,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         
         let movie = movieController.searchedMovies[indexPath.row]
-        let title = movie.title
         
-        movieController.create(title: title)
+        movieController.create(title: movie.title)
     }
     
     var movieController = MovieController()

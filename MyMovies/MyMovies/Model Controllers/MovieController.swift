@@ -204,7 +204,6 @@ class MovieController {
     func update(movie: Movie) {
         
         movie.hasWatched.toggle()
-        
         put(movie)
     }
     
@@ -219,6 +218,7 @@ class MovieController {
         
         deleteMovieFromServer(movie)
         CoreDataStack.shared.mainContext.delete(movie)
+        saveToPersistentStore()
     }
     
     // MARK: - Properties

@@ -14,15 +14,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-    
-//    @IBAction func refresh(_ sender: UIRefreshControl) {
-//
-//        movieController?.fetchMoviesFromServer { (_) in
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                sender.endRefreshing()
-//            }
-//        }
-//    }
 
     // MARK: - Table view data source
 
@@ -37,7 +28,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         
-        return sectionInfo.name
+        return sectionInfo.name == "0" ? "Unwatched" : "Watched"
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
