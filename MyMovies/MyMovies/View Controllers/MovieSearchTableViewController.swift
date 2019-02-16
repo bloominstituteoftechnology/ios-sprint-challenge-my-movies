@@ -39,6 +39,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let movie = movieController.searchedMovies[indexPath.row]
         cell.movie = movie
         cell.delegate = self
+        cell.selectionStyle = .none
         
         return cell
     }

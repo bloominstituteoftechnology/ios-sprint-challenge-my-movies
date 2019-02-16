@@ -14,6 +14,16 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+    
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        
+        movieController.fetchMoviesFromServer { (_) in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                sender.endRefreshing()
+            }
+        }
+    }
+    
 
     // MARK: - Table view data source
 
@@ -37,6 +47,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
         cell.delegate = self
+        cell.selectionStyle = .none
 
         return cell
     }
@@ -52,7 +63,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
             
            let movie = fetchedResultsController.object(at: indexPath)
-            
             movieController.delete(movie: movie)
         }
     }
@@ -79,12 +89,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             tableView.deleteRows(at: [indexPath], with: .automatic)
         case .update:
             guard let indexPath = indexPath else { return }
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            tableView.reloadRows(at: [indexPath], with: .none)
         case .move:
             guard let indexPath = indexPath,
                 let newIndexPath = newIndexPath else { return }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            tableView.deleteRows(at: [indexPath], with: .none)
+            tableView.insertRows(at: [newIndexPath], with: .none)
         }
     }
     
