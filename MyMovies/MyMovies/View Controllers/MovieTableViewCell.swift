@@ -15,6 +15,7 @@ protocol MovieTableViewCellDelegate: class {
 class MovieTableViewCell: UITableViewCell {
     
     @IBAction func addMovie(_ sender: Any) {
+        addButton.setTitle("Added", for: .normal)
         delegate?.addToMyMovies(for: self)
     }
 

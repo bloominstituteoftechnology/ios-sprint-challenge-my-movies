@@ -13,7 +13,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        movieController.fetchMoviesFromServer()
     }
     
 //    @IBAction func refresh(_ sender: UIRefreshControl) {
@@ -93,7 +92,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         case .move:
             guard let indexPath = indexPath,
                 let newIndexPath = newIndexPath else { return }
-            tableView.moveRow(at: indexPath, to: newIndexPath)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
     }
     

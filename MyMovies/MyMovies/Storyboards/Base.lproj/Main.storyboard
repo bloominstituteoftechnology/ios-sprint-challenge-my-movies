@@ -122,7 +122,7 @@
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
                                                     <connections>
-                                                        <action selector="addMovie:" destination="9cK-VO-zdo" eventType="touchUpInside" id="Mmu-4c-PVk"/>
+                                                        <action selector="hasWatchedTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="UzS-Mb-DQO"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

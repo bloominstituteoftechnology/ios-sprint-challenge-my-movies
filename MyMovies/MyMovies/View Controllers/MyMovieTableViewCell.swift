@@ -14,7 +14,7 @@ protocol MyMovieTableViewCellDelegate: class {
 
 class MyMovieTableViewCell: UITableViewCell {
     
-    @IBAction func addMovie(_ sender: Any) {
+    @IBAction func hasWatchedTapped(_ sender: Any) {
         delegate?.toggleHasWatched(for: self)
     }
     

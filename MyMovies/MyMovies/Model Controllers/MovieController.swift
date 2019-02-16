@@ -16,6 +16,10 @@ enum HTTPMethod: String {
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let firebaseURL = URL(string: "https://mosesmymovies.firebaseio.com/")!
@@ -202,7 +206,6 @@ class MovieController {
         movie.hasWatched.toggle()
         
         put(movie)
-        saveToPersistentStore()
     }
     
     func updateFromMovieRep(movie: Movie, movieRepresentation: MovieRepresentation) {
