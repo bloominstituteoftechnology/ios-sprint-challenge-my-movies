@@ -28,7 +28,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         
-        return sectionInfo.name == "0" ? "Unwatched" : "Watched"
+        return sectionInfo.name == "0" ? "Not Watched" : "Watched"
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
