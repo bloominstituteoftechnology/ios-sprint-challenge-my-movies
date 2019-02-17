@@ -24,18 +24,17 @@ class MovieTableViewCell: UITableViewCell {
     
     //MARK: - Outlets
     @IBOutlet weak var addMovie: UIButton!
-    
+    @IBOutlet weak var movieLabel: UILabel!
     @IBAction func addMovie(_ sender: Any) {
         delegate?.addMovie(for: self)
+        addMovie.setTitle("Added", for: .normal)
     }
         
     private func updateViews() {
+        guard let movieRepresentation = movieRepresentation else { return }
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            NSLog("Error saving managed object context movie title: \(error)")
-        }
+        movieLabel.text = movieRepresentation.title
+        addMovie.setTitle("Add Movie", for: .normal)
+        
     }
 }

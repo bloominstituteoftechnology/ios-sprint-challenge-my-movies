@@ -20,7 +20,6 @@
 		48AFC62722171E4B001A70D0 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AFC62622171E4B001A70D0 /* Movie+Convenience.swift */; };
 		48AFC62B22172D8A001A70D0 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AFC62A22172D8A001A70D0 /* MovieTableViewCell.swift */; };
 		48AFC62D221734A6001A70D0 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AFC62C221734A6001A70D0 /* MyMoviesTableViewCell.swift */; };
-		48AFC62F22173D6E001A70D0 /* MyMovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AFC62E22173D6E001A70D0 /* MyMovieController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +38,6 @@
 		48AFC62622171E4B001A70D0 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		48AFC62A22172D8A001A70D0 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		48AFC62C221734A6001A70D0 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
-		48AFC62E22173D6E001A70D0 /* MyMovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,8 +72,10 @@
 			children = (
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
+				48AFC63022178800001A70D0 /* Views */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				48AFC6312217881D001A70D0 /* Core Data */,
 				46E20A092126AFC200E7FF73 /* Resources */,
 			);
 			path = MyMovies;
@@ -85,8 +85,6 @@
 			isa = PBXGroup;
 			children = (
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
-				48AFC62122171BFB001A70D0 /* MyMovies.xcdatamodeld */,
-				48AFC62422171D4B001A70D0 /* CoreDataStack.swift */,
 				48AFC62622171E4B001A70D0 /* Movie+Convenience.swift */,
 			);
 			path = Models;
@@ -96,7 +94,6 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
-				48AFC62E22173D6E001A70D0 /* MyMovieController.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -105,9 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
-				48AFC62A22172D8A001A70D0 /* MovieTableViewCell.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
-				48AFC62C221734A6001A70D0 /* MyMoviesTableViewCell.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -129,6 +124,25 @@
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		48AFC63022178800001A70D0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				48AFC62A22172D8A001A70D0 /* MovieTableViewCell.swift */,
+				48AFC62C221734A6001A70D0 /* MyMoviesTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		48AFC6312217881D001A70D0 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				48AFC62122171BFB001A70D0 /* MyMovies.xcdatamodeld */,
+				48AFC62422171D4B001A70D0 /* CoreDataStack.swift */,
+			);
+			name = "Core Data";
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,7 +220,6 @@
 				48AFC62522171D4B001A70D0 /* CoreDataStack.swift in Sources */,
 				48AFC62D221734A6001A70D0 /* MyMoviesTableViewCell.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
-				48AFC62F22173D6E001A70D0 /* MyMovieController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				48AFC62722171E4B001A70D0 /* Movie+Convenience.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,

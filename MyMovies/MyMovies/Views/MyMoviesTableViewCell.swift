@@ -22,8 +22,7 @@ class MyMoviesTableViewCell: UITableViewCell {
         }
     }
 
-    
-    //MARK: - Outlets
+        //MARK: - Outlets
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet weak var hasWatched: UIButton!
     

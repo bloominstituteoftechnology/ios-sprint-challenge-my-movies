@@ -12,11 +12,11 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     //MARK: - Properties
-    let myMovieController = MyMovieController()
+    let movieController = MovieController()
     
     //MARK: - Outlets
     @IBAction func refresh(_ sender: UIRefreshControl) {
-        myMovieController.fetchMoviesFromServer { _ in
+        movieController.fetchMoviesFromServer { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 sender.endRefreshing()
                 self.tableView.reloadData()
