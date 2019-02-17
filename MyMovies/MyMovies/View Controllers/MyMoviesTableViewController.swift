@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
 
     //MARK: - Properties
     let movieController = MovieController()

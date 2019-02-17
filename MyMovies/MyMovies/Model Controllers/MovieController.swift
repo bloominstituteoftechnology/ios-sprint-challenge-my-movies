@@ -16,7 +16,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    let firebasebaseURL = URL(string: "https://awesome-c0782.firebaseio.com/")!
+    private let firebasebaseURL = URL(string: "https://awesome-c0782.firebaseio.com/")!
 
     init() {
         fetchMoviesFromServer()
@@ -45,6 +45,12 @@ class MovieController {
         movie.title = title
         movie.hasWatched = hasWatched
         
+    }
+    
+    func create(title: String) {
+        let movie = MovieRepresentation(title: title)
+        
+        put(movie)
     }
     
     func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
