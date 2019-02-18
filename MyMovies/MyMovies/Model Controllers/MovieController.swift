@@ -39,17 +39,19 @@ class MovieController {
         return movie
     }
     
-    func update(movie: Movie) {
+    func updateToggle(movie: Movie) {
         
         movie.hasWatched.toggle()
         put(movie)
     }
     
-    func updateFromMovieRepresentation(movie: Movie, movieRepresentation: MovieRepresentation) {
+    func update(movie: Movie, movieRepresentation: MovieRepresentation) {
         
         movie.title = movieRepresentation.title
         movie.identifier = movieRepresentation.identifier
         movie.hasWatched = movieRepresentation.hasWatched ?? false
+        
+        put(movie)
     }
     
     func create(title: String) {
@@ -89,7 +91,7 @@ class MovieController {
                         guard let identifier = movieRep.identifier else { return }
                         
                         if let movie = self.movie(for: identifier, context: backgroundMoc) {
-                            self.update(movie, title: movieRep.title, hasWatched: movieRep.hasWatched)
+                            self.update(movie: movie, movieRepresentation: movieRep)
                             
                         } else {
                             Movie(movieRepresentation: movieRep, context: backgroundMoc)
@@ -146,7 +148,14 @@ class MovieController {
         }.resume()
     }
     
-    func delete(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in}) {
+    func delete(movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        
+        deleteMovieFromServer(movie)
+    }
+    
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in}) {
         guard let identifier = movie.identifier else {
             completion(NSError())
             return
