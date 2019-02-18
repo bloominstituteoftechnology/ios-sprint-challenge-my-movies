@@ -39,12 +39,17 @@ class MovieController {
         return movie
     }
     
-    func update(_ movie: Movie, title: String, hasWatched: Bool?) {
-        guard let hasWatched = hasWatched else { return }
+    func update(movie: Movie) {
         
-        movie.title = title
-        movie.hasWatched = hasWatched
+        movie.hasWatched.toggle()
+        put(movie)
+    }
+    
+    func updateFromMovieRepresentation(movie: Movie, movieRepresentation: MovieRepresentation) {
         
+        movie.title = movieRepresentation.title
+        movie.identifier = movieRepresentation.identifier
+        movie.hasWatched = movieRepresentation.hasWatched ?? false
     }
     
     func create(title: String) {
@@ -104,7 +109,7 @@ class MovieController {
                 NSLog("error decoding MovieRepresentations: \(error)")
                 completion(error)
             }
-            }.resume()
+        }.resume()
     }
     
     func put(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
@@ -123,7 +128,7 @@ class MovieController {
         let encoder = JSONEncoder()
         
         do {
-            let movieJSON = try encoder.encode(movieRepresentation)
+            let movieJSON = try encoder.encode(movie)
             
             request.httpBody = movieJSON
         } catch {
@@ -138,7 +143,7 @@ class MovieController {
                 return
             }
             completion(nil)
-            }.resume()
+        }.resume()
     }
     
     func delete(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in}) {
@@ -159,7 +164,7 @@ class MovieController {
                 completion(error)
             }
             completion(nil)
-            }.resume()
+        }.resume()
     }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
