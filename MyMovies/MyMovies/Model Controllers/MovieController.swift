@@ -39,13 +39,13 @@ class MovieController {
         return movie
     }
     
-    func updateToggle(movie: Movie) {
+    func update(movie: Movie) {
         
         movie.hasWatched.toggle()
         put(movie)
     }
     
-    func update(movie: Movie, movieRepresentation: MovieRepresentation) {
+    func updateMovieRepresentation(movie: Movie, movieRepresentation: MovieRepresentation) {
         
         movie.title = movieRepresentation.title
         movie.identifier = movieRepresentation.identifier
@@ -91,7 +91,7 @@ class MovieController {
                         guard let identifier = movieRep.identifier else { return }
                         
                         if let movie = self.movie(for: identifier, context: backgroundMoc) {
-                            self.update(movie: movie, movieRepresentation: movieRep)
+                            self.updateMovieRepresentation(movie: movie, movieRepresentation: movieRep)
                             
                         } else {
                             Movie(movieRepresentation: movieRep, context: backgroundMoc)

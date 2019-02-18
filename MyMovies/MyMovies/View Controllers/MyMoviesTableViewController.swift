@@ -10,11 +10,6 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
-    
-    func toggleHasWatched(for cell: MyMoviesTableViewCell) {
-        <#code#>
-    }
-    
 
     //MARK: - Properties
     let movieController = MovieController()
@@ -32,6 +27,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+    }
+    
+    func toggleHasWatched(for cell: MyMoviesTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        let movie = fetchedResultsController.object(at: indexPath)
+        movieController.update(movie: movie)
     }
 
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
