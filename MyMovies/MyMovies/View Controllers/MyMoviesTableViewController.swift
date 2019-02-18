@@ -71,7 +71,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else {fatalError("unable to dequeue tableview cell") }
 
         let movieRepresentation = fetchedResultsController.object(at: indexPath)
-        cell.movieRepresentation = movieRepresentation
+        cell.movieRepresentation = movie
         cell.delegate = self
 
         return cell
@@ -93,13 +93,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
                 NSLog("Error saving managed object context: \(error)")
             }
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        
-        return sectionInfo.name.capitalized
-        
     }
     
     // MARK: - NSFetchedResultsControllerDelegate

@@ -16,7 +16,7 @@ class MyMoviesTableViewCell: UITableViewCell {
 
     //MARK: - Properties
     weak var delegate: MyMovieTableViewCellDelegate?
-    var movieRepresentation: MovieRepresentation? {
+    var movieRepresentation: Movie? {
         didSet {
             updateViews()
         }
