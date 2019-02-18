@@ -10,6 +10,11 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMovieTableViewCellDelegate {
+    
+    func toggleHasWatched(for cell: MyMoviesTableViewCell) {
+        <#code#>
+    }
+    
 
     //MARK: - Properties
     let movieController = MovieController()

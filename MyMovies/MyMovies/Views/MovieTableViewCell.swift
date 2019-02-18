@@ -32,7 +32,7 @@ class MovieTableViewCell: UITableViewCell {
         
     private func updateViews() {
         guard let movieRepresentation = movieRepresentation else { return }
-        
+
         movieLabel.text = movieRepresentation.title
         addMovie.setTitle("Add Movie", for: .normal)
         

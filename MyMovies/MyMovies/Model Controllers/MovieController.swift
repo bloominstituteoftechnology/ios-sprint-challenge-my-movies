@@ -48,7 +48,7 @@ class MovieController {
     }
     
     func create(title: String) {
-        let movie = MovieRepresentation(title: title)
+        let movie = Movie(title: title)
         
         put(movie)
     }
@@ -114,11 +114,11 @@ class MovieController {
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         
-        guard let movieRepresentation = movie.movieRepresentation else {
-            NSLog("Unable to convert movie to movierepresentation")
-            completion(NSError())
-            return
-        }
+//        guard let movieRepresentation = MovieRepresentation.self else {
+//            NSLog("Unable to convert movie to movierepresentation")
+//            completion(NSError())
+//            return
+//        }
         
         let encoder = JSONEncoder()
         

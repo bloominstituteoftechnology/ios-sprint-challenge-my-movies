@@ -28,14 +28,14 @@ extension Movie {
         
     }
     
-    var movieRepresentation: MovieRepresentation? {
-        
-        guard let title = title,
-        let identifier = identifier else { return nil }
-        
-        let movieRepresentation = MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
-        
-        return movieRepresentation
-        
-    }
+//    var movieRepresentation: MovieRepresentation? {
+//
+//        guard let title = title,
+//        let identifier = identifier else { return nil }
+//
+//        let movieRepresentation = MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+//
+//        return movieRepresentation
+//
+//    }
 }
