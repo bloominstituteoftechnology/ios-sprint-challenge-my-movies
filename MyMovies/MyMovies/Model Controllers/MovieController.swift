@@ -53,9 +53,40 @@ class MovieController {
         }.resume()
     }
     
+    func put(movieRepresentation: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in }) {
+        
+        let id = movieRepresentation.identifier?.uuidString ?? UUID().uuidString
+        
+        let url = URL(string: "https://nates-movies.firebaseio.com/")!
+        let jsonURL = url.appendingPathComponent(id).appendingPathExtension("json")
+        
+        var request = URLRequest(url: jsonURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            let encoder = JSONEncoder()
+            request.httpBody = try encoder.encode(movieRepresentation)
+        } catch {
+            NSLog("Error encoding data: \(NSError())")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error connecting to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
     func addMovie(title: String) {
-        _ = Movie(title: title)
+        let movie = Movie(title: title)
         saveToPersistentStore()
+        let movieRep = MovieRepresentation(title: movie.title!, identifier: movie.identifier, hasWatched: movie.hasWatched)
+        put(movieRepresentation: movieRep)
     }
     
     func saveToPersistentStore() {
