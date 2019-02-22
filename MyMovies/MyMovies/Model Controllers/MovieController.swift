@@ -19,7 +19,7 @@ class MovieController {
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let fireBaseURL = URL(string: "https://movies-95c33.firebaseio.com/")!
+    private let fireBaseURL = URL(string: "https://moviescoredata.firebaseio.com/")!
     
     private let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
@@ -73,8 +73,8 @@ class MovieController {
         
         do {
             
-            let movieData = try jsonEncoder.encode(movie)
-            urlRequest.httpBody = movieData
+            let data = try jsonEncoder.encode(movie)
+            urlRequest.httpBody = data
         } catch {
             NSLog("Error encoding movie: \(error)")
             completion(error)
@@ -133,7 +133,7 @@ class MovieController {
                 
                 let movieRepresentations = try jsonDecoder.decode([String : MovieRepresentation].self, from: data).map( { $0.value } )
                 
-                self.checkMovieRepresentation(movieRepresentation: movieRepresentations, context: self.backgroundMoc)
+                self.checkMovieRepresentations(movieRepresentations: movieRepresentations, context: self.backgroundMoc)
                 
                 completion(nil)
             } catch {
@@ -144,7 +144,7 @@ class MovieController {
         dataTask.resume()
     }
     
-    func fetchFromPersistentStore(foruuid uuid: String, context: NSManagedObjectContext) -> Movie? {
+    func fetchMovieFromPersistentStore(foruuid uuid: String, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
@@ -161,13 +161,13 @@ class MovieController {
         return movie
     }
     
-    func checkMovieRepresentation(movieRepresentation: [MovieRepresentation], context: NSManagedObjectContext) {
+    func checkMovieRepresentations(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext) {
         
         context.performAndWait {
-            for movieRep in movieRepresentation {
+            for movieRep in movieRepresentations {
                 
                 if let identifier = movieRep.identifier,
-                    let movie = self.fetchFromPersistentStore(foruuid: identifier, context: context) {
+                    let movie = self.fetchMovieFromPersistentStore(foruuid: identifier, context: context) {
                     
                     self.updateMovieRepresentation(movie: movie, movieRepresentation: movieRep)
                 } else {

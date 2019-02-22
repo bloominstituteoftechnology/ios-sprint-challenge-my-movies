@@ -16,6 +16,10 @@ class MyMoviesTableViewController: UITableViewController, SavedTableViewCellDele
         super.viewDidLoad()
 
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     func addToWatched(cell: SavedTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
@@ -44,7 +48,7 @@ class MyMoviesTableViewController: UITableViewController, SavedTableViewCellDele
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? SavedTableViewCell else {fatalError("Unable to dequeue cell")}
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! SavedTableViewCell
 
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
