@@ -20,13 +20,13 @@ static let shared = CoreDataStack()
         
         let appName = Bundle.main.object(forInfoDictionaryKey: (kCFBundleNameKey as String)) as! String
         let container = NSPersistentContainer(name: appName)
-        
         container.loadPersistentStores { (_, error) in
+            
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")
             }
         }
-        
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     

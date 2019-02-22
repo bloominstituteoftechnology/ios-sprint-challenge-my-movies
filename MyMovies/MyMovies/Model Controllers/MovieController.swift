@@ -7,12 +7,21 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
+    
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
+    
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let fireBaseURL = URL(string: "https://movies-95c33.firebaseio.com/")!
+    
+    private let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -56,7 +65,7 @@ class MovieController {
         
         let identifier = movie.identifier ?? UUID().uuidString
         
-        let url = firebaseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        let url = fireBaseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PUT"
         
@@ -155,12 +164,12 @@ class MovieController {
     func checkMovieRepresentation(movieRepresentation: [MovieRepresentation], context: NSManagedObjectContext) {
         
         context.performAndWait {
-            for movieRep in movieRepresentations {
+            for movieRep in movieRepresentation {
                 
                 if let identifier = movieRep.identifier,
-                    let movie = self.fetchSingleMovieFromPersistentStore(foruuid: identifier, context: context) {
+                    let movie = self.fetchFromPersistentStore(foruuid: identifier, context: context) {
                     
-                    self.updateFromMovieRep(movie: movie, movieRepresentation: movieRep)
+                    self.updateMovieRepresentation(movie: movie, movieRepresentation: movieRep)
                 } else {
                     _ = Movie(movieRepresentation: movieRep, context: context)
                 }
