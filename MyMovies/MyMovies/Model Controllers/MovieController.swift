@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -32,8 +33,14 @@ class MovieController {
         
     }
     
-    func updateMovies() {
+    func updateMovies(with representation: [MovieRepresentation], context: NSManagedObjectContext) throws {
         
+        context.performAndWait {
+            
+            for movieRepresentation in representations {
+                
+            }
+        }
     }
     
     
