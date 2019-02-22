@@ -95,7 +95,9 @@ class MovieController {
                     if let checkedMovie = self.checkMovie(for: movieRep.identifier!){
                         self.updateMovie(movie: checkedMovie, withTitle: checkedMovie.title!, hasWatched: checkedMovie.hasWatched)
                     }else{
-                        Movie(title: movieRep.title, hasWatched: false)
+                        guard let safeIdentifier = movieRep.identifier,
+                            let UUIDIdentifier = UUID(uuidString: safeIdentifier) else {return}
+                        Movie(title: movieRep.title, identifier: UUIDIdentifier, hasWatched: false)
                     }
                 }
                 self.saveToPersistentStore()
