@@ -16,4 +16,8 @@ extension Movie {
         self.identifier = identifier
         self.hasWatched = hasWatched
     }
+    
+    @discardableResult convenience init(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(title: movieRepresentation.title, identifier: movieRepresentation.identifier ?? UUID(), hasWatched: movieRepresentation.hasWatched ?? false, context: context)
+    }
 }
