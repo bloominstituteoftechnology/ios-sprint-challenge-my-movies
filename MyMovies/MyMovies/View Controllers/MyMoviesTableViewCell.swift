@@ -8,9 +8,13 @@
 
 import UIKit
 
-
+protocol MyMoviesTableViewCellDelegate: class {
+    func hasWatchedAction(on cell: MyMoviesTableViewCell)
+}
 
 class MyMoviesTableViewCell: UITableViewCell {
+    weak var delegate: MyMoviesTableViewCellDelegate?
+    
     var movie: Movie? {
         didSet {
             updateViews()
@@ -21,17 +25,21 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var hasWatchedButton: UIButton!
     
     @IBAction func hasWatchedButtonAction(_ sender: Any) {
+        delegate?.hasWatchedAction(on: self)
         
     }
 
     func updateViews() {
+        guard let movie = movie else { return }
         
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        titleLabel.text = movie.title
+        
+        if movie.hasWatched == false {
+            hasWatchedButton.setTitle("Unwatched", for: .normal)
+        } else {
+            hasWatchedButton.setTitle("Watched", for: .normal)
+        }
+        
     }
 
 }

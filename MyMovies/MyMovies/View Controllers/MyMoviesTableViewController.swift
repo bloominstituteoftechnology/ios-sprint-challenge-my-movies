@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMoviesTableViewCellDelegate {
     let movieController = MovieController()
     
     @IBOutlet var movieTableView: UITableView!
@@ -19,15 +19,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         
         tableView.reloadData()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+
+    func hasWatchedAction(on cell: MyMoviesTableViewCell) {
+        guard let indexPath = movieTableView.indexPath(for: cell) else { return }
+        guard let movie = cell.movie else { return }
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        movieController.toggleHasWatched(for: movie)
+        movieTableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
     // MARK: - Table view data source
@@ -47,9 +45,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMoviesCell", for: indexPath)
         
-        let move = fetchedResultsController.object(at: indexPath)
+        let movie = fetchedResultsController.object(at: indexPath)
         
         cell.movie = movie
         cell.delegate = self
