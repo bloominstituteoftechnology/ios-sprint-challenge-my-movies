@@ -14,6 +14,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -57,8 +61,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
-        return sectionInfo.name.capitalized
+        var returnVar : String = "Watched"
+        if(section == 0){
+            returnVar = "Unwatched"
+        }
+        return  returnVar.capitalized
     }
     
     
@@ -104,8 +111,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     lazy var fetchedResultsController : NSFetchedResultsController<Movie> = {
         let fetchRequest : NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "title", ascending: true),
-            NSSortDescriptor(key: "hasWatched", ascending: true)
+            NSSortDescriptor(key: "hasWatched", ascending: true),
+            NSSortDescriptor(key: "title", ascending: true)
         ]
         
         let moc = CoreDataStack.shared.mainContext
@@ -114,4 +121,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         try! frc.performFetch()
         return frc
     }()
+    
+    
 }

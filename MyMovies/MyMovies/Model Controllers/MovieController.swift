@@ -58,6 +58,7 @@ class MovieController {
         let movie = MovieRepresentation(title: name)
         saveToPersistentStore()
         putMovie(movie)
+        fetchMoviesFromServer()
         return movie
     }
     
@@ -94,8 +95,11 @@ class MovieController {
                 let movieRepresentations = try jsonDecoder.decode([String: MovieRepresentation].self, from: data)
                 
                 for(_, movieRep) in movieRepresentations {
-                    let newMovie = Movie(title: movieRep.title, hasWatched: movieRep.hasWatched ?? false)
-                        self.updateMovie(movie: newMovie, withTitle: movieRep.title, hasWatched: movieRep.hasWatched ?? false)
+                    if let checkedMovie = self.checkMovie(for: movieRep.identifier!){
+                        self.updateMovie(movie: checkedMovie, withTitle: checkedMovie.title!, hasWatched: checkedMovie.hasWatched)
+                    }else{
+                        Movie(title: movieRep.title, hasWatched: false)
+                    }
                 }
                 completion(nil)
             } catch {
@@ -106,8 +110,8 @@ class MovieController {
     }
     
     func putMovie(_ movie: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in}){
-        let identifier = movie.identifier ?? UUID()
-        let url = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let identifier = movie.identifier ?? UUID().uuidString
+        let url = firebaseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         let jsonEncoder = JSONEncoder()
