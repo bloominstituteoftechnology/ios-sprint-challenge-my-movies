@@ -19,6 +19,13 @@ class UpdateController {
         put(movieRepresentation: movieRep)
     }
     
+    func delete(movie: Movie) {
+        let movieRep = MovieRepresentation(title: movie.title!, identifier: movie.identifier, hasWatched: movie.hasWatched)
+        moc.delete(movie)
+        saveToPersistentStore()
+        deleteFromServer(movieRepresentation: movieRep)
+    }
+    
     func put(movieRepresentation: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in }) {
         
         let id = movieRepresentation.identifier?.uuidString ?? UUID().uuidString
@@ -46,6 +53,26 @@ class UpdateController {
             }
             completion(nil)
             }.resume()
+    }
+    
+    func deleteFromServer(movieRepresentation: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in }) {
+       
+        let id = movieRepresentation.identifier?.uuidString ?? UUID().uuidString
+        
+        let url = URL(string: "https://nates-movies.firebaseio.com/")!
+        let jsonURL = url.appendingPathComponent(id).appendingPathExtension("json")
+        
+        var request = URLRequest(url: jsonURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting from server")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
     }
     
     func saveToPersistentStore() {

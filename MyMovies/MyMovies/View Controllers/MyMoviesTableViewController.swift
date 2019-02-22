@@ -37,6 +37,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return myMovieCell
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = fetchResultsController.object(at: indexPath)
+            updateController.delete(movie: movie)
+        }
+    }
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -77,7 +84,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         }
         
     }
-    
     
     let updateController = UpdateController()
 
