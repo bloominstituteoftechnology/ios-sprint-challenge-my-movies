@@ -65,8 +65,6 @@ class MovieController {
     func updateMovie(movie: Movie, withTitle title: String, hasWatched: Bool){
         movie.title = title
         movie.hasWatched = hasWatched
-        
-        saveToPersistentStore()
     }
     
     
@@ -75,7 +73,6 @@ class MovieController {
         let url = firebaseURL.appendingPathExtension("json")
         
         let urlRequest = URLRequest(url: url)
-        print(urlRequest)
         URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             if let error = error {
                 NSLog("Error fetching tasks: \(error)")
@@ -101,6 +98,7 @@ class MovieController {
                         Movie(title: movieRep.title, hasWatched: false)
                     }
                 }
+                self.saveToPersistentStore()
                 completion(nil)
             } catch {
                 NSLog("\(error)")
@@ -149,7 +147,8 @@ class MovieController {
         
         do{
             let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
+            let movie = try moc.fetch(fetchRequest).first
+            return movie
         }catch{
             NSLog("Error fetching task with \(uuid): \(error)")
             return nil

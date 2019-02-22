@@ -23,7 +23,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         super.viewDidLoad()
         
         searchBar.delegate = self
-        movieController.fetchMoviesFromServer()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
