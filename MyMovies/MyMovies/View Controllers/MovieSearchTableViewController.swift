@@ -16,7 +16,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     func addMovie(for cell: MovieSearchTableViewCell) {
         guard let safeMovie = cell.movie else {return}
         movieController.putMovie(safeMovie)
-        print("put movie")
     }
     
 

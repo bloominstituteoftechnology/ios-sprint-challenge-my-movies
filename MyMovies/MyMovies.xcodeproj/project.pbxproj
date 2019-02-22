@@ -20,6 +20,7 @@
 		E71114652217211400331821 /* MovieDisplayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71114642217211400331821 /* MovieDisplayTableViewCell.swift */; };
 		E71114682217263C00331821 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71114672217263C00331821 /* CoreDataStack.swift */; };
 		E711146A221729EE00331821 /* SearchMovieButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7111469221729EE00331821 /* SearchMovieButtonDelegate.swift */; };
+		E7E60FC122205EDF00C28B1B /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E60FC022205EDF00C28B1B /* Movie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		E71114642217211400331821 /* MovieDisplayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDisplayTableViewCell.swift; sourceTree = "<group>"; };
 		E71114672217263C00331821 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E7111469221729EE00331821 /* SearchMovieButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieButtonDelegate.swift; sourceTree = "<group>"; };
+		E7E60FC022205EDF00C28B1B /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+				E7E60FC022205EDF00C28B1B /* Movie.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 				E71114632217210400331821 /* MovieSearchTableViewCell.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				E711145F22171CAE00331821 /* Movie.xcdatamodeld in Sources */,
+				E7E60FC122205EDF00C28B1B /* Movie.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import CoreData
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
@@ -61,11 +61,57 @@ class MovieController {
         return movie
     }
     
+    func updateMovie(movie: Movie, withTitle title: String, hasWatched: Bool){
+        movie.title = title
+        movie.hasWatched = hasWatched
+        
+        saveToPersistentStore()
+    }
+    
+    
+    func fetchTasksFromServer(completion: @escaping (Error?) -> Void = {_ in }) {
+        
+        let url = firebaseURL.appendingPathExtension("json")
+        
+        let urlRequest = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from data task")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                
+                let jsonDecoder = JSONDecoder()
+                let movieRepresentations = try jsonDecoder.decode([String: MovieRepresentations].self, from: data)
+                
+                for(_, movieRep) in movieRepresentations {
+                    let movieArray : [MovieRepresentation] = movieRep.results
+                    for index in movieArray{
+                        let newMovie = Movie(title: index.title, hasWatched: index.hasWatched ?? false)
+                        newMovie.identifier = index.identifier
+                        self.updateMovie(movie: newMovie, withTitle: index.title, hasWatched: index.hasWatched ?? false)
+                    }
+                }
+                completion(nil)
+            } catch {
+                NSLog("\(error)")
+                completion(error)
+            }
+            }.resume()
+    }
     
     func putMovie(_ movie: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in}){
         let identifier = movie.identifier ?? UUID()
-        let url = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathComponent("json")
-        print(url)
+        let url = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         let jsonEncoder = JSONEncoder()
@@ -84,8 +130,6 @@ class MovieController {
             }
             completion(nil)
             }.resume()
-        
-        
     }
     
     
@@ -95,6 +139,20 @@ class MovieController {
             try moc.save()
         }catch{
             NSLog("Error saving managed object context: \(error)")
+        }
+    }
+    
+    
+    func checkMovie(for uuid: String) -> Movie?{
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
+        
+        do{
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        }catch{
+            NSLog("Error fetching task with \(uuid): \(error)")
+            return nil
         }
     }
     
