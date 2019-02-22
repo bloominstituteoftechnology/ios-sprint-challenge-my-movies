@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class MyMoviesTableViewCell: UITableViewCell {
     var movie: Movie? {
         didSet {
