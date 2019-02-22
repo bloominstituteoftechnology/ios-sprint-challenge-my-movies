@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18D109" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Movie" representedClassName="Movie" syncable="YES" codeGenerationType="class"/>
+    <entity name="Movie" representedClassName="Movie" syncable="YES" codeGenerationType="class">
+        <attribute name="hasWatched" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="identifer" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Movie" positionX="-54" positionY="-9" width="128" height="45"/>
+        <element name="Movie" positionX="-54" positionY="-9" width="128" height="90"/>
     </elements>
 </model>
