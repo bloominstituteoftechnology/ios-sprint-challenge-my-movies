@@ -33,11 +33,20 @@ class MovieController {
         
     }
     
-    func updateMovies(with representation: [MovieRepresentation], context: NSManagedObjectContext) throws {
+    func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) throws {
         
         context.performAndWait {
             
             for movieRepresentation in representations {
+                
+                guard let identifier = movieRepresentation.identifier else { continue }
+                
+                if let movie = self.fetchMovieFromStore(identifier: identifier, context: context) {
+                    self.updateFromRepresentation()
+                } else {
+                    let _ = Movie(movieRepresentation: movieRepresentation, context: context)
+                }
+                
                 
             }
         }
@@ -45,8 +54,22 @@ class MovieController {
     
     
     
-    func deleteMovieFromServer() {
+    func deleteMovieFromServer(movie: Movie, completion: @escaping(Error?) -> Void = { _ in }) {
+        guard let identifier = movie.identifier else { return }
         
+        let requestURL =
+            firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting movie: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
     }
     
     func toggleHasWatched(for movie: Movie) {
@@ -57,15 +80,63 @@ class MovieController {
         }
     }
     
-    func put() {
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        guard let identifier = movie.identifier else { completion(NSError()); return }
+        
+        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movie)
+        }
+        catch {
+            NSLog("Error encoding data: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTing data: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    func fetchMovieFromStore(identifier: UUID, context: NSManagedObjectContext) {
         
     }
     
-    func fetchMovieFromStore() {
+    func fetchMovieFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        let requestURL = firebaseURL.appendingPathExtension("json")
         
-    }
-    
-    func fetchMovieFromServer() {
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching data: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("There is no data.")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                movieRepresentations = try Array(JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
+                let moc = CoreDataStack.shared.container.newBackgroundContext()
+                try self.updateMovies(with: movieRepresentations, context: moc)
+                completion(nil)
+            }
+            catch {
+                NSLog("Error decoding JSON: \(error)")
+                completion(error)
+                return
+            }
         
     }
     
@@ -116,4 +187,5 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    var movies: [Movie] = []
 }
