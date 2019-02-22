@@ -17,8 +17,21 @@ class MovieController {
         
     }
     
-    func create(withTitle title: String) {
+    func create(from movieRepresentation: MovieRepresentation) {
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
         
+        moc.performAndWait {
+            let movie = Movie(movieRepresentation: movieRepresentation, context: moc)
+            
+            do {
+                try CoreDataStack.shared.save(context: moc)
+            }
+            catch {
+                NSLog("Could not save context")
+                return
+            }
+            self.put(movie: movie)
+        }
     }
     
     func update() {
@@ -30,7 +43,10 @@ class MovieController {
     }
     
     func updateFromRepresentation() {
-        
+        guard let hasWatched = movieRepresentation.hasWatched else { return }
+        movie.hasWatched = hasWatched
+        movie.title = movieRepresentation.title
+        movie.identifier = movieRepresentation.identifier
     }
     
     func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) throws {
@@ -137,7 +153,7 @@ class MovieController {
                 completion(error)
                 return
             }
-        
+        }
     }
     
     // MARK: - Networking
