@@ -12,6 +12,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    let moc = CoreDataStack.shared.mainContext
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -50,6 +51,22 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    func addMovie(title: String) {
+        _ = Movie(title: title)
+        saveToPersistentStore()
+    }
+    
+    func saveToPersistentStore() {
+        moc.performAndWait {
+            do {
+                try moc.save()
+            } catch {
+                moc.reset()
+                NSLog("Error saving to persistent store")
+            }
+        }
     }
     
     // MARK: - Properties
