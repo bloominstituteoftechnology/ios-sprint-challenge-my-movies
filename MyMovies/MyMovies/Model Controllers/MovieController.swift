@@ -155,6 +155,19 @@ class MovieController {
         saveToPersistentStore()
     }
     
+    func toggleHasWatched(movie: Movie) {
+        movie.hasWatched = !movie.hasWatched
+        
+        putToServer(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    func delete(movie: Movie) {
+        moc.delete(movie)
+        deleteFromServer(movie: movie)
+        saveToPersistentStore()
+    }
+    
     func createMovie(with title: String, identifier: UUID?, hasWatched: Bool?){
         
         guard let identifier = identifier, let hasWatched = hasWatched else {

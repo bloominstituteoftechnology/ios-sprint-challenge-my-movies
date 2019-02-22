@@ -24,7 +24,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
-                                             sectionNameKeyPath: "title", cacheName: nil)
+                                             sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
         try! frc.performFetch()
         
@@ -37,7 +37,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print(self.movieController.fetchMoviesFromServer())
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -51,6 +51,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     // MARK: - Table view data source
+    
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -64,11 +65,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
 
         // Configure the cell...
         let movie = fetchedResultsController.object(at: indexPath)
+        cell.movie = movie
         cell.textLabel?.text = movie.title
+        cell.hasWatchedButton.titleLabel!.text = movie.hasWatched ? "Watched" : "Unwatched"
         return cell
     }
     
@@ -77,7 +80,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
-            movieController.deleteFromServer(movie: movie)
+            movieController.delete(movie: movie)
+
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
@@ -85,7 +89,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
    
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections?[section].name
+        let hasWatched = fetchedResultsController.sections![section].name
+        if hasWatched == "0"{
+            return "Not Watched"
+        } else {
+            return "Watched"
+        }
     }
 
     /*

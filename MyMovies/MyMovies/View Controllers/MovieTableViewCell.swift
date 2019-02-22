@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieTableViewCell: UITableViewCell {
+class MovieTableViewCell: UITableViewCell{
     
     var movieController = MovieController()
     var movie: Movie? {
@@ -17,11 +17,12 @@ class MovieTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBAction func saveButtonTapped(_ sender: Any) {
-        let newMovie = Movie(context: movieController.moc)
-        newMovie.title = self.titleLabel.text
-        movieController.createMovie(with: newMovie.title!, identifier: UUID(), hasWatched: false)
-        print("\(newMovie)")
-        print("save button tapped")
+//        guard let movie = movie else { return }
+//        let newMovie = Movie(context: movieController.moc)
+//        newMovie.title = self.titleLabel.text
+//        newMovie.hasWatched = false
+        movieController.createMovie(with: self.titleLabel.text!, identifier: UUID(), hasWatched: false)
+        
     }
     override func awakeFromNib() {
         super.awakeFromNib()

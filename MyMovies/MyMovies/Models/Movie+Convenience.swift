@@ -12,8 +12,9 @@ import CoreData
 extension Movie {
     
     
-    convenience init(title: String, identifier: UUID?, hasWatched: Bool? ){
-        self.init()
+    convenience init(title: String, identifier: UUID?, hasWatched: Bool?, context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
+        
+        self.init(context: context)
         
         self.title = title
         self.identifier = identifier
@@ -23,6 +24,6 @@ extension Movie {
     @discardableResult
     convenience init?(movieRep: MovieRepresentation, context: NSManagedObjectContext) {
         
-        self.init(title: movieRep.title, identifier: movieRep.identifier, hasWatched: movieRep.hasWatched)
+        self.init(title: movieRep.title, identifier: movieRep.identifier, hasWatched: movieRep.hasWatched, context: context)
     }
 }
