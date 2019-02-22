@@ -15,6 +15,12 @@
 		46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */; };
 		46E20A002126A91300E7FF73 /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FF2126A91300E7FF73 /* MovieController.swift */; };
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
+		E711145F22171CAE00331821 /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E711145D22171CAE00331821 /* Movie.xcdatamodeld */; };
+		E71114632217210400331821 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71114622217210400331821 /* MovieSearchTableViewCell.swift */; };
+		E71114652217211400331821 /* MovieDisplayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71114642217211400331821 /* MovieDisplayTableViewCell.swift */; };
+		E71114682217263C00331821 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71114672217263C00331821 /* CoreDataStack.swift */; };
+		E711146A221729EE00331821 /* SearchMovieButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7111469221729EE00331821 /* SearchMovieButtonDelegate.swift */; };
+		E7E60FC122205EDF00C28B1B /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E60FC022205EDF00C28B1B /* Movie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +34,13 @@
 		46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewController.swift; sourceTree = "<group>"; };
 		46E209FF2126A91300E7FF73 /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
+		E711145E22171CAE00331821 /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
+		E71114622217210400331821 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
+		E71114642217211400331821 /* MovieDisplayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDisplayTableViewCell.swift; sourceTree = "<group>"; };
+		E71114672217263C00331821 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		E7111469221729EE00331821 /* SearchMovieButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieButtonDelegate.swift; sourceTree = "<group>"; };
+		E7E60FC022205EDF00C28B1B /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		E7E60FC222206C8B00C28B1B /* Movie 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,11 +73,14 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
+				E711146B22172A3A00331821 /* Delegates */,
+				E71114662217211B00331821 /* Table View Cells */,
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
 				46E20A092126AFC200E7FF73 /* Resources */,
+				E711145D22171CAE00331821 /* Movie.xcdatamodeld */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";
@@ -73,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+				E7E60FC022205EDF00C28B1B /* Movie.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -97,6 +114,7 @@
 		46E20A092126AFC200E7FF73 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E71114672217263C00331821 /* CoreDataStack.swift */,
 				46E209E42126A63600E7FF73 /* AppDelegate.swift */,
 				46E209EB2126A63700E7FF73 /* Assets.xcassets */,
 				46E209F02126A63700E7FF73 /* Info.plist */,
@@ -111,6 +129,23 @@
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		E71114662217211B00331821 /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E71114642217211400331821 /* MovieDisplayTableViewCell.swift */,
+				E71114622217210400331821 /* MovieSearchTableViewCell.swift */,
+			);
+			path = "Table View Cells";
+			sourceTree = "<group>";
+		};
+		E711146B22172A3A00331821 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				E7111469221729EE00331821 /* SearchMovieButtonDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +180,7 @@
 				TargetAttributes = {
 					46E209E02126A63600E7FF73 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1010;
 					};
 				};
 			};
@@ -185,9 +221,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				E711146A221729EE00331821 /* SearchMovieButtonDelegate.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
+				E71114682217263C00331821 /* CoreDataStack.swift in Sources */,
+				E71114652217211400331821 /* MovieDisplayTableViewCell.swift in Sources */,
+				E71114632217210400331821 /* MovieSearchTableViewCell.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				E711145F22171CAE00331821 /* Movie.xcdatamodeld in Sources */,
+				E7E60FC122205EDF00C28B1B /* Movie.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,7 +375,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
+				DEVELOPMENT_TEAM = TZ89Q545VW;
 				INFOPLIST_FILE = "$(SRCROOT)/MyMovies/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -341,7 +383,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.LambdaSchool.MyMovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -351,7 +393,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
+				DEVELOPMENT_TEAM = TZ89Q545VW;
 				INFOPLIST_FILE = "$(SRCROOT)/MyMovies/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -359,7 +401,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.LambdaSchool.MyMovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -386,6 +428,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E711145D22171CAE00331821 /* Movie.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E7E60FC222206C8B00C28B1B /* Movie 2.xcdatamodel */,
+				E711145E22171CAE00331821 /* Movie.xcdatamodel */,
+			);
+			currentVersion = E7E60FC222206C8B00C28B1B /* Movie 2.xcdatamodel */;
+			path = Movie.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 46E209D92126A63600E7FF73 /* Project object */;
 }
