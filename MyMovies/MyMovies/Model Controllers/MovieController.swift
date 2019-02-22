@@ -69,12 +69,12 @@ class MovieController {
     }
     
     
-    func fetchTasksFromServer(completion: @escaping (Error?) -> Void = {_ in }) {
+    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = {_ in }) {
         
         let url = firebaseURL.appendingPathExtension("json")
         
         let urlRequest = URLRequest(url: url)
-        
+        print(urlRequest)
         URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             if let error = error {
                 NSLog("Error fetching tasks: \(error)")
@@ -91,15 +91,11 @@ class MovieController {
             do {
                 
                 let jsonDecoder = JSONDecoder()
-                let movieRepresentations = try jsonDecoder.decode([String: MovieRepresentations].self, from: data)
+                let movieRepresentations = try jsonDecoder.decode([String: MovieRepresentation].self, from: data)
                 
                 for(_, movieRep) in movieRepresentations {
-                    let movieArray : [MovieRepresentation] = movieRep.results
-                    for index in movieArray{
-                        let newMovie = Movie(title: index.title, hasWatched: index.hasWatched ?? false)
-                        newMovie.identifier = index.identifier
-                        self.updateMovie(movie: newMovie, withTitle: index.title, hasWatched: index.hasWatched ?? false)
-                    }
+                    let newMovie = Movie(title: movieRep.title, hasWatched: movieRep.hasWatched ?? false)
+                        self.updateMovie(movie: newMovie, withTitle: movieRep.title, hasWatched: movieRep.hasWatched ?? false)
                 }
                 completion(nil)
             } catch {
