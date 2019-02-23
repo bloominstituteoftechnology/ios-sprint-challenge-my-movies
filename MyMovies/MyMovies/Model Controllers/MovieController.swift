@@ -13,10 +13,6 @@ class MovieController {
     
     private let firebaseURL = URL(string: "https://mymovies-64f31.firebaseio.com/")!
     
-    init() {
-        
-    }
-    
     func create(from movieRepresentation: MovieRepresentation) {
         let moc = CoreDataStack.shared.container.newBackgroundContext()
         
@@ -39,10 +35,22 @@ class MovieController {
     }
     
     func delete(movie: Movie) {
+        deleteMovieFromServer(movie: movie)
+        let moc = CoreDataStack.shared.mainContext
         
+        moc.perform {
+            do {
+                moc.delete(movie)
+                try CoreDataStack.shared.save(context: moc)
+            }
+            catch {
+                NSLog("Could not save context")
+                return
+            }
+        }
     }
     
-    func updateFromRepresentation() {
+    func updateFromRepresentation(movie: Movie, movieRepresentation: MovieRepresentation) {
         guard let hasWatched = movieRepresentation.hasWatched else { return }
         movie.hasWatched = hasWatched
         movie.title = movieRepresentation.title
@@ -58,18 +66,16 @@ class MovieController {
                 guard let identifier = movieRepresentation.identifier else { continue }
                 
                 if let movie = self.fetchMovieFromStore(identifier: identifier, context: context) {
-                    self.updateFromRepresentation()
+                    self.updateFromRepresentation(movie: movie, movieRepresentation: movieRepresentation)
                 } else {
-                    let _ = Movie(movieRepresentation: movieRepresentation, context: context)
+                    _ = Movie(movieRepresentation: movieRepresentation, context: context)
                 }
                 
                 
             }
         }
     }
-    
-    
-    
+
     func deleteMovieFromServer(movie: Movie, completion: @escaping(Error?) -> Void = { _ in }) {
         guard let identifier = movie.identifier else { return }
         
@@ -122,11 +128,20 @@ class MovieController {
         }.resume()
     }
     
-    func fetchMovieFromStore(identifier: UUID, context: NSManagedObjectContext) {
+    func fetchMovieFromStore(identifier: UUID, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
         
+        do {
+            return try context.fetch(fetchRequest).first
+        }
+        catch {
+            NSLog("Error fetching single movie: \(error)")
+            return nil
+        }
     }
     
-    func fetchMovieFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+    func fetch(completion: @escaping (Error?) -> Void = { _ in }) {
         let requestURL = firebaseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
@@ -143,9 +158,10 @@ class MovieController {
             }
             
             do {
-                movieRepresentations = try Array(JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
-                let moc = CoreDataStack.shared.container.newBackgroundContext()
-                try self.updateMovies(with: movieRepresentations, context: moc)
+                let movieRepresentations = try Array(JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                try self.updateMovies(with: movieRepresentations, context: backgroundContext)
+                try CoreDataStack.shared.save(context: backgroundContext)
                 completion(nil)
             }
             catch {
@@ -153,7 +169,7 @@ class MovieController {
                 completion(error)
                 return
             }
-        }
+        }.resume()
     }
     
     // MARK: - Networking
