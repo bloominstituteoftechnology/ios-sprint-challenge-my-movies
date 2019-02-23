@@ -30,8 +30,27 @@ class MovieController {
         }
     }
     
-    func update() {
+    func updateFromRepresentation(movie: Movie, movieRepresentation: MovieRepresentation) {
+        guard let hasWatched = movieRepresentation.hasWatched else { return }
+        movie.hasWatched = hasWatched
+        movie.title = movieRepresentation.title
+        movie.identifier = movieRepresentation.identifier
+    }
+    
+    func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) throws {
         
+        context.performAndWait {
+            for movieRepresentation in representations {
+                
+                guard let identifier = movieRepresentation.identifier else { continue }
+                
+                if let movie = self.fetchMovieFromStore(identifier: identifier, context: context) {
+                    self.updateFromRepresentation(movie: movie, movieRepresentation: movieRepresentation)
+                } else {
+                    _ = Movie(movieRepresentation: movieRepresentation, context: context)
+                }
+            }
+        }
     }
     
     func delete(movie: Movie) {
@@ -50,31 +69,7 @@ class MovieController {
         }
     }
     
-    func updateFromRepresentation(movie: Movie, movieRepresentation: MovieRepresentation) {
-        guard let hasWatched = movieRepresentation.hasWatched else { return }
-        movie.hasWatched = hasWatched
-        movie.title = movieRepresentation.title
-        movie.identifier = movieRepresentation.identifier
-    }
     
-    func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) throws {
-        
-        context.performAndWait {
-            
-            for movieRepresentation in representations {
-                
-                guard let identifier = movieRepresentation.identifier else { continue }
-                
-                if let movie = self.fetchMovieFromStore(identifier: identifier, context: context) {
-                    self.updateFromRepresentation(movie: movie, movieRepresentation: movieRepresentation)
-                } else {
-                    _ = Movie(movieRepresentation: movieRepresentation, context: context)
-                }
-                
-                
-            }
-        }
-    }
 
     func deleteMovieFromServer(movie: Movie, completion: @escaping(Error?) -> Void = { _ in }) {
         guard let identifier = movie.identifier else { return }

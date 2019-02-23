@@ -23,6 +23,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
     
     @IBOutlet weak var titleLabel: UILabel!
+    
 
     @IBAction func addButtonAction(_ sender: Any) {
         delegate?.addMovieButtonAction(on: self)

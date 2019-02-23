@@ -65,6 +65,9 @@
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="titleLabel" destination="wj0-s0-mZN" id="zgH-9Z-Yao"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

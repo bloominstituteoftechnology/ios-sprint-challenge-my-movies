@@ -20,7 +20,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.reloadData()
     }
 
-    func hasWatchedAction(on cell: MyMoviesTableViewCell) {
+    func hasWatchedButtonAction(on cell: MyMoviesTableViewCell) {
         guard let indexPath = movieTableView.indexPath(for: cell) else { return }
         guard let movie = cell.movie else { return }
         
@@ -121,7 +121,5 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         
         return frc
     }()
-    
-    
-        
+
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MyMoviesTableViewCellDelegate: class {
-    func hasWatchedAction(on cell: MyMoviesTableViewCell)
+    func hasWatchedButtonAction(on cell: MyMoviesTableViewCell)
 }
 
 class MyMoviesTableViewCell: UITableViewCell {
@@ -26,7 +26,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var hasWatchedButton: UIButton!
     
     @IBAction func hasWatchedButtonAction(_ sender: Any) {
-        delegate?.hasWatchedAction(on: self)
+        delegate?.hasWatchedButtonAction(on: self)
     }
 
     func updateViews() {
