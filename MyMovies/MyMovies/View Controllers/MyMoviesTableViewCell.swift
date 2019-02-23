@@ -13,6 +13,7 @@ protocol MyMoviesTableViewCellDelegate: class {
 }
 
 class MyMoviesTableViewCell: UITableViewCell {
+    
     weak var delegate: MyMoviesTableViewCellDelegate?
     
     var movie: Movie? {
@@ -26,7 +27,6 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     @IBAction func hasWatchedButtonAction(_ sender: Any) {
         delegate?.hasWatchedAction(on: self)
-        
     }
 
     func updateViews() {

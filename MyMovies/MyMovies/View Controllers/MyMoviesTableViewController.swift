@@ -31,24 +31,29 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections?[section].name.capitalized
+        let sectionName = fetchedResultsController.sections?[section].name
+        switch sectionName {
+        case "0":
+            return "Unwatched"
+        case "1":
+            return "Watched"
+        default:
+            return nil
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMoviesCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMoviesCell", for: indexPath) as! MyMoviesTableViewCell
         
         let movie = fetchedResultsController.object(at: indexPath)
-        
         cell.movie = movie
         cell.delegate = self
         
@@ -60,14 +65,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             let movie = fetchedResultsController.object(at: indexPath)
             movieController.delete(movie: movie)
         }
-    }
-        
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
     
     // MARK: - FetchedResultsController

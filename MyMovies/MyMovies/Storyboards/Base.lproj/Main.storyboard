@@ -60,14 +60,12 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Add"/>
                                             <connections>
-                                                <action selector="addButtonAction:" destination="d7W-qE-xfL" eventType="touchUpInside" id="GdU-e7-fBX"/>
-                                                <action selector="hasWatchedButtonAction:" destination="d7W-qE-xfL" eventType="primaryActionTriggered" id="bcn-Da-x7E"/>
+                                                <action selector="addButtonAction:" destination="d7W-qE-xfL" eventType="touchUpInside" id="e7a-ES-Zke"/>
                                             </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="hasWatchedButton" destination="E1x-w3-CXx" id="Qp1-aa-8Io"/>
                                     <outlet property="titleLabel" destination="wj0-s0-mZN" id="O5g-aV-4LV"/>
                                 </connections>
                             </tableViewCell>
@@ -95,7 +93,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo" customClass="MyMoviesTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMoviesCell" rowHeight="55" id="9cK-VO-zdo" userLabel="MyMoviesCell" customClass="MyMoviesTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cK-VO-zdo" id="F0q-Pd-Woa">
