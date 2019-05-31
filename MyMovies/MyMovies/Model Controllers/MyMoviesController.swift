@@ -6,7 +6,7 @@
 //  Copyright © 2019 Lambda School. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 class MyMoviesController {
@@ -115,7 +115,6 @@ class MyMoviesController {
 			do {
 				let result = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
 				let movieReps = Array(result.values)
-				print(movieReps)
 				try self.updateMovies(with: movieReps)
 				completion(nil)
 			} catch {
@@ -124,7 +123,6 @@ class MyMoviesController {
 			
 		}.resume()
 	}
-	
 	
 	let baseUrl = URL(string: "https://movies-c2ab5.firebaseio.com/")!
 }
@@ -148,13 +146,17 @@ extension MyMoviesController {
 		guard let identifier = movieRep.identifier,
 			let hasWatched = movieRep.hasWatched else { return }
 		
-		if let movie = fetchSingleMovieFromPersistentStore(forUUID: identifier, context: context) {
-			movie.title = movieRep.title
-			movie.hasWatched = hasWatched
-			movie.identifier = identifier
-		} else {
-			let _ = Movie(title: movieRep.title)
+		CoreDataStack.shared.mainContext.performAndWait {
+			
+			if let movie = fetchSingleMovieFromPersistentStore(forUUID: identifier, context: context) {
+				movie.title = movieRep.title
+				movie.hasWatched = hasWatched
+				movie.identifier = identifier
+			} else {
+				let _ = Movie(title: movieRep.title)
+			}
 		}
+		
 	}
 	
 	private func fetchSingleMovieFromPersistentStore(forUUID uuid: UUID, context: NSManagedObjectContext) -> Movie? {
@@ -175,3 +177,4 @@ extension MyMoviesController {
 		return result
 	}
 }
+

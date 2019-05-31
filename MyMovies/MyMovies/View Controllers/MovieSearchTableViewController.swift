@@ -45,6 +45,14 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 		
         return movieCell
     }
+	
+	func simpleAlert(title: String, message: String?){
+		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		ac.addAction(UIAlertAction(title: "Ok", style: .cancel))
+		present(ac, animated: true)
+		
+	}
+	
     
     var movieController = MovieController()
 	var myMovieController = MyMoviesController()

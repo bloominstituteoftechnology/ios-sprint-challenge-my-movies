@@ -12,11 +12,8 @@ class MyMoviesTableViewCell: UITableViewCell {
 
 
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
-		
-		//change label save to core data and save to firebase
 		if let movie = movie {
 			movie.hasWatched.toggle()
-			
 			myMovieController?.put(movie: movie, completion: { error in
 				if let error = error {
 					print("error updating movie: \(error)")

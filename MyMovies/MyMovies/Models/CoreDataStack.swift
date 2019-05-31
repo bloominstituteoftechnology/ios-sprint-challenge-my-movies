@@ -37,7 +37,7 @@ class CoreDataStack {
 				fatalError("Failed to load presistent store: \(error)")
 			}
 		}
-	
+		container.viewContext.automaticallyMergesChangesFromParent = true
 		return container
 	}()
 	
