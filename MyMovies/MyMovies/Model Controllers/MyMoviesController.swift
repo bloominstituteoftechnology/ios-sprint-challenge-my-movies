@@ -55,7 +55,7 @@ class MyMoviesController {
 		let requestUrl = baseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
 		
 		var request = URLRequest(url: requestUrl)
-		request.httpMethod = "DELELTE"
+		request.httpMethod = "DELETE"
 		
 		do {
 			guard let movieRep = movie.movieRepresentation else {

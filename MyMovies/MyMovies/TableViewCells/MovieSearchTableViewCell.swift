@@ -17,8 +17,6 @@ class MovieSearchTableViewCell: UITableViewCell {
 		print("add \(movieRep.title)movie to firebase")
 		
 		let movie = Movie(title: movieRep.title)
-		
-		// put method should send MovieRep to firebase
 	
 		myMovieController?.put(movie: movie, completion: { error in
 			if let error = error {
@@ -27,7 +25,6 @@ class MovieSearchTableViewCell: UITableViewCell {
 			}
 		})
 		
-		// save to store
 		do {
 			let moc = CoreDataStack.shared.mainContext
 			try moc.save()
@@ -38,11 +35,7 @@ class MovieSearchTableViewCell: UITableViewCell {
 			return
 		}
 	}
-	
-	func put(entry: Movie, completion: @escaping (Error?) -> ()) {
-		
-	}
-	
+
 	private func setupViews() {
 		titleLable?.text = movieRep?.title
 	}
