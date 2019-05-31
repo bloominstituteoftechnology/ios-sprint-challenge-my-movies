@@ -61,6 +61,9 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+
+	private let firebaseURL = URL(string: "https://lambda-school-mredig.firebaseio.com/myMovies")!
+	let networkHandler = NetworkHandler()
 }
 
 
@@ -68,11 +71,45 @@ class MovieController {
 // MARK: - CoreData and Firebase stuff
 extension MovieController {
 
+	func remotePut(movie: Movie, completion: @escaping (Result<MovieRepresentation, NetworkError>) -> Void = { _ in }) {
+		let identifier = movie.threadSafeID ?? UUID()
+		let putURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+		movie.threadSafeID = identifier
+
+		var request = URLRequest(url: putURL)
+		request.httpMethod = HTTPMethods.put.rawValue
+
+		guard let movieRep = movie.movieRepresentation else {
+			completion(.failure(.otherError(error: NSError())))
+			return
+		}
+
+		let encoder = JSONEncoder()
+		do {
+			request.httpBody = try encoder.encode(movieRep)
+		} catch {
+			completion(.failure(.dataCodingError(specifically: error)))
+			return
+		}
+
+		networkHandler.transferMahCodableDatas(with: request, completion: completion)
+	}
 
 
 	// MARK: - local persistence
 
-//	func saveToCoreData(
+	@discardableResult func create(movieFromRepresentation representation: MovieRepresentation, onContext context: NSManagedObjectContext = CoreDataStack.shared.mainContext) -> Movie {
+		let movie = Movie(fromRepresentation: representation, onContext: context)
+		try? CoreDataStack.shared.save(context: context)
+		remotePut(movie: movie) { (result: Result<MovieRepresentation, NetworkError>) in
+			do {
+				_ = try result.get()
+			} catch {
+				NSLog("error putting movie \(movie.title ?? ""): \(error)")
+			}
+		}
+		return movie
+	}
 
 	func isMovieSaved(withTitle title: String) -> Bool {
 		return get(movieWithTitle: title, fromContext: CoreDataStack.shared.mainContext) != nil

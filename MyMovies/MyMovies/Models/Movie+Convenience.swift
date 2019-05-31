@@ -22,4 +22,32 @@ extension Movie {
 		let hasWatched = representation.hasWatched ?? false
 		self.init(title: representation.title, identifier: identifier, hasWatched: hasWatched, context: context)
 	}
+
+	var movieRepresentation: MovieRepresentation? {
+		var tTitle: String?
+		var tID: UUID?
+		managedObjectContext?.performAndWait {
+			tTitle = title
+			tID = identifier
+		}
+		guard let title = tTitle,
+		let identifier = tID
+			else { return nil }
+		return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+	}
+
+	var threadSafeID: UUID? {
+		get {
+			var id: UUID?
+			managedObjectContext?.performAndWait {
+				id = identifier
+			}
+			return id
+		}
+		set {
+			managedObjectContext?.performAndWait {
+				identifier = newValue
+			}
+		}
+	}
 }
