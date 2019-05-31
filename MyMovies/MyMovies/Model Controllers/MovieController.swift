@@ -138,9 +138,10 @@ class MovieController {
     
     func fetchMoviesFromServer(completion: @escaping (Error?) -> Void) {
         
-        let requestURL = baseURL.appendingPathExtension("json")
+        let url = firebaseBaseURL.appendingPathExtension("json")
+        var urlRequest = URLRequest(url: url)
         
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             
             if let error = error {
                 return completion(error)
