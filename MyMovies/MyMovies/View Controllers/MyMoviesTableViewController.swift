@@ -64,28 +64,29 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 			
 			let movie = fetchedResultController.object(at: indexPath)
 			let moc = CoreDataStack.shared.mainContext
-			
-			
-			
+
 			myMovieController.deleteMovieFromServer(movie: movie) { error in
 				if let error = error {
 					print("Error deleting movie from server: \(error)")
 					return
 				}
+				
 			}
 			
 			moc.performAndWait {
 				moc.delete(movie)
 			}
 			
-			do {
-				try moc.save()
-			} catch {
-				print("Error deleting from store: \(error) ")
-			}
 			
-			tableView.reloadData()
-		}
+			do {
+					try moc.save()
+				} catch {
+					print("Error deleting from store: \(error) ")
+				}
+			
+				self.tableView.reloadData()
+			}
+		
 		
 	}
 	

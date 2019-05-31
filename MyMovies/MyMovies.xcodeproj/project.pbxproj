@@ -85,10 +85,10 @@
 		46E20A052126AF5900E7FF73 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
-				E83D03B522A17F8700E53422 /* Movie.xcdatamodeld */,
 				E83D03B822A180C800E53422 /* CoreDataStack.swift */,
+				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				E83D03BA22A1833300E53422 /* Movie+Conveniece.swift */,
+				E83D03B522A17F8700E53422 /* Movie.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";

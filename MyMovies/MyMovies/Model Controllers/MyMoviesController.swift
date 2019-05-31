@@ -146,14 +146,14 @@ extension MyMoviesController {
 		guard let identifier = movieRep.identifier,
 			let hasWatched = movieRep.hasWatched else { return }
 		
+		
 		CoreDataStack.shared.mainContext.performAndWait {
 			
 			if let movie = fetchSingleMovieFromPersistentStore(forUUID: identifier, context: context) {
 				movie.title = movieRep.title
 				movie.hasWatched = hasWatched
-				movie.identifier = identifier
 			} else {
-				let _ = Movie(title: movieRep.title)
+				let _ = Movie(title: movieRep.title, context: context)
 			}
 		}
 		
