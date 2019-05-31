@@ -9,6 +9,11 @@
 import Foundation
 import CoreData
 
+
+protocol MovieControllerProtocol: AnyObject {
+	var movieController: MovieController? { get set }
+}
+
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
@@ -62,6 +67,12 @@ class MovieController {
 
 // MARK: - CoreData and Firebase stuff
 extension MovieController {
+
+
+
+	// MARK: - local persistence
+
+//	func saveToCoreData(
 
 	func isMovieSaved(withTitle title: String) -> Bool {
 		return get(movieWithTitle: title, fromContext: CoreDataStack.shared.mainContext) != nil
