@@ -10,10 +10,18 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
+	
+	
 	@IBAction func AddMovieButton(_ sender: Any) {
+		print("add movie to firebase")
+	}
+	
+	private func setupViews() {
+	
+		titleLable?.text = movieRep?.title
 		
 	}
 	
 	@IBOutlet var titleLable: UILabel!
-
+	var movieRep: MovieRepresentation? { didSet { setupViews() } }
 }
