@@ -37,8 +37,12 @@ class MovieSearchTableViewCell: UITableViewCell {
 
         guard let title = titleLable.text else { return }
 
-        movieModelController.create(title: title)
+        let context = CoreDataStack.shared.mainContext
 
-        movieModelController.save(contetex: CoreDataStack.shared.mainContext)
+        context.performAndWait {
+            movieModelController.create(title: title)
+            movieModelController.save(contetex: context)
+        }
+
     }
 }

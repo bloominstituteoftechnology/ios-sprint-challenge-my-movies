@@ -49,8 +49,11 @@ class MyMoviesTableViewCell: UITableViewCell {
 
         guard let movie = movie else { return }
 
-        movieModelController?.update(movie: movie, hasWatch: !movie.hasWatched)
+        let context = CoreDataStack.shared.mainContext
 
-        movieModelController?.save(contetex: CoreDataStack.shared.mainContext)
+        context.performAndWait {
+            movieModelController?.update(movie: movie, hasWatch: !movie.hasWatched)
+            movieModelController?.save(contetex: context)
+        }
     }
 }

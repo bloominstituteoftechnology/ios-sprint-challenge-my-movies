@@ -77,8 +77,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             CoreDataStack.shared.mainContext.performAndWait {
-                movieModelController.delete(movie: fetchedResultsController.object(at: indexPath), context: CoreDataStack.shared.mainContext)
-                movieModelController.save(contetex: CoreDataStack.shared.mainContext)
+                let context = CoreDataStack.shared.mainContext
+
+                context.performAndWait {
+                    movieModelController.delete(movie: fetchedResultsController.object(at: indexPath), context: context)
+                    movieModelController.save(contetex: context)
+                }
             }
         }
     }
@@ -133,15 +137,5 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             break
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -28,10 +28,12 @@ class MovieModelController {
 
     func save(contetex: NSManagedObjectContext) {
 
-        do {
-            try contetex.save()
-        } catch  {
-            NSLog("Could Not save data to persistent Stores: \(error)")
+        contetex.performAndWait {
+            do {
+                try contetex.save()
+            } catch  {
+                NSLog("Could Not save data to persistent Stores: \(error)")
+            }
         }
     }
 
