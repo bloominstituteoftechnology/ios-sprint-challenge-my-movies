@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -84,22 +85,17 @@ class MovieController {
             } .resume()
     }
     
-    func create(title: String) {
-        let moc = CoreDataStack.shared.mainContext
+    func create(movieRep: MovieRepresentation) {
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
 
-        moc.perform {
-            let movie = Movie(title: title)
-            self.put(movie: movie)
-        }
-    }
-    
-    func update(movie: Movie, representation: MovieRepresentation) {
-        let moc = CoreDataStack.shared.mainContext
-
-        moc.perform {
-            movie.title = representation.title
-            movie.identifier = representation.identifier
-            movie.hasWatched = representation.hasWatched!
+        moc.performAndWait {
+            guard let movie = Movie(movieRepresentation: movieRep, context: moc) else {return}
+            
+            do {
+                try CoreDataStack.shared.save(context: moc)
+            } catch {
+                return print("Error creating moc.")
+            }
             self.put(movie: movie)
         }
     }
@@ -135,30 +131,69 @@ class MovieController {
             }.resume()
     }
     
+    func fetchMovieFromCoreData(identifier: UUID, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier.uuidString)
+        
+        var result: Movie? = nil
+
+        do {
+            result = try context.fetch(fetchRequest).first
+            return result
+        }
+        catch {
+            print("Error fetching movie: \(error.localizedDescription)")
+        }
+        return result
+    }
     
-    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void) {
-        
+    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
         let url = firebaseBaseURL.appendingPathExtension("json")
-        var urlRequest = URLRequest(url: url)
         
-        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
             if let error = error {
+                print("Error fetching data: \(error.localizedDescription)")
                 return completion(error)
             }
             guard let data = data else {
                 return completion(NSError())
             }
+            
             do {
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                
                 let movieData = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
                 let myMovieRep = Array(movieData.values)
                 
-                for movieRep in myMovieRep {
-                    self.update(movie: movieRep, representation: movieRep)
-                }
-                
-            } catch {
+                try self.updateMovies(movieRepresentations: myMovieRep, context: backgroundContext)
+                try CoreDataStack.shared.save(context: backgroundContext)
+                completion(nil)
+            }
+            catch {
                 return completion(error)
             }}.resume()
+    }
+    
+    func update(movie: Movie, representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.identifier = representation.identifier
+        
+        guard let hasWatched = representation.hasWatched else {return} // may be nil
+        movie.hasWatched = hasWatched
+    }
+    
+    func updateMovies(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext) throws {
+        context.performAndWait {
+            for movieRep in movieRepresentations {
+                guard let identifier = movieRep.identifier else { continue }
+                
+                if let movie = self.fetchMovieFromCoreData(identifier: identifier, context: context) {
+                    self.update(movie: movie, representation: movieRep)
+                } else {
+                    let _ = Movie(movieRepresentation: movieRep, context: context)
+                }
+            }
+        }
     }
     
     // MARK: - Properties

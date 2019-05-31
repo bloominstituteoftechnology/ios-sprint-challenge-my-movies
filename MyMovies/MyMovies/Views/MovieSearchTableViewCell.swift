@@ -11,8 +11,9 @@ import UIKit
 class MovieSearchTableViewCell: UITableViewCell {
 
     // MARK: - Constants
-    
-    var movie: MovieRepresentation? {
+    var movieController = MovieController()
+
+    var movieRep: MovieRepresentation? {
         didSet {
             updateViews()
         }
@@ -28,9 +29,10 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBAction func addMovieBtnPressed(_ sender: UIButton) {
         let moc = CoreDataStack.shared.mainContext
         
-        guard let movie = movie else {return} // problem here
+        guard let movie = movieRep else {return} // problem here
         print(movie)
         titleLbl.text = movie.title
+        movieController.create(movieRep: movie)
         
         do {
             print("Saving movie... addMovieBtnPressed")
@@ -45,7 +47,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     func updateViews(){
         print("running update views")
-        guard let movie = movie else {return}
+        guard let movie = movieRep else {return}
         print("received movie: ", movie)
         titleLbl.text = movie.title
     }
