@@ -100,8 +100,15 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
 		}
 	}
 
-//	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, sectionIndexTitleForSectionName sectionName: String) -> String? {
-//		<#code#>
-//	}
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, sectionIndexTitleForSectionName sectionName: String) -> String? {
+		switch sectionName {
+		case "0":
+			return "Unwatched"
+		case "1":
+			return "Watched"
+		default:
+			return "Unknown"
+		}
+	}
 }
 

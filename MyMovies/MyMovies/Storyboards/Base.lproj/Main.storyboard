@@ -120,6 +120,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rk5-1N-Pcv">
                                                     <rect key="frame" x="294" y="0.0" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="watchedIndicatorToggled:" destination="9cK-VO-zdo" eventType="valueChanged" id="cFx-eu-9X7"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                         </stackView>

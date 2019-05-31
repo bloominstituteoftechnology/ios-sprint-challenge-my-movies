@@ -33,6 +33,8 @@ class SearchMovieTableViewCell: UITableViewCell {
 	}
 
 	@IBAction func saveMovieButtonPressed(_ sender: UIButton) {
-		
+		guard let movie = movie else { return }
+		movieController?.create(movieFromRepresentation: movie)
+		updateViews()
 	}
 }
