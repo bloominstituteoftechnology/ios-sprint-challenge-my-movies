@@ -18,11 +18,20 @@ extension Movie {
     }
     
     // Used for converting a MovieRepresentation from Firebase to a Movie object
+    convenience init?(movieRepresentation: MovieRepresentation,
+                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let identifier = movieRepresentation.identifier,
+            let hasWatched = movieRepresentation.hasWatched else {
+                // We don't have enough information to create a Movie object, return nil instead
+                return nil
+        }
+        self.init(title: movieRepresentation.title, identifier: identifier, hasWatched: hasWatched, context: context)
+    }
     
-    convenience init(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        let title = movieRepresentation.title
-        let identifier = movieRepresentation.identifier ?? UUID()
-        let hasWatched = movieRepresentation.hasWatched ?? false
-        self.init(title: title, identifier: identifier, hasWatched: hasWatched, context: context)
+    // Used for sending the Movie object to Firebase
+    var movieRepresentation: MovieRepresentation? {
+        guard let title = title, let identifier = identifier else { return nil }
+
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
 }

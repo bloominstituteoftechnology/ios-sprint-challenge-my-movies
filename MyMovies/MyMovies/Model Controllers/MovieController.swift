@@ -52,6 +52,40 @@ class MovieController {
         }.resume()
     }
     
+    // MARK: - CRUD
+    
+    func delete(movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        deleteMovieFromServer(movie: movie)
+
+        moc.perform {
+            do {
+                moc.delete(movie)
+                try CoreDataStack.shared.save(context: moc)
+            } catch let deleteError {
+                NSLog("Error deleting moc: \(deleteError)")
+                return
+            }
+        }
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }){
+        guard let identifier = movie.identifier else {return}
+        
+        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error sending deletion request to server: \(error.localizedDescription)")
+                return completion(error)
+            }
+            completion(nil)
+            }.resume()
+    }
+    
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
