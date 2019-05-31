@@ -7,3 +7,9 @@
 //
 
 import Foundation
+import CoreData
+
+class MyMoviesController {
+    
+    var
+} // class

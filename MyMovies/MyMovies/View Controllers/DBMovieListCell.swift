@@ -11,11 +11,10 @@ import UIKit
 class DBMovieListCell: UITableViewCell {
 
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
-        print("Button was tapped")
+        guard let selectedMovie = textLabel?.text else { return }
     }
     
-    @IBOutlet weak var movieTitleCell: UILabel!
     
-    
-    
+    var moviecontroller: MovieController?
+    var selectedMovie: String?
 }
