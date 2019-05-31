@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MyMoviesController {
 	
@@ -49,6 +50,44 @@ class MyMoviesController {
 		
 	}
 	
+	func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> ()) {
+		let identifier = movie.identifier ?? UUID()
+		let requestUrl = baseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+		
+		var request = URLRequest(url: requestUrl)
+		request.httpMethod = "DELELTE"
+		
+		do {
+			guard let movieRep = movie.movieRepresentation else {
+				completion(NSError())
+				return
+			}
+			request.httpBody = try JSONEncoder().encode(movieRep)
+		} catch {
+			print("Error encoding to movide: \(error) ")
+			completion(error)
+			return
+		}
+		
+		URLSession.shared.dataTask(with: request) { data, response, error in
+			if let response = response as? HTTPURLResponse {
+				print("Fetching movies from firebase response: \(response.statusCode)")
+			}
+			
+			if let error = error {
+				NSLog("Error fetching movies: \(error)")
+				completion(error)
+				return
+			}
+			CoreDataStack.shared.mainContext.performAndWait {
+				movie.identifier = identifier
+			}
+			
+			try? CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+			completion(nil)
+			}.resume()
+	}
+	
 	
 	func fetchMoviesFromServer(completion: @escaping (Error?) -> ()) {
 		
@@ -77,6 +116,7 @@ class MyMoviesController {
 				let result = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
 				let movieReps = Array(result.values)
 				print(movieReps)
+				try self.updateMovies(with: movieReps)
 				completion(nil)
 			} catch {
 				print("Error decoding movies from firebase: \(error)")
@@ -87,4 +127,26 @@ class MyMoviesController {
 	
 	
 	let baseUrl = URL(string: "https://movies-c2ab5.firebaseio.com/")!
+}
+
+extension MyMoviesController {
+	
+	private func updateMovies(with movieReps: [MovieRepresentation]) throws {
+		
+		let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+		
+		backgroundContext.performAndWait {
+			for movieRep in movieReps {
+				updateMovie(movieRep: movieRep, context: backgroundContext)
+			}
+		}
+		
+		try CoreDataStack.shared.save(context: backgroundContext)
+	}
+	
+	private func updateMovie(movieRep: MovieRepresentation, context: NSManagedObjectContext) {
+		
+	}
+	
+	
 }

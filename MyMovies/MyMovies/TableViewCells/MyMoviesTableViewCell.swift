@@ -16,9 +16,13 @@ class MyMoviesTableViewCell: UITableViewCell {
 		//change label save to core data and save to firebase
 		if let movie = movie {
 			movie.hasWatched.toggle()
-			print(movie.identifier!)
+			
+			myMovieController?.put(movie: movie, completion: { error in
+				if let error = error {
+					print("error updating movie: \(error)")
+				}
+			})
 		}
-		// update server with put
 		
 		do {
 			let moc = CoreDataStack.shared.mainContext
@@ -26,7 +30,6 @@ class MyMoviesTableViewCell: UITableViewCell {
 		} catch {
 			NSLog("Error updating movie to moc: \(error)")
 		}
-		
 	}
 	
 	private func setupViews() {
@@ -42,6 +45,5 @@ class MyMoviesTableViewCell: UITableViewCell {
 	@IBOutlet var watchedToggleButton: UIButton!
 	@IBOutlet var titleLabel: UILabel!
 	var movie: Movie? { didSet {  setupViews() } }
-	
-	//a controller
+	var myMovieController: MyMoviesController?
 }

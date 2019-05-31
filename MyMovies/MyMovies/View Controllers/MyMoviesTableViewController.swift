@@ -22,7 +22,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 			if let error = error {
 				print("Error fetching moives in MyMoviesTableViewController: \(error) ")
 			}
-			self.tableView.reloadData()
+			
+			DispatchQueue.main.async {
+				self.tableView.reloadData()
+			}
 		}
 		
 		
@@ -52,7 +55,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 		guard let myMovieCell = cell as? MyMoviesTableViewCell else { return cell }
 		let movie = fetchedResultController.object(at: indexPath)
 		myMovieCell.movie = movie
-		
+		myMovieCell.myMovieController = myMovieController
 		return myMovieCell
 	}
 	
@@ -62,10 +65,19 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 			let movie = fetchedResultController.object(at: indexPath)
 			let moc = CoreDataStack.shared.mainContext
 			
+			
+			
+			myMovieController.deleteMovieFromServer(movie: movie) { error in
+				if let error = error {
+					print("Error deleting movie from server: \(error)")
+					return
+				}
+			}
+			
 			moc.performAndWait {
-				
 				moc.delete(movie)
 			}
+			
 			do {
 				try moc.save()
 			} catch {
@@ -147,5 +159,7 @@ extension MyMoviesTableViewController {
 	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 		tableView.endUpdates()
 	}
-
+	
+	
+	
 }
