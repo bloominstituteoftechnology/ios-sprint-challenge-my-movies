@@ -32,10 +32,12 @@ class MovieSearchTableViewCell: UITableViewCell {
 		}
 	}
 	
-	private func setupViews() {
-	
-		titleLable?.text = movieRep?.title
+	func put(entry: Movie, completion: @escaping (Error?) -> ()) {
 		
+	}
+	
+	private func setupViews() {
+		titleLable?.text = movieRep?.title
 	}
 	
 	@IBOutlet var titleLable: UILabel!
