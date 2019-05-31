@@ -36,4 +36,12 @@ class MovieCell: UITableViewCell {
         }
     }
     
+    
+    @IBAction func toggleHasWatchedButton(_ sender: Any) {
+        guard let movie = movie else {return}
+        let newState = !movie.hasWatched
+        movieController?.updateMovie(movie: movie, hasWatched: newState)
+        
+    }
+    
 }
