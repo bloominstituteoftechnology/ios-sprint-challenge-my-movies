@@ -71,21 +71,19 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 					return
 				}
 				
-			}
-			
-			moc.performAndWait {
-				moc.delete(movie)
-			}
-			
-			
-			do {
-					try moc.save()
-				} catch {
-					print("Error deleting from store: \(error) ")
+				moc.performAndWait {
+					moc.delete(movie)
 				}
-			
-				self.tableView.reloadData()
 			}
+		
+			do {
+				try moc.save()
+			} catch {
+				print("Error deleting from store: \(error) ")
+			}
+		
+			self.tableView.reloadData()
+		}
 		
 		
 	}
