@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -55,4 +56,52 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+}
+
+
+
+// MARK: - CoreData and Firebase stuff
+extension MovieController {
+
+	func isMovieSaved(withTitle title: String) -> Bool {
+		return get(movieWithTitle: title, fromContext: CoreDataStack.shared.mainContext) != nil
+	}
+
+	func get(movieWithTitle title: String, fromContext context: NSManagedObjectContext) -> Movie? {
+		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+		fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+		var movie: Movie?
+		context.performAndWait {
+			do {
+				movie = try context.fetch(fetchRequest).first
+			} catch {
+				NSLog("error getting movie from coredata: \(error)")
+			}
+		}
+		return movie
+
+	}
+
+	func get(movieWithUUID uuid: UUID, fromContext context: NSManagedObjectContext) -> Movie? {
+		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+		var movie: Movie?
+		context.performAndWait {
+			do {
+				movie = try context.fetch(fetchRequest).first
+			} catch {
+				NSLog("error getting movie from coredata: \(error)")
+			}
+		}
+		return movie
+	}
+
+	func get(movie: Movie?, fromContext context: NSManagedObjectContext) -> Movie? {
+		var identifier: UUID?
+		movie?.managedObjectContext?.performAndWait {
+			identifier = movie?.identifier
+		}
+		guard let unwrappedID = identifier else { return nil }
+		return get(movieWithUUID: unwrappedID, fromContext: context)
+	}
 }
