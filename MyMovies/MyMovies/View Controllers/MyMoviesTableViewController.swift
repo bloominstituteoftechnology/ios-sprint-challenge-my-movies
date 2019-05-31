@@ -17,7 +17,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		
-		return fetchedResultController.sections?[section].name
+		if fetchedResultController.sections?[section].name == "0" {
+			return "Unwatched"
+		} else {
+			return "Watched"
+		}
 	}
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
@@ -39,7 +43,26 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 		return myMovieCell
 	}
 	
-	
+	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			
+			let movie = fetchedResultController.object(at: indexPath)
+			let moc = CoreDataStack.shared.mainContext
+			
+			moc.performAndWait {
+				
+				moc.delete(movie)
+			}
+			do {
+				try moc.save()
+			} catch {
+				print("Error deleting from store: \(error) ")
+			}
+			
+			tableView.reloadData()
+		}
+		
+	}
 	
 	
 	lazy var fetchedResultController: NSFetchedResultsController<Movie> = {

@@ -13,6 +13,9 @@ class MyMoviesTableViewCell: UITableViewCell {
 
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
 		print("toggle")
+		//change label save to core data and save to firebase
+		
+		
 		
 	}
 	
