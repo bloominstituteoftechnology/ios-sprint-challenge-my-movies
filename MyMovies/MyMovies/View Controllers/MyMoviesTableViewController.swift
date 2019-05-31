@@ -15,13 +15,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         super.viewDidLoad()
 	}
 	
-	override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-		if section == 0 {
-			return "hasWatched == false"
-		} else if section == 1 {
-			return "hasWatched == true"
-		}
-		return ""
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		
+		return fetchedResultController.sections?[section].name
 	}
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
@@ -37,8 +33,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 		let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
 		
 		guard let myMovieCell = cell as? MyMoviesTableViewCell else { return cell }
-		
-		
+		let movie = fetchedResultController.object(at: indexPath)
+		myMovieCell.movie = movie
 		
 		return myMovieCell
 	}

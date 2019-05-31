@@ -12,14 +12,23 @@ class MyMoviesTableViewCell: UITableViewCell {
 
 
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
-	}
-	
-	private func setupViews() {
+		print("toggle")
 		
 	}
 	
+	private func setupViews() {
+		guard let movie = movie, let title = movie.title else { return }
+		
+		titleLabel?.text = title
+		let buttonTitle = movie.hasWatched ? "watched" : "unwatched"
+		watchedToggleButton.setTitle(buttonTitle, for: .normal)
+		
+	}
+	
+	
+	@IBOutlet var watchedToggleButton: UIButton!
 	@IBOutlet var titleLabel: UILabel!
-	var movie: Movie? { didSet {  } }
+	var movie: Movie? { didSet {  setupViews() } }
 	
 	//a controller
 }

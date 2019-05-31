@@ -125,7 +125,7 @@
                                                     <rect key="frame" x="267" y="0.0" width="76" height="30"/>
                                                     <state key="normal" title="unwatched"/>
                                                     <connections>
-                                                        <action selector="unwatchedToggleButton:" destination="9cK-VO-zdo" eventType="touchUpInside" id="CVO-Lv-aqU"/>
+                                                        <action selector="unwatchedToggleButton:" destination="9cK-VO-zdo" eventType="touchUpInside" id="LNo-FI-8Rf"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -141,6 +141,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="titleLabel" destination="a6O-zS-fmH" id="yzd-aa-mcT"/>
+                                    <outlet property="watchedToggleButton" destination="3Ay-OW-Mt0" id="syC-kB-JrX"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
