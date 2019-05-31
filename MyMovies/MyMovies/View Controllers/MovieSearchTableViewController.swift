@@ -39,6 +39,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         let movie = movieController.movies[indexPath.row]
         cell.movie = movie
+        print("\(movie.title)")
         return cell
         
 //        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title

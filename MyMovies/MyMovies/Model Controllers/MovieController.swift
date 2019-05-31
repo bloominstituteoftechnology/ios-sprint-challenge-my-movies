@@ -50,10 +50,13 @@ class MovieController {
                     for movieRep in self.searchedMovies {
                         if let convertedMovie = Movie(movieRepresentation: movieRep) {
                             self.movies.append(convertedMovie)
+                            print("it converted")
+                        } else {
+                            print("nothing happened.")
                         }
                     }
-                    completion(nil)
                     try backgroundContext.save()
+                    completion(nil)
                 } catch {
                     NSLog("Error decoding JSON data: \(error)")
                     completion(error)
