@@ -102,7 +102,7 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
 		let indexSet = IndexSet([sectionIndex])
 		switch type {
 		case .insert:
-			tableView.reloadSections(indexSet, with: .automatic)
+			tableView.insertSections(indexSet, with: .automatic)
 		case .delete:
 			tableView.deleteSections(indexSet, with: .automatic)
 		default:

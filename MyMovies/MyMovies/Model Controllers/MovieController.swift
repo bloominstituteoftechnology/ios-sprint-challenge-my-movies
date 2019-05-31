@@ -183,12 +183,7 @@ extension MovieController {
 		context.performAndWait {
 			movie.hasWatched = watched
 		}
-		do {
-			try CoreDataStack.shared.save(context: context)
-			NSLog("success saving update for movie: \(movie)")
-		} catch {
-			NSLog("failure saving update for movie \(movie): \(error)")
-		}
+		try? CoreDataStack.shared.save(context: context)
 		remotePut(movie: movie) { (result: Result<MovieRepresentation, NetworkError>) in
 			do {
 				_ = try result.get()
