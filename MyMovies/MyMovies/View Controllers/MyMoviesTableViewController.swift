@@ -78,6 +78,13 @@ extension MyMoviesTableViewController {
 
 		return myMovieCell
 	}
+
+	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			let movie = fetchedResultsController.object(at: indexPath)
+			movieController?.delete(movie: movie)
+		}
+	}
 }
 
 

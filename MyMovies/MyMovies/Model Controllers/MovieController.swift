@@ -132,7 +132,7 @@ extension MovieController {
 						guard let identifier = movieRep.identifier else { continue }
 						if let movie = self?.get(movieWithUUID: identifier, fromContext: backgroundContext) {
 							if movie != movieRep {
-								self?.update(watched: movieRep.hasWatched ?? false, onMovie: movie)
+								self?.update(watched: movieRep.hasWatched ?? false, onMovie: movie, onContext: backgroundContext)
 							}
 						} else {
 							_ = Movie(fromRepresentation: movieRep, onContext: backgroundContext)
@@ -179,12 +179,16 @@ extension MovieController {
 		try? CoreDataStack.shared.save(context: context)
 	}
 
-	func update(watched: Bool, onMovie movie: Movie) {
-		guard let context = movie.managedObjectContext else { return }
+	func update(watched: Bool, onMovie movie: Movie, onContext context: NSManagedObjectContext) {
 		context.performAndWait {
 			movie.hasWatched = watched
 		}
-		try? CoreDataStack.shared.save(context: context)
+		do {
+			try CoreDataStack.shared.save(context: context)
+			NSLog("success saving update for movie: \(movie)")
+		} catch {
+			NSLog("failure saving update for movie \(movie): \(error)")
+		}
 		remotePut(movie: movie) { (result: Result<MovieRepresentation, NetworkError>) in
 			do {
 				_ = try result.get()

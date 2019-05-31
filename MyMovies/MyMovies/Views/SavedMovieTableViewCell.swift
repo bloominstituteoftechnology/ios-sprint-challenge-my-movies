@@ -29,6 +29,6 @@ class SavedMovieTableViewCell: UITableViewCell {
 
 	@IBAction func watchedIndicatorToggled(_ sender: UISwitch) {
 		guard let movie = movie else { return }
-		movieController?.update(watched: sender.isOn, onMovie: movie)
+		movieController?.update(watched: sender.isOn, onMovie: movie, onContext: CoreDataStack.shared.mainContext)
 	}
 }
