@@ -16,6 +16,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         searchBar.delegate = self
     }
     
+    
+    // MARK: - Functions
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
@@ -29,19 +31,23 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! DBMovieListCell
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
     
+    // MARK: - Properties
     var movieController = MovieController()
     
+    // MARK: - Outlets
     @IBOutlet weak var searchBar: UISearchBar!
+    
 }
