@@ -12,7 +12,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let firebaseBaseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseBaseURL = URL(string: "https://coredata-283af.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -142,15 +142,12 @@ class MovieController {
         var urlRequest = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
-            
             if let error = error {
                 return completion(error)
             }
-            
             guard let data = data else {
                 return completion(NSError())
             }
-            
             do {
                 let movieData = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
                 let myMovieRep = Array(movieData.values)
