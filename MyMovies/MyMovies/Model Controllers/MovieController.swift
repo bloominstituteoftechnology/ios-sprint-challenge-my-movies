@@ -18,6 +18,16 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+
+	init() {
+		remoteFetchAll { (result: Result<[MovieRepresentation], NetworkError>) in
+			do {
+				_ = try result.get()
+			} catch {
+				NSLog("error fetching: \(error)")
+			}
+		}
+	}
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -104,6 +114,37 @@ extension MovieController {
 		request.httpMethod = HTTPMethods.delete.rawValue
 
 		networkHandler.transferMahOptionalDatas(with: request, completion: completion)
+	}
+
+	func remoteFetchAll(completion: @escaping (Result<[MovieRepresentation], NetworkError>) -> Void = { _ in }) {
+		let getURL = firebaseURL.appendingPathExtension("json")
+
+		let request = getURL.request
+
+		networkHandler.transferMahCodableDatas(with: request) { [weak self] (result: Result<[String: MovieRepresentation], NetworkError>) in
+			do {
+				let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+				let movieDict = try result.get()
+				let movieArray = Array(movieDict.values)
+
+				backgroundContext.performAndWait {
+					for movieRep in movieArray {
+						guard let identifier = movieRep.identifier else { continue }
+						if let movie = self?.get(movieWithUUID: identifier, fromContext: backgroundContext) {
+							if movie != movieRep {
+								self?.update(watched: movieRep.hasWatched ?? false, onMovie: movie)
+							}
+						} else {
+							_ = Movie(fromRepresentation: movieRep, onContext: backgroundContext)
+						}
+					}
+				}
+				try CoreDataStack.shared.save(context: backgroundContext)
+				completion(.success(movieArray))
+			} catch {
+				completion(.failure(error as? NetworkError ?? NetworkError.otherError(error: error)))
+			}
+		}
 	}
 
 
