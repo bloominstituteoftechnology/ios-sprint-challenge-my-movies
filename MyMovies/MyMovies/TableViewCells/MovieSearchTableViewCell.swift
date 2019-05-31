@@ -13,7 +13,9 @@ class MovieSearchTableViewCell: UITableViewCell {
 	
 	
 	@IBAction func AddMovieButton(_ sender: Any) {
-		print("add movie to firebase")
+		guard let movieRep = movieRep else { return }
+		
+		print("add \(movieRep.title)movie to firebase")
 	}
 	
 	private func setupViews() {
