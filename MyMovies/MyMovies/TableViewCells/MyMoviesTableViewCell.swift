@@ -12,10 +12,11 @@ class MyMoviesTableViewCell: UITableViewCell {
 
 
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
-		print("toggle")
+		
 		//change label save to core data and save to firebase
 		if let movie = movie {
 			movie.hasWatched.toggle()
+			print(movie.identifier!)
 		}
 		// update server with put
 		

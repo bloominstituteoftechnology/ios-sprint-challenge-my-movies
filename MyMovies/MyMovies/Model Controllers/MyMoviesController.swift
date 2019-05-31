@@ -11,7 +11,9 @@ import Foundation
 class MyMoviesController {
 	
 	
-	
+	func fetchMoviesFromServer(completion: @escaping (Error?) -> ()) {
+		
+	}
 	
 	
 	let baseUrl = URL(string: "https://movies-c2ab5.firebaseio.com/")!
