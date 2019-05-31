@@ -20,6 +20,7 @@
 		E83D03B922A180C800E53422 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83D03B822A180C800E53422 /* CoreDataStack.swift */; };
 		E83D03BB22A1833300E53422 /* Movie+Conveniece.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83D03BA22A1833300E53422 /* Movie+Conveniece.swift */; };
 		E83D03BD22A18A8A00E53422 /* MyMoviesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83D03BC22A18A8A00E53422 /* MyMoviesController.swift */; };
+		E83D03BF22A19C9B00E53422 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83D03BE22A19C9B00E53422 /* MyMoviesTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		E83D03B822A180C800E53422 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E83D03BA22A1833300E53422 /* Movie+Conveniece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Conveniece.swift"; sourceTree = "<group>"; };
 		E83D03BC22A18A8A00E53422 /* MyMoviesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesController.swift; sourceTree = "<group>"; };
+		E83D03BE22A19C9B00E53422 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				E83D03B222A17AFF00E53422 /* MovieSearchTableViewCell.swift */,
+				E83D03BE22A19C9B00E53422 /* MyMoviesTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 			files = (
 				E83D03BB22A1833300E53422 /* Movie+Conveniece.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				E83D03BF22A19C9B00E53422 /* MyMoviesTableViewCell.swift in Sources */,
 				E83D03BD22A18A8A00E53422 /* MyMoviesController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				E83D03B722A17F8700E53422 /* Movie.xcdatamodeld in Sources */,

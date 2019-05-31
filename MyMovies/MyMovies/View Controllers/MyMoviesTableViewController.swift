@@ -33,7 +33,15 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 	}
 	
 	
-	
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+		
+		guard let myMovieCell = cell as? MyMoviesTableViewCell else { return cell }
+		
+		
+		
+		return myMovieCell
+	}
 	
 	
 	
