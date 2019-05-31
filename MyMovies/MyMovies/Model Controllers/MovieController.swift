@@ -11,8 +11,12 @@ import CoreData
 
 class MovieController {
   
-    typealias CompletionHandler = (Error?) -> Void
+    //initializer
+    init() {
+        fetchMoviesFromServer()
+    }
     
+    typealias CompletionHandler = (Error?) -> Void
     static let firebaseURL = URL(string: "https://mymovies-fa6b4.firebaseio.com/")!
     
     // MARK: - CRUD Methods
@@ -62,7 +66,6 @@ class MovieController {
     
     var searchedMovies: [MovieRepresentation] = []
     
-    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -106,9 +109,49 @@ class MovieController {
     }
 }
 
-
+//MARK: Firebase Funcitons
 extension MovieController {
     
+    //Connects with firebase
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let url = MovieController.firebaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching data: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            var movieRepresentations: [MovieRepresentation] = []
+            
+            do {
+                let resultsDictionary = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                movieRepresentations = resultsDictionary.map({  $0.value })
+                
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                
+                backgroundContext.performAndWait {
+                    self.integrateMovie(movieRepresentations: movieRepresentations, context: backgroundContext)
+                    do {
+                        try CoreDataStack.shared.save(context: backgroundContext)
+                    } catch {
+                        NSLog("Error saving movies after fetching them: \(error)")
+                    }
+                }
+                
+                completion(nil)
+            } catch {
+                NSLog("Error decoding data: \(error)")
+                completion(error)
+                return
+            }
+            }.resume()
+    }
+    
+    //Put method for database
     func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         
         guard let identifier = movie.identifier else {
@@ -148,7 +191,7 @@ extension MovieController {
             }.resume()
     }
     
-    // DELETE
+    // Delete method for database
     func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         
         guard let identifier = movie.identifier else {
@@ -168,7 +211,6 @@ extension MovieController {
                 completion(error)
                 return
             }
-            
             print(response!)
             completion(nil)
             }.resume()
@@ -177,6 +219,7 @@ extension MovieController {
     
 }
 
+//MARK: Persistence Store
 extension MovieController {
     func fetchPersistentMovie(identifier: String, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -211,10 +254,7 @@ extension MovieController {
 
 }
 
-extension MovieController {
-    
-}
-
+//MARK: Movie
 extension Movie: Encodable {
     enum CodingKeys: String, CodingKey {
         case title
