@@ -145,8 +145,33 @@ extension MyMoviesController {
 	}
 	
 	private func updateMovie(movieRep: MovieRepresentation, context: NSManagedObjectContext) {
+		guard let identifier = movieRep.identifier,
+			let hasWatched = movieRep.hasWatched else { return }
 		
+		if let movie = fetchSingleMovieFromPersistentStore(forUUID: identifier, context: context) {
+			movie.title = movieRep.title
+			movie.hasWatched = hasWatched
+			movie.identifier = identifier
+		} else {
+			let _ = Movie(title: movieRep.title)
+		}
 	}
 	
-	
+	private func fetchSingleMovieFromPersistentStore(forUUID uuid: UUID, context: NSManagedObjectContext) -> Movie? {
+		
+		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+		
+		var result: Movie? = nil
+		
+		context.performAndWait {
+			do {
+				result = try context.fetch(fetchRequest).first
+			} catch {
+				NSLog("Error fetching movie with predicate: \(error)")
+			}
+		}
+		
+		return result
+	}
 }
