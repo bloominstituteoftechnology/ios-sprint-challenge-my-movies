@@ -15,9 +15,21 @@ class MovieSearchTableViewCell: UITableViewCell {
 		
 		print("add \(movieRep.title)movie to firebase")
 		
+		let _ = Movie(title: movieRep.title)
+		
+		// put method should send MovieRep to firebase
 		
 		
-		
+		// save to store
+		do {
+			let moc = CoreDataStack.shared.mainContext
+			try moc.save()
+			print("Saved to store")
+		} catch {
+			NSLog("Failed to save ->: \(error)")
+			//alert
+			return
+		}
 	}
 	
 	private func setupViews() {
