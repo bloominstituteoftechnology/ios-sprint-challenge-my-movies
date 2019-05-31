@@ -13,12 +13,19 @@ class MovieSearchTableViewCell: UITableViewCell {
 	@IBAction func AddMovieButton(_ sender: Any) {
 		guard let movieRep = movieRep else { return }
 		
+		
 		print("add \(movieRep.title)movie to firebase")
 		
-//		let movie =
+		let movie = Movie(title: movieRep.title)
 		
 		// put method should send MovieRep to firebase
-//		myMovieController?.put(movie: <#T##Movie#>, completion: <#T##(Error?) -> ()#>)
+	
+		myMovieController?.put(movie: movie, completion: { error in
+			if let error = error {
+				print("error putting movie: \(error)")
+				return 
+			}
+		})
 		
 		// save to store
 		do {
