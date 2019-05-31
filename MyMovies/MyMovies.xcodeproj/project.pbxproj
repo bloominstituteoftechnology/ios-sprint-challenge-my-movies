@@ -16,7 +16,9 @@
 		46E20A002126A91300E7FF73 /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FF2126A91300E7FF73 /* MovieController.swift */; };
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 		FAA86FFE22A17A2100BFC0FF /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA86FFD22A17A2100BFC0FF /* CoreDataStack.swift */; };
-		FAA8700122A17AB200BFC0FF /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAA86FFF22A17AB200BFC0FF /* MyMovies.xcdatamodeld */; };
+		FAA8700122A17AB200BFC0FF /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAA86FFF22A17AB200BFC0FF /* Movie.xcdatamodeld */; };
+		FAA8700322A17C2100BFC0FF /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA8700222A17C2100BFC0FF /* Movie+Convenience.swift */; };
+		FAA8700622A1815400BFC0FF /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA8700522A1815400BFC0FF /* MovieSearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		FAA86FFD22A17A2100BFC0FF /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FAA8700022A17AB200BFC0FF /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
+		FAA8700222A17C2100BFC0FF /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		FAA8700522A1815400BFC0FF /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +71,7 @@
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
+				FAA8700422A1813A00BFC0FF /* Views */,
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
 				46E20A092126AFC200E7FF73 /* Resources */,
 			);
@@ -78,7 +83,8 @@
 			children = (
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				FAA86FFD22A17A2100BFC0FF /* CoreDataStack.swift */,
-				FAA86FFF22A17AB200BFC0FF /* MyMovies.xcdatamodeld */,
+				FAA86FFF22A17AB200BFC0FF /* Movie.xcdatamodeld */,
+				FAA8700222A17C2100BFC0FF /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -117,6 +123,14 @@
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		FAA8700422A1813A00BFC0FF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FAA8700522A1815400BFC0FF /* MovieSearchTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,9 +205,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
-				FAA8700122A17AB200BFC0FF /* MyMovies.xcdatamodeld in Sources */,
+				FAA8700122A17AB200BFC0FF /* Movie.xcdatamodeld in Sources */,
+				FAA8700322A17C2100BFC0FF /* Movie+Convenience.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
+				FAA8700622A1815400BFC0FF /* MovieSearchTableViewCell.swift in Sources */,
 				FAA86FFE22A17A2100BFC0FF /* CoreDataStack.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
@@ -396,13 +412,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		FAA86FFF22A17AB200BFC0FF /* MyMovies.xcdatamodeld */ = {
+		FAA86FFF22A17AB200BFC0FF /* Movie.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				FAA8700022A17AB200BFC0FF /* MyMovies.xcdatamodel */,
 			);
 			currentVersion = FAA8700022A17AB200BFC0FF /* MyMovies.xcdatamodel */;
-			path = MyMovies.xcdatamodeld;
+			path = Movie.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
