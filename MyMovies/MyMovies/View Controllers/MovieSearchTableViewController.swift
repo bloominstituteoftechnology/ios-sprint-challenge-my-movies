@@ -41,11 +41,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 		let movie = movieController.searchedMovies[indexPath.row]
 		
 		movieCell.movieRep = movie
+		movieCell.myMovieController = myMovieController
 		
         return movieCell
     }
     
     var movieController = MovieController()
+	var myMovieController = MyMoviesController()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }

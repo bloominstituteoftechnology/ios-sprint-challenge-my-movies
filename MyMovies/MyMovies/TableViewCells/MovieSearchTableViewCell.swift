@@ -15,10 +15,10 @@ class MovieSearchTableViewCell: UITableViewCell {
 		
 		print("add \(movieRep.title)movie to firebase")
 		
-		let _ = Movie(title: movieRep.title)
+//		let movie =
 		
 		// put method should send MovieRep to firebase
-		
+//		myMovieController?.put(movie: <#T##Movie#>, completion: <#T##(Error?) -> ()#>)
 		
 		// save to store
 		do {
@@ -42,4 +42,5 @@ class MovieSearchTableViewCell: UITableViewCell {
 	
 	@IBOutlet var titleLable: UILabel!
 	var movieRep: MovieRepresentation? { didSet { setupViews() } }
+	var myMovieController: MyMoviesController?
 }

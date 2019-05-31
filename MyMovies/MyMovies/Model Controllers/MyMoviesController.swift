@@ -10,6 +10,45 @@ import Foundation
 
 class MyMoviesController {
 	
+	func put(movie: MovieRepresentation, completion: @escaping (Error?) -> ()) {
+		let identifier = movie.identifier ?? UUID()
+		let requestUrl = baseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+		
+		var request = URLRequest(url: requestUrl)
+		request.httpMethod = "PUT"
+		
+		do {
+//			guard let movieRep = movie.movieRepresentation else {
+//				completion(NSError())
+//				return
+//			}
+			request.httpBody = try JSONEncoder().encode(movie)
+		} catch {
+			print("Error encoding to movide: \(error) ")
+			completion(error)
+			return
+		}
+		
+		URLSession.shared.dataTask(with: request) { data, response, error in
+			if let response = response as? HTTPURLResponse {
+				print("Fetching movies from firebase response: \(response.statusCode)")
+			}
+			
+			if let error = error {
+				NSLog("Error fetching movies: \(error)")
+				completion(error)
+				return
+			}
+//			CoreDataStack.shared.mainContext.performAndWait {
+//				movie.identifier = identifier
+//			}
+			
+			try? CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+			completion(nil)
+			}.resume()
+		
+	}
+	
 	func put(movie: Movie, completion: @escaping (Error?) -> ()) {
 		let identifier = movie.identifier ?? UUID()
 		let requestUrl = baseUrl.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
