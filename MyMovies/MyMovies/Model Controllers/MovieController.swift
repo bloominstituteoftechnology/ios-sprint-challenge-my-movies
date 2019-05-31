@@ -95,6 +95,17 @@ extension MovieController {
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
 
+	func remoteDelete(movie: Movie, completion: @escaping (Result<Data?, NetworkError>) -> Void = { _ in }) {
+		let identifier = movie.threadSafeID ?? UUID()
+		let deleteURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+		movie.threadSafeID = identifier
+
+		var request = deleteURL.request
+		request.httpMethod = HTTPMethods.delete.rawValue
+
+		networkHandler.transferMahOptionalDatas(with: request, completion: completion)
+	}
+
 
 	// MARK: - local persistence
 
@@ -109,6 +120,37 @@ extension MovieController {
 			}
 		}
 		return movie
+	}
+
+	func delete(movie: Movie) {
+		remoteDelete(movie: movie) { (result: Result<Data?, NetworkError>) in
+			do {
+				_ = try result.get()
+			} catch {
+				NSLog("error deleting \(movie.title ?? "") from firebase: \(error)")
+			}
+		}
+
+		guard let context = movie.managedObjectContext else { return }
+		context.performAndWait {
+			context.delete(movie)
+		}
+		try? CoreDataStack.shared.save(context: context)
+	}
+
+	func update(watched: Bool, onMovie movie: Movie) {
+		guard let context = movie.managedObjectContext else { return }
+		context.performAndWait {
+			movie.hasWatched = watched
+		}
+		try? CoreDataStack.shared.save(context: context)
+		remotePut(movie: movie) { (result: Result<MovieRepresentation, NetworkError>) in
+			do {
+				_ = try result.get()
+			} catch {
+				NSLog("error updating movie \(movie.title ?? ""): \(error)")
+			}
+		}
 	}
 
 	func isMovieSaved(withTitle title: String) -> Bool {
