@@ -18,6 +18,7 @@
 		570D54E022A184D100F4E115 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570D54DF22A184D100F4E115 /* CoreDataStack.swift */; };
 		570D54E222A1854400F4E115 /* Movie + Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570D54E122A1854400F4E115 /* Movie + Convenience.swift */; };
 		570D54E522A185BB00F4E115 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 570D54E322A185BB00F4E115 /* MyMovies.xcdatamodeld */; };
+		570D54E722A186F600F4E115 /* MovieProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570D54E622A186F600F4E115 /* MovieProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		570D54DF22A184D100F4E115 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		570D54E122A1854400F4E115 /* Movie + Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie + Convenience.swift"; sourceTree = "<group>"; };
 		570D54E422A185BB00F4E115 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
+		570D54E622A186F600F4E115 /* MovieProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				570D54E622A186F600F4E115 /* MovieProtocol.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				570D54E022A184D100F4E115 /* CoreDataStack.swift in Sources */,
 				570D54E222A1854400F4E115 /* Movie + Convenience.swift in Sources */,
+				570D54E722A186F600F4E115 /* MovieProtocol.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				570D54E522A185BB00F4E115 /* MyMovies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
