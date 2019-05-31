@@ -70,9 +70,7 @@ class MovieController {
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
-        
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
-        
         let queryParameters = ["query": searchTerm,
                                "api_key": apiKey]
         
@@ -84,19 +82,16 @@ class MovieController {
         }
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-            
             if let error = error {
                 NSLog("Error searching for movie with search term \(searchTerm): \(error)")
                 completion(error)
                 return
             }
-            
             guard let data = data else {
                 NSLog("No data returned from data task")
                 completion(NSError())
                 return
             }
-            
             do {
                 let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
                 self.searchedMovies = movieRepresentations
