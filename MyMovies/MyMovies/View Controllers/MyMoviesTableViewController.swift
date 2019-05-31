@@ -31,6 +31,28 @@ class MyMoviesTableViewController: UITableViewController, MovieControllerProtoco
 		}
 		return fetchedResultsController
 	}()
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		tableView.refreshControl = UIRefreshControl()
+		tableView.refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+	}
+
+	@objc func refreshData() {
+		tableView.refreshControl?.beginRefreshing()
+		movieController?.remoteFetchAll(completion: { [weak self] (result: Result<[MovieRepresentation], NetworkError>) in
+			DispatchQueue.main.async {
+				do {
+					_ = try result.get()
+				} catch {
+					let alert = UIAlertController(error: error)
+					self?.present(alert, animated: true)
+				}
+				self?.tableView.refreshControl?.endRefreshing()
+			}
+		})
+	}
 }
 
 // MARK: - table view stuff
