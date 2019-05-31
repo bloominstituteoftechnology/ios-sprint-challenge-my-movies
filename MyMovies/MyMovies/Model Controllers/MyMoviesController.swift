@@ -13,6 +13,37 @@ class MyMoviesController {
 	
 	func fetchMoviesFromServer(completion: @escaping (Error?) -> ()) {
 		
+		let url = baseUrl.appendingPathExtension("json")
+		
+		URLSession.shared.dataTask(with: url) { (data, response, error) in
+			if let response = response as? HTTPURLResponse {
+				print("Fetching movies from firebase response: \(response.statusCode)")
+			}
+			
+			if let error = error {
+				NSLog("Error fetching movies: \(error)")
+				completion(error)
+				return
+			}
+			
+			guard let data = data else {
+				NSLog("error fetching data from firebase")
+				completion(NSError())
+				return
+			}
+			
+			print(data)
+			
+			do {
+				let result = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+				let movieReps = Array(result.values)
+				print(movieReps)
+				completion(nil)
+			} catch {
+				print("Error decoding movies from firebase: \(error)")
+			}
+			
+		}.resume()
 	}
 	
 	

@@ -18,7 +18,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
-		tableView.reloadData()
+		myMovieController.fetchMoviesFromServer { error in
+			if let error = error {
+				print("Error fetching moives in MyMoviesTableViewController: \(error) ")
+			}
+			self.tableView.reloadData()
+		}
+		
 		
 	}
 	
@@ -71,6 +77,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 		
 	}
 	
+	
+	let myMovieController = MyMoviesController()
 	
 	lazy var fetchedResultController: NSFetchedResultsController<Movie> = {
 		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
