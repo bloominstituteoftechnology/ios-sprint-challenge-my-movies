@@ -30,15 +30,22 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieController.searchedMovies.count
+//        return movieController.searchedMovies.count
+        return movieController.movies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MyMoviesTableViewCell
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
+        let movie = movieController.movies[indexPath.row]
+        cell.movie = movie
+        print("\(movie.title)")
         return cell
+        
+//        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+//        return cell
+        
+        //this is where we convert a mr into a mvi
     }
     
     var movieController = MovieController()

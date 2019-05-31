@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -40,19 +41,49 @@ class MovieController {
                 completion(NSError())
                 return
             }
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
             
-            do {
-                let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
-                self.searchedMovies = movieRepresentations
-                completion(nil)
-            } catch {
-                NSLog("Error decoding JSON data: \(error)")
-                completion(error)
+            backgroundContext.performAndWait {
+                do {
+                    let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
+                    self.searchedMovies = movieRepresentations
+                    for movieRep in self.searchedMovies {
+                        if let convertedMovie = Movie(movieRepresentation: movieRep) {
+                            self.movies.append(convertedMovie)
+                            print("it converted")
+                        } else {
+                            print("nothing happened.")
+                        }
+                    }
+                    try backgroundContext.save()
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding JSON data: \(error)")
+                    completion(error)
+                }
             }
+        
         }.resume()
+    }
+    
+    func getMovieFromCoreData(movieTitle: String, context: NSManagedObjectContext) -> Movie? {
+        //fetch request
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title == %@", movieTitle)
+        var result: Movie? = nil
+        //we are going to do this on a background context
+        context.performAndWait {
+            do {
+                result = try context.fetch(fetchRequest).first
+            } catch {
+                print("Error getting Movie from core data fetch request:\(error.localizedDescription)")
+            }
+        }
+        return result
     }
     
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    var movies: [Movie] = []
 }

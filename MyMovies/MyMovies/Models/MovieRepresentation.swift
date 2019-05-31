@@ -27,3 +27,20 @@ struct MovieRepresentation: Equatable, Codable {
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
 }
+
+//this is because we are comparing two UNLIKE types to each other.
+func == (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return lhs.title == rhs.title && lhs.identifier == rhs.identifier && lhs.hasWatched == rhs.hasWatched
+}
+
+func == (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return lhs == rhs
+}
+
+func != (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+    return !(rhs == lhs)
+}
+
+func != (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+    return rhs != lhs
+}
