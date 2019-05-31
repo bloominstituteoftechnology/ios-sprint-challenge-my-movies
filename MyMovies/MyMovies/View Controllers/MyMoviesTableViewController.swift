@@ -21,11 +21,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         fetchMovies()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
-    
+
     @objc private func fetchMovies() {
         movieController?.fetchMoviesFromServer(completion: { (_) in
             DispatchQueue.main.async {
