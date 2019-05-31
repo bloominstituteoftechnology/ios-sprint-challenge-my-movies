@@ -26,18 +26,15 @@ class MovieController {
         } catch {
             NSLog("Error saving movie: \(error)")
         }
-        
         put(movie: movie)
-        
     }
     
     func updateMovie(movie: Movie, hasWatched: Bool){
         movie.hasWatched = hasWatched
-        
-        put(movie: movie)    }
+        put(movie: movie)
+    }
     
     func deleteMovie(movie: Movie){
-        
         deleteMovieFromServer(movie: movie)
         
         let moc = CoreDataStack.shared.mainContext
@@ -49,6 +46,16 @@ class MovieController {
             NSLog("Error deleting movie: \(error)")
         }
         
+    }
+
+    private func update(movie: Movie, movieRepresentation: MovieRepresentation) {
+        guard let hasWatched = movieRepresentation.hasWatched else { return }
+        
+        CoreDataStack.shared.mainContext.performAndWait {
+            movie.title = movieRepresentation.title
+            movie.identifier = movieRepresentation.identifier
+            movie.hasWatched = hasWatched
+        }
     }
     
     // MARK: - Properties
@@ -166,6 +173,45 @@ extension MovieController {
             completion(nil)
             }.resume()
     }
+    
+    
+}
+
+extension MovieController {
+    func fetchPersistentMovie(identifier: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        var movie: Movie? = nil
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with given identifier: \(error)")
+            }
+        }
+        return movie
+    }
+    
+    private func integrateMovie(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        let moc = CoreDataStack.shared.mainContext
+        for movieRep in movieRepresentations {
+            
+            guard let identifier = movieRep.identifier else { return }
+            
+            if let movie = self.fetchPersistentMovie(identifier: identifier.uuidString, context: moc) {
+                self.update(movie: movie, movieRepresentation: movieRep)
+            } else {
+                _ = Movie(title: movieRep.title, hasWatched: movieRep.hasWatched ?? false, identifier: identifier, context: context)
+            }
+        }
+    }
+
+}
+
+extension MovieController {
     
 }
 
