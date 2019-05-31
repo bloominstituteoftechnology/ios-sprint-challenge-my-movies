@@ -55,7 +55,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections?[section].name
+
+        guard let name = fetchedResultsController.sections?[section].name else { return nil }
+
+        return name == "0" ? "Unwatched" : "Watched"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -73,8 +76,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            CoreDataStack.shared.mainContext.performAndWait {
+                movieModelController.delete(movie: fetchedResultsController.object(at: indexPath), context: CoreDataStack.shared.mainContext)
+                movieModelController.save(contetex: CoreDataStack.shared.mainContext)
+            }
         }
     }
 

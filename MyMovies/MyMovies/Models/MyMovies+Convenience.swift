@@ -29,10 +29,11 @@ extension Movie {
         self.hasWatched = hasWatched
     }
 
-    convenience init?(movieRepresentation: MovieRepresentation) {
+    convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
 
         self.init(title: movieRepresentation.title,
                    identifier: movieRepresentation.identifier ?? UUID(),
-                   hasWatched: movieRepresentation.hasWatched ?? true)
+                   hasWatched: movieRepresentation.hasWatched ?? true,
+                   context: context)
     }
 }
