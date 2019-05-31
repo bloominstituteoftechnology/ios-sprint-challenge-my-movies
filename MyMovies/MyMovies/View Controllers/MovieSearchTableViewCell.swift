@@ -10,6 +10,8 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
+    var movieModelController = MovieModelController()
+
     @IBOutlet weak var titleLable: UILabel!
 
     override func awakeFromNib() {
@@ -23,7 +25,20 @@ class MovieSearchTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    @IBAction func addMoviewButtonTapped(_ sender: Any) {
-        print("Added movie")
+    @IBAction func addMoviewButtonTapped(_ sender: UIButton) {
+
+        UIButton.animate(withDuration: 0.2, animations: {
+            sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.96)
+            }, completion: { finish in
+                UIButton.animate(withDuration: 0.2, animations: {
+                sender.transform = CGAffineTransform.identity
+            })
+        })
+
+        guard let title = titleLable.text else { return }
+
+        movieModelController.create(title: title)
+
+        movieModelController.save(contetex: CoreDataStack.shared.mainContext)
     }
 }
