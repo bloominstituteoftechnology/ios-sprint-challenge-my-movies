@@ -12,6 +12,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseBaseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -54,6 +55,55 @@ class MovieController {
     
     // MARK: - CRUD
     
+    func put(movie: Movie, completion: @escaping ((Error?) -> Void) =  { _ in }) {
+        guard let identifier = movie.identifier else {
+            return print("No ID in PUT request")
+        }
+        
+        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "PUT"
+        
+        do {
+            guard let movie = movie.movieRepresentation else {
+                return completion(NSError())
+            }
+            
+            urlRequest.httpBody = try JSONEncoder().encode(movie)
+        } catch {
+            NSLog("Error encoding entry: \(error.localizedDescription)")
+            return completion(error)
+        }
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTTING data to server: \(error.localizedDescription)")
+                return completion(nil)
+            }
+            completion(nil)
+            } .resume()
+    }
+    
+    func create(title: String) {
+        let moc = CoreDataStack.shared.mainContext
+
+        moc.perform {
+            let movie = Movie(title: title)
+            self.put(movie: movie)
+        }
+    }
+    
+    func update(movie: Movie, representation: MovieRepresentation) {
+        let moc = CoreDataStack.shared.mainContext
+
+        moc.perform {
+            movie.title = representation.title
+            movie.identifier = representation.identifier
+            movie.hasWatched = representation.hasWatched!
+            self.put(movie: movie)
+        }
+    }
+    
     func delete(movie: Movie) {
         let moc = CoreDataStack.shared.mainContext
         deleteMovieFromServer(movie: movie)
@@ -85,6 +135,33 @@ class MovieController {
             }.resume()
     }
     
+    
+    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void) {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            
+            if let error = error {
+                return completion(error)
+            }
+            
+            guard let data = data else {
+                return completion(NSError())
+            }
+            
+            do {
+                let movieData = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                let myMovieRep = Array(movieData.values)
+                
+                for movieRep in myMovieRep {
+                    self.update(movie: movieRep, representation: movieRep)
+                }
+                
+            } catch {
+                return completion(error)
+            }}.resume()
+    }
     
     // MARK: - Properties
     
