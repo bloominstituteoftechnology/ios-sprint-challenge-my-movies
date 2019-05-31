@@ -7,8 +7,50 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
+  
+    typealias CompletionHandler = (Error?) -> Void
+    
+    static let firebaseURL = URL(string: "https://mymovies-fa6b4.firebaseio.com/")!
+    
+    // MARK: - CRUD Methods
+    
+    func createMovie(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let moc = CoreDataStack.shared.mainContext
+        let movie = Movie(title: title)
+        
+        do {
+            try CoreDataStack.shared.save(context: moc)
+        } catch {
+            NSLog("Error saving movie: \(error)")
+        }
+        
+        put(movie: movie)
+        
+    }
+    
+    func updateMovie(movie: Movie, hasWatched: Bool){
+        movie.hasWatched = hasWatched
+        
+        put(movie: movie)    }
+    
+    func deleteMovie(movie: Movie){
+        
+        deleteMovieFromServer(movie: movie)
+        
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        
+        do {
+            try CoreDataStack.shared.save(context: moc)
+        } catch {
+            NSLog("Error deleting movie: \(error)")
+        }
+        
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
@@ -54,5 +96,91 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+}
+
+
+extension MovieController {
+    
+    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        
+        guard let identifier = movie.identifier else {
+            NSLog("No identifier")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = MovieController.firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movie)
+        } catch {
+            NSLog("Error encoding movie: \(error)")
+            completion(error)
+            return
+        }
+        
+        do {
+            let context = movie.managedObjectContext ?? CoreDataStack.shared.mainContext
+            try context.save()
+        } catch {
+            NSLog("Error saving updated movie: /(error)")
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTting movie: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            }.resume()
+    }
+    
+    // DELETE
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        
+        guard let identifier = movie.identifier else {
+            NSLog("No identifier for task to delete.")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = MovieController.firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            if let error = error {
+                NSLog("Error deleting movie from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            print(response!)
+            completion(nil)
+            }.resume()
+    }
+    
+}
+
+extension Movie: Encodable {
+    enum CodingKeys: String, CodingKey {
+        case title
+        case identifier
+        case hasWatched
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(self.title, forKey: .title)
+        try container.encode(self.identifier, forKey: .identifier)
+        try container.encode(self.hasWatched, forKey: .hasWatched)
     }
 }
