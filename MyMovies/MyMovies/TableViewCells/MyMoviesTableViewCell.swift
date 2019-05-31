@@ -14,8 +14,17 @@ class MyMoviesTableViewCell: UITableViewCell {
 	@IBAction func unwatchedToggleButton(_ sender: Any) {
 		print("toggle")
 		//change label save to core data and save to firebase
+		if let movie = movie {
+			movie.hasWatched.toggle()
+		}
+		// update server with put
 		
-		
+		do {
+			let moc = CoreDataStack.shared.mainContext
+			try moc.save()
+		} catch {
+			NSLog("Error updating movie to moc: \(error)")
+		}
 		
 	}
 	

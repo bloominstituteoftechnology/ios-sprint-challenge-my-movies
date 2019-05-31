@@ -15,6 +15,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         super.viewDidLoad()
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		tableView.reloadData()
+		
+	}
+	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		
 		if fetchedResultController.sections?[section].name == "0" {
