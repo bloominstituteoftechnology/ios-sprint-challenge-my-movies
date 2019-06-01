@@ -61,7 +61,7 @@ class MovieController {
             return print("No ID in PUT request")
         }
         
-        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let url = firebaseBaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PUT"
         

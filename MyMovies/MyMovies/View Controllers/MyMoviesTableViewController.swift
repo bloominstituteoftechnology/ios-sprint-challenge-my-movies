@@ -21,17 +21,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         // The key corresponds to the name of an entity's attribute
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
                                         NSSortDescriptor(key: "title", ascending: true)]
-        
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "hasWatched", cacheName: nil)
-        
         fetchedResultsController.delegate = self
-        
         do {
             try fetchedResultsController.performFetch()
         } catch {
             NSLog("Error performing initial fetch for frc: \(error)")
         }
-        
         return fetchedResultsController
     }()
     
