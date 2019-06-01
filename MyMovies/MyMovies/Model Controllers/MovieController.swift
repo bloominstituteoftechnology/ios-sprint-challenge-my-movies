@@ -66,9 +66,9 @@ class MovieController {
         urlRequest.httpMethod = "PUT"
         
         do {
-            guard let movie = movie.movieRepresentation else {
-                return completion(NSError())
-            }
+//            guard let movie = movie.movieRepresentation else {
+//                return completion(NSError())
+//            }
             
             urlRequest.httpBody = try JSONEncoder().encode(movie)
         } catch {
