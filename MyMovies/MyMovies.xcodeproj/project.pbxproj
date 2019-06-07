@@ -17,6 +17,8 @@
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 		C425DEFF22AAB590002404C8 /* Movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C425DEFD22AAB590002404C8 /* Movies.xcdatamodeld */; };
 		C425DF0122AAB60B002404C8 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C425DF0022AAB60B002404C8 /* CoreDataStack.swift */; };
+		C425DF0322AAB7FD002404C8 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C425DF0222AAB7FD002404C8 /* Movie+Convenience.swift */; };
+		C425DF0522AABBEF002404C8 /* MovieProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C425DF0422AABBEF002404C8 /* MovieProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		C425DEFE22AAB590002404C8 /* Movies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movies.xcdatamodel; sourceTree = "<group>"; };
 		C425DF0022AAB60B002404C8 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		C425DF0222AAB7FD002404C8 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		C425DF0422AABBEF002404C8 /* MovieProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,9 +80,10 @@
 		46E20A052126AF5900E7FF73 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
-				C425DF0022AAB60B002404C8 /* CoreDataStack.swift */,
 				C425DEFD22AAB590002404C8 /* Movies.xcdatamodeld */,
+				C425DF0022AAB60B002404C8 /* CoreDataStack.swift */,
+				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+				C425DF0222AAB7FD002404C8 /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -86,6 +91,7 @@
 		46E20A072126AFA300E7FF73 /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C425DF0422AABBEF002404C8 /* MovieProtocol.swift */,
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
 			);
 			path = "Model Controllers";
@@ -192,8 +198,10 @@
 			files = (
 				C425DF0122AAB60B002404C8 /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				C425DF0322AAB7FD002404C8 /* Movie+Convenience.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
+				C425DF0522AABBEF002404C8 /* MovieProtocol.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				C425DEFF22AAB590002404C8 /* Movies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
