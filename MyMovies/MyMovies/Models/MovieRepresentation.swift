@@ -21,8 +21,8 @@ struct MovieRepresentations: Codable {
 func ==(lhs: MovieRepresentation, rhs: Movie) -> Bool {
     return
         lhs.title == rhs.title &&
-        lhs.identifier == rhs.identifier &&
-        lhs.hasWatched == rhs.hasWatched
+            lhs.identifier == rhs.identifier &&
+            lhs.hasWatched == rhs.hasWatched
 }
 
 func ==(lhs: Movie, rhs: MovieRepresentation) -> Bool {

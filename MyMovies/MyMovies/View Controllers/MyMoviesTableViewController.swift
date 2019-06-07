@@ -52,7 +52,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return sectionInfo.name
     }
 
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
             movieController.deleteMovieFromServer(movie: movie)

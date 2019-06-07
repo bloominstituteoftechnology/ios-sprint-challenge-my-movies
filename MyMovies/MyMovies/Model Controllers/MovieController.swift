@@ -129,7 +129,7 @@ class MovieController {
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in}) {
         
-        let requestURL = firebaseURL.appendingPathComponent("json")
+        let requestURL = firebaseURL.appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "GET"
