@@ -127,6 +127,10 @@ class MyMoviesController {
         return result
     }
     
+//    func updateMovie(movie: Movie) {
+//
+//    }
+    
     func deleteFromServer(movie: Movie, completion: @escaping (Error?) -> Void) {
         guard let uuid = movie.identifier else {
             completion(NSError())
@@ -165,6 +169,11 @@ class MyMoviesController {
 
 
     // crUd
+    func updateMovie(movie: Movie, hasWatched: Bool) {
+        movie.hasWatched = hasWatched
+        put(movie: movie) {  _ in}
+        saveToPersistentStore()
+    }
     
     // cruD
     func delete(delete: Movie) {

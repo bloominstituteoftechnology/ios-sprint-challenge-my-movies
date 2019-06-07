@@ -14,9 +14,15 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBAction func watchedButtonTapped(_ sender: Any) {
         guard let movie = movie else { return }
         
+        let hasWatched = !movie.hasWatched
+        movie.hasWatched =  hasWatched
+        watcedButton  = hasWatched ? "Watched" : "Unwatched"
+        watchedButton.setTitle(watcedButton, for: .normal)
+        print(movie)
+        
         let context = CoreDataStack.shared.mainContext
         context.performAndWait {
-     //       moviesController?.updateMovie(movie: movie, hasWatched: !movie.hasWatched)
+            moviesController?.updateMovie(movie: movie, hasWatched: hasWatched)
         }
     }
     
