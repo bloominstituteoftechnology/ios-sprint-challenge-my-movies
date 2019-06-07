@@ -9,8 +9,62 @@
 import Foundation
 import CoreData
 
-let baseURL = URL(string: "https://mymovies-20257.firebaseio.com/")
+let baseURL = URL(string: "https://mymovies-20257.firebaseio.com/")!
 
 class MyMoviesController {
     
-}
+    func fetchMoviesFromServer(completion: @escaping ((Error?) -> Void)  = {_ in }) {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            // Check for errors from URLSession
+            if let error = error {
+                NSLog("Error fetching entries from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            // No errors. Check for data
+            guard let data = data else {
+                NSLog("No data returned from data task")
+                completion(NSError())
+                return
+            }
+            
+            // Got some data let's decode it and translate it to the moc.  This will be done in the background
+            let moc = CoreDataStack.shared.container.newBackgroundContext()
+            do {
+                let movieReps = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({$0.value})
+                self.updateMovies(with: movieReps, in: moc)
+            } catch {
+                NSLog("Error decoding JSON data \(error)")
+                completion(error)
+                return
+            }
+            
+            // Save the  fetched movies to persistent storage
+            moc.perform {
+                do {
+                    try moc.save()
+                    completion(nil)
+                } catch {
+                    NSLog("Error saving context: \(error)")
+                    completion(error)
+                }
+            }
+            
+        } .resume()
+    }
+    
+    private func updateMovies(with representations: [MovieRepresentation], in context: NSManagedObjectContext) {
+        context.performAndWait {
+            for movieRep in representations {
+                // A new movie has been added so go create the movie
+                guard let identifier = movieRep.identifier else { continue }
+            }
+        }
+    }
+    
+    
+} // end class
