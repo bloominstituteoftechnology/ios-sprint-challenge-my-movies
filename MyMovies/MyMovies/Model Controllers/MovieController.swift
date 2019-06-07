@@ -11,11 +11,11 @@ import CoreData
 
 class MovieController {
 
+    // CREATED A SINGLETON BECAUSE OF ALL OF THE PLACES I NEEDED THE CONTROLLER FOR INCLUDING THE CUSTOM CELLS
+    static let shared = MovieController()
 
-    init() {
 
-        fetchMoviesFromServer()
-    }
+    
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!

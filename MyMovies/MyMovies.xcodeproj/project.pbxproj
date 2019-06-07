@@ -19,6 +19,7 @@
 		9E267C2E22AAB90E00F8E270 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E267C2D22AAB90E00F8E270 /* CoreDataStack.swift */; };
 		9E267C3022AAC1E100F8E270 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E267C2F22AAC1E000F8E270 /* MovieTableViewCell.swift */; };
 		9E63D1EC22AAD2DB0096106E /* Movie+Convienence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E63D1EB22AAD2DB0096106E /* Movie+Convienence.swift */; };
+		9E63D1EE22AAE9960096106E /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E63D1ED22AAE9960096106E /* SearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		9E267C2D22AAB90E00F8E270 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9E267C2F22AAC1E000F8E270 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		9E63D1EB22AAD2DB0096106E /* Movie+Convienence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convienence.swift"; sourceTree = "<group>"; };
+		9E63D1ED22AAE9960096106E /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
 				9E267C2F22AAC1E000F8E270 /* MovieTableViewCell.swift */,
+				9E63D1ED22AAE9960096106E /* SearchTableViewCell.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				9E267C2C22AAB77900F8E270 /* Movie.xcdatamodeld in Sources */,
 				9E267C3022AAC1E100F8E270 /* MovieTableViewCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				9E63D1EE22AAE9960096106E /* SearchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
