@@ -63,6 +63,38 @@ class MyMoviesController {
         } .resume()
     }
     
+    // MARK: - PUT
+    func put(movie: Movie, completion: @escaping ((Error?) -> Void) = {_ in }) {
+
+        let identifier = movie.identifier?.uuidString ?? UUID().uuidString
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            
+            // Make the encodable tweenie
+            guard let movieRep = movie.movieRepresentation else {
+                completion(NSError())
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(movieRep)
+        } catch {
+            print("Error attempting to PUT movie: \(error)")
+            completion(error)
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTting movie \(identifier): \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        } .resume()
+    }  // end put
+    
+    
     // MARK: - Private functions
     private func updateMovies(with representations: [MovieRepresentation], in context: NSManagedObjectContext) {
         context.performAndWait {
@@ -71,7 +103,7 @@ class MyMoviesController {
                 guard let identifier = movieRep.identifier?.uuidString else { continue }
                 
                 // Let's go look for the movie - one at a time.  Will use a background context
-                if let movie = self.fetchSingleEntryFromPersistentStore(with: identifier, in: context) {
+                if let movie = fetchSingleEntryFromPersistentStore(with: identifier, in: context) {
                     movie.title = movieRep.title
                     movie.hasWatched = movieRep.hasWatched ?? false
                     movie.identifier = movieRep.identifier
@@ -83,7 +115,6 @@ class MyMoviesController {
     }
     
     private func fetchSingleEntryFromPersistentStore(with identifier: String, in context: NSManagedObjectContext) -> Movie? {
-        
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == $@", identifier)
         
@@ -101,7 +132,6 @@ class MyMoviesController {
     
     // Save
     func saveMovie(context: NSManagedObjectContext) {
-        
         context.performAndWait {
             do {
                 try context.save()
@@ -113,18 +143,15 @@ class MyMoviesController {
 
     
     // Crud
-    func addNewMovie(movie: Movie) {
-    //    let movie = Movie(title: title, hasWatched: hasWatched)
+    func createMovie(title: String) {
+        let movie = Movie(title: title)
         put(movie: movie)
     }
-    
+
+
     // crUd
-    func updateMovie(movie: Movie, hasWatched: Bool) {
-        movie.setValue(hasWatched, forKey: "hasWatched")
-            saveMovie(movie: movie)
-    }
     
     // cruD
-    
+
     
 } // end class

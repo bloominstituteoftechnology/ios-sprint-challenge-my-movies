@@ -16,7 +16,7 @@ class MyMoviesTableViewCell: UITableViewCell {
         
         let context = CoreDataStack.shared.mainContext
         context.performAndWait {
-            moviesController?.updateMovie(movie: movie, hasWatched: !movie.hasWatched)
+     //       moviesController?.updateMovie(movie: movie, hasWatched: !movie.hasWatched)
         }
     }
     

@@ -25,4 +25,17 @@ extension Movie {
         
         self.init(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
     }
+    
+    
+    // To encode movies
+    var movieRepresentation: MovieRepresentation? {
+        
+        guard let title = title,
+            let identifier = identifier
+            else { return nil }
+        
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+    }
+    
+    
 }
