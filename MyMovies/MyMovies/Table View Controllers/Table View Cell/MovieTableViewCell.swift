@@ -18,5 +18,16 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var watchedProperties: UIButton!
     
     @IBAction func changeWatchedButton(_ sender: UIButton) {
+         guard let passedInMovie = movie else { print("Error passing in movie in movietableviewcell"); return }
+        MyMovieController.shared.toggle(movie: passedInMovie)
+        let buttonTitle = passedInMovie.hasWatched ? "Watched" : "UnWatched"
+        watchedProperties.setTitle(buttonTitle, for: .normal)
+    }
+    
+    private func updateViews(){
+        guard let passedInMovie = movie else { print("Error passing in movie in movietableviewcell"); return }
+        nameLabel.text = passedInMovie.title
+        let buttonTitle = passedInMovie.hasWatched ? "Watched" : "UnWatched"
+        watchedProperties.setTitle(buttonTitle, for: .normal)
     }
 }
