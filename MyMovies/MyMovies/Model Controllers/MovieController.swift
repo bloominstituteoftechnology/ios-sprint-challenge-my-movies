@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -84,6 +88,36 @@ class MovieController {
         }.resume()
     }
     
+    func put(movie: Movies, completion: @escaping CompletionHandler = { _ in }) {
+        
+        let uuid = movie.identifier ?? UUID()
+        movie.identifier = uuid
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            
+            let representation = movie.movieRepresentation
+            try CoreDataStack.shared.save()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error encoding movie: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTing movie to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
     private func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) throws {
         var error: Error? = nil
         context.performAndWait {
@@ -107,6 +141,19 @@ class MovieController {
         if let error = error { throw error }
     }
     
+    func deleteMovieFromServer(movie: Movies, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else { completion(NSError()); return }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(error)
+        }.resume()
+    }
+    
     private func movie(forUUID uuid: UUID, in context: NSManagedObjectContext) -> Movies? {
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
@@ -126,6 +173,24 @@ class MovieController {
         movie.title = representation.title
         movie.identifier = representation.identifier
         movie.hasWatched = representation.hasWatched!
+    }
+    
+    func delete(movie: Movies) {
+        deleteMovieFromServer(movie: movie)
+        
+        if let moc = movie.managedObjectContext {
+            moc.delete(movie)
+            saveToPersistantStore()
+        }
+    }
+    
+    func saveToPersistantStore() {
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            NSLog("Error saving manged object context: \(error)")
+        }
     }
     
     // MARK: - Properties
