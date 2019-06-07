@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-extension Movies {
+extension Movie {
     convenience init(title: String, identifier: UUID, hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
@@ -28,8 +28,9 @@ extension Movies {
     }
     
     var movieRepresentation: MovieRepresentation? {
-        guard let title = title else {
-            return nil
+        guard let title = title else { fatalError() }
+        if identifier == nil {
+            identifier = UUID()
         }
         
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)

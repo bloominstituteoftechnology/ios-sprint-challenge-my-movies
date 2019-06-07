@@ -18,6 +18,10 @@
 		EF5FA4B622AAB6140026F2F4 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EF5FA4B422AAB6140026F2F4 /* MyMovies.xcdatamodeld */; };
 		EF5FA4B822AAB7080026F2F4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FA4B722AAB7080026F2F4 /* CoreDataStack.swift */; };
 		EF5FA4BA22AABBE30026F2F4 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FA4B922AABBE30026F2F4 /* Movie+Convenience.swift */; };
+		EF5FA4BC22AACFFD0026F2F4 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FA4BB22AACFFD0026F2F4 /* MovieSearchTableViewCell.swift */; };
+		EF5FA4BE22AAD0100026F2F4 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FA4BD22AAD0100026F2F4 /* MyMovieTableViewCell.swift */; };
+		EF5FA4C022AADFE60026F2F4 /* MovieTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FA4BF22AADFE60026F2F4 /* MovieTabBarViewController.swift */; };
+		EF5FA4C222AAE06E0026F2F4 /* MovieProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5FA4C122AAE06E0026F2F4 /* MovieProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,10 @@
 		EF5FA4B522AAB6140026F2F4 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		EF5FA4B722AAB7080026F2F4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		EF5FA4B922AABBE30026F2F4 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		EF5FA4BB22AACFFD0026F2F4 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
+		EF5FA4BD22AAD0100026F2F4 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
+		EF5FA4BF22AADFE60026F2F4 /* MovieTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTabBarViewController.swift; sourceTree = "<group>"; };
+		EF5FA4C122AAE06E0026F2F4 /* MovieProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +107,10 @@
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				EF5FA4BB22AACFFD0026F2F4 /* MovieSearchTableViewCell.swift */,
+				EF5FA4BD22AAD0100026F2F4 /* MyMovieTableViewCell.swift */,
+				EF5FA4BF22AADFE60026F2F4 /* MovieTabBarViewController.swift */,
+				EF5FA4C122AAE06E0026F2F4 /* MovieProtocol.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -198,8 +210,12 @@
 				EF5FA4BA22AABBE30026F2F4 /* Movie+Convenience.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
+				EF5FA4BC22AACFFD0026F2F4 /* MovieSearchTableViewCell.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				EF5FA4B622AAB6140026F2F4 /* MyMovies.xcdatamodeld in Sources */,
+				EF5FA4C222AAE06E0026F2F4 /* MovieProtocol.swift in Sources */,
+				EF5FA4C022AADFE60026F2F4 /* MovieTabBarViewController.swift in Sources */,
+				EF5FA4BE22AAD0100026F2F4 /* MyMovieTableViewCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,7 +361,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
+				DEVELOPMENT_TEAM = 7V775U4648;
 				INFOPLIST_FILE = "$(SRCROOT)/MyMovies/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -363,7 +379,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VXUQXR6S56;
+				DEVELOPMENT_TEAM = 7V775U4648;
 				INFOPLIST_FILE = "$(SRCROOT)/MyMovies/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
