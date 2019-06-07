@@ -14,21 +14,14 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBAction func addButtonPressed(_ sender: UIButton) {
         
         guard let title = titleLabel.text else { return }
-
-        _ = Movie(title: title, hasWatched: false)
-
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-            print("Saved item")
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
+        let movie = Movie(title: title, hasWatched: false)
+        myMovieController.putOnServer(movie: movie)
+        addButton.isHidden = true
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -41,7 +34,6 @@ class MovieSearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var addButton: UIButton!
 
-    
-
+    var myMovieController = MyMovieController()
 
 }
