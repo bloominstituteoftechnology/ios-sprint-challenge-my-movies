@@ -14,4 +14,6 @@ class MovieListTableViewCell: UITableViewCell {
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         print("Add movie button tapped.  The movie name is \(textLabel?.text)")
     }
+
+    
 }

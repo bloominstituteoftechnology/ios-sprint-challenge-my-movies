@@ -13,6 +13,12 @@ let baseURL = URL(string: "https://mymovies-20257.firebaseio.com/")!
 
 class MyMoviesController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
+    
+    // MARK: - Fetch from Sercer
     func fetchMoviesFromServer(completion: @escaping ((Error?) -> Void)  = {_ in }) {
         
         let requestURL = baseURL.appendingPathExtension("json")
@@ -57,6 +63,7 @@ class MyMoviesController {
         } .resume()
     }
     
+    // MARK: - Private functions
     private func updateMovies(with representations: [MovieRepresentation], in context: NSManagedObjectContext) {
         context.performAndWait {
             for movieRep in representations {
@@ -90,6 +97,34 @@ class MyMoviesController {
     }
     
     
+    // MARK: - Persistent save and CRUD functions
+    
+    // Save
+    func saveMovie(context: NSManagedObjectContext) {
+        
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch  {
+                NSLog("Could not save to persistent store: \(error)")
+            }
+        }
+    }
+
+    
+    // Crud
+    func addNewMovie(movie: Movie) {
+    //    let movie = Movie(title: title, hasWatched: hasWatched)
+        put(movie: movie)
+    }
+    
+    // crUd
+    func updateMovie(movie: Movie, hasWatched: Bool) {
+        movie.setValue(hasWatched, forKey: "hasWatched")
+            saveMovie(movie: movie)
+    }
+    
+    // cruD
     
     
 } // end class
