@@ -39,8 +39,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     @IBAction func toggleWatched(_ sender: Any) {
         guard let movie = movie else { return }
-        let toggle = !movie.hasWatched
-        movieController?.toggleWatched(movie: movie, hasWatched: toggle)
+        movieController?.toggleWatched(movie: movie, hasWatched: movie.hasWatched)
     }
     
     
