@@ -116,7 +116,7 @@ class MyMovieController {
                             self.update(movie: movieInCoreData, withMovieRep: movieRep)
                         } else {
                             //we have a movieRep on server but not in core data so we have to initialize a movie in core data with the values of the movieRep
-                            _ = Movie(movieRepresentation: movieRep)
+                            _ = Movie(movieRepresentation: movieRep, context: backGroundContext)
                         }
                     }
                     try CoreDataStack.shared.save(context: backGroundContext)
