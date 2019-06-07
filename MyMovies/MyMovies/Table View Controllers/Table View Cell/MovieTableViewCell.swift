@@ -12,8 +12,10 @@ class MovieTableViewCell: UITableViewCell {
     var movie: Movie? {
         didSet {
             print("MovieTableViewCell: movie was set")
+            updateViews()
         }
     }
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var watchedProperties: UIButton!
     
