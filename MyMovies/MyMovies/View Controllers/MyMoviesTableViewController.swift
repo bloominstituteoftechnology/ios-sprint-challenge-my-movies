@@ -9,7 +9,9 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDelegate, NSFetchedResultsControllerDelegate {
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     }()
 
+
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -47,13 +51,22 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
+    // Custom Cell Delegate Here
+    func toggleHasBeenWatched(on cell: MovieTableViewCell) {
+
+    }
+
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        guard let movieCell = cell as? MovieTableViewCell else { return cell }
 
         let movie = fetchedResultsController.object(at: indexPath)
 
-        return cell
+        movieCell.titleLabel.text = movie.title
+
+
+        return movieCell
     }
 
 

@@ -7,22 +7,33 @@
 //
 
 import UIKit
+import Foundation
+
+protocol MovieTableViewCellDelegate {
+    func toggleHasBeenWatched( on cell: MovieTableViewCell)
+}
 
 class MovieTableViewCell: UITableViewCell {
+    var delegate: MovieTableViewCellDelegate?
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    private func updateViews() {
+        guard let movie = movie else { return }
+        titleLabel.text = movie.title
+
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+    @IBAction func hasBeenWatchedButtonTapped(_ sender: Any) {
+        delegate?.toggleHasBeenWatched(on: self)
     }
 
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasBeenWatchedButton: UIButton!
+    var movie: Movie? {
+        didSet{
+            updateViews()
+        }
+    }
     
 }
