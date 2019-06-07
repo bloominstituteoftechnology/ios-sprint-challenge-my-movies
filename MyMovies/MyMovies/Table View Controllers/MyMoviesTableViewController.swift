@@ -11,9 +11,11 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
+    let mmc = MyMovieController()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        MyMovieController.shared.fetchFromServer()
+//        MyMovieController.shared.fetchFromServer()
     }
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {

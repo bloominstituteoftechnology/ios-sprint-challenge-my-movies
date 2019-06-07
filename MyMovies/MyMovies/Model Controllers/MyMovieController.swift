@@ -14,6 +14,10 @@ class MyMovieController {
     private let baseURL = URL(string: "https://mymoviesprintchallenge.firebaseio.com/")!
     typealias completionHandler = (Error?) -> Void
     
+    init(){
+        fetchFromServer()
+    }
+    
     //MARK: Core Data CRUD functions
     
     func createMovie(title: String){
@@ -98,8 +102,9 @@ class MyMovieController {
                 completion(error)
                 return
             }
-            guard let data = data else { print("Error unwrapping data fetching from server"); completion(NSError()); return }
             
+            guard let data = data else { print("Error unwrapping data fetching from server"); completion(NSError()); return }
+           
             let jD = JSONDecoder()
             let backGroundContext = CoreDataStack.shared.container.newBackgroundContext()
 
