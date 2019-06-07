@@ -202,6 +202,20 @@ class MovieController {
         return result
     }
     
+    func updateMovie(movie: Movie, hasWatched: Bool) {
+        movie.hasWatched = hasWatched
+        put(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    func deleteMovie(movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        deleteMovieFromServer(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
         do {

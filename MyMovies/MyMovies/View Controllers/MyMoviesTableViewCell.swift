@@ -23,7 +23,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBAction func hasWatchedButtonPressed(_ sender: Any) {
         guard let movie = movie else { return }
         movie.hasWatched = !movie.hasWatched
-        movieController?.put(movie: movie)
+        movieController?.updateMovie(movie: movie, hasWatched: movie.hasWatched)
     }
     
     // MARK: - Properties & Outlets
