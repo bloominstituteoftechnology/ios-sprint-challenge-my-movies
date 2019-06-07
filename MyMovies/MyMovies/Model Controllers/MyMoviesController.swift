@@ -64,7 +64,13 @@ class MyMoviesController {
                 guard let identifier = movieRep.identifier?.uuidString else { continue }
                 
                 // Let's go look for the movie - one at a time.  Will use a background context
-                let movie = self.fetchSingleEntryFromPersistentStore(with: identifier, in: context)
+                if let movie = self.fetchSingleEntryFromPersistentStore(with: identifier, in: context) {
+                    movie.title = movieRep.title
+                    movie.hasWatched = movieRep.hasWatched ?? false
+                    movie.identifier = movieRep.identifier
+                } else {
+                    _ = Movie(movieRepresentation: movieRep, context: context)
+                }
             }
         }
     }
