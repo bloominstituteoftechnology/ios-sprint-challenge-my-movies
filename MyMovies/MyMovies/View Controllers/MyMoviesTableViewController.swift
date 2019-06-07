@@ -13,17 +13,22 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
 
 
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        movieController.fetchMoviesFromServer()
     }
 
     // MARK: Properties
+
+    let movieController = MovieController()
 
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -53,6 +58,11 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
 
     // Custom Cell Delegate Here
     func toggleHasBeenWatched(on cell: MovieTableViewCell) {
+        guard let index = tableView.indexPath(for: cell) else { return }
+        let movie = fetchedResultsController.object(at: index)
+        movieController.toggleHasBeenWatched(movie: movie)
+        tableView.reloadData()
+
 
     }
 
@@ -65,23 +75,32 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
 
         movieCell.titleLabel.text = movie.title
 
+        if fetchedResultsController.object(at: indexPath).hasWatched == false {
+            movieCell.hasBeenWatchedButton.setTitle("Need to See", for: .normal)
+        } else {
+            movieCell.hasBeenWatchedButton.setTitle("Seen it", for: .normal)
+        }
+
 
         return movieCell
     }
 
 
 
-    /*
+
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.delete(movie: movie)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+
 
     // MARK - FetchedResultsControllerDelegate
 

@@ -10,6 +10,12 @@ import Foundation
 import CoreData
 
 class MovieController {
+
+
+    init() {
+
+        fetchMoviesFromServer()
+    }
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -72,6 +78,8 @@ class MovieController {
     func delete(movie: Movie) {
         
         moc.delete(movie)
+        deleteFromFetchedController(movie: movie)
+        saveToPersistentStore()
 
 
     }
@@ -197,6 +205,30 @@ class MovieController {
 
         movie.title = representation.title
         movie.hasWatched = representation.hasWatched ?? false
+
+    }
+
+    func deleteFromFetchedController(movie: Movie, completion: @escaping CompletionHandler = {_ in}) {
+        guard let uuid = movie.identifier else {
+            completion(NSError())
+            return
+        }
+        movie.identifier = uuid
+
+        let requestURL = fireURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting from server: \(error)")
+                completion(error)
+                return
+            }
+
+            completion(nil)
+            }.resume()
 
     }
 

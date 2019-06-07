@@ -19,6 +19,7 @@ class MovieTableViewCell: UITableViewCell {
     private func updateViews() {
         guard let movie = movie else { return }
         titleLabel.text = movie.title
+        hasBeenWatchedButton.setTitle("Seen It", for: .normal)
 
     }
 
