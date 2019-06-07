@@ -30,6 +30,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     func updateViews() {
         guard let movie = movie else { return }
         titleLabel.text = movie.title
+        titleLabel.textColor = .white
         
         if movie.hasWatched == false {
             hasWatchedButton.setTitle("Unwatched", for: .normal)

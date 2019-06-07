@@ -29,6 +29,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     func updateViews() {
         guard let movie = movieRep else { return }
         titleLabel.text = movie.title
+        titleLabel.textColor = .white
     }
     
     // MARK: - Actions

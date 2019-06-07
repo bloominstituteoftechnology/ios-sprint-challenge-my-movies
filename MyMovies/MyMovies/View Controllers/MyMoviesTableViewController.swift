@@ -35,6 +35,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.reloadData()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.backgroundColor = Appearance.offEggplant
+    }
+    
     // MARK: - Cell Delegate Methods
     func hasWatchedButtonTapped(on cell: MyMoviesTableViewCell) {
         guard let indexPath = movieTableView.indexPath(for: cell) else { return }
@@ -45,6 +51,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     // MARK: - Table view data source
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let headerView = view as? UITableViewHeaderFooterView {
+            headerView.contentView.backgroundColor = Appearance.eggplant
+            headerView.textLabel?.textColor = .white
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionName = fetchedResultsController.sections?[section].name
         switch sectionName {

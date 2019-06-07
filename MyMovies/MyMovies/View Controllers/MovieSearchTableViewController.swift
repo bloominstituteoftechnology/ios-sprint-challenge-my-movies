@@ -20,6 +20,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         super.viewDidLoad()
         
         searchBar.delegate = self
+        tableView.backgroundColor = Appearance.offEggplant
+        searchBar.barTintColor = Appearance.eggplant
+        searchBar.tintColor = Appearance.eggplant
     }
     
     // MARK: - Search Bar Delegate Methods
