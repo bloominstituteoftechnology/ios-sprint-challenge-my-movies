@@ -8,12 +8,32 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+let firebaseController = FirebaseController()
 
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, MovieTableViewCellDelegate {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
+        
+    }
+    
+    func addMovie(cell: MovieTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        print("Inside addMovie")
+        let title = movieController.searchedMovies[indexPath.row].title
+        
+        let movie = Movie(title: title, hasWatched: false, identifier: UUID(), context: CoreDataStack.shared.mainContext)
+        do {
+            firebaseController.put(movie: movie)
+            try CoreDataStack.shared.save()
+            
+        } catch {
+            NSLog("Error Saving to Core Data: \(error)")
+        }
+        tabBarController?.selectedIndex = 1
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -34,9 +54,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
+        cell.delegate = self
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.titleLabel.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
@@ -44,4 +65,5 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
 }
