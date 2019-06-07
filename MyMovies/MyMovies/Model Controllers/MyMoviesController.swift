@@ -61,10 +61,29 @@ class MyMoviesController {
         context.performAndWait {
             for movieRep in representations {
                 // A new movie has been added so go create the movie
-                guard let identifier = movieRep.identifier else { continue }
+                guard let identifier = movieRep.identifier?.uuidString else { continue }
+                
+                // Let's go look for the movie - one at a time.  Will use a background context
+                let movie = self.fetchSingleEntryFromPersistentStore(with: identifier, in: context)
             }
         }
     }
+    
+    private func fetchSingleEntryFromPersistentStore(with identifier: String, in context: NSManagedObjectContext) -> Movie? {
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == $@", identifier)
+        
+        var result: Movie? = nil
+        do {
+            result = try context.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching single entry for \(identifier): \(error)")
+        }
+        return result
+    }
+    
+    
     
     
 } // end class

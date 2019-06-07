@@ -15,6 +15,14 @@ extension Movie {
         self.init(context: context)
         //initialize the remaining values
         (self.title, self.hasWatched, self.identifier) = (title, hasWatched, identifier)
+    }
+    
+    convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
+        let title = movieRepresentation.title
+        let hasWatched = movieRepresentation.hasWatched ?? false
+        let identifier = movieRepresentation.identifier ?? UUID()
+        
+        self.init(title: title, hasWatched: hasWatched, identifier: identifier, context: context)
     }
 }
