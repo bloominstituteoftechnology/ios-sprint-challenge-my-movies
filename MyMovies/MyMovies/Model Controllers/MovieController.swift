@@ -15,7 +15,7 @@ class MovieController {
         fetchMoviesFromServer()
     }
     
-    // MARK: - API Methods
+    // MARK: - Search API Methods
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -71,11 +71,6 @@ class MovieController {
         saveToPersistentStore()
     }
     
-    func toggleHasWatched(movie: Movie, hasWatched: Bool) {
-        movie.hasWatched = !movie.hasWatched
-        put(movie: movie)
-    }
-    
     func put(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
         
         let uuid = movie.identifier ?? UUID()
@@ -107,11 +102,10 @@ class MovieController {
     }
     
     func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+   
+        let uuid = movie.identifier?.uuidString
         
-        let uuid = movie.identifier ?? UUID()
-        movie.identifier = uuid
-        
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathComponent(uuid!).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
@@ -202,8 +196,7 @@ class MovieController {
         return result
     }
     
-    func updateMovie(movie: Movie, hasWatched: Bool) {
-        movie.hasWatched = hasWatched
+    func updateMovie(movie: Movie) {
         put(movie: movie)
         saveToPersistentStore()
     }
