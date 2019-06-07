@@ -11,8 +11,8 @@ import UIKit
 class MovieSearchTableViewCell: UITableViewCell {
 
     func updateViews() {
-        guard let movieRep = movieRep else { return }
-        movieTitleLabel.text = movieRep.title
+        guard let representation = representation else { return }
+        movieTitleLabel.text = representation.title
         movieTitleLabel.textColor = .white
         
     }
@@ -20,7 +20,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     @IBAction func addMovieButtonPressed(_ sender: Any) {
         print("Pressed!")
-        guard let movie = movieRep else { return }
+        guard let movie = representation else { return }
         movieController?.createMovie(title: movie.title, identifier: UUID())
         addMovieButton.setTitle("Added!", for: .normal)
     }
@@ -31,7 +31,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var addMovieButton: UIButton!
     
     var movieController: MovieController?
-    var movieRep: MovieRepresentation? {
+    var representation: MovieRepresentation? {
         didSet {
             updateViews()
         }

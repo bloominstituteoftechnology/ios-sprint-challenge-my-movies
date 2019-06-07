@@ -61,27 +61,71 @@ class MovieController {
     
     // MARK: - Server Methods
     
-    func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            try moc.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
-    }
-    
-    // func updateMovie(hasWatched: Bool)
-    
-    func deleteMovie(movie: Movie) {
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(movie)
-        deleteMovieFromServer(movie: movie)
-        saveToPersistentStore()
-    }
-    
     typealias CompletionHandler = (Error?) -> Void
     
     let firebaseURL = URL(string: "https://movies-ed4cb.firebaseio.com/")!
+    
+    func createMovie(title: String, identifier: UUID) {
+        let movie = Movie(title: title, identifier: identifier)
+        put(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    func toggleHasWatched(movie: Movie, hasWatched: Bool) {
+        movie.hasWatched = !movie.hasWatched
+        put(movie: movie)
+    }
+    
+    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+        
+        let uuid = movie.identifier ?? UUID()
+        movie.identifier = uuid
+        
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            let representation = movie.movieRepresentation
+            try CoreDataStack.shared.save()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error encoding movie: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTTING movie to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            }.resume()
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+        
+        let uuid = movie.identifier ?? UUID()
+        movie.identifier = uuid
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error DELETEing movie from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            }.resume()
+        
+    }
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in}) {
         
@@ -116,36 +160,6 @@ class MovieController {
         
     }
     
-    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
-        
-        let uuid = movie.identifier ?? UUID()
-        movie.identifier = uuid
-        
-        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "PUT"
-        
-        do {
-            let representation = movie.movieRepresentation
-            try CoreDataStack.shared.save()
-            request.httpBody = try JSONEncoder().encode(representation)
-        } catch {
-            NSLog("Error encoding movie: \(error)")
-            completion(error)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
-            if let error = error {
-                NSLog("Error PUTTING movie to server: \(error)")
-                completion(error)
-                return
-            }
-            
-            completion(nil)
-            }.resume()
-    }
-    
     private func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) throws {
         
         var error: Error? = nil
@@ -168,25 +182,10 @@ class MovieController {
         if let error = error { throw error }
     }
     
-    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
-        
-        let uuid = movie.identifier ?? UUID()
-        movie.identifier = uuid
-        
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
-            if let error = error {
-                NSLog("Error DELETEing movie from server: \(error)")
-                completion(error)
-                return
-            }
-            
-            completion(nil)
-            }.resume()
-        
+    func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.identifier = representation.identifier
+        movie.hasWatched = representation.hasWatched!
     }
     
     private func fetchSingleMovieFromPersistentStore(identifier: String, in context: NSManagedObjectContext) -> Movie? {
@@ -203,22 +202,15 @@ class MovieController {
         return result
     }
     
-    func createMovie(title: String, identifier: UUID) {
-        let movie = Movie(title: title, identifier: identifier)
-        put(movie: movie)
-        saveToPersistentStore()
+    func saveToPersistentStore() {
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            try moc.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
-    
-    func updateMovie(movie: Movie) {
-        movie.hasWatched.toggle()
-        put(movie: movie)
-    }
-    
-    func update(movie: Movie, with representation: MovieRepresentation) {
-        movie.title = representation.title
-        movie.hasWatched = representation.hasWatched ?? true
-    }
-    
+
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []

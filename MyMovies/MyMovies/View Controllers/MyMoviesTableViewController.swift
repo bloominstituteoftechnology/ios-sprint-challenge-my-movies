@@ -55,14 +55,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
-            movieController.deleteMovie(movie: movie)
+            movieController.deleteMovieFromServer(movie: movie)
         }
-    }
-    
-    func toggleHasWatched(for cell: MyMoviesTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let movie = fetchedResultsController.object(at: indexPath)
-        movieController.updateMovie(movie: movie)
     }
 
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

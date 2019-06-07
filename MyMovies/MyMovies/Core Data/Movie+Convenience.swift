@@ -29,21 +29,10 @@ extension Movie {
 
     var movieRepresentation: MovieRepresentation {
         guard let title = title else { fatalError() }
+        if identifier == nil {
+            identifier = UUID()
+        }
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
     
-    enum CodingKeys: String, CodingKey {
-        case title
-        case identifier
-        case hasWatched
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        try container.encode(title, forKey: .title)
-        try container.encodeIfPresent(identifier, forKey: .identifier)
-        try container.encodeIfPresent(hasWatched, forKey: .hasWatched)
-    }
 }
