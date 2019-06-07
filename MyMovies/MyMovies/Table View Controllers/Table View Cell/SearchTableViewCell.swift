@@ -22,6 +22,8 @@ class SearchTableViewCell: UITableViewCell {
 
     @IBAction func addMovie(_ sender: UIButton) {
         //create a movie from the movieRep that was passed in.
+        guard let title = movieRepresentation?.title else { print("SearchTableViewCell: Error unwrapping title from movieRep"); return }
+        MyMovieController.shared.createMovie(title: title)
     }
     
     

@@ -24,6 +24,7 @@ class MyMovieController {
     
     func delete(movie: Movie){
         CoreDataStack.shared.mainContext.delete(movie)
+        deleteFromServer(movie: movie)
         saveToPersistentStore()
     }
     
