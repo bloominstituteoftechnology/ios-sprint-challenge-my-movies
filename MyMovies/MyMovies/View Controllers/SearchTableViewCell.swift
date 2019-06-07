@@ -33,12 +33,13 @@ class SearchTableViewCell: UITableViewCell {
 
         guard let title = movieRep?.title else { return }
 
-        MovieController.shared.addMovie(title: title)
+        movieController.addMovie(title: title)
     }
 
     
     @IBOutlet weak var addMovieButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
+    var movieController: MovieController?
     var movieRep: MovieRepresentation? {
         didSet{
             updateViews()

@@ -13,19 +13,6 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
 
 
 
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        movieController.fetchMoviesFromServer()
-    }
-
     // MARK: Properties
 
     let movieController = MovieController()
@@ -51,6 +38,11 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
         return fetchedResultsController.sections?.count ?? 1
     }
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name.capitalized
+    }
+
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
@@ -61,7 +53,7 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
         guard let index = tableView.indexPath(for: cell) else { return }
         let movie = fetchedResultsController.object(at: index)
         movieController.toggleHasBeenWatched(movie: movie)
-        tableView.reloadData()
+
 
 
     }
@@ -73,13 +65,8 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
 
         let movie = fetchedResultsController.object(at: indexPath)
 
-        movieCell.titleLabel.text = movie.title
-
-        if fetchedResultsController.object(at: indexPath).hasWatched == false {
-            movieCell.hasBeenWatchedButton.setTitle("Need to See", for: .normal)
-        } else {
-            movieCell.hasBeenWatchedButton.setTitle("Seen it", for: .normal)
-        }
+        movieCell.movieController = movieController
+        movieCell.movie = movie
 
 
         return movieCell
@@ -145,15 +132,6 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
             guard let indexPath = indexPath else { return }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-    }
-
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
 
 
