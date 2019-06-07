@@ -10,16 +10,6 @@ import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-    }
-
     func updateViews() {
         guard let movie = movie else { return }
         movieTitleLabel.text = movie.title
@@ -31,7 +21,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     @IBAction func hasWatchedButtonPressed(_ sender: Any) {
-        delegate?.toggleHasWatched(for: self)
+        
     }
     
     // MARK: - Properties & Outlets
@@ -39,7 +29,6 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     
-    var delegate: MyMoviesTableViewCellDelegate?
     var movie: Movie? {
         didSet {
             updateViews()
@@ -47,6 +36,4 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
 }
 
-protocol MyMoviesTableViewCellDelegate: class {
-    func toggleHasWatched(for cell: MyMoviesTableViewCell)
-}
+

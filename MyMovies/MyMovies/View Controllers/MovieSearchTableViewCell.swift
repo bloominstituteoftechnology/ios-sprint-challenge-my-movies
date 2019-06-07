@@ -10,14 +10,30 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
+    func updateViews() {
+        guard let movieRep = movieRep else { return }
+        movieTitleLabel.text = movieRep.title
+        movieTitleLabel.textColor = .white
+        
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
+    
+    @IBAction func addMovieButtonPressed(_ sender: Any) {
+        print("Pressed!")
+        guard let movie = movieRep else { return }
+        movieController?.createMovie(title: movie.title, identifier: UUID())
+        addMovieButton.setTitle("Added!", for: .normal)
     }
-
+    
+    // MARK: - Properties & Outlets
+    
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var addMovieButton: UIButton!
+    
+    var movieController: MovieController?
+    var movieRep: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
 }

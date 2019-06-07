@@ -121,7 +121,7 @@ class MovieController {
         let uuid = movie.identifier ?? UUID()
         movie.identifier = uuid
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
