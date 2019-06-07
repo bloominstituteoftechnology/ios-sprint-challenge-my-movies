@@ -50,6 +50,9 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqW-cp-mL2">
                                             <rect key="frame" x="16" y="30" width="254" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="254" id="Fwk-s7-w5M"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -91,7 +94,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
+            <point key="canvasLocation" x="1514" y="-107"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
