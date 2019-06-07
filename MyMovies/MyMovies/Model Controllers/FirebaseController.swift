@@ -106,6 +106,11 @@ class FirebaseController {
         
         movie.title = representation.title
         movie.hasWatched = representation.hasWatched!
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving to Core Data: \(error)")
+        }
         
     }
     
@@ -115,7 +120,7 @@ class FirebaseController {
             moc.delete(movie)
             deleteMovieFromServer(movie: movie)
             do {
-                try moc.save()
+                try CoreDataStack.shared.save()
             } catch {
                 NSLog("Error saving to Core Data: \(error)")
             }
@@ -137,6 +142,7 @@ class FirebaseController {
             completion(nil)
             }.resume()
     }
+    
     
     private func movie(forUUID uuid: UUID, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()

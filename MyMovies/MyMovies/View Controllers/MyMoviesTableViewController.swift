@@ -26,6 +26,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let movie = fetchedResultsController.object(at: indexPath)
         movie.hasWatched = !movie.hasWatched
         print(movie.hasWatched)
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving to Core Data: \(error)")
+        }
         firebaseController.put(movie: movie)
     }
     
@@ -33,7 +38,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var sectionTitle : String = "Watched"
-        if(section == 0){
+        if section == 0  {
             sectionTitle = "Unwatched"
         }
         return sectionTitle
