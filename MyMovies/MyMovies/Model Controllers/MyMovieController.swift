@@ -7,3 +7,17 @@
 //
 
 import Foundation
+import CoreData
+
+class MyMovieController {
+    static var shared = MyMovieController()
+    private let baseURL = URL(string: "https://mymoviesprintchallenge.firebaseio.com/")!
+    typealias completionHandler = (Error?) -> Void
+    
+    //MARK: Core Data CRUD functions
+    
+    func saveToPersistentStore(){
+        
+    }
+}
+

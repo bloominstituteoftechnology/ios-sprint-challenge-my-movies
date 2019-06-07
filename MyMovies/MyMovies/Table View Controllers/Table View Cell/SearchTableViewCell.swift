@@ -10,15 +10,24 @@ import UIKit
 
 class SearchTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var movieRepresentation: MovieRepresentation? {
+        didSet {
+            print("SearchTableViewCell: movieRepresentation was set")
+            updateViews()
+        }
     }
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var addButtonProperties: UIButton!
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    @IBAction func addMovie(_ sender: UIButton) {
+        //create a movie from the movieRep that was passed in.
     }
-
+    
+    
+    private func updateViews(){
+        //update the view with the information that was passed in from the movie rep.
+        guard let movieRep = movieRepresentation else { print("Error passing in movie rep"); return }
+        nameLabel.text = movieRep.title
+    }
 }
