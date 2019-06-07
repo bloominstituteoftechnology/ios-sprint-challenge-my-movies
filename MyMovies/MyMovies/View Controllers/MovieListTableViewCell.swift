@@ -14,7 +14,7 @@ class MovieListTableViewCell: UITableViewCell {
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         // Get the movie title and create the movie
         guard let title = textLabel?.text else { return }
-        movieController.createMovie(title: title)
+   //     movieController.createMovie(title: title)
         
         // Change the Add movie button title and disable it.
         addMoviebuttonOutlet.setTitle("Movie Added", for: .normal)

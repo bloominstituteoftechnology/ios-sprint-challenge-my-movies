@@ -127,21 +127,36 @@ class MyMoviesController {
         return result
     }
     
-    
-    // MARK: - Persistent save and CRUD functions
-    
-    // Save
-    func saveMovie(context: NSManagedObjectContext) {
-        context.performAndWait {
-            do {
-                try context.save()
-            } catch  {
-                NSLog("Could not save to persistent store: \(error)")
-            }
+    func deleteFromServer(movie: Movie, completion: @escaping (Error?) -> Void) {
+        guard let uuid = movie.identifier else {
+            completion(NSError())
+            return
         }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(error)
+        }.resume()
     }
+    
 
     
+    // MARK: - Persistent save
+    func saveToPersistentStore() {
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            try moc.save()
+        } catch {
+            NSLog("Unable to save to Persistent data file \(error)")
+        }
+    }
+    
+
+    // MARK: - CRUD functions
     // Crud
     func createMovie(title: String) {
         let movie = Movie(title: title)
@@ -152,6 +167,11 @@ class MyMoviesController {
     // crUd
     
     // cruD
+    func delete(delete: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(delete)
+        saveToPersistentStore()
+    }
 
     
 } // end class
