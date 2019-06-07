@@ -24,11 +24,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
-        
         movieController.searchForMovie(with: searchTerm) { (error) in
-            
             guard error == nil else { return }
-            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }

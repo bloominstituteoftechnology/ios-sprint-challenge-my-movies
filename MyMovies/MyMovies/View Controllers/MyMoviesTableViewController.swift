@@ -58,6 +58,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             movieController.deleteMovie(movie: movie)
         }
     }
+    
+    func toggleHasWatched(for cell: MyMoviesTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let movie = fetchedResultsController.object(at: indexPath)
+        movieController.updateMovie(movie: movie)
+    }
 
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -96,13 +102,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-    
-    // MARK: - Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     
-    }
-
 
     // MARK: - Properties & Outlets
     

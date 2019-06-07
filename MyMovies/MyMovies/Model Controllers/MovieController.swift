@@ -11,6 +11,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     // MARK: - API Methods
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
@@ -56,10 +60,6 @@ class MovieController {
     }
     
     // MARK: - Server Methods
-    
-    init() {
-        fetchMoviesFromServer()
-    }
     
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -207,6 +207,11 @@ class MovieController {
         let movie = Movie(title: title, identifier: identifier)
         put(movie: movie)
         saveToPersistentStore()
+    }
+    
+    func updateMovie(movie: Movie) {
+        movie.hasWatched.toggle()
+        put(movie: movie)
     }
     
     func update(movie: Movie, with representation: MovieRepresentation) {
