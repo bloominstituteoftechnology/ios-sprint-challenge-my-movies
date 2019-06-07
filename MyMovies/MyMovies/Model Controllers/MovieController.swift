@@ -61,6 +61,12 @@ class MovieController {
                     _ = Movie(movieRepresentation: movieRep, context: context)
                 }
             }
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving context: \(error)")
+                return
+            }
         }
     }
     
@@ -97,12 +103,19 @@ class MovieController {
         }.resume()
     }
     
-    func toggleHasWatched(for movie: Movie) {
+    func toggleHasWatched(for movie: Movie, context: NSManagedObjectContext) {
         if movie.hasWatched == false {
             movie.hasWatched = true
         } else {
             movie.hasWatched = false
         }
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving context: \(error)")
+            return
+        }
+        put(movie: movie)
     }
     
     // MARK: - Networking

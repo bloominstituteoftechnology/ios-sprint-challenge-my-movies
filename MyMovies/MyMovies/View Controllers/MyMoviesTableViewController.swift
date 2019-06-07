@@ -40,7 +40,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         guard let indexPath = movieTableView.indexPath(for: cell) else { return }
         guard let movie = cell.movie else { return }
         
-        movieController.toggleHasWatched(for: movie)
+        movieController.toggleHasWatched(for: movie, context: CoreDataStack.shared.mainContext)
         movieTableView.reloadRows(at: [indexPath], with: .automatic)
     }
 
