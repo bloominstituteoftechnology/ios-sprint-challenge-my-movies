@@ -20,7 +20,7 @@ class CoreDataStack {
             }
         }
         //because we want to use another context we have to state how we want the two to communicate
-        //        container.viewContext.automaticallyMergesChangesFromParent = true //the psc will be the parent
+        container.viewContext.automaticallyMergesChangesFromParent = true //the psc will be the parent
         return container
     }()
     

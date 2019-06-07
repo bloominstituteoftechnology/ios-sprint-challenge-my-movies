@@ -101,29 +101,33 @@ class MyMovieController {
             guard let data = data else { print("Error unwrapping data fetching from server"); completion(NSError()); return }
             
             let jD = JSONDecoder()
-            
-            do {
-                let movieRepDict = try jD.decode([ String : MovieRepresentation ].self, from: data)
-                let movieRepArray = Array(movieRepDict.values)
-                
-                //loop through the array of movieReps
-                for movieRep in movieRepArray {
-                    //check to see if the movieRep is already saved in core data
-                    if let movieInCoreData = self.checkMovieInCoreData(with: movieRep.title){
-                        //movie is in core data and on server just update the movie in core data
-                        self.update(movie: movieInCoreData, withMovieRep: movieRep)
-                    } else {
-                        //we have a movieRep on server but not in core data so we have to initialize a movie in core data with the values of the movieRep
-                        _ = Movie(movieRepresentation: movieRep)
+            let backGroundContext = CoreDataStack.shared.container.newBackgroundContext()
+
+            backGroundContext.performAndWait {
+                do {
+                    let movieRepDict = try jD.decode([ String : MovieRepresentation ].self, from: data)
+                    let movieRepArray = Array(movieRepDict.values)
+                    
+                    //loop through the array of movieReps
+                    for movieRep in movieRepArray {
+                        //check to see if the movieRep is already saved in core data
+                        if let movieInCoreData = self.checkMovieInCoreData(with: movieRep.title, context: backGroundContext ){
+                            //movie is in core data and on server just update the movie in core data
+                            self.update(movie: movieInCoreData, withMovieRep: movieRep)
+                        } else {
+                            //we have a movieRep on server but not in core data so we have to initialize a movie in core data with the values of the movieRep
+                            _ = Movie(movieRepresentation: movieRep)
+                        }
                     }
+                    try CoreDataStack.shared.save(context: backGroundContext)
+                } catch {
+                    print("Error decoding from server: \(error.localizedDescription)")
+                    completion(error)
+                    return
                 }
-                 self.saveToPersistentStore()
-            } catch {
-                print("Error decoding from server: \(error.localizedDescription)")
-                completion(error)
-                return
             }
-        }
+            completion(nil)
+        }.resume()
     }
     
     func update(movie: Movie, withMovieRep: MovieRepresentation){
@@ -131,14 +135,13 @@ class MyMovieController {
         movie.hasWatched = withMovieRep.hasWatched!
     }
     
-    func checkMovieInCoreData(with title: String) -> Movie? {
+    func checkMovieInCoreData(with title: String, context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "title == %@", title)
-        let moc = CoreDataStack.shared.mainContext
         var movie: Movie? = nil
         do {
             //remember you want one, so we have to use the first property
-           movie = try moc.fetch(fetchRequest).first
+           movie = try context.fetch(fetchRequest).first
         } catch  {
             print("Error checking movie in core data with title of movieRep: \(error.localizedDescription)")
             movie = nil
