@@ -16,6 +16,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         searchBar.delegate = self
     }
     
+    func addMovie(from cell: MovieSearchTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let movie = movieController.searchedMovies[indexPath.row]
+        movieController.createMovie(title: movie.title, identifier: UUID())
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         

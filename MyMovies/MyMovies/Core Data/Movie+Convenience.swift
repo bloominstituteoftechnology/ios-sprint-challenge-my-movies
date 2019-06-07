@@ -27,4 +27,9 @@ extension Movie {
         self.init(title: title, identifier: identifier, hasWatched: hasWatched, context: context)
     }
 
+    var movieRepresentation: MovieRepresentation {
+        guard let title = title else { fatalError() }
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+    }
+    
 }

@@ -153,7 +153,7 @@ class MovieController {
             for movieRep in representations {
                 
                 let identifier = movieRep.identifier
-                if let movie = self.fetchSingleMovieFromPersistentStore(identifier: identifier!, in: context) {
+                if let movie = self.fetchSingleMovieFromPersistentStore(identifier: identifier!.uuidString, in: context) {
                     self.update(movie: movie, with: movieRep)
                 } else {
                     let _ = Movie(movieRepresentation: movieRep, context: context)
@@ -203,6 +203,12 @@ class MovieController {
         return result
     }
     
+    func createMovie(title: String, identifier: UUID) {
+        let movie = Movie(title: title, identifier: identifier)
+        put(movie: movie)
+        saveToPersistentStore()
+    }
+    
     func update(movie: Movie, with representation: MovieRepresentation) {
         movie.title = representation.title
         movie.hasWatched = representation.hasWatched ?? true
@@ -211,4 +217,5 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
 }
