@@ -7,24 +7,26 @@
 //
 
 import UIKit
+import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    let mmc = MyMovieController()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mmc.fetchFromServer()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let fetchReqeust: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchReqeust.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true), NSSortDescriptor(key: "title", ascending: true)]
+        let moc = CoreDataStack.shared.mainContext
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReqeust, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
+        fetchedResultsController.delegate = self
+        try? fetchedResultsController.performFetch()
+        return fetchedResultsController
+    }()
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
