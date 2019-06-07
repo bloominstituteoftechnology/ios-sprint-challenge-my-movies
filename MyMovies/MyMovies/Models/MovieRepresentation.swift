@@ -8,6 +8,7 @@
 
 import Foundation
 
+//this is the file we will use to parse the json on firebase.
 struct MovieRepresentation: Equatable, Codable {
     let title: String
     
