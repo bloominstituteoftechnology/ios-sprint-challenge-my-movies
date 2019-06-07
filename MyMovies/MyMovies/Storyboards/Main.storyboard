@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
-        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -49,30 +48,25 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bMJ-zz-fV0">
-                                            <rect key="frame" x="8" y="8" width="359" height="27.5"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFu-4V-YTB">
-                                                    <rect key="frame" x="0.0" y="0.0" width="175.5" height="27.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x31-Fr-hY1">
-                                                    <rect key="frame" x="183.5" y="0.0" width="175.5" height="27.5"/>
-                                                    <state key="normal" title="Add Movie"/>
-                                                    <connections>
-                                                        <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="UVi-ti-fo9"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                        </stackView>
+                                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x31-Fr-hY1">
+                                            <rect key="frame" x="294" y="0.0" width="73" height="30"/>
+                                            <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="UVi-ti-fo9"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFu-4V-YTB">
+                                            <rect key="frame" x="24" y="11" width="0.0" height="0.0"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="bMJ-zz-fV0" secondAttribute="bottom" constant="8" id="Jdz-6X-dhQ"/>
-                                        <constraint firstItem="bMJ-zz-fV0" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="8" id="jtC-oI-jCi"/>
-                                        <constraint firstItem="bMJ-zz-fV0" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="8" id="nYT-GS-b4E"/>
-                                        <constraint firstAttribute="trailing" secondItem="bMJ-zz-fV0" secondAttribute="trailing" constant="8" id="r46-PK-ChM"/>
+                                        <constraint firstAttribute="trailing" secondItem="x31-Fr-hY1" secondAttribute="trailing" constant="8" id="3UU-OX-Ps2"/>
+                                        <constraint firstItem="QFu-4V-YTB" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" id="AnI-6H-zhv"/>
+                                        <constraint firstItem="QFu-4V-YTB" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" constant="8" id="gy1-MN-UNp"/>
+                                        <constraint firstItem="x31-Fr-hY1" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" id="xGz-tf-mYe"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -92,7 +86,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1304.8" y="-194.75262368815595"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
