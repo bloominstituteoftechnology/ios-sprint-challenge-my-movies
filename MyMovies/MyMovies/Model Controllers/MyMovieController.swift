@@ -16,32 +16,7 @@ class MyMovieController {
     typealias CompletionHandler = (Error?) -> Void
 
     init() {
-
-    }
-
-     func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) throws {
-
-        var error: Error? = nil
-
-        context.performAndWait {
-            for movieRep in representations {
-                guard let identifier = movieRep.identifier else { continue }
-
-                if let movie = self.fetchSingleMovie(forUUID: identifier, in: context) {
-                    self.update(movie: movie, with: movieRep)
-
-                } else {
-                    let _ = Movie(movieRepresentation: movieRep, context: context)
-                }
-            }
-
-            do {
-                try CoreDataStack.shared.save()
-            } catch let saveError {
-                error = saveError
-            }
-        }
-        if let error = error { throw error }
+        fetchMoviesFromServer()
     }
 
     func fetchSingleMovie(forUUID uuid: UUID, in context: NSManagedObjectContext) -> Movie? {
@@ -58,11 +33,78 @@ class MyMovieController {
         }
         return result
     }
+    
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching movies: \(error)")
+                completion(error)
+                return
+            }
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(NSError())
+                return
+            }
+            do {
+                let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                let moc = CoreDataStack.shared.container.newBackgroundContext()
+                try self.updateMovies(with: movieRepresentations, context: moc)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding movie representations: \(error)")
+                completion(error)
+                return
+            }
+            }.resume()
+    }
+
+
+    private func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) throws {
+
+        var error: Error? = nil
+        context.performAndWait {
+            for movieRep in representations {
+                guard let uuid = movieRep.identifier else { continue }
+
+                if let movie = self.fetchSingleMovie(forUUID: uuid, in: context) {
+                    self.update(movie: movie, with: movieRep)
+                } else {
+                    let _ = Movie(movieRepresentation: movieRep, context: context)
+                }
+            }
+
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        if let error = error { throw error }
+    }
+
 
     func update(movie: Movie, with rep: MovieRepresentation) {
         guard let hasWatched = rep.hasWatched else { return }
         movie.title = rep.title
         movie.hasWatched = hasWatched
+    }
+
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        guard let identifier = movie.identifier else {
+            completion(NSError())
+            return
+        }
+
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(error)
+            }.resume()
     }
 
     func putOnServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {

@@ -14,9 +14,10 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBAction func addButtonPressed(_ sender: UIButton) {
         
         guard let title = titleLabel.text else { return }
+        sender.shake()
         let movie = Movie(title: title, hasWatched: false)
         myMovieController.putOnServer(movie: movie)
-        addButton.isHidden = true
+        
     }
 
     override func awakeFromNib() {

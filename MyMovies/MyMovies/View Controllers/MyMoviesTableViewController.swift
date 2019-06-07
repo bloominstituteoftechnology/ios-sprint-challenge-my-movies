@@ -14,7 +14,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-   
+
 
 
     // MARK: - Table view data source
@@ -95,6 +95,35 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             sectionTitle = "Watched"
         }
         return sectionTitle
+    }
+
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+
+            let movie = fetchedResultsController.object(at: indexPath)
+            myMovieController.deleteMovieFromServer(movie) { (error) in
+                if let error = error {
+                    NSLog("Error deleting movie from server: \(error)")
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(movie)
+                    do {
+                        try moc.save()
+                        tableView.reloadData()
+                        print("deleted movie from persistent store")
+                    } catch {
+                        moc.reset()
+                        NSLog("Error deleting context: \(error)")
+                    }
+                }
+            }
+
+
+        }
     }
 
 
