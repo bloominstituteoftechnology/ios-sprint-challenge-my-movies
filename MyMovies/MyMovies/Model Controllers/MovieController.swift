@@ -21,6 +21,11 @@ class MovieController {
     let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
+    // MARK: - Initializers
+    init() {
+        fetch()
+    }
+    
     // MARK: - CRUD
     func create(from movieRep: MovieRepresentation) {
         let moc = CoreDataStack.shared.container.newBackgroundContext()
