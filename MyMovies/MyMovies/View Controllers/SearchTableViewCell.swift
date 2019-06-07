@@ -24,6 +24,7 @@ class SearchTableViewCell: UITableViewCell {
     private func updateViews() {
 
         guard let movieRep = movieRep else { return }
+        addMovieButton.setTitle("Add Movie", for: .normal)
 
         nameLabel.text = movieRep.title
     }
@@ -33,7 +34,7 @@ class SearchTableViewCell: UITableViewCell {
 
         guard let title = movieRep?.title else { return }
 
-        movieController.addMovie(title: title)
+        movieController?.addMovie(title: title)
     }
 
     
