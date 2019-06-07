@@ -39,7 +39,12 @@ class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDele
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController.sections?[section].name.capitalized
+        return fetchedResultsController.sections?[section].name == "0" {
+            return "Seen It!"
+        } else {
+
+            return "Haven't Seen It"
+        }
     }
 
 
