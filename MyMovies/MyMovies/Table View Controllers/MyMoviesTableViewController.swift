@@ -52,6 +52,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
             // Delete the row from the data source
             let movieToDelete = fetchedResultsController.object(at: indexPath)
+            //should this be done on a maincontext?
             MyMovieController.shared.delete(movie: movieToDelete)
         }
     }

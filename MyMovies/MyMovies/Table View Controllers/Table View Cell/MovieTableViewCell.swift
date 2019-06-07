@@ -21,6 +21,7 @@ class MovieTableViewCell: UITableViewCell {
     
     @IBAction func changeWatchedButton(_ sender: UIButton) {
          guard let passedInMovie = movie else { print("Error passing in movie in movietableviewcell"); return }
+        //I could make sure this is done on the mainContext
         MyMovieController.shared.toggle(movie: passedInMovie)
         let buttonTitle = passedInMovie.hasWatched ? "Watched" : "UnWatched"
         watchedProperties.setTitle(buttonTitle, for: .normal)
