@@ -49,7 +49,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name
+        return sectionInfo.name == "0" ? "Not Watched Yet" : "Watched"
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -94,6 +94,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         case .delete:
             guard let indexPath = indexPath else { return }
             tableView.deleteRows(at: [indexPath], with: .automatic)
+        @unknown default:
+            fatalError()
         }
     }
 
