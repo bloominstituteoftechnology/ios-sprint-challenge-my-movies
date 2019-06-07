@@ -12,13 +12,16 @@ class MovieListTableViewCell: UITableViewCell {
 
     // MARK: - Actions
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        // Get the movie title
+        // Get the movie title and create the movie
         guard let title = textLabel?.text else { return }
         movieController.createMovie(title: title)
-  //      movieController.put(movie: Movie)
-        print("Add movie button tapped.  The movie name is \(textLabel?.text)")
         
+        // Change the Add movie button title and disable it.
+        addMoviebuttonOutlet.setTitle("Movie Added", for: .normal)
+        addMoviebuttonOutlet.isEnabled = false
     }
 
-  let movieController = MyMoviesController()
+    // MARK: - Properties
+    let movieController = MyMoviesController()
+    @IBOutlet weak var addMoviebuttonOutlet: UIButton!
 }
