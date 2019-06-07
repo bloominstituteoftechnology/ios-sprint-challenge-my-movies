@@ -10,15 +10,39 @@ import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var movieController: MovieController?
+    
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    @IBOutlet weak var movieLabel: UILabel!
+    @IBOutlet weak var watchedButton: UIButton!
+    
+    
+    func updateViews() {
+        guard let movie = movie else { return }
+        movieLabel.text = movie.title
+        if movie.hasWatched {
+            watchedButton.setTitle("Seen", for: .normal)
+        } else {
+            watchedButton.setTitle("Not Seen", for: .normal)
+        }
+        
+        movieLabel.textColor = .white
+        //watchedButton.setTitleColor(.gray, for: .normal)
+        
     }
+    
+    
+    @IBAction func toggleWatched(_ sender: Any) {
+        guard let movie = movie else { return }
+        let toggle = !movie.hasWatched
+        movieController?.toggleWatched(movie: movie, hasWatched: toggle)
+    }
+    
+    
 
 }

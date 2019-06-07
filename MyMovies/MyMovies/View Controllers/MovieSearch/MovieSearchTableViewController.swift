@@ -17,6 +17,17 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let imageView = UIImageView(image: UIImage(named: "cameras"))
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = tableView.bounds
+        imageView.addSubview(blurEffectView)
+        
+        self.tableView.backgroundView = imageView
+        
+        
+        
         searchBar.delegate = self
     }
     
@@ -42,6 +53,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         cell.movieController = movieController
         cell.movieRep = movieController?.searchedMovies[indexPath.row]
+        cell.backgroundColor = .clear
+        
         
         return cell
     }
