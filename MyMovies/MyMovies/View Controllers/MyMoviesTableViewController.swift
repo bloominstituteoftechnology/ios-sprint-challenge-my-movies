@@ -13,13 +13,13 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
     let movieController = MyMoviesController() // <- This will trigger the init method that will fetch all of the movies
     
-    // MARK: - View states
+    // MARK: - View states and Refresh Control
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
     
-    // MARK: Refresh Control
+    // Refresh control
     @IBAction func refresh(_ sender: UIRefreshControl) {
         movieController.fetchMoviesFromServer(completion: { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -27,19 +27,22 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             }
         })
     }
+    
+    
     // MARK: - Table view data source
-
+    // Number of sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 1
     }
 
+    // Number of Rows/Section
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-
+    // Cell for rowAt
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
 
@@ -47,9 +50,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         cell.movie = movie
         cell.movieController = movieController
         return cell
-        
     }
     
+    // Section titles
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section].name else { return nil}
        // return "Unwatched"
@@ -110,6 +113,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
     
+    // Delete changes
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
@@ -137,8 +141,5 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         try!frc.performFetch()
         return frc
     }()
-    
-    // MARK: - Properties
-  //  var movie: Movie? { didSet {updateView()} }
 
 }

@@ -12,16 +12,18 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     // MARK: - Watched button action
     @IBAction func watchedButtonTapped(_ sender: Any) {
+       // Make sure we have a movie or, outtie!
         guard let movie = movie else { return }
-        let hasWatched = !movie.hasWatched
-        watcedButton  = hasWatched ? "Watched" : "Unwatched"
-        watchedButton.setTitle(watcedButton, for: .normal)
-      //  movieController!.put(movie: movie)
-       // moc.save()
-
         
-        //let context = CoreDataStack.shared.mainContext
-        movieController?.updateMovie(movie: movie, hasWatched: hasWatched)//, title: title, hasWatched: hasWatched)
+        // Toggle hasWatched
+        movie.hasWatched = !movie.hasWatched
+        
+        //pdate the button title
+        watcedButton  = movie.hasWatched ? "Watched" : "Unwatched"
+        watchedButton.setTitle(watcedButton, for: .normal)
+        
+        // Execute the update
+        movieController?.updateMovie(movie: movie, hasWatched: movie.hasWatched)
     }
     
     // MARK: - Private functions
@@ -42,7 +44,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     var movie: Movie? { didSet {updateViews()}}
     var watcedButton: String = ""
     
-    // MARK: Outlets
+    // MARK: - Outlets
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var watchedButton: UIButton!
 

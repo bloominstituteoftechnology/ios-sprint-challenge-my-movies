@@ -63,7 +63,9 @@ class MyMoviesController {
         } .resume()
     }
     
-    // MARK: - PUT
+    // MARK: - Server PUT and Delete
+    
+    // PUT to server
     func put(movie: Movie, completion: @escaping ((Error?) -> Void) = {_ in }) {
 
         let identifier = movie.identifier?.uuidString ?? UUID().uuidString
@@ -95,6 +97,24 @@ class MyMoviesController {
     }  // end put
     
     
+    // Delete from server
+    func deleteFromServer(movie: Movie, completion: @escaping (Error?) -> Void) {
+        guard let uuid = movie.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(error)
+            }.resume()
+    }
+    
+    
     // MARK: - Private functions
     private func updateMovies(with representations: [MovieRepresentation], in context: NSManagedObjectContext) {
         context.performAndWait {
@@ -114,6 +134,7 @@ class MyMoviesController {
         }
     }
     
+    // Fetch single Entry
     private func fetchSingleEntryFromPersistentStore(with identifier: String, in context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
@@ -127,29 +148,8 @@ class MyMoviesController {
         return result
     }
     
-//    func updateMovie(movie: Movie) {
-//
-//    }
     
-    func deleteFromServer(movie: Movie, completion: @escaping (Error?) -> Void) {
-        guard let uuid = movie.identifier else {
-            completion(NSError())
-            return
-        }
-        
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            print(response!)
-            completion(error)
-        }.resume()
-    }
-    
-
-    
-    // MARK: - Persistent save
+    // MARK: - Persistent save and CRUD functions
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
         do {
@@ -159,19 +159,14 @@ class MyMoviesController {
         }
     }
     
-
-    // MARK: - CRUD functions
     // Crud
     func createMovie(title: String) {
         let movie = Movie(title: title)
         put(movie: movie)
     }
 
-
     // crUd
     func updateMovie(movie: Movie, hasWatched: Bool) {
-   //     movie.setValue(title, forKey: "title")
-  //      movie.setValue(hasWatched, forKey: "hasWatched")
         movie.hasWatched = hasWatched
         put(movie: movie) 
         saveToPersistentStore()
