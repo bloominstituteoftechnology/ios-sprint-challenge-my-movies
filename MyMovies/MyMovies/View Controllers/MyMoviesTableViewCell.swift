@@ -13,17 +13,15 @@ class MyMoviesTableViewCell: UITableViewCell {
     // MARK: - Watched button action
     @IBAction func watchedButtonTapped(_ sender: Any) {
         guard let movie = movie else { return }
-        
         let hasWatched = !movie.hasWatched
-        movie.hasWatched =  hasWatched
         watcedButton  = hasWatched ? "Watched" : "Unwatched"
         watchedButton.setTitle(watcedButton, for: .normal)
-        print(movie)
+      //  movieController!.put(movie: movie)
+       // moc.save()
+
         
-        let context = CoreDataStack.shared.mainContext
-        context.performAndWait {
-            moviesController?.updateMovie(movie: movie, hasWatched: hasWatched)
-        }
+        //let context = CoreDataStack.shared.mainContext
+        movieController?.updateMovie(movie: movie, hasWatched: hasWatched)//, title: title, hasWatched: hasWatched)
     }
     
     // MARK: - Private functions
@@ -40,7 +38,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     // MARK: - Properties
-    var moviesController: MyMoviesController?
+    var movieController: MyMoviesController?
     var movie: Movie? { didSet {updateViews()}}
     var watcedButton: String = ""
     

@@ -170,8 +170,10 @@ class MyMoviesController {
 
     // crUd
     func updateMovie(movie: Movie, hasWatched: Bool) {
+   //     movie.setValue(title, forKey: "title")
+  //      movie.setValue(hasWatched, forKey: "hasWatched")
         movie.hasWatched = hasWatched
-        put(movie: movie) {  _ in}
+        put(movie: movie) 
         saveToPersistentStore()
     }
     

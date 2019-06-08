@@ -45,7 +45,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
+        cell.movieController = movieController
         return cell
+        
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
