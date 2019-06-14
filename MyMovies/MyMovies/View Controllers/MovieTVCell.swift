@@ -10,6 +10,14 @@ import UIKit
 
 class MovieTVCell: UITableViewCell {
 
+    @IBAction func addMovieButtonTapped(_ sender: Any) {
+        
+        guard let title = movieTitleLabel.text else {return}
+        //let movie = Movie//we need a Movie file!
+        
+    }
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,4 +29,5 @@ class MovieTVCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBOutlet var movieTitleLabel: UILabel!
 }

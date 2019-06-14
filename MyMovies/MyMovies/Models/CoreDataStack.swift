@@ -23,7 +23,7 @@ class CoreDataStack {
         return container
     }()
     
-    
+    static let shared = CoreDataStack()
     var mainContext: NSManagedObjectContext  {
         return container.viewContext
     }

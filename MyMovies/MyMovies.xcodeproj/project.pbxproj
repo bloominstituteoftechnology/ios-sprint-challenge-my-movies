@@ -18,6 +18,7 @@
 		FC053FC022B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC053FBE22B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodeld */; };
 		FC053FC222B4027C000E5897 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC053FC122B4027C000E5897 /* CoreDataStack.swift */; };
 		FC053FC422B4092D000E5897 /* MovieTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC053FC322B4092D000E5897 /* MovieTVCell.swift */; };
+		FC053FC622B40D0C000E5897 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC053FC522B40D0C000E5897 /* Movie+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		FC053FBF22B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ios-sprint-challenge-my-movies.xcdatamodel"; sourceTree = "<group>"; };
 		FC053FC122B4027C000E5897 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FC053FC322B4092D000E5897 /* MovieTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTVCell.swift; sourceTree = "<group>"; };
+		FC053FC522B40D0C000E5897 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			children = (
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				FC053FBE22B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodeld */,
+				FC053FC522B40D0C000E5897 /* Movie+Convenience.swift */,
 				FC053FC122B4027C000E5897 /* CoreDataStack.swift */,
 			);
 			path = Models;
@@ -201,6 +204,7 @@
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				FC053FC422B4092D000E5897 /* MovieTVCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				FC053FC622B40D0C000E5897 /* Movie+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
