@@ -14,13 +14,23 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        movieController.fetchMoviesFromServer()
     }
 
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        movieController.fetchMoviesFromServer { _ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    
+    
 
     // MARK: - Table view data source
 
@@ -46,7 +56,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
  
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name.capitalized
+        if sectionInfo.name == "0" {
+//        return sectionInfo.name.capitalized
+            return "Un-watched"
+        } else {
+            return "Watched"
+        }
     }
 
     
@@ -74,7 +89,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
                 }
             }
             
-            tableView.deleteRows(at: [indexPath], with: .fade)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 

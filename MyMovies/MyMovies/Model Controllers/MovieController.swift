@@ -11,6 +11,10 @@ import CoreData
 
 
 class MovieController {
+//    
+//    init() {
+//        fetchMoviesFromServer()
+//    }
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -61,7 +65,7 @@ class MovieController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-    func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         
         let requestURL = fireBaseURL.appendingPathExtension("json")
         
@@ -132,7 +136,7 @@ class MovieController {
 
     private func update(movie: Movie, with representation: MovieRepresentation) {
         movie.title = representation.title
-        movie.hasWatched = representation.hasWatched!
+        movie.hasWatched = representation.hasWatched ?? false
     }
     
     private func movie(forUUID uuid: UUID, in context: NSManagedObjectContext) -> Movie? {

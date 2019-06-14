@@ -8,9 +8,7 @@
 
 import UIKit
 
-protocol MovieDelegate {
-    func passMovie(movie: Movie)
-}
+
 class MovieSearchTableViewCell: UITableViewCell {
 
  
@@ -23,13 +21,17 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         //when this button is clicked.
+        //turn MR into a movie
+        guard let movie = movie else { return }
+        let selectedMovie = Movie(title: movie.title)
+        movieController.put(movie: selectedMovie)
         //grab corresponding object in cell.
         //save object locally to our container
         //put object up to firebase
     }
     
     
-    
+    var movieController = MovieController()
     var movie: MovieRepresentation? {
         didSet {
             updateViews()

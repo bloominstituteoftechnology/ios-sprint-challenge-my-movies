@@ -21,6 +21,17 @@ class MyMoviesTableViewCell: UITableViewCell {
         }
     }
 
+    @IBAction func hasWatchedButtonTapped(_ sender: Any) {
+        //update the button title
+        if let updatedMovie = movie {
+            updatedMovie.hasWatched.toggle()
+            
+            movieController.put(movie: updatedMovie)
+            
+        }
+        //toggle hasWatched bool for movie
+        //put to FB and save updates to local
+    }
     
     
     var movie: Movie? {
@@ -28,6 +39,7 @@ class MyMoviesTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    var movieController = MovieController()
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     
