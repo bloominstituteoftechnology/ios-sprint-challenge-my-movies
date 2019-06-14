@@ -12,15 +12,30 @@ class MovieController {
     
     
     func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        let uuid = movie.identifier ?? UUID()
+        
+        // nil coalesce will certainly assign uuid = UUID() here
+        var uuid = movie.identifier ?? UUID()
         let requestURL = firebaseURL!.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")  //editor placeholder error, 10 minutes wasted: solution was command B
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
         do {
-            //guard var representation = movie.MovieRepresentation else
+            // put movie to be saved into temporary movieRepresentation instance
+            guard var representation = movie.movieRepresentation else {
+                completion(NSError())
+                return
+            }
+            representation.identifier = uuid
+            try saveToPersistentStore()
+            request.httpBody = try JSONEncoder().encode(representation)
+                
         }
+    }
+    
+    func saveToPersistentStore() {
         
+        let moc = CoreDataStack.shared.container
+        try moc.save() // now need to write save method in CoreDataStack
     }
     
     
