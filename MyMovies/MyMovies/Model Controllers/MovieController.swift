@@ -10,8 +10,19 @@ import Foundation
 
 class MovieController {
     
-    private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
-    private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
+    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseURL!.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")  //editor placeholder error, 10 minutes wasted: solution was command B
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            //guard var representation = movie.MovieRepresentation else
+        }
+        
+    }
+    
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -53,6 +64,11 @@ class MovieController {
     }
     
     // MARK: - Properties
+    
+    typealias CompletionHandler = (Error?) -> Void
+    private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
+    private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string: "https://mymovies-8e4fd.firebaseio.com/")
     
     var searchedMovies: [MovieRepresentation] = []
 }

@@ -13,7 +13,9 @@ class MovieTVCell: UITableViewCell {
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         
         guard let title = movieTitleLabel.text else {return}
-        //let movie = Movie//we need a Movie file!
+        let movie = Movie(title: title) // the other attributes will be assigned default values
+        //MovieController.put(movie)
+        
         
     }
     
