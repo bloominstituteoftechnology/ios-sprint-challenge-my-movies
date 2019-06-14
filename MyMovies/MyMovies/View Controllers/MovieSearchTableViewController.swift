@@ -18,6 +18,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         
+        guard let title = movieTitleLabel.text else {return}
+        //let movie = Movie//we need a Movie file!
+        
     }
     
     
@@ -48,5 +51,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     var movieController = MovieController()
     
+
+    @IBOutlet var movieTitleLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
 }

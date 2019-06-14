@@ -17,6 +17,7 @@
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 		FC053FC022B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC053FBE22B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodeld */; };
 		FC053FC222B4027C000E5897 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC053FC122B4027C000E5897 /* CoreDataStack.swift */; };
+		FC053FC422B4092D000E5897 /* MovieTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC053FC322B4092D000E5897 /* MovieTVCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		FC053FBF22B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ios-sprint-challenge-my-movies.xcdatamodel"; sourceTree = "<group>"; };
 		FC053FC122B4027C000E5897 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		FC053FC322B4092D000E5897 /* MovieTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTVCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
+				FC053FC322B4092D000E5897 /* MovieTVCell.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
 			);
 			path = "View Controllers";
@@ -196,6 +199,7 @@
 				FC053FC022B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodeld in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				FC053FC422B4092D000E5897 /* MovieTVCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
