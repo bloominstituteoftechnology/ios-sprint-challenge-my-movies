@@ -30,17 +30,11 @@ class MyMoviesTableViewCell: UITableViewCell, NSFetchedResultsControllerDelegate
         } else {
             watchedButton.setTitle("not watched", for: .normal)
         }
-        print("about to put the movie again")
+
         movieController?.put(movie: movie)
         
-//        movieController?.deleteMovieFromServer(movie) { (error) in
-//            if let error = error {
-//                NSLog("Error deleting task from server: \(error)")
-//                return
-//            }
- //       }
-        
         do {
+            print("storing updated toggle to CoreData")
             let moc = CoreDataStack.shared.mainContext
             try moc.save()
         } catch {

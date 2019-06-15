@@ -17,12 +17,13 @@ class MovieTVCell: UITableViewCell {
         let movie = Movie(title: title)
         movieController.put(movie: movie)
 
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            NSLog("Error saving movie to CoreData mainContext: \(error)")
-        }
+        // commenting this out below bc I thinkit already gets done inside "put"
+//        do {
+//            let moc = CoreDataStack.shared.mainContext
+//            try moc.save()
+//        } catch {
+//            NSLog("Error saving movie to CoreData mainContext: \(error)")
+//        }
     }
     
 //    private func updateViews() {
