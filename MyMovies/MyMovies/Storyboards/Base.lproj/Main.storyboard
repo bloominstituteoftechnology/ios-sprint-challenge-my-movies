@@ -48,39 +48,33 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="60.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="F3I-fA-GuO">
-                                            <rect key="frame" x="24" y="15.5" width="327" height="39"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="n57-6s-zXQ">
+                                            <rect key="frame" x="24" y="19" width="327" height="39"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbz-tO-uwn">
-                                                    <rect key="frame" x="0.0" y="0.0" width="243" height="39"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kDG-Jq-wIa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="248" height="39"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zpS-eg-G47">
-                                                    <rect key="frame" x="251" y="0.0" width="76" height="39"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2d5-HJ-dHr">
+                                                    <rect key="frame" x="256" y="0.0" width="71" height="39"/>
+                                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <state key="normal" title="Add Movie">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
-                                                    <connections>
-                                                        <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="mOE-f2-F3K"/>
-                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="F3I-fA-GuO" secondAttribute="trailing" constant="8" id="7or-Hs-l8M"/>
-                                        <constraint firstItem="F3I-fA-GuO" firstAttribute="bottom" secondItem="8Bc-u1-IMl" secondAttribute="bottomMargin" constant="4.5" id="Kd3-CL-TDQ"/>
-                                        <constraint firstItem="F3I-fA-GuO" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="4.5" id="YZc-aI-vbG"/>
-                                        <constraint firstItem="F3I-fA-GuO" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" constant="8" id="ZOV-bl-dRy"/>
+                                        <constraint firstItem="n57-6s-zXQ" firstAttribute="bottom" secondItem="8Bc-u1-IMl" secondAttribute="bottomMargin" constant="8" id="Pf4-CG-C6b"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="n57-6s-zXQ" secondAttribute="trailing" constant="8" id="tTv-Fx-wbB"/>
+                                        <constraint firstItem="n57-6s-zXQ" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" constant="8" id="uar-nV-RMx"/>
+                                        <constraint firstItem="n57-6s-zXQ" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="8" id="zvJ-Sb-kVx"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="movieTitleLabel" destination="dbz-tO-uwn" id="DYb-Hc-kIM"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -117,15 +111,16 @@
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="297" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="237" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="313" y="0.0" width="30" height="30"/>
+                                                    <rect key="frame" x="253" y="0.0" width="90" height="30"/>
+                                                    <state key="normal" title="Not Watched"/>
                                                     <connections>
-                                                        <action selector="watchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="ITD-m9-qF9"/>
+                                                        <action selector="watchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="McQ-dd-oZ3"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -140,8 +135,8 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="textLabel" destination="a6O-zS-fmH" id="VRn-9O-sPc"/>
-                                    <outlet property="watchedButton" destination="3Ay-OW-Mt0" id="mbh-4q-GzJ"/>
+                                    <outlet property="myMovieLabel" destination="a6O-zS-fmH" id="QrQ-6s-DFm"/>
+                                    <outlet property="watchedButton" destination="3Ay-OW-Mt0" id="wPL-qm-0kw"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -151,9 +146,6 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
-                    <connections>
-                        <outlet property="watchedButton" destination="3Ay-OW-Mt0" id="wxM-Kc-2Lu"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

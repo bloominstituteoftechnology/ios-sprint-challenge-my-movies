@@ -12,13 +12,22 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMoviesTableViewCellDelegate {
     
     func toggleFeature(for cell: MyMoviesTableViewCell) {
+        
         guard let movie = cell.movie else {return}
         
-        movieController.toggleHasWatched(for: movie)
+        movieController.toggleHasWatched(movie: movie)
     }
     
 
     // MARK: - Table view data source
+    
+    @IBAction func refreshTable(_ sender: Any) {
+        movieController.fetchMoviesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections

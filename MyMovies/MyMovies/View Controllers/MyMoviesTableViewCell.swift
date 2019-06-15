@@ -10,19 +10,16 @@ import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
 
-
-
-
     @IBAction func watchedButtonTapped(_ sender: Any) {
         
         delegate?.toggleFeature(for: self)
     }
-
+    
     
     private func updateViews() {
         
         guard let movie = movie else { return }
-        textLabel.text = movie.title
+        myMovieLabel.text = movie.title
         
         if movie.hasWatched {
             watchedButton.setTitle("watched", for: .normal)
@@ -43,8 +40,9 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     var delegate: MyMoviesTableViewCellDelegate?
     
+    
+    @IBOutlet var myMovieLabel: UILabel!
     @IBOutlet var watchedButton: UIButton!
     
-    @IBOutlet var textLabel: UILabel!
-    
+
 }

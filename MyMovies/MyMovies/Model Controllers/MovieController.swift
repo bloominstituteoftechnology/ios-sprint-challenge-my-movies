@@ -91,9 +91,6 @@ class MovieController {
                 return
             }
             representation.identifier = uuid
-            
-            print(representation.title)
-            
             //movie.identifier = uuid   might have to put this back in
             try saveToPersistentStore()
             
@@ -113,10 +110,10 @@ class MovieController {
         }.resume()           // saved movie should appear on FireBase HERE
     }
     
-    func saveToPersistentStore() {
+    func saveToPersistentStore() throws {
         
         let moc = CoreDataStack.shared.mainContext
-        try! moc.save() // write save method.  "errors thrown from here not handled" = inserted a bang!
+        try moc.save() // write save method.  "errors thrown from here not handled" = inserted a bang!
     }
     
     func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
@@ -175,6 +172,12 @@ class MovieController {
         }.resume()
     }
     
+    func toggleHasWatched(movie: Movie) {
+        
+        
+    }
+    
+    // takes in an identifier and uses it to find that movie in CoreData
     func movie(forUUID uuid: UUID, in context: NSManagedObjectContext) -> Movie? {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID) // identifier == uuid

@@ -12,11 +12,11 @@ class MovieTVCell: UITableViewCell {
 
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         
-        guard let movieRep = movieRepresentation else {return print("fail guard")}
-        let title = movieRep.title
-        
-        let movie = Movie(title: title)
-        movieController.put(movie: movie)
+//        guard let movieRep = movieRepresentation else {return print("fail guard")}
+//        let title = movieRep.title
+//
+//        let movie = Movie(title: title)
+//        movieController.put(movie: movie)
         
         
 //        do {
@@ -28,24 +28,28 @@ class MovieTVCell: UITableViewCell {
     
     }
     
-//    private func updateViews() {
-//        guard let movie = movieRepresentation else { return }
-//
-//        movieTitleLabel.text = movie.title
-//    }
+    private func updateViews() {
+        guard let movie = movieRepresentation else { return }
+
+        .text = movie.title
+        
+    }
     
     
-    @IBOutlet var movieTitleLabel: UILabel!
+
     
     //var movie: Movie?
     
+    
     var movieController = MovieController()  // i'm not sure this is the right thing to do, but sure seems like it
+
+    var movieRepresentation: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
+
+
     
-    var movieRepresentation: MovieRepresentation?   // or is it : MovieRepresentation?
     
-//    var movieRepresentation: MovieRepresentation? {
-//        didSet {
-//            updateViews()
-//        }
-//    }
 }
