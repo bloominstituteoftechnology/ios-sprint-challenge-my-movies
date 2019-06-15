@@ -12,45 +12,30 @@ class MovieTVCell: UITableViewCell {
 
     @IBAction func addMovieButtonTapped(_ sender: Any) {
         
-//        guard let movieRep = movieRepresentation else {return print("fail guard")}
-//        let title = movieRep.title
+        guard let title = movieTitleLabel.text else { return }
+        let movie = Movie(title: title)
+        movieController.put(movie: movie)
+
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            NSLog("Error saving movie to CoreData mainContext: \(error)")
+        }
+    }
+    
+//    private func updateViews() {
+//        guard let movie = movieRepresentation else { return }
 //
-//        let movie = Movie(title: title)
-//        movieController.put(movie: movie)
-        
-        
-//        do {
-//            let moc = CoreDataStack.shared.mainContext
-//            try moc.save()
-//        } catch {
-//            NSLog("Error saving movie to CoreData mainContext: \(error)")
-//        }
-    
-    }
-    
-    private func updateViews() {
-        guard let movie = movieRepresentation else { return }
-
-        .text = movie.title
-        
-    }
-    
-    
-
+//        movieTitleLabel.text = movie.title
+//
+//    }
     
     //var movie: Movie?
     
-    
     var movieController = MovieController()  // i'm not sure this is the right thing to do, but sure seems like it
 
-    var movieRepresentation: MovieRepresentation? {
-        didSet {
-            updateViews()
-        }
-    }
+//    var movieRepresentation: MovieRepresentation?
 
-
-    @IBOutlet weak var textLabel: UILabel!
-    
-    
+    @IBOutlet weak var movieTitleLabel: UILabel!
 }

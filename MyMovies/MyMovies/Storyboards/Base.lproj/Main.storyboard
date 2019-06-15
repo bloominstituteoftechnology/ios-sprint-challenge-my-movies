@@ -79,7 +79,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="textLabel" destination="kDG-Jq-wIa" id="Q5K-VN-9sJ"/>
+                                    <outlet property="movieTitleLabel" destination="kDG-Jq-wIa" id="o2T-A8-mb3"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
