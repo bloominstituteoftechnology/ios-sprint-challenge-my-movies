@@ -32,5 +32,4 @@ extension Movie {
         
         return MovieRepresentation(title: title, identifier: identifier ?? UUID(), hasWatched: hasWatched)
     }
-    
 }

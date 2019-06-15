@@ -19,6 +19,8 @@
 		FC053FC222B4027C000E5897 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC053FC122B4027C000E5897 /* CoreDataStack.swift */; };
 		FC053FC422B4092D000E5897 /* MovieTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC053FC322B4092D000E5897 /* MovieTVCell.swift */; };
 		FC053FC622B40D0C000E5897 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC053FC522B40D0C000E5897 /* Movie+Convenience.swift */; };
+		FCCA335922B4671000D4DC9A /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCA335822B4671000D4DC9A /* MyMoviesTableViewCell.swift */; };
+		FCCA335B22B4738E00D4DC9A /* MyMoviesTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCA335A22B4738E00D4DC9A /* MyMoviesTableViewCellDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		FC053FC122B4027C000E5897 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FC053FC322B4092D000E5897 /* MovieTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTVCell.swift; sourceTree = "<group>"; };
 		FC053FC522B40D0C000E5897 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		FCCA335822B4671000D4DC9A /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
+		FCCA335A22B4738E00D4DC9A /* MyMoviesTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCellDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,8 @@
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				FC053FC322B4092D000E5897 /* MovieTVCell.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				FCCA335822B4671000D4DC9A /* MyMoviesTableViewCell.swift */,
+				FCCA335A22B4738E00D4DC9A /* MyMoviesTableViewCellDelegate.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -196,10 +202,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCCA335922B4671000D4DC9A /* MyMoviesTableViewCell.swift in Sources */,
 				FC053FC222B4027C000E5897 /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				FC053FC022B40047000E5897 /* ios-sprint-challenge-my-movies.xcdatamodeld in Sources */,
+				FCCA335B22B4738E00D4DC9A /* MyMoviesTableViewCellDelegate.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				FC053FC422B4092D000E5897 /* MovieTVCell.swift in Sources */,
@@ -357,7 +365,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.JohnPitts.MyMovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -375,7 +383,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.JohnPitts.MyMovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
