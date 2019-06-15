@@ -23,6 +23,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     // MARK: - Table view data source
     
     @IBAction func refreshTable(_ sender: Any) {
+
         movieController.fetchMoviesFromServer { (_) in
             DispatchQueue.main.async {
                 self.refreshControl?.endRefreshing()
@@ -55,6 +56,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         cell.movie = movie
         //cell.delegate = self
         cell.textLabel?.text = movie.title
+        cell.movieController = movieController
 
         return cell
     }

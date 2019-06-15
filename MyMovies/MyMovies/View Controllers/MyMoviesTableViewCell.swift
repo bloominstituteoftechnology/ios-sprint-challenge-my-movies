@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class MyMoviesTableViewCell: UITableViewCell {
+class MyMoviesTableViewCell: UITableViewCell, NSFetchedResultsControllerDelegate {
 
     @IBAction func watchedButtonTapped(_ sender: Any) {
         
@@ -29,6 +30,15 @@ class MyMoviesTableViewCell: UITableViewCell {
         } else {
             watchedButton.setTitle("not watched", for: .normal)
         }
+        print("about to put the movie again")
+        movieController?.put(movie: movie)
+        
+//        movieController?.deleteMovieFromServer(movie) { (error) in
+//            if let error = error {
+//                NSLog("Error deleting task from server: \(error)")
+//                return
+//            }
+ //       }
         
         do {
             let moc = CoreDataStack.shared.mainContext
