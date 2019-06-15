@@ -9,14 +9,15 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, MyMoviesTableViewCellDelegate {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate /*, MyMoviesTableViewCellDelegate */ {
     
-    func toggleFeature(for cell: MyMoviesTableViewCell) {
-        
-        guard let movie = cell.movie else {return}
-        
-        movieController.toggleHasWatched(movie: movie)
-    }
+//    func toggleFeature(for cell: MyMoviesTableViewCell) {
+//        
+//        guard let movie = cell.movie else {return}
+//        
+//        //movieController.toggleHasWatched(movie: movie)
+//        
+//    }
     
 
     // MARK: - Table view data source
@@ -52,15 +53,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let movie = fetchedResultsController.object(at: indexPath)
         
         cell.movie = movie
-        cell.delegate = self
-        
-//        cell.textLabel?.text = movie.title
-//        if movie.hasWatched {
-//            cell.movie.haswatched = movie.hasWatched
-//        } else {
-//            
-//            cell.movie.hasWatched = movie.hasWatched
-//        }
+        //cell.delegate = self
+        cell.textLabel?.text = movie.title
 
         return cell
     }

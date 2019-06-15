@@ -12,7 +12,10 @@ class MyMoviesTableViewCell: UITableViewCell {
 
     @IBAction func watchedButtonTapped(_ sender: Any) {
         
-        delegate?.toggleFeature(for: self)
+        movie?.hasWatched.toggle()
+        updateViews()
+        
+//        delegate?.toggleFeature(for: self)
     }
     
     
@@ -22,13 +25,22 @@ class MyMoviesTableViewCell: UITableViewCell {
         myMovieLabel.text = movie.title
         
         if movie.hasWatched {
-            watchedButton.setTitle("watched", for: .normal)
+            watchedButton.setTitle("WATCHED!", for: .normal)
         } else {
-            watchedButton.setTitle("unwatched", for: .normal)
+            watchedButton.setTitle("not watched", for: .normal)
         }
         
-        let moc = CoreDataStack.shared.mainContext
-        movieController?.movie(forUUID: movie.identifier!, in: moc)
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            NSLog("Error saving movie to CoreData mainContext: \(error)")
+        }
+        
+//        let moc = CoreDataStack.shared.mainContext
+//        movieController?.movie(forUUID: movie.identifier!, in: moc)
+        
+        
     }
     
     var movieController: MovieController?
