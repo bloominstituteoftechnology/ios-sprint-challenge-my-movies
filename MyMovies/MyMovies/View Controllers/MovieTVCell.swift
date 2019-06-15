@@ -50,6 +50,7 @@ class MovieTVCell: UITableViewCell {
     }
 
 
+    @IBOutlet weak var textLabel: UILabel!
     
     
 }

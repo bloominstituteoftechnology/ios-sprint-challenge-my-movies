@@ -64,6 +64,9 @@
                                                     <state key="normal" title="Add Movie">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="jpi-WH-YPX"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
@@ -75,6 +78,9 @@
                                         <constraint firstItem="n57-6s-zXQ" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="8" id="zvJ-Sb-kVx"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="textLabel" destination="kDG-Jq-wIa" id="Q5K-VN-9sJ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
