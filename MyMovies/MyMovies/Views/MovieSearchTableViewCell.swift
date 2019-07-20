@@ -12,10 +12,12 @@ class MovieSearchTableViewCell: UITableViewCell {
 
     // Mark: - IBOutlets and Properties
     @IBOutlet var movieSearchTitle: UILabel!
-    @IBOutlet var saveButton: UIButton!
+    
+    weak var delegate: MovieSearchTableViewCellDelegate?
     
     // Mark: - IBActions and Methods
     @IBAction func saveMovieToMyMovies(_ sender: Any) {
+        delegate?.saveMovieToMyMovies(for: self)
     }
     
 }

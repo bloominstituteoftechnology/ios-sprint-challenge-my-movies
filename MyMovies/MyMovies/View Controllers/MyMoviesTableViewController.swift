@@ -16,7 +16,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: false), NSSortDescriptor(key: "title", ascending: true)]
         
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
@@ -50,7 +50,13 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = self.fetchedResultsController.sections?[section] else { return nil }
         
-        return sectionInfo.name
+        if sectionInfo.name == "0" {
+            return "Unwatched"
+        } else {
+            return "Watched"
+        }
+        
+//        return sectionInfo.name
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,7 +75,7 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = self.fetchedResultsController.object(at: indexPath)
             self.movieController.deleteMovie(withMovie: movie)
