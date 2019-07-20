@@ -8,6 +8,8 @@
 
 import Foundation
 
+let firebaseURL = URL(string: "https://my-movies-core-data.firebaseio.com/")!
+
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
