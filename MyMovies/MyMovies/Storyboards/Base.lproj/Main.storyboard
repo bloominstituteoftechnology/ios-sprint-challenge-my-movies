@@ -75,6 +75,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="movieSearchTitle" destination="XIt-VO-Smv" id="SRH-g7-CiG"/>
+                                    <outlet property="saveButton" destination="rdI-Oq-Ox6" id="Xla-K0-RQp"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -137,6 +138,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="myMovieTitle" destination="a6O-zS-fmH" id="EvL-q6-K4T"/>
+                                    <outlet property="seenNotSeenButton" destination="3Ay-OW-Mt0" id="1ge-nq-SOC"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

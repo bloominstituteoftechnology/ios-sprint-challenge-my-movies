@@ -18,6 +18,9 @@
 		D66B3DC522E372F500BFF518 /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D66B3DC322E372F500BFF518 /* Movie.xcdatamodeld */; };
 		D66B3DC822E3765C00BFF518 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66B3DC722E3765C00BFF518 /* MovieSearchTableViewCell.swift */; };
 		D66B3DCA22E3766C00BFF518 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66B3DC922E3766C00BFF518 /* MyMoviesTableViewCell.swift */; };
+		D66B3DCC22E37A2B00BFF518 /* MovieTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66B3DCB22E37A2B00BFF518 /* MovieTableViewCellDelegate.swift */; };
+		D66B3DCE22E37CBE00BFF518 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66B3DCD22E37CBE00BFF518 /* CoreDataStack.swift */; };
+		D66B3DD022E37D7B00BFF518 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D66B3DCF22E37D7B00BFF518 /* Movie+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		D66B3DC422E372F500BFF518 /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
 		D66B3DC722E3765C00BFF518 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 		D66B3DC922E3766C00BFF518 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
+		D66B3DCB22E37A2B00BFF518 /* MovieTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCellDelegate.swift; sourceTree = "<group>"; };
+		D66B3DCD22E37CBE00BFF518 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		D66B3DCF22E37D7B00BFF518 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,8 @@
 			children = (
 				D66B3DC322E372F500BFF518 /* Movie.xcdatamodeld */,
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+				D66B3DCD22E37CBE00BFF518 /* CoreDataStack.swift */,
+				D66B3DCF22E37D7B00BFF518 /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -89,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				D66B3DCB22E37A2B00BFF518 /* MovieTableViewCellDelegate.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -204,9 +213,12 @@
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				D66B3DCA22E3766C00BFF518 /* MyMoviesTableViewCell.swift in Sources */,
+				D66B3DD022E37D7B00BFF518 /* Movie+Convenience.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				D66B3DC822E3765C00BFF518 /* MovieSearchTableViewCell.swift in Sources */,
+				D66B3DCE22E37CBE00BFF518 /* CoreDataStack.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				D66B3DCC22E37A2B00BFF518 /* MovieTableViewCellDelegate.swift in Sources */,
 				D66B3DC522E372F500BFF518 /* Movie.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
