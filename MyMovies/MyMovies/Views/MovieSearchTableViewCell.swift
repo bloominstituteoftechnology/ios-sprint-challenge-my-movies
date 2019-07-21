@@ -8,17 +8,21 @@
 
 import UIKit
 
-class MovieTableViewCell: UITableViewCell {
+class MovieSearchTableViewCell: UITableViewCell {
     
     @IBOutlet weak var movieLbl: UILabel!
     @IBOutlet weak var addMovieBtn: UIButton!
+    
+    weak var movieSearchDelegate: MovieSearchTVCDelegate?
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        addMovieBtn.layer.cornerRadius = 5
-        //addMovieBtn.layer.backgroundColor = UIColor.lightGray.cgColor
+  
+    
+    @IBAction func addMovieBtnPressed(_ sender: UIButton) {
+        movieSearchDelegate?.saveMoviesToList(cell: self)
     }
-
+    
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

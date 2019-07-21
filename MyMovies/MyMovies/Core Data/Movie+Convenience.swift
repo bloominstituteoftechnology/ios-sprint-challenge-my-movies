@@ -10,6 +10,12 @@ import Foundation
 import CoreData
 
 extension Movie {
+    
+    var movieReprensentation: MovieRepresentation? {
+        guard let title = self.title else { return nil }
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+    }
+    
     convenience init(title: String, identifier: UUID = UUID(), hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
@@ -19,13 +25,9 @@ extension Movie {
     
     convenience init?(movieRep: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let identifier = movieRep.identifier,
-        let hasWatched = movieRep.hasWatched else { return nil }
-        self.init(title: movieRep.title, identifier: identifier, hasWatched: hasWatched)
+            let hasWatched = movieRep.hasWatched else { return nil }
+        self.init(title: movieRep.title, identifier: identifier, hasWatched: hasWatched, context: context)
     }
     
-    var movieReprensentation: MovieRepresentation? {
-        guard let title = self.title,
-        let identifier = self.identifier else { return nil }
-        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
-    }
+    
 }
