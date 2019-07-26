@@ -65,26 +65,27 @@ class MovieController {
     let firebaseURL = URL(string: "https://my-movies-1ff6c.firebaseio.com/")!
     
     
-    func addMovie(title: String, identifier: UUID? = UUID()) {
-        let movie = Movie(title: title, identifier: identifier, hasWatched: false)
+    func addMovie(title: String, identifier: UUID? = UUID(), hasWatched: Bool = false) {
+        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
         do {
             try CoreDataStack.shared.save()
+            put(movie: movie)
         } catch {
             NSLog("Error saving context: \(error)")
         }
-        put(movie: movie)
+        
     }
     
-    func updateMovie(movie: Movie, hasWatched: Bool) {
-        
-        movie.hasWatched = hasWatched
+    func updateMovie(movie: Movie) {
+        movie.hasWatched.toggle()
         
         do {
             try CoreDataStack.shared.save()
+            put(movie: movie)
         } catch {
             NSLog("Error saving context: \(error)")
         }
-        put(movie: movie)
+        
     }
     
     func removeMovie(movie: Movie) {
@@ -102,37 +103,59 @@ class MovieController {
     
     func put(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
         
-        let uuid = movie.identifier?.uuidString ?? UUID().uuidString
-        let requestURL = firebaseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
+        guard let representation = movie.movieRepresentation else { completion(NSError()); return }
+        
         do {
-            var representation = movie.movieRepresentation
-            
-            representation.identifier = UUID(uuidString: uuid)
-            movie.identifier = UUID(uuidString: uuid)
-            do {
-                try CoreDataStack.shared.save()
-            } catch {
-                NSLog("Error saving context: \(error)")
-            }
+            movie.identifier = uuid
+            try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
-            NSLog("Error encoding task \(movie): \(error)")
+            NSLog("Error ecoding movie: \(movie) \(error)")
             completion(error)
             return
         }
-        
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                NSLog("Error putting task to server: \(error)")
+                NSLog("Error putting to the server")
                 completion(error)
                 return
             }
-            
             completion(nil)
             }.resume()
+        
+        
+//        do {
+//
+//
+////            representation.identifier = UUID(uuidString: uuid)
+//
+//            do {
+//                movie.identifier = UUID(uuidString: uuid)
+//                try CoreDataStack.shared.save()
+//            } catch {
+//                NSLog("Error saving context: \(error)")
+//            }
+//            request.httpBody = try JSONEncoder().encode(representation)
+//        } catch {
+//            NSLog("Error encoding task \(movie): \(error)")
+//            completion(error)
+//            return
+//        }
+//
+//        URLSession.shared.dataTask(with: request) { (data, _, error) in
+//            if let error = error {
+//                NSLog("Error putting task to server: \(error)")
+//                completion(error)
+//                return
+//            }
+//
+//            completion(nil)
+//            }.resume()
     }
     
     func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
@@ -173,7 +196,7 @@ class MovieController {
             for movieRep in representations {
                 guard let uuid = UUID(uuidString: movieRep.identifier!.uuidString) else {continue}
                 
-                let movie = self.movie(for: uuid, context: context)
+                let movie = self.movie(for: uuid.uuidString, context: context)
                 
                 if let movie = movie {
                     self.update(movie: movie, with: movieRep)
@@ -196,29 +219,18 @@ class MovieController {
     }
     
     private func update(movie: Movie, with representation: MovieRepresentation) {
+        
+        guard let hasWatched = representation.hasWatched else { return }
         movie.title = representation.title
         movie.identifier = representation.identifier
-        movie.hasWatched = representation.hasWatched!
+        movie.hasWatched = hasWatched
     }
     
-    func fetchSingleMovieFromStore(UUID uuid: String) -> Movie? {
-        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
-        
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching entry with uuid \(uuid): \(error)")
-            return nil
-        }
-    }
-    
-    
-    private func movie(for uuid: UUID, context: NSManagedObjectContext) -> Movie? {
+   
+    private func movie(for uuid: String, context: NSManagedObjectContext) -> Movie? {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        let predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+        let predicate = NSPredicate(format: "identifier == %@", uuid)
         
         fetchRequest.predicate = predicate
         

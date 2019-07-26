@@ -126,7 +126,7 @@
                                                     </constraints>
                                                     <state key="normal" title="Unwatched"/>
                                                     <connections>
-                                                        <action selector="movieWatchedPressed:" destination="9cK-VO-zdo" eventType="touchUpInside" id="Aez-uj-wMW"/>
+                                                        <action selector="togglePressed:" destination="9cK-VO-zdo" eventType="touchUpInside" id="wDK-cq-e4M"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

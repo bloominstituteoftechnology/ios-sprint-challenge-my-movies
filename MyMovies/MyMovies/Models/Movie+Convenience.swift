@@ -32,8 +32,9 @@ extension Movie {
         
     }
     
-    var movieRepresentation: MovieRepresentation {
-        return MovieRepresentation(title: title!, identifier: identifier, hasWatched: hasWatched)
+    var movieRepresentation: MovieRepresentation? {
+        guard let title = self.title else { return nil}
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
     
 }

@@ -8,6 +8,9 @@
 
 import UIKit
 
+protocol MoviesTableViewCellDelegate: class {
+    func toggleHasWatched(cell: MoviesTableViewCell)
+}
 class MoviesTableViewCell: UITableViewCell {
     
     var movie: Movie? {
@@ -17,34 +20,33 @@ class MoviesTableViewCell: UITableViewCell {
     }
     var movieController: MovieController?
     
+    weak var moviesTVCD: MoviesTableViewCellDelegate?
+    
 
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var watchedButton: UIButton!
     
     
-    @IBAction func movieWatchedPressed(_ sender: UIButton) {
-        guard let movie = movie else { return }
-        
-        movie.hasWatched.toggle()
-        movieController?.updateMovie(movie: movie, hasWatched: movie.hasWatched)
-        
-        if movie.hasWatched == true {
-            sender.setTitle("Watched", for: .normal)
-        } else {
-            sender.setTitle("Unwatched", for: .normal)
-        }
+    @IBAction func togglePressed(_ sender: UIButton) {
+        moviesTVCD?.toggleHasWatched(cell: self)
     }
+
     
     func updateViews() {
         
         if let movie = movie {
             titleLabel.text = movie.title
             if movie.hasWatched == true {
-                watchedButton.titleLabel?.text = "Watched"
+                watchedButton.setTitle("Watched", for: .normal)
+                
             } else {
-                watchedButton.titleLabel?.text = "Unwatched"
+                watchedButton.setTitle("Unwatched", for: .normal)
+               
             }
         }
     }
+    
+    
+    
 
 }
