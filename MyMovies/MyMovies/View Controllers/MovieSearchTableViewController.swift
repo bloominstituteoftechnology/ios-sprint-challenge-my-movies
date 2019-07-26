@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+// Class declaration and conformity
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, SearchMovieTableViewCellDelegate, NSFetchedResultsControllerDelegate {
     
     //Properties
@@ -50,8 +51,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             }
         }
     }
+}
+
+//MARK: My Functions
+extension MovieSearchTableViewController {
     
-    //MARK: My Functions *****
     func addMovieToCoreData(for cell: SearchMovieTableViewCell) {
         
         guard let title = cell.titleLabel.text else { return }
@@ -67,11 +71,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         tableView.reloadData()
     }
-
-
     
+}
+
+//MARK: Table Data Source
+extension MovieSearchTableViewController {
     
-    //MARK: Table Data Source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 1
     }
@@ -111,4 +116,51 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
 }
 
+
+//MARK: FRC TableView Handling
+extension MovieSearchTableViewController {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.endUpdates()
+    }
+    
+    // Sections
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
+    }
+    
+    // Rows
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let oldIndexPath = indexPath,
+                let newIndexPath = newIndexPath else { return }
+            
+            tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        default:
+            break
+        }
+    }
+}
 
