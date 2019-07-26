@@ -11,6 +11,8 @@ import UIKit
 class SearchMovieTableViewCell: UITableViewCell {
     
     //Properties
+    var movie: Movie?
+    
     @IBOutlet weak var titleLabel: UILabel!
     var delegate: SearchMovieTableViewCellDelegate?
     

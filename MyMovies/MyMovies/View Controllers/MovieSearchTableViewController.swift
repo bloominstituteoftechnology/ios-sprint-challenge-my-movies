@@ -13,7 +13,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     //Properties
     let movieController = MovieController()
-    
+    //MARK: Delegate is commented out. Throwing error
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -60,17 +60,42 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     
     //MARK: Table Data Source
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return self.fetchedResultsController.sections?.count ?? 1
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieController.searchedMovies.count
+       return self.fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? SearchMovieTableViewCell else {return UITableViewCell()}
         
-        cell.titleLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
-        
+        let movie = self.fetchedResultsController.object(at: indexPath)
+        cell.movie = movie
+        cell.delegate = self
+
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = self.fetchedResultsController.object(at: indexPath)
+            self.movieController.deleteMovie(withMovie: movie)
+            
+            //MARK: Might not need this???
+            self.tableView.reloadData()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = self.fetchedResultsController.sections?[section] else { return nil }
+        
+        if sectionInfo.name == "0" {
+            return "Unwatched"
+        } else {
+            return "Watched"
+        }
     }
     
 
