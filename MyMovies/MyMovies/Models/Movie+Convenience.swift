@@ -22,7 +22,7 @@ extension Movie {
         
     }
     
-    @discardableResult convenience init(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         
@@ -30,6 +30,10 @@ extension Movie {
         self.identifier = movieRepresentation.identifier
         self.hasWatched = movieRepresentation.hasWatched!
         
+    }
+    
+    var movieRepresentation: MovieRepresentation {
+        return MovieRepresentation(title: title!, identifier: identifier, hasWatched: hasWatched)
     }
     
 }
