@@ -11,7 +11,11 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
 
-    let movieController = MovieController()
+    var movieController: MovieController {
+        get {
+            return (self.tabBarController!.viewControllers![0] as! MovieSearchTableViewController).movieController
+        }
+    }
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
