@@ -110,7 +110,7 @@ class MovieController {
     }
     
     func fetchMoviesFromServer(completion: @escaping () -> Void = { }) {
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.get.rawValue
@@ -151,7 +151,7 @@ class MovieController {
     
     func put(movie: Movie, completion: @escaping () -> Void = { }) {
         let uuid = movie.identifier ?? UUID()
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
@@ -165,24 +165,24 @@ class MovieController {
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                NSLog("Error PUTting entry to server: \(error)")
+                NSLog("Error PUTting movie to server: \(error)")
                 completion()
                 return
             }
             
             completion()
-            }.resume()
+        }.resume()
     }
     
     func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
         let uuid = movie.identifier ?? UUID()
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.delete.rawValue
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                NSLog("Error deleting entry from server: \(error)")
+                NSLog("Error deleting movie from server: \(error)")
                 completion(error)
                 return
             }
