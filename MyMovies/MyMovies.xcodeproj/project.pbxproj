@@ -19,6 +19,7 @@
 		664D28ED22EB4FC100C51F12 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664D28EC22EB4FC100C51F12 /* MovieSearchTableViewCell.swift */; };
 		664D28F022EB503A00C51F12 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664D28EF22EB503A00C51F12 /* CoreDataStack.swift */; };
 		664D28F222EB508600C51F12 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664D28F122EB508600C51F12 /* Movie+Convenience.swift */; };
+		664D28F422EB58D000C51F12 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664D28F322EB58D000C51F12 /* MyMoviesTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		664D28EC22EB4FC100C51F12 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 		664D28EF22EB503A00C51F12 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		664D28F122EB508600C51F12 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		664D28F322EB58D000C51F12 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 		664D28EE22EB4FF600C51F12 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				664D28F322EB58D000C51F12 /* MyMoviesTableViewCell.swift */,
 				664D28EC22EB4FC100C51F12 /* MovieSearchTableViewCell.swift */,
 			);
 			path = Views;
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				664D28F422EB58D000C51F12 /* MyMoviesTableViewCell.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
