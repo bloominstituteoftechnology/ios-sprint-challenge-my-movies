@@ -10,6 +10,8 @@ import Foundation
 
 class MovieController {
     
+    // MARK: - Movie Database API
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -55,4 +57,82 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    
+    // MARK: - Firebase
+    
+    let firebaseURL = URL(string: "https://my-movies-1ff6c.firebaseio.com/")!
+    
+    
+    func addMovie(title: String, identifier: UUID? = UUID()) {
+        let movie = Movie(title: title, identifier: identifier, hasWatched: false)
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving context: \(error)")
+        }
+        put(movie: movie)
+    }
+    
+    func updateMovie(movie: Movie, title: String, identifier: UUID, hasWatched: Bool) {
+        
+        movie.title = title
+        movie.identifier = identifier
+        movie.hasWatched.toggle()
+        
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving context: \(error)")
+        }
+        put(movie: movie)
+    }
+    
+    func removeMovie(movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        deleteEntryFromServer(movie)
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving context: \(error)")
+        }
+        
+    }
+    
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let uuid = movie.identifier?.uuidString ?? UUID().uuidString
+        let requestURL = firebaseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            var representation = movie.movieRepresentation
+            
+            representation.identifier = uuid
+            movie.identifier = UUID(uuidString: uuid)
+            do {
+                try CoreDataStack.shared.save()
+            } catch {
+                NSLog("Error saving context: \(error)")
+            }
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error encoding task \(movie): \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting task to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            }.resume()
+    }
+    
 }
