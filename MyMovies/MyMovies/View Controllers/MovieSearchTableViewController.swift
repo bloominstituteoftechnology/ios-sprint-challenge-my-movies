@@ -52,6 +52,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 extension MovieSearchTableViewController: MovieSearchTableViewCellDelegate {
     func addMovieTapped(on cell: MovieSearchTableViewCell) {
         guard let movie = cell.movie else { return }
-        movieController.createMovie(title: movie.title, hasWatched: false)
+        let result = movieController.createMovie(title: movie.title, hasWatched: false)
+        
+        if result {
+            cell.addMovieButton.setTitle("Added", for: .normal)
+            cell.addMovieButton.isUserInteractionEnabled = false
+        }
     }
 }

@@ -72,7 +72,7 @@ class MovieController {
     
     let firebaseURL = URL(string: "https://journal-9006c.firebaseio.com/")!
     
-    func createMovie(title: String, hasWatched: Bool) {
+    func createMovie(title: String, hasWatched: Bool) -> Bool {
         let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
         if doesMovieTitleExist(title: title, context: backgroundContext) == nil {
             let movie = Movie(title: title, hasWatched: hasWatched)
@@ -81,10 +81,13 @@ class MovieController {
             
             do {
                 try CoreDataStack.shared.save()
+                return true
             } catch {
                 NSLog("Error saving context: \(error)")
             }
         }
+        
+        return false
     }
     
     func updateMovie(movie: Movie, hasWatched: Bool) {
