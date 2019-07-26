@@ -83,14 +83,14 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
+        cell.movieController = movieController
         
         if movie.hasWatched == true {
             cell.watchedButton.titleLabel?.text = "Watched"
-            
         } else {
             cell.watchedButton.titleLabel?.text = "Unwatched"
         }
-
+ 
         return cell
     }
     

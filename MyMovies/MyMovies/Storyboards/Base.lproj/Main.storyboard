@@ -111,20 +111,20 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
-                                            <rect key="frame" x="16" y="12.5" width="343" height="30"/>
+                                            <rect key="frame" x="16" y="8" width="343" height="41.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="227" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="227" height="41.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="243" y="0.0" width="100" height="30"/>
+                                                    <rect key="frame" x="243" y="0.0" width="100" height="41.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="Fxe-3g-chB"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
+                                                    <state key="normal" title="Unwatched"/>
                                                     <connections>
                                                         <action selector="movieWatchedPressed:" destination="9cK-VO-zdo" eventType="touchUpInside" id="Aez-uj-wMW"/>
                                                     </connections>
@@ -133,13 +133,12 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="O4P-Iq-3DJ" secondAttribute="trailing" constant="16" id="Nmh-VJ-Xbu"/>
-                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leading" constant="16" id="kzH-Xg-p5Y"/>
+                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="top" secondItem="F0q-Pd-Woa" secondAttribute="top" constant="8" id="QUK-Bn-Qgt"/>
+                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leading" constant="16" id="daH-42-nHc"/>
+                                        <constraint firstAttribute="bottom" secondItem="O4P-Iq-3DJ" secondAttribute="bottom" constant="5" id="eqF-d6-hga"/>
+                                        <constraint firstAttribute="trailing" secondItem="O4P-Iq-3DJ" secondAttribute="trailing" constant="16" id="zCu-Mh-leH"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <constraints>
-                                    <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
-                                </constraints>
                                 <connections>
                                     <outlet property="titleLabel" destination="a6O-zS-fmH" id="8PZ-f2-Ga0"/>
                                     <outlet property="watchedButton" destination="3Ay-OW-Mt0" id="h5P-AR-G9w"/>

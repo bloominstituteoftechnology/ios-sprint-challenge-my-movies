@@ -15,6 +15,7 @@ class MoviesTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    var movieController: MovieController?
     
 
     @IBOutlet var titleLabel: UILabel!
@@ -25,18 +26,23 @@ class MoviesTableViewCell: UITableViewCell {
         guard let movie = movie else { return }
         
         movie.hasWatched.toggle()
+        movieController?.updateMovie(movie: movie, hasWatched: movie.hasWatched)
         
-        
+        if movie.hasWatched == true {
+            sender.setTitle("Watched", for: .normal)
+        } else {
+            sender.setTitle("Unwatched", for: .normal)
+        }
     }
     
     func updateViews() {
-        watchedButton.setTitle("Unwatched", for: [])
+        
         if let movie = movie {
             titleLabel.text = movie.title
             if movie.hasWatched == true {
-                watchedButton.titleLabel?.text = "Unwatched"
-            } else {
                 watchedButton.titleLabel?.text = "Watched"
+            } else {
+                watchedButton.titleLabel?.text = "Unwatched"
             }
         }
     }

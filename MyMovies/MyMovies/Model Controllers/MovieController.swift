@@ -75,11 +75,9 @@ class MovieController {
         put(movie: movie)
     }
     
-    func updateMovie(movie: Movie, title: String, identifier: UUID, hasWatched: Bool) {
+    func updateMovie(movie: Movie, hasWatched: Bool) {
         
-        movie.title = title
-        movie.identifier = identifier
-        movie.hasWatched.toggle()
+        movie.hasWatched = hasWatched
         
         do {
             try CoreDataStack.shared.save()
@@ -98,6 +96,7 @@ class MovieController {
         } catch {
             NSLog("Error saving context: \(error)")
         }
+        
         
     }
     
@@ -199,7 +198,7 @@ class MovieController {
     private func update(movie: Movie, with representation: MovieRepresentation) {
         movie.title = representation.title
         movie.identifier = representation.identifier
-        movie.hasWatched = representation.hasWatched ?? movie.hasWatched
+        movie.hasWatched = representation.hasWatched!
     }
     
     func fetchSingleMovieFromStore(UUID uuid: String) -> Movie? {
@@ -238,12 +237,12 @@ class MovieController {
     }
     
     func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
-        guard let uuid = movie.identifier else {
+        guard let uuid = movie.identifier?.uuidString else {
             completion(NSError())
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
