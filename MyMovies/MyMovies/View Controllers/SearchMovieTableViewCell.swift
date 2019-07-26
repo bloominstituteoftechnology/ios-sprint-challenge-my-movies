@@ -9,8 +9,13 @@
 import UIKit
 
 class SearchMovieTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var titleLabel: UILabel!
     
-    @IBOutlet weak var addMovieButtonTapped: UIButton!
+    //Properties
+    @IBOutlet weak var titleLabel: UILabel!
+    var delegate: SearchMovieTableViewCellDelegate?
+    
+    @IBAction func addButtonTapped(_ sender: Any) {
+        delegate?.saveMovieToMyMovies(for: self)
+    }
+    
 }

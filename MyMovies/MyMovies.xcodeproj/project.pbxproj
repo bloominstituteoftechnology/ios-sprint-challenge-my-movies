@@ -18,6 +18,7 @@
 		F67BDAA322EA8FAC008A130D /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F67BDAA122EA8FAC008A130D /* Movie.xcdatamodeld */; };
 		F67BDAA522EAADCE008A130D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67BDAA422EAADCE008A130D /* CoreDataStack.swift */; };
 		F67BDAA722EAB24D008A130D /* SearchMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67BDAA622EAB24D008A130D /* SearchMovieTableViewCell.swift */; };
+		F67BDAA922EAB422008A130D /* SearchMovieTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67BDAA822EAB422008A130D /* SearchMovieTableViewCellDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		F67BDAA222EA8FAC008A130D /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
 		F67BDAA422EAADCE008A130D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		F67BDAA622EAB24D008A130D /* SearchMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieTableViewCell.swift; sourceTree = "<group>"; };
+		F67BDAA822EAB422008A130D /* SearchMovieTableViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieTableViewCellDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				F67BDAA822EAB422008A130D /* SearchMovieTableViewCellDelegate.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F67BDAA922EAB422008A130D /* SearchMovieTableViewCellDelegate.swift in Sources */,
 				F67BDAA522EAADCE008A130D /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				F67BDAA722EAB24D008A130D /* SearchMovieTableViewCell.swift in Sources */,
