@@ -41,6 +41,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
         
         cell.movie = movieController.searchedMovies[indexPath.row]
+        cell.delegate = self
         
         return cell
     }
