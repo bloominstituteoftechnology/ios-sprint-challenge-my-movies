@@ -134,6 +134,7 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="kz8-o1-VgY"/>
                                     <outlet property="titleLabel" destination="a6O-zS-fmH" id="naz-qh-sb7"/>
                                 </connections>
                             </tableViewCell>
