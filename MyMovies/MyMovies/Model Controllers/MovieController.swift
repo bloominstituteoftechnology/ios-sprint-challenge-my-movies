@@ -73,14 +73,17 @@ class MovieController {
     let firebaseURL = URL(string: "https://journal-9006c.firebaseio.com/")!
     
     func createMovie(title: String, hasWatched: Bool) {
-        let movie = Movie(title: title, hasWatched: hasWatched)
-        
-        put(movie: movie)
-        
-        do {
-            try CoreDataStack.shared.save()
-        } catch {
-            NSLog("Error saving context: \(error)")
+        let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+        if doesMovieTitleExist(title: title, context: backgroundContext) == nil {
+            let movie = Movie(title: title, hasWatched: hasWatched)
+            
+            put(movie: movie)
+            
+            do {
+                try CoreDataStack.shared.save()
+            } catch {
+                NSLog("Error saving context: \(error)")
+            }
         }
     }
     
@@ -192,7 +195,6 @@ class MovieController {
     }
     
     private func fetchSingleMovieFromPersistentStore(identifier: UUID, context: NSManagedObjectContext) -> Movie? {
-//        guard let uuid = UUID(uuidString: identifier) else { return nil }
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
         
@@ -203,6 +205,23 @@ class MovieController {
                 movie = try context.fetch(fetchRequest).first
             } catch {
                 NSLog("Error fetching movie with uuid \(identifier): \(error)")
+            }
+        }
+        
+        return movie
+    }
+    
+    private func doesMovieTitleExist(title: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+        
+        var movie: Movie? = nil
+        
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching movie with title \(title): \(error)")
             }
         }
         
