@@ -77,7 +77,11 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil}
         
-        return sectionInfo.name
+        if sectionInfo.name == "0" {
+            return "Unwatched"
+        } else {
+            return "Watched"
+        }
     }
 }
 
