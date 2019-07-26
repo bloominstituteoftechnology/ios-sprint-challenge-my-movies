@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MovieRepresentation: Equatable, Codable {
+struct MovieRepresentation: Codable {
     let title: String
     
     /*
@@ -26,4 +26,22 @@ struct MovieRepresentation: Equatable, Codable {
  */
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
+}
+
+extension MovieRepresentation: Equatable {
+    static func == (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+    
+    static func == (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+        return rhs == lhs
+    }
+    
+    static func != (lhs: Movie, rhs: MovieRepresentation) -> Bool {
+        return rhs != lhs
+    }
+    
+    static func != (lhs: MovieRepresentation, rhs: Movie) -> Bool {
+        return !(rhs == lhs)
+    }
 }
