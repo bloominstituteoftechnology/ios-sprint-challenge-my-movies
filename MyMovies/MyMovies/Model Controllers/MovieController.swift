@@ -88,6 +88,20 @@ extension MovieController {
         }
     }
     
+    func updateMovie(withMovie movie: Movie, withTitle title: String) {
+        
+        movie.title = title
+        
+        do {
+            
+            try CoreDataStack.shared.save()
+            
+        } catch {
+            
+            NSLog("Error updating movie: \(movie)")
+        }
+    }
+    
     func deleteMovie(withMovie movie: Movie) {
 
         DispatchQueue.main.async {
@@ -104,4 +118,6 @@ extension MovieController {
             }
         }
     }
+    
+    
 }

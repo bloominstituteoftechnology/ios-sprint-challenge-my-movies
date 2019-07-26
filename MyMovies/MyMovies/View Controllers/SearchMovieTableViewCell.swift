@@ -15,7 +15,7 @@ class SearchMovieTableViewCell: UITableViewCell {
     var delegate: SearchMovieTableViewCellDelegate?
     
     @IBAction func addMovieToCoreDataButtonTapped(_ sender: Any) {
-        delegate?.addMovieToCoreData(for: self)
+            delegate?.addMovieToCoreData(for: self)
     }
     
 }

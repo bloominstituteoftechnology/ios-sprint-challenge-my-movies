@@ -72,7 +72,6 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addMovieButtonTapped" destination="wWg-VM-yyY" id="n55-s7-Rue"/>
                                     <outlet property="titleLabel" destination="heW-4T-uee" id="Ynq-Yc-b3I"/>
                                 </connections>
                             </tableViewCell>
