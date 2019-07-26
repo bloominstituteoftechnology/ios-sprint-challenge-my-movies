@@ -18,10 +18,6 @@ enum HTTPMethod: String {
 
 class MovieController {
     
-    init() {
-        fetchMoviesFromServer()
-    }
-    
     // MARK: - Properties
     var searchedMovies: [MovieRepresentation] = []
     
@@ -145,7 +141,7 @@ class MovieController {
                 let movieRepresentations = Array(decodedJSON.values)
                 let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
                 
-                self.updateMovies(with: movieRepresentations, context: backgroundContext)
+                self.updateMovies(with: movieRepresentations)
                 try CoreDataStack.shared.save(context: backgroundContext)
             } catch {
                 NSLog("Error decoding movie representations \(error)")
@@ -237,11 +233,11 @@ class MovieController {
         movie.identifier = representation.identifier
     }
     
-    private func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext) {
+    private func updateMovies(with representations: [MovieRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         context.performAndWait {
             for representation in representations {
-                guard let identifier = representation.identifier else { return }
-                let movie = fetchSingleMovieFromPersistentStore(identifier: identifier, context: context)
+//                guard let identifier = representation.identifier else { return }
+                let movie = fetchSingleMovieFromPersistentStore(identifier: representation.identifier!, context: context)
                 
                 if let movie = movie {
                     if movie != representation {

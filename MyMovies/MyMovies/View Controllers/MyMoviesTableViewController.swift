@@ -44,6 +44,7 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.tableFooterView = UIView()
+        movieController.fetchMoviesFromServer()
     }
 
 
