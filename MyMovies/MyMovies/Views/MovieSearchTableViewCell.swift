@@ -31,5 +31,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     func updateViews() {
         titleLabel.text = movie?.title
+        addMovieButton.isUserInteractionEnabled = true
+        addMovieButton.setTitle("Add Movie", for: .normal)
     }
 }
