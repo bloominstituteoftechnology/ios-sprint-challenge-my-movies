@@ -9,10 +9,12 @@
 import UIKit
 import CoreData
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, SearchMovieTableViewCellDelegate {
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, SearchMovieTableViewCellDelegate, NSFetchedResultsControllerDelegate {
     
     //Properties
+    @IBOutlet weak var searchBar: UISearchBar!
     let movieController = MovieController()
+    
     //MARK: Delegate is commented out. Throwing error
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         
@@ -24,7 +26,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
         
-        //frc.delegate = self
+        frc.delegate = self
         
         try! frc.performFetch()
         return frc
@@ -57,6 +59,16 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
     }
     
+    func toggleHasBeenSeen(for cell: SearchMovieTableViewCell) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+        
+        let movie = self.fetchedResultsController.object(at: indexPath)
+        self.movieController.updateHasWatched(for: movie)
+        
+        tableView.reloadData()
+    }
+
+
     
     
     //MARK: Table Data Source
@@ -65,7 +77,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return self.fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return self.fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,7 +86,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let movie = self.fetchedResultsController.object(at: indexPath)
         cell.movie = movie
         cell.delegate = self
-
+        
         return cell
     }
     
@@ -97,10 +109,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             return "Watched"
         }
     }
-    
-
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }
 
 

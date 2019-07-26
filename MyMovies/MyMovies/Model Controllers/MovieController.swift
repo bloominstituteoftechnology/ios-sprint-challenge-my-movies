@@ -74,7 +74,7 @@ extension MovieController {
         }
     }
     
-    func updateHasBeenSeen(for movie: Movie) {
+    func updateHasWatched(for movie: Movie) {
         
         movie.hasWatched = !movie.hasWatched
         
