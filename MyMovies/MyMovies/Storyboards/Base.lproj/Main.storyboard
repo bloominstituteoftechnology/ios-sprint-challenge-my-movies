@@ -41,7 +41,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="SearchMovieTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
@@ -55,13 +55,26 @@
                                                 <action selector="addMovieButtonTapped:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="ox7-pw-CRH"/>
                                             </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="heW-4T-uee">
+                                            <rect key="frame" x="16" y="11.5" width="42" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="wWg-VM-yyY" secondAttribute="trailing" id="4US-xC-aU4"/>
+                                        <constraint firstItem="heW-4T-uee" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="0.5" id="Hku-FS-LMD"/>
+                                        <constraint firstItem="heW-4T-uee" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="Jn7-pv-z9x"/>
+                                        <constraint firstItem="heW-4T-uee" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="NTh-iE-x40"/>
                                         <constraint firstItem="wWg-VM-yyY" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="4" id="b1C-Mh-QUK"/>
                                         <constraint firstItem="wWg-VM-yyY" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="cIW-hq-2XV"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addMovieButtonTapped" destination="wWg-VM-yyY" id="n55-s7-Rue"/>
+                                    <outlet property="titleLabel" destination="heW-4T-uee" id="Ynq-Yc-b3I"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
