@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, SearchMovieTableViewCellDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +29,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    //MARK: My Functions *****
+    func addMovieToCoreData(for cell: SearchMovieTableViewCell) {
+        <#code#>
+    }
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -44,7 +50,4 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBAction func addMovieButtonTapped(_ sender: Any) {
-    }
-    
 }

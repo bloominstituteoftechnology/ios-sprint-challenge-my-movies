@@ -49,10 +49,59 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
-        }.resume()
+            }.resume()
     }
     
     // MARK: - Properties
-    
     var searchedMovies: [MovieRepresentation] = []
+}
+
+extension MovieController {
+    
+    //MARK: My Functions ***
+    //Crud
+    func createMovie(withTitle title: String) {
+        
+        let movie = Movie(title: title)
+        
+        do {
+            
+            try CoreDataStack.shared.save()
+            
+        } catch {
+            
+            NSLog("Error creating movie: \(movie)")
+        }
+    }
+    
+    func updateHasBeenSeen(for movie: Movie) {
+        
+        movie.hasWatched = !movie.hasWatched
+        
+        do {
+            
+            try CoreDataStack.shared.save()
+            
+        } catch {
+            
+            NSLog("Error updating movie: \(movie)")
+        }
+    }
+    
+    func deleteMovie(withMovie movie: Movie) {
+
+        DispatchQueue.main.async {
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(movie)
+            
+            do {
+                
+                try moc.save()
+                
+            } catch {
+                
+                NSLog("Error saving after delete method")
+            }
+        }
+    }
 }

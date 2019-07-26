@@ -10,6 +10,6 @@ import Foundation
 
 protocol SearchMovieTableViewCellDelegate: class {
     
-    func saveMovieToMyMovies(for cell: SearchMovieTableViewCell)
+    func addMovieToCoreData(for cell: SearchMovieTableViewCell)
     
 }

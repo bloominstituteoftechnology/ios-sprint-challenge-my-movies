@@ -14,8 +14,8 @@ class SearchMovieTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     var delegate: SearchMovieTableViewCellDelegate?
     
-    @IBAction func addButtonTapped(_ sender: Any) {
-        delegate?.saveMovieToMyMovies(for: self)
+    @IBAction func addMovieToCoreDataButtonTapped(_ sender: Any) {
+        delegate?.addMovieToCoreData(for: self)
     }
     
 }
