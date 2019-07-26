@@ -20,7 +20,10 @@ class MovieSearchTableViewCell: UITableViewCell {
     var movieController: MovieController?
     
     @IBAction func addMovieTapped(_ sender: Any) {
+        guard let movie = movie,
+            let movieController = movieController else { return }
         
+        movieController.createMovie(title: movie.title, hasWatched: false)
     }
     
     func updateViews() {
