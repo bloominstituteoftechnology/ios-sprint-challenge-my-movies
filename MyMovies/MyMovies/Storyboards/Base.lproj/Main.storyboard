@@ -58,7 +58,6 @@
                                             <rect key="frame" x="286" y="7" width="73" height="30"/>
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
-                                                <action selector="addMovieTapped:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="LzD-Jd-9KN"/>
                                                 <action selector="addMovieTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Vg8-Zj-ABb"/>
                                             </connections>
                                         </button>

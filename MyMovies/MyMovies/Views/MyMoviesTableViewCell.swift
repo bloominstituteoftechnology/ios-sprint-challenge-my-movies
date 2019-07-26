@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MyMoviesTableViewCellDelegate: class {
+    func hasWatchedTapped(on cell: MyMoviesTableViewCell)
+}
+
 class MyMoviesTableViewCell: UITableViewCell {
 
     var movie: Movie? {
@@ -17,18 +21,13 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     var movieController: MovieController?
+    weak var delegate: MyMoviesTableViewCellDelegate?
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     
     @IBAction func hasWatchedTapped(_ sender: Any) {
-        guard let movie = movie,
-            let movieController = movieController else { return }
-        
-        movie.hasWatched.toggle()
-        movieController.updateMovie(movie: movie, hasWatched: movie.hasWatched)
-        
-        updateViews()
+        self.delegate?.hasWatchedTapped(on: self)
     }
     
     func updateViews() {

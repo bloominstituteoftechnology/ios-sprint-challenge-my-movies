@@ -125,3 +125,14 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
+
+extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
+    func hasWatchedTapped(on cell: MyMoviesTableViewCell) {
+        guard let movie = cell.movie,
+            let indexPath = tableView.indexPath(for: cell) else { return }
+        
+        movie.hasWatched.toggle()
+        movieController.updateMovie(movie: movie, hasWatched: movie.hasWatched)
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
+}

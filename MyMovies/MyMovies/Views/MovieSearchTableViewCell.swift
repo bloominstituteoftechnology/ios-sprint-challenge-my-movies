@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MovieSearchTableViewCellDelegate: class {
+    func addMovieTapped(on cell: MovieSearchTableViewCell)
+}
+
 class MovieSearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
@@ -17,13 +21,11 @@ class MovieSearchTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-    var movieController: MovieController?
+    
+    weak var delegate: MovieSearchTableViewCellDelegate?
     
     @IBAction func addMovieTapped(_ sender: Any) {
-        guard let movie = movie,
-            let movieController = movieController else { return }
-        
-        movieController.createMovie(title: movie.title, hasWatched: false)
+        self.delegate?.addMovieTapped(on: self)
     }
     
     func updateViews() {

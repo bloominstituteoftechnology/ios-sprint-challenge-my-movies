@@ -41,10 +41,16 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
         
         cell.movie = movieController.searchedMovies[indexPath.row]
-        cell.movieController = movieController
         
         return cell
     }
     
     @IBOutlet weak var searchBar: UISearchBar!
+}
+
+extension MovieSearchTableViewController: MovieSearchTableViewCellDelegate {
+    func addMovieTapped(on cell: MovieSearchTableViewCell) {
+        guard let movie = cell.movie else { return }
+        movieController.createMovie(title: movie.title, hasWatched: false)
+    }
 }
