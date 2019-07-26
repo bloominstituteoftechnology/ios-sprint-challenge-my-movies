@@ -14,7 +14,7 @@ extension Movie {
         // Set up NSManagedObject part of the class
         self.init(context: context)
         
-        // Set up the unique parts of the Entry class
+        // Set up the unique parts of the Movie class
         self.title = title
         self.hasWatched = hasWatched
         self.identifier = identifier
