@@ -10,10 +10,16 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    let movieController = MovieController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -34,14 +40,27 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else {
+            return UITableViewCell()
+        }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movie = movieController.searchedMovies[indexPath.row]
+        cell.delegate = self
         
         return cell
     }
     
-    var movieController = MovieController()
-    
     @IBOutlet weak var searchBar: UISearchBar!
+}
+
+extension MovieSearchTableViewController: MovieSearchTableViewCellDelegate {
+    func addMovieTapped(on cell: MovieSearchTableViewCell) {
+        guard let movie = cell.movie else { return }
+        let result = movieController.createMovie(title: movie.title, hasWatched: false)
+        
+        if result {
+            cell.addMovieButton.setTitle("Added", for: .normal)
+            cell.addMovieButton.isUserInteractionEnabled = false
+        }
+    }
 }
