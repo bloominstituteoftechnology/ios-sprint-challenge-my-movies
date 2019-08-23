@@ -171,7 +171,7 @@ extension MovieController {
 	}
 	
 	private func movie(for id: UUID, in context: NSManagedObjectContext) -> Movie? {
-		let predicate  = NSPredicate(format: "id == %@", id as NSUUID)
+		let predicate  = NSPredicate(format: "identifier == %@", id as NSUUID)
 		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
 		fetchRequest.predicate = predicate
 		

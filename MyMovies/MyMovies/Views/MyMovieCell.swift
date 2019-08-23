@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MyMovieCellDelegate {
-	func watchStatusToggle(for movie: Movie, at indexPath: IndexPath)
+	func watchStatusToggle(for movie: Movie)
 }
 
 class MyMovieCell: UITableViewCell {
@@ -22,7 +22,6 @@ class MyMovieCell: UITableViewCell {
 	//MARK: - Properties
 	
 	var delegate: MyMovieCellDelegate?
-	var indexPath: IndexPath?
 	var movie: Movie? {
 		didSet {
 			configCell()
@@ -35,7 +34,7 @@ class MyMovieCell: UITableViewCell {
 	@IBAction func hasWatchedToggleBtn(_ sender: UIButton) {
 		guard let movie = movie, let indexPath = indexPath else { return }
 		
-		delegate?.watchStatusToggle(for: movie, at: indexPath)
+		delegate?.watchStatusToggle(for: movie)
 	}
 	
 	//MARK: - Helpers

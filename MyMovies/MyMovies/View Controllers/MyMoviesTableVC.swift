@@ -63,7 +63,8 @@ class MyMoviesTableVC: UITableViewController {
     }
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return fetchResultsController.sections?[section].name
+		
+		return fetchResultsController.sections?[section].name == "0" ? "UnWatched" : "Watched"
 	}
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,7 +73,6 @@ class MyMoviesTableVC: UITableViewController {
 		
 		cell.movie = movie
 		cell.delegate = self
-		cell.indexPath = indexPath
 
         return cell
     }
@@ -89,10 +89,9 @@ class MyMoviesTableVC: UITableViewController {
 }
 
 extension MyMoviesTableVC: MyMovieCellDelegate {
-	func watchStatusToggle(for movie: Movie, at indexPath: IndexPath) {
+	func watchStatusToggle(for movie: Movie) {
 		movie.hasWatched.toggle()
 		movieController.update(movie: movie)
-		tableView.reloadRows(at: [indexPath], with: .automatic)
 	}
 }
 
