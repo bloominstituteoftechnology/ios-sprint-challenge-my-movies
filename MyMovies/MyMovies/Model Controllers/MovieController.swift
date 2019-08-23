@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum HTTPMethod: String {
     case get = "GET"
@@ -76,6 +77,57 @@ class MovieController {
 }
 
 extension MovieController {
+    
+    func fetchMoviesFromServer(completion: @escaping () -> Void) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching movies from Firebase: \(error)")
+                completion()
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from data task")
+                completion()
+                return
+            }
+            
+            do {
+                let movieRepDictionary = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                let movieRepresentations = movieRepDictionary.map({ $0.value })
+                
+                for movieRepresentation in movieRepresentations {
+                    guard let identifier = movieRepresentation.identifier else { continue }
+                    
+                    let predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
+                    
+                    let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+                    fetchRequest.predicate = predicate
+                    
+                    let moc = CoreDataStack.shared.mainContext
+                    
+                    let movie = try moc.fetch(fetchRequest).first
+                    
+                    if let movie = movie {
+                        movie.title = movieRepresentation.title
+                        movie.hasWatched = movieRepresentation.hasWatched!
+                    } else {
+                        Movie(movieRepresentation: movieRepresentation)
+                    }
+                }
+                
+                self.saveToPersistentStore()
+                
+            } catch {
+                NSLog("Error decoding movie representations: \(error)")
+            }
+            
+            completion()
+        }.resume()
+    }
+    
     func put(movie: Movie, completion: @escaping () -> Void = { }) {
         let identifier = movie.identifier ?? UUID()
         

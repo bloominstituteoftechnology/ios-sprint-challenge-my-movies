@@ -27,6 +27,6 @@ extension Movie {
     }
     
     var movieRepresentation: MovieRepresentation {
-        return MovieRepresentation(title: title!, identifier: identifier, hasWatched: hasWatched)
+        return MovieRepresentation(title: title!, identifier: identifier)
     }
 }
