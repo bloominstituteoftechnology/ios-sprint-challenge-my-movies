@@ -11,6 +11,7 @@ import UIKit
 class MovieSearchTableViewCell: UITableViewCell {
 
 	var movieController: MovieController?
+	var movieRepresentation: MovieRepresentation?
 
 	@IBOutlet weak var titleLabel: UILabel!
 
@@ -26,6 +27,10 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
 
 	@IBAction func addMovieTapped(_ sender: UIButton) {
+//		guard let movieController = movieController,
+//			let movieRepresentation = movieRepresentation else { return }
+
+
 		
 	}
 }
