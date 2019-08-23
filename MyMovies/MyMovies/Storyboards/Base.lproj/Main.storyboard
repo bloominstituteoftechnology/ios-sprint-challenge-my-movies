@@ -74,6 +74,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addMovieButton" destination="adu-wK-zCL" id="ohX-GW-GUm"/>
                                     <outlet property="movieTitleLabel" destination="Ws3-6n-R4k" id="bGR-TV-IdA"/>
                                 </connections>
                             </tableViewCell>

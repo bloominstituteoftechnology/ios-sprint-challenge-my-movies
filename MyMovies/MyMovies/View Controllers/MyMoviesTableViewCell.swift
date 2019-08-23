@@ -20,6 +20,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     var movie: Movie? {
         didSet {
             updateViews()
+            
         }
     }
     
@@ -29,8 +30,8 @@ class MyMoviesTableViewCell: UITableViewCell {
         guard let movie = movie,
               let title = movie.title else { return }
             movie.hasWatched.toggle()
-            
            movieController.updateMovie(movie: movie, with: title, hasWatched: movie.hasWatched)
+        updateViews()
     }
     
     private func updateViews() {

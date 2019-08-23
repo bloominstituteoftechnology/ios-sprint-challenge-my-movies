@@ -34,7 +34,6 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
         movieController.fetchMoviesFromServer {
         }
-        
     }
 
     // MARK: - Table view data source
