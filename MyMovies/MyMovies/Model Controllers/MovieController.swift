@@ -174,7 +174,7 @@ extension MovieController {
 	}
 
 	func fetchMoviesFromServer(completion: @escaping(Error?) -> Void = { _ in }) {
-		let requestURL = baseURL.appendingPathExtension("json")
+		let requestURL = firebaseBaseURL.appendingPathExtension("json")
 		var request = URLRequest(url: requestURL)
 		request.httpMethod = HTTPMethod.get.rawValue
 
@@ -191,9 +191,9 @@ extension MovieController {
 
 			do {
 				let movieData = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
-				let Movies = Array(movieData.values)
+				let movies = Array(movieData.values)
 				let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
-				self.updatePersistentStore(with: Movies, context: backgroundContext)
+				self.updatePersistentStore(with: movies, context: backgroundContext)
 			} catch {
 				NSLog("Error decoding Movie Representations: \(error)")
 			}
@@ -202,7 +202,8 @@ extension MovieController {
 	}
 
 	func update(movie: Movie, movieRepresentation: MovieRepresentation) {
-		movie.hasWatched = movieRepresentation.hasWatched ?? false
+		guard let hasWatched = movieRepresentation.hasWatched else { return }
+		movie.hasWatched = hasWatched
 		movie.identifier = movieRepresentation.identifier
 	}
 

@@ -55,6 +55,17 @@ class MyMoviesTableViewController: UITableViewController {
         return fetchedResultsController.sections?.count ?? 1
     }
 
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		switch fetchedResultsController.sections?[section].name {
+		case String(0):
+			return "Watch"
+		case String(1):
+			return "Watched"
+		default:
+			return "Watch"
+		}
+	}
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }

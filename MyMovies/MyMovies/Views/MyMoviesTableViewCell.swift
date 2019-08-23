@@ -38,6 +38,4 @@ class MyMoviesTableViewCell: UITableViewCell {
 		titleLabel.text = movie.title
 		movie.hasWatched ? watchButton.setTitle("Watched", for: .normal) : watchButton.setTitle("Watch", for: .normal)
 	}
-
-
 }
