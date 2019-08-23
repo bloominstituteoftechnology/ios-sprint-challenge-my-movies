@@ -12,7 +12,7 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - IBOutlets & Properties
-
+    
     var movieController = MovieController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
@@ -29,13 +29,13 @@ class MyMoviesTableViewController: UITableViewController {
         }
         return frc
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         movieController.fetchMoviesFromServer {
         }
     }
-
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -48,15 +48,15 @@ class MyMoviesTableViewController: UITableViewController {
             return "Unwatched"
         }
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }

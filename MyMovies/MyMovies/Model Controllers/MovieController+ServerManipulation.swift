@@ -100,6 +100,6 @@ extension MovieController {
                 NSLog("error decoding movies:\(error)")
             }
             completion()
-        }.resume()
+            }.resume()
     }
 }

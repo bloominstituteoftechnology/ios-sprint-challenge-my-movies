@@ -9,9 +9,9 @@
 import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
-
+    
     // MARK: - IBOutlets & Properties
-
+    
     @IBOutlet weak var myMovieTitleLabel: UILabel!
     @IBOutlet weak var watchedUnwatchedButton: UIButton!
     
@@ -28,9 +28,9 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     @IBAction func watchUnwatchedButtonTapped(_ sender: UIButton) {
         guard let movie = movie,
-              let title = movie.title else { return }
-            movie.hasWatched.toggle()
-           movieController.updateMovie(movie: movie, with: title, hasWatched: movie.hasWatched)
+            let title = movie.title else { return }
+        movie.hasWatched.toggle()
+        movieController.updateMovie(movie: movie, with: title, hasWatched: movie.hasWatched)
         updateViews()
     }
     
@@ -44,11 +44,11 @@ class MyMoviesTableViewCell: UITableViewCell {
         }
     }
     
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
 }

@@ -66,7 +66,7 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
-        }.resume()
+            }.resume()
     }
     
     // MARK: - Properties

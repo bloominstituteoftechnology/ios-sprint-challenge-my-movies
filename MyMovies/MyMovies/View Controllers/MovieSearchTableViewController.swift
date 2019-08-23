@@ -9,12 +9,12 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    
     // MARK: - IBOutlets & Properties
-
+    
     @IBOutlet weak var searchBar: UISearchBar!
     
-     var movieController = MovieController()
+    var movieController = MovieController()
     
     // MARK: - View LifeCycle
     
@@ -27,7 +27,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     // MARK: - Methods
     
     @IBAction func addMovieTapped(_ sender: UIButton) {
-       
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
