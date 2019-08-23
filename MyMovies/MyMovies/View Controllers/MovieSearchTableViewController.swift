@@ -16,6 +16,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         searchBar.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
@@ -34,9 +39,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else { return UITableViewCell()}
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieTitleLabel.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
