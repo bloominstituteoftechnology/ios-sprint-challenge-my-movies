@@ -8,6 +8,13 @@
 
 import Foundation
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
+}
+
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
@@ -52,7 +59,64 @@ class MovieController {
         }.resume()
     }
     
+    func saveToPersistentStore() {
+        let moc = CoreDataStack.shared.mainContext
+        
+        do {
+            try moc.save()
+        } catch {
+            NSLog("Error saving to PersistentStore: \(error)")
+            moc.reset()
+        }
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+}
+
+extension MovieController {
+    func put(movie: Movie, completion: @escaping () -> Void = { }) {
+        let identifier = movie.identifier ?? UUID()
+        
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            let movieData = try JSONEncoder().encode(movie.movieRepresentation)
+            request.httpBody = movieData
+        } catch {
+            NSLog("Error encoding movieRepresentation in put() method: \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTting movie representation to server: \(error)")
+            }
+            completion()
+        }.resume()
+    }
+    
+    func delete(movie: Movie, completion: @escaping () -> Void = { }) {
+        guard let identifier = movie.identifier else {
+            completion()
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting movie from server: \(error)")
+            }
+            completion()
+        }.resume()
+    }
 }
