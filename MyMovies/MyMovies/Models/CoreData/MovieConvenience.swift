@@ -24,7 +24,7 @@ extension Movie {
 	//EntryRepresentation -> Task
 	
 	convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-		guard movieRepresentation.identifier != nil else { return }
+		guard movieRepresentation.identifier != nil else { return nil }
 		
 		self.init(movieRepresentation: movieRepresentation, context: context)
 	}

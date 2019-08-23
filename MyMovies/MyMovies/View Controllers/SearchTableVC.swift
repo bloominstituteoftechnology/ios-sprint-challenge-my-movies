@@ -31,9 +31,8 @@ class SearchTableVC: UITableViewController, UISearchBarDelegate {
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 		guard let searchTerm = searchBar.text else { return }
 		
-		movieController.searchForMovie(with: searchTerm) { (error) in
-			
-			guard error == nil else { return }
+		movieController.searchForMovie(with: searchTerm) { (result) in
+			guard try! result.get() else { return }
 			
 			DispatchQueue.main.async {
 				self.tableView.reloadData()
@@ -57,4 +56,8 @@ class SearchTableVC: UITableViewController, UISearchBarDelegate {
         
         return cell
     }
+	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		
+	}
 }

@@ -9,11 +9,21 @@
 import Foundation
 
 class MovieController {
+	
+	// MARK: - Properties
+	
+	var searchedMovies: [MovieRepresentation] = []
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+	
+	//MARK: - CRUD
+	
+	
+	
+	//MARK: - Networking
     
-    func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
+    func searchForMovie(with searchTerm: String, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
         
@@ -23,7 +33,7 @@ class MovieController {
         components?.queryItems = queryParameters.map({URLQueryItem(name: $0.key, value: $0.value)})
         
         guard let requestURL = components?.url else {
-            completion(NSError())
+            completion(.failure(.badURL))
             return
         }
         
@@ -31,28 +41,24 @@ class MovieController {
             
             if let error = error {
                 NSLog("Error searching for movie with search term \(searchTerm): \(error)")
-                completion(error)
+                completion(.failure(.other(error)))
                 return
             }
             
             guard let data = data else {
                 NSLog("No data returned from data task")
-                completion(NSError())
+                completion(.failure(.noData))
                 return
             }
             
             do {
                 let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
                 self.searchedMovies = movieRepresentations
-                completion(nil)
+                completion(.success(true))
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
-                completion(error)
+                completion(.failure(.notDecoding))
             }
         }.resume()
     }
-    
-    // MARK: - Properties
-    
-    var searchedMovies: [MovieRepresentation] = []
 }
