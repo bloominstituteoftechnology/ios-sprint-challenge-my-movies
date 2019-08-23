@@ -24,12 +24,6 @@ class MovieSearchTableViewCell: UITableViewCell {
 		addMovieButton.setTitleColor(.gray, for: .normal)
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 	@IBAction func addMovieTapped(_ sender: UIButton) {
 		guard let movieController = movieController,
 			let movieRep = movieRepresentation else { return }

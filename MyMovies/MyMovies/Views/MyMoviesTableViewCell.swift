@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol MyMoviesTableViewCellDelegate {
-	func updateMovie(hasBeenWatched: Movie)
-}
-
 class MyMoviesTableViewCell: UITableViewCell {
 
 	@IBOutlet weak var titleLabel: UILabel!
