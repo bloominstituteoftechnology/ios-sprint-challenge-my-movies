@@ -13,11 +13,15 @@ class MovieSearchTableViewCell: UITableViewCell {
 	var movieController: MovieController?
 	var movieRepresentation: MovieRepresentation?
 
+	@IBOutlet weak var addMovieButton: UIButton!
 	@IBOutlet weak var titleLabel: UILabel!
 
 	override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        addMovieButton.layer.cornerRadius = 6
+		addMovieButton.layer.borderColor = UIColor.gray.cgColor
+		addMovieButton.layer.borderWidth = 1.5
+		addMovieButton.setTitleColor(.gray, for: .normal)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -31,6 +35,7 @@ class MovieSearchTableViewCell: UITableViewCell {
 			let movieRep = movieRepresentation else { return }
 
 		movieController.addMovie(movieRepresentation: movieRep)
-
+		addMovieButton.setTitleColor(.green, for: .normal)
+		addMovieButton.layer.borderColor = UIColor.movieDBGreen.cgColor
 	}
 }

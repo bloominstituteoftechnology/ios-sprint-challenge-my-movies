@@ -17,6 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.21768017680000001" green="1" blue="0.62836596830000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </tabBar>
                     <connections>
                         <segue destination="6Ki-Vo-PRv" kind="relationship" relationship="viewControllers" id="hiq-zR-DOx"/>
@@ -27,7 +29,7 @@
             </objects>
             <point key="canvasLocation" x="470" y="278"/>
         </scene>
-        <!--Search Movies To Watch-->
+        <!--Search Movies To See-->
         <scene sceneID="BjU-p7-zCe">
             <objects>
                 <tableViewController id="YE2-Zi-kUT" customClass="MovieSearchTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
@@ -49,16 +51,18 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="l4W-TY-oxu">
-                                            <rect key="frame" x="16" y="12.333333333333336" width="382" height="30"/>
+                                            <rect key="frame" x="16" y="15.333333333333336" width="382" height="24"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4L-Dx-R8i">
-                                                    <rect key="frame" x="0.0" y="0.0" width="293" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0JR-di-6Mb">
-                                                    <rect key="frame" x="309" y="0.0" width="73" height="30"/>
+                                                    <rect key="frame" x="306" y="0.0" width="76" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="addMovieTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="vuE-Dy-bqa"/>
@@ -74,6 +78,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addMovieButton" destination="0JR-di-6Mb" id="jhB-Ow-Kso"/>
                                     <outlet property="titleLabel" destination="I4L-Dx-R8i" id="IMm-IU-ecY"/>
                                 </connections>
                             </tableViewCell>
@@ -83,7 +88,7 @@
                             <outlet property="delegate" destination="YE2-Zi-kUT" id="lIt-L5-G4h"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Search Movies To Watch" id="HAs-gh-hMX"/>
+                    <navigationItem key="navigationItem" title="Search Movies To See" id="HAs-gh-hMX"/>
                     <connections>
                         <outlet property="searchBar" destination="dkD-cf-Lg3" id="GWC-CQ-FFh"/>
                     </connections>
@@ -109,16 +114,18 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
-                                            <rect key="frame" x="16" y="12.666666666666664" width="382" height="30"/>
+                                            <rect key="frame" x="16" y="15.666666666666664" width="382" height="24"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="322" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="312" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="338" y="0.0" width="44" height="30"/>
+                                                    <rect key="frame" x="328" y="0.0" width="54" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
                                                     <state key="normal" title="Watch"/>
                                                     <connections>
                                                         <action selector="watchButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="jeY-Lm-JBj"/>
@@ -156,11 +163,21 @@
         <scene sceneID="gJ9-cD-NAE">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="n3I-hj-PYE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
+                    <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV">
+                        <color key="badgeColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="dKl-3X-qxe">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.21768017680000001" green="1" blue="0.62836596830000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -175,11 +192,18 @@
         <scene sceneID="UKt-WO-3pL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Ki-Vo-PRv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Movie Search" id="sdT-54-ch4"/>
+                    <tabBarItem key="tabBarItem" title="Movie Search" id="sdT-54-ch4">
+                        <color key="badgeColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="MES-P2-ux1">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.21768017680000001" green="1" blue="0.62836596830000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

@@ -26,6 +26,9 @@ class MyMoviesTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+		watchButton.layer.cornerRadius = 6
+		watchButton.layer.borderWidth = 1.5
+		watchButton.layer.borderColor = UIColor.movieDBDarkBlue.cgColor
     }
 
 	@IBAction func watchButtonTapped(_ sender: UIButton) {
@@ -41,5 +44,11 @@ class MyMoviesTableViewCell: UITableViewCell {
 		guard let movie = movie else { return }
 		titleLabel.text = movie.title
 		movie.hasWatched ? watchButton.setTitle("Watched", for: .normal) : watchButton.setTitle("Watch", for: .normal)
+		movie.hasWatched ? watchButton.setTitleColor(.movieDBGreen, for: .normal) : watchButton.setTitleColor(.movieDBDarkBlue, for: .normal)
+		if movie.hasWatched {
+			watchButton.layer.borderColor = UIColor.movieDBGreen.cgColor
+		} else {
+			watchButton.layer.borderColor = UIColor.movieDBDarkBlue.cgColor
+		}
 	}
 }
