@@ -58,6 +58,8 @@ class SearchTableVC: UITableViewController, UISearchBarDelegate {
     }
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		
+		let movie = movieController.searchedMovies[indexPath.row]
+		movieController.createMovie(for: movie)
+		tabBarController?.selectedIndex = 1
 	}
 }
