@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BeQ-Kf-2fy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BeQ-Kf-2fy">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -30,7 +30,7 @@
         <!--Movie Search-->
         <scene sceneID="BjU-p7-zCe">
             <objects>
-                <tableViewController id="YE2-Zi-kUT" customClass="MovieSearchTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="YE2-Zi-kUT" customClass="SearchTableVC" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bfm-vz-lLP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -76,13 +76,13 @@
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
             <objects>
-                <tableViewController id="1Gb-tL-YFt" customClass="MyMoviesTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="1Gb-tL-YFt" customClass="MyMoviesTableVC" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="YvK-xa-TA1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo" customClass="MyMovieCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cK-VO-zdo" id="F0q-Pd-Woa">
@@ -101,6 +101,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="hasWatchedToggleBtn:" destination="9cK-VO-zdo" eventType="touchUpInside" id="xA3-pO-N4q"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
@@ -113,6 +116,10 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="titleLbl" destination="a6O-zS-fmH" id="SMc-FI-DOY"/>
+                                    <outlet property="watchedBtn" destination="3Ay-OW-Mt0" id="V6n-xV-bHz"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
