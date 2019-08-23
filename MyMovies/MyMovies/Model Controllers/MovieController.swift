@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let fireBaseBaseURL = URL(string: "https://mymovies-bb595.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -55,4 +57,52 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+}
+
+extension MovieController {
+    func addMovie(title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            let movie = Movie(title: title)
+            
+            do{
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving context when adding movie: \(error)")
+            }
+            putToServer(movie: movie)
+        }
+        
+    }
+}
+
+extension MovieController {
+    func putToServer(movie: Movie, completion: @escaping () -> Void = {}) {
+        let identifier = movie.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            let data = try JSONEncoder().encode(movie.movieRepresentation)
+            print(data)
+            request.httpBody = data
+        } catch {
+            NSLog("Error encoding movie: \(error)")
+            completion()
+            return
+        }
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error putting data: \(error)")
+            }
+            completion()
+        }.resume()
+    }
+}
+
+enum HTTPMethod: String{
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
 }
