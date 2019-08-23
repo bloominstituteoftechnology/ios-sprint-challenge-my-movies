@@ -14,6 +14,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         super.viewDidLoad()
         
         searchBar.delegate = self
+//        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+//        print(dir)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -34,9 +36,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? SearchMovieTableViewCell else { fatalError("cant set up moviecell") }
+        let movie = movieController.searchedMovies[indexPath.row]
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movie = movie
+        cell.movieController = movieController
         
         return cell
     }
