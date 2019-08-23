@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
 	
@@ -15,18 +16,19 @@ class MovieController {
 	var searchedMovies: [MovieRepresentation] = []
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
-    private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let moviesBaseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+	private let collectionBaseURL = URL(string: "")!
 	
 	//MARK: - CRUD
 	
-//	func createEntry(for movie: Movie) {
+//	func createMovie(for movie: Movie) {
 //		CoreDataStack.shared.mainContext.performAndWait {
 //			do {
 //				try CoreDataStack.shared.save()
 //			} catch {
 //				NSLog("Error saving context when creating a new task")
 //			}
-//			putInDB(entry: entry)
+//			putInDB(movie: movie)
 //		}
 //	}
 	
@@ -40,11 +42,11 @@ class MovieController {
 				NSLog("Error saving context when updating a new task")
 			}
 		}
-		putInDB(movie: Movie)
+		putMovieInDB(movie)
 	}
 	
 	func delete(movie: Movie) {
-		deleteFromDB(movie: Movie)
+		deleteMovieFromDB(movie)
 		let moc = CoreDataStack.shared.mainContext
 		
 		moc.performAndWait {
@@ -59,13 +61,13 @@ class MovieController {
 	}
 }
 	
-//MARK: - Networking
+//MARK: - MovieDB
 
 extension MovieController {
 	
     func searchForMovie(with searchTerm: String, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         
-        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
+        var components = URLComponents(url: moviesBaseURL, resolvingAgainstBaseURL: true)
         
         let queryParameters = ["query": searchTerm,
                                "api_key": apiKey]
@@ -101,4 +103,130 @@ extension MovieController {
             }
         }.resume()
     }
+}
+
+//MARK: - Firebase
+
+extension MovieController {
+	
+	func fetchCollection(completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+		let requestURL = collectionBaseURL.appendingPathExtension("json")
+		
+		URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
+			if let error = error {
+				if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+					NSLog("Error: status code is \(response.statusCode) instead of 200.")
+				}
+				NSLog("Error creating user: \(error)")
+				completion(.failure(.other(error)))
+				return
+			}
+			
+			guard let data = data else {
+				NSLog("No data was returned")
+				completion(.failure(.noData))
+				return
+			}
+			
+			do {
+				let decoder = JSONDecoder()
+				
+				let movieRepDictionary = try decoder.decode([String:MovieRepresentation].self, from: data)
+				let movieReps = movieRepDictionary.map{$0.value}
+				let context = CoreDataStack.shared.container.newBackgroundContext()
+				
+				self.updatePersistentStore(with: movieReps, context: context)
+				completion(.success(true))
+			} catch {
+				completion(.failure(.notDecoding))
+			}
+			}.resume()
+	}
+	
+	private func updatePersistentStore(with movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext) {
+		
+		context.performAndWait {
+			//See if the same id exists in CoreData
+			for movieRep in movieRepresentations {
+				guard let identifier = movieRep.identifier else { continue }
+				let movie = self.movie(for: identifier, in: context)
+				
+				if let movie = movie {
+					movie.title = movieRep.title
+					movie.movieId = Double(movieRep.movieId ?? 0)
+					movie.hasWatched = movieRep.hasWatched ?? false
+				} else {
+					_ = Movie(movieRepresentation: movieRep, context: context)
+				}
+			}
+			
+			do {
+				try CoreDataStack.shared.save(context: context)
+			} catch {
+				NSLog("Error saving to core data")
+				context.reset()
+			}
+		}
+	}
+	
+	private func movie(for id: UUID, in context: NSManagedObjectContext) -> Movie? {
+		let predicate  = NSPredicate(format: "id == %@", id as NSUUID)
+		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+		fetchRequest.predicate = predicate
+		
+		var movie: Movie?
+		do {
+			movie = try context.fetch(fetchRequest).first
+		} catch {
+			NSLog("Error fetching specific id")
+		}
+		return movie
+	}
+	
+	func putMovieInDB(_ movie: Movie, completion: ((Result<Bool, NetworkError>) -> Void)? = nil) {
+		var id = UUID()
+		if let tempId = movie.identifier {
+			id = tempId
+		} else {
+			#warning("update coredata movie without an id")
+		}
+		
+		let requestURL = collectionBaseURL.appendingPathComponent(id.uuidString)
+			.appendingPathExtension("json")
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = HTTPMethod.put.rawValue
+		
+		do {
+			let movieData = try JSONEncoder().encode(movie.movieRepresentation)
+			request.httpBody = movieData
+		} catch {
+			completion?(.failure(.notEncoding))
+		}
+		
+		URLSession.shared.dataTask(with: request) { (_, _, error) in
+			if let error = error {
+				completion?(.failure(.other(error)))
+			}
+			completion?(.success(true))
+			}.resume()
+	}
+	
+	func deleteMovieFromDB(_ movie: Movie, completion: ((Result<Bool, NetworkError>) -> Void)? = nil) {
+		guard let identifier = movie.identifier else {
+			completion?(.failure(.noToken))
+			return
+		}
+		
+		let requestURL = collectionBaseURL.appendingPathComponent(identifier.uuidString)
+			.appendingPathExtension("json")
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = HTTPMethod.delete.rawValue
+		
+		URLSession.shared.dataTask(with: request) { (_, _, error) in
+			if let error = error {
+				completion?(.failure(.other(error)))
+			}
+			completion?(.success(true))
+			}.resume()
+	}
 }
