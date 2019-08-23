@@ -15,7 +15,7 @@ class MyMoviesTableViewController: UITableViewController {
 
 	lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
 		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-		let hasWatchedDescriptor = NSSortDescriptor(key: "hasWatched", ascending: false)
+		let hasWatchedDescriptor = NSSortDescriptor(key: "hasWatched", ascending: true)
 		fetchRequest.sortDescriptors = [hasWatchedDescriptor]
 		let moc = CoreDataStack.shared.mainContext
 		let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
@@ -60,9 +60,9 @@ class MyMoviesTableViewController: UITableViewController {
 		case String(0):
 			return "Watch"
 		case String(1):
-			return "Watched"
+			return "Watched ✅"
 		default:
-			return "Watch"
+			return "Watch "
 		}
 	}
 
