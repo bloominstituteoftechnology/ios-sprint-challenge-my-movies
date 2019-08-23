@@ -11,7 +11,7 @@ import CoreData
 
 extension Movie {
     
-    @discardableResult convenience init(title: String, identifier: String = UUID().uuidString, hasWatched: Bool, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String, identifier: String = UUID().uuidString, hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         
         self.title = title
