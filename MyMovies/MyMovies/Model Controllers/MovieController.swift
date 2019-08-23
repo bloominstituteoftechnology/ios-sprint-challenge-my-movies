@@ -7,11 +7,28 @@
 //
 
 import Foundation
+import CoreData
+
+enum HTTPMethod: String {
+    case get    = "GET"
+    case put    = "PUT"
+    case post   = "POST"
+    case delete = "DELETE"
+}
+
+enum NetworkError: Error {
+    case noAuth
+    case badAuth
+    case otherError(Error)
+    case badData
+    case noDecode
+}
 
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    let fireBaseURL = URL(string: "https://mymovies-fda69.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -49,7 +66,7 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
-        }.resume()
+            }.resume()
     }
     
     // MARK: - Properties
