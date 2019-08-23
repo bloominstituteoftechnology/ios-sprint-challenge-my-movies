@@ -10,7 +10,10 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
+	var movieController: MovieController?
+
 	@IBOutlet weak var titleLabel: UILabel!
+
 	override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,5 +26,6 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
 
 	@IBAction func addMovieTapped(_ sender: UIButton) {
+		
 	}
 }

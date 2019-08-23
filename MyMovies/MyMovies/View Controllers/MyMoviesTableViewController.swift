@@ -16,7 +16,7 @@ class MyMoviesTableViewController: UITableViewController {
 		let hasWatchedDescriptor = NSSortDescriptor(key: "hasWatched", ascending: false)
 		fetchRequest.sortDescriptors = [hasWatchedDescriptor]
 		let moc = CoreDataStack.shared.mainContext
-		let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+		let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
 		frc.delegate = self
 		do {
 			try frc.performFetch()
@@ -29,11 +29,6 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -79,21 +74,6 @@ class MyMoviesTableViewController: UITableViewController {
     */
 
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -103,4 +83,47 @@ class MyMoviesTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
+	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.beginUpdates()
+	}
+
+	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.endUpdates()
+	}
+
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+		let sectionIndexSet = IndexSet(integer: sectionIndex)
+
+		switch type {
+		case .insert:
+			tableView.insertSections(sectionIndexSet, with: .fade)
+		case .delete:
+			tableView.deleteSections(sectionIndexSet, with: .fade)
+		default:
+			break
+		}
+	}
+
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+		switch type {
+		case .delete:
+			guard let indexPath = indexPath else { return }
+			tableView.deleteRows(at: [indexPath], with: .fade)
+		case .insert:
+			guard let newIndexPath = newIndexPath else { return }
+			tableView.insertRows(at: [newIndexPath], with: .fade)
+		case .move:
+			guard let indexPath = indexPath,
+				let newIndexPath = newIndexPath else { return }
+			tableView.moveRow(at: indexPath, to: newIndexPath)
+		case .update:
+			guard let indexPath = indexPath else { return }
+			tableView.reloadRows(at: [indexPath], with: .fade)
+		default:
+			fatalError()
+		}
+	}
 }

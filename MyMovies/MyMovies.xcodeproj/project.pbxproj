@@ -99,9 +99,9 @@
 		46E20A082126AFAC00E7FF73 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				37D0593F23103BEF000434A8 /* MovieSearchTableViewCell.swift */,
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				37D0593F23103BEF000434A8 /* MovieSearchTableViewCell.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
