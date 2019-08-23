@@ -15,6 +15,7 @@ class MyMovieTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    var movieController: MovieController!
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
@@ -28,5 +29,12 @@ class MyMovieTableViewCell: UITableViewCell {
             hasWatchedButton.setTitle("not watched", for: .normal)
         }
     }
+    @IBAction func hasWatchedTapped(_ sender: Any) {
+        guard let movie = movie else { return }
+        movieController.updateHasWatched(movie: movie)
+        updateViews()
+    }
+    
+    
 
 }

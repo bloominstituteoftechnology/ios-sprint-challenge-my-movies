@@ -84,6 +84,18 @@ extension MovieController {
             putToServer(movie: movie)
         }
     }
+    func deleteMovie(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            context.delete(movie)
+            
+            do{
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving context when deleting movie: \(error)")
+            }
+            
+        }
+    }
 }
 
 extension MovieController {
