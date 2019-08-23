@@ -7,17 +7,29 @@
 //
 
 import UIKit
+import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
+
+//	lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+//		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//		let timeDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
+//		let moodDescriptor = NSSortDescriptor(key: "mood", ascending: true)
+//		fetchRequest.sortDescriptors = [moodDescriptor, timeDescriptor]
+//		let moc = CoreDataStack.shared.mainContext
+//		let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+//		frc.delegate = self
+//		do {
+//			try frc.performFetch()
+//		} catch {
+//			fatalError("Error performing fetch for frc: \(error)")
+//		}
+//		return frc
+//	}()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
