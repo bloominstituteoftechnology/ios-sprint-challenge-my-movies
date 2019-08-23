@@ -19,6 +19,7 @@
 		B5E1989523104AA0003DEEEA /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E1989423104AA0003DEEEA /* CoreDataStack.swift */; };
 		B5E1989723104B13003DEEEA /* MovieConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E1989623104B13003DEEEA /* MovieConvenience.swift */; };
 		B5E1989B2310510A003DEEEA /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E1989A2310510A003DEEEA /* Enums.swift */; };
+		B5E1989E23106EE7003DEEEA /* MyMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E1989D23106EE7003DEEEA /* MyMovieCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		B5E1989423104AA0003DEEEA /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B5E1989623104B13003DEEEA /* MovieConvenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieConvenience.swift; sourceTree = "<group>"; };
 		B5E1989A2310510A003DEEEA /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		B5E1989D23106EE7003DEEEA /* MyMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
+				B5E1989C23106EAA003DEEEA /* Views */,
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
 				46E20A092126AFC200E7FF73 /* Resources */,
 			);
@@ -139,6 +142,14 @@
 				B5E1989A2310510A003DEEEA /* Enums.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B5E1989C23106EAA003DEEEA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B5E1989D23106EE7003DEEEA /* MyMovieCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,6 +231,7 @@
 				B5E1989323104414003DEEEA /* Movie.xcdatamodeld in Sources */,
 				B5E1989723104B13003DEEEA /* MovieConvenience.swift in Sources */,
 				B5E1989B2310510A003DEEEA /* Enums.swift in Sources */,
+				B5E1989E23106EE7003DEEEA /* MyMovieCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
