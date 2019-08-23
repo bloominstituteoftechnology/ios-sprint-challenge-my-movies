@@ -73,6 +73,17 @@ extension MovieController {
         }
         
     }
+    func updateHasWatched(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            movie.hasWatched.toggle()
+            do{
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving context when updating movie: \(error)")
+            }
+            putToServer(movie: movie)
+        }
+    }
 }
 
 extension MovieController {

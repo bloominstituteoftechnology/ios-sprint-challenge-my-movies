@@ -19,6 +19,7 @@
 		75AB1F1E23103DAC00B92981 /* SearchMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB1F1D23103DAC00B92981 /* SearchMovieTableViewCell.swift */; };
 		75AB1F202310407E00B92981 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB1F1F2310407E00B92981 /* CoreDataStack.swift */; };
 		75AB1F222310412400B92981 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB1F212310412400B92981 /* Movie+Convenience.swift */; };
+		75AB1F2423104B7100B92981 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AB1F2323104B7100B92981 /* MyMovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		75AB1F1D23103DAC00B92981 /* SearchMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieTableViewCell.swift; sourceTree = "<group>"; };
 		75AB1F1F2310407E00B92981 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		75AB1F212310412400B92981 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		75AB1F2323104B7100B92981 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				75AB1F1D23103DAC00B92981 /* SearchMovieTableViewCell.swift */,
+				75AB1F2323104B7100B92981 /* MyMovieTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				75AB1F1E23103DAC00B92981 /* SearchMovieTableViewCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 				75AB1F202310407E00B92981 /* CoreDataStack.swift in Sources */,
+				75AB1F2423104B7100B92981 /* MyMovieTableViewCell.swift in Sources */,
 				75AB1F222310412400B92981 /* Movie+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
