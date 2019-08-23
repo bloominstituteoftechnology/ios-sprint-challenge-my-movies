@@ -20,9 +20,9 @@ extension Movie {
     
     //TaskRepresentation -> Task
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        let title = movieRepresentation.title
         
-        self.init(title: title, context: context)
+        
+        self.init(title: movieRepresentation.title, hasWatched: movieRepresentation.hasWatched ?? false, context: context, identifier: movieRepresentation.identifier ?? UUID())
     }
     
     var movieRepresentation: MovieRepresentation {
