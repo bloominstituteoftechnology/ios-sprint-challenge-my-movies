@@ -15,6 +15,8 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var myMovieTitleLabel: UILabel!
     @IBOutlet weak var watchedUnwatchedButton: UIButton!
     
+    let movieController = MovieController()
+    
     var movie: Movie? {
         didSet {
             updateViews()
@@ -24,8 +26,11 @@ class MyMoviesTableViewCell: UITableViewCell {
     // MARK: - IBActions & Methods
     
     @IBAction func watchUnwatchedButtonTapped(_ sender: UIButton) {
-        guard let movie = movie else { return }
-        movie.hasWatched.toggle()
+        guard let movie = movie,
+              let title = movie.title else { return }
+            movie.hasWatched.toggle()
+            
+           movieController.updateMovie(movie: movie, with: title, hasWatched: movie.hasWatched)
     }
     
     private func updateViews() {

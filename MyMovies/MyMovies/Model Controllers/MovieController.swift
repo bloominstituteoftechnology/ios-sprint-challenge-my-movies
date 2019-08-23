@@ -105,9 +105,10 @@ class MovieController {
     
     // Update Movie with Entry Representation Method
     func update(movie: Movie, with movieRepresentation: MovieRepresentation) {
+        guard let hasWatched = movieRepresentation.hasWatched else { return }
         movie.title      = movieRepresentation.title
         movie.identifier = movieRepresentation.identifier
-        movie.hasWatched = movieRepresentation.hasWatched ?? false
+        movie.hasWatched = hasWatched
     }
     
     // Delete
@@ -229,9 +230,10 @@ class MovieController {
                 guard let identifier = movieRep.identifier else { continue }
                 
                 if let movie = self.fetchSingleMovieFromPersistentStore(identifier: identifier, context: context) {
+                    guard let hasWatched = movieRep.hasWatched else { return }
                     movie.title      = movieRep.title
                     movie.identifier = movieRep.identifier
-                    movie.hasWatched = movieRep.hasWatched ?? false
+                    movie.hasWatched = hasWatched
                 } else {
                     Movie(movieRepresentation: movieRep, context: context)
                 }
