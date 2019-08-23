@@ -27,10 +27,10 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
 
 	@IBAction func addMovieTapped(_ sender: UIButton) {
-//		guard let movieController = movieController,
-//			let movieRepresentation = movieRepresentation else { return }
+		guard let movieController = movieController,
+			let movieRep = movieRepresentation else { return }
 
+		movieController.addMovie(movieRepresentation: movieRep)
 
-		
 	}
 }

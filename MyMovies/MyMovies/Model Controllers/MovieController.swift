@@ -61,9 +61,9 @@ class MovieController {
 
 	// MARK: - Persistent Store and FireBase functions
 
-	func addMovie(with title: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+	func addMovie(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 		context.performAndWait {
-			let movie = Movie(title: title)
+			guard let movie = Movie(movieRepresentation: movieRepresentation, context: context) else { return }
 
 			do {
 				try CoreDataStack.shared.save(context: context)
@@ -237,7 +237,7 @@ extension MovieController {
 			do {
 				movie = try context.fetch(fetchRequest).first
 			} catch {
-				NSLog("Error fetching entry")
+				NSLog("Error fetching movie")
 			}
 		}
 		return movie
