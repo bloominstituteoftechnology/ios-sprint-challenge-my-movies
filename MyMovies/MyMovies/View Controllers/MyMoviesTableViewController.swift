@@ -31,11 +31,22 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		tableView.tableFooterView = UIView()
+		tableView.refreshControl = UIRefreshControl()
+		tableView.refreshControl?.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
     }
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		tableView.reloadData()
+	}
+
+	@objc
+	func beginRefresh() {
+		movieController.fetchMoviesFromServer { (_) in
+			DispatchQueue.main.async {
+				self.tableView.refreshControl?.endRefreshing()
+			}
+		}
 	}
 
     // MARK: - Table view data source
@@ -53,6 +64,7 @@ class MyMoviesTableViewController: UITableViewController {
 
 		let movie = fetchedResultsController.object(at: indexPath)
 		cell.movie = movie
+		cell.movieController = movieController
 
         return cell
     }
