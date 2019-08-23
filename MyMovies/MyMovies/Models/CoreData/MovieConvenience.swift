@@ -32,6 +32,6 @@ extension Movie {
 	//Task -> EntryRepresentation
 	
 	var movieRepresentation: MovieRepresentation {
-		return MovieRepresentation(title: title, movieId: Int(movieId), identifier: identifier, hasWatched: hasWatched)
+		return MovieRepresentation(title: title, id: Int(movieId), identifier: identifier, hasWatched: hasWatched)
 	}
 }

@@ -10,7 +10,7 @@ import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
     let title: String?
-	let movieId: Int?
+	let id: Int?
     
     /*
      identifier and hasWatched are not a part of The Movie DB API, however they will be used both on Firebase and on the application itself.

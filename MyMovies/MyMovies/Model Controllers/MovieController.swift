@@ -17,24 +17,25 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let moviesBaseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-	private let collectionBaseURL = URL(string: "")!
+	private let collectionBaseURL = URL(string: "https://santana-movies.firebaseio.com/")!
 	
 	//MARK: - CRUD
 	
-//	func createMovie(for movie: Movie) {
-//		CoreDataStack.shared.mainContext.performAndWait {
-//			do {
-//				try CoreDataStack.shared.save()
-//			} catch {
-//				NSLog("Error saving context when creating a new task")
-//			}
-//			putInDB(movie: movie)
-//		}
-//	}
+	func createMovie(for movie: MovieRepresentation) {
+		CoreDataStack.shared.mainContext.performAndWait {
+			guard let title = movie.title, let movieId = movie.id else { return }
+			let newMovie = Movie(title: title, movieId: movieId)			
+			
+			do {
+				try CoreDataStack.shared.save()
+			} catch {
+				NSLog("Error saving context when creating a new task")
+			}
+			putMovieInDB(newMovie)
+		}
+	}
 	
-	func update(movie: Movie, hasWatched: Bool) {
-		movie.hasWatched = hasWatched
-		
+	func update(movie: Movie) {
 		CoreDataStack.shared.mainContext.performAndWait {
 			do {
 				try CoreDataStack.shared.save()
@@ -153,7 +154,7 @@ extension MovieController {
 				
 				if let movie = movie {
 					movie.title = movieRep.title
-					movie.movieId = Double(movieRep.movieId ?? 0)
+					movie.movieId = Double(movieRep.id ?? 0)
 					movie.hasWatched = movieRep.hasWatched ?? false
 				} else {
 					_ = Movie(movieRepresentation: movieRep, context: context)
