@@ -99,9 +99,71 @@ extension MovieController {
 }
 
 extension MovieController {
+    
+    func fetchMyMovieFromServer(completion: @escaping () -> Void) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching movie from server: \(error)")
+                completion()
+                return
+            }
+            guard let data = data else {
+                NSLog("No data returned from data task")
+                completion()
+                return
+            }
+            
+            do {
+                let myMoviesRepDict = try JSONDecoder().decode([String : MovieRepresentation].self, from: data)
+                let myMoviesRep = myMoviesRepDict.map({$0.value})
+                let moc = CoreDataStack.shared.container.newBackgroundContext()
+                
+                self.updatePersistentStore(movieReps: myMoviesRep, context: moc)
+                
+            } catch {
+                NSLog("Error decoding movie from server \(error)")
+            }
+            completion()
+        }.resume()
+        
+    }
+    
+    func updatePersistentStore(movieReps: [MovieRepresentation], context: NSManagedObjectContext) {
+        context.performAndWait {
+            for movieRep in movieReps {
+                guard let identifier = movieRep.identifier else { continue }
+                
+                if let movie = fetchSingleMovieFromPersistent(identifier: identifier, context: context) {
+                    if movie != movieRep {
+                        // not the same, update
+                        self.updateHasWatched(movie: movie)
+                    }
+                } else {
+                    //entry does not exist, create one
+                    Movie(movieRepresentation: movieRep, context: context)
+                }
+            }
+            
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving when fetching from server: \(error)")
+                context.reset()
+            }
+        }
+    }
+    
+    func fetchSingleMovieFromPersistent(identifier: UUID, context: NSManagedObjectContext) -> Movie? {
+        let request: NSFetchRequest<Movie> = Movie.fetchRequest()
+        request.predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
+        let movie = try! context.fetch(request).first
+        return movie
+    }
+    
     func putToServer(movie: Movie, completion: @escaping () -> Void = {}) {
         let identifier = movie.identifier ?? UUID()
-        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = fireBaseBaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
