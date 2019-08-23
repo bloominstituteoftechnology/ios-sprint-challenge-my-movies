@@ -59,6 +59,7 @@
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
                                                 <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="WIq-Yo-pyg"/>
+                                                <action selector="addMovieTapped:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="TBk-7c-4QW"/>
                                             </connections>
                                         </button>
                                     </subviews>

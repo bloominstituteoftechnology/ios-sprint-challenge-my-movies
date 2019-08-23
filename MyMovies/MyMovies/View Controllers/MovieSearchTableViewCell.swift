@@ -9,6 +9,8 @@
 import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
+    
+    let movieController = MovieController()
 
     // MARK: - IBOutlets & Properties
     
@@ -17,5 +19,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - IBActions & Methods
     
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
+        guard let title = movieTitleLabel.text else { return }
+        movieController.createMovie(with: title, hasWatched: false)
     }
 }
