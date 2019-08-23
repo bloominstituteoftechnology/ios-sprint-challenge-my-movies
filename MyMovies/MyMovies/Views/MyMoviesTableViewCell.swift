@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MyMoviesTableViewCellDelegate {
+	func updateMovie(hasBeenWatched: Movie)
+}
+
 class MyMoviesTableViewCell: UITableViewCell {
 
 	@IBOutlet weak var titleLabel: UILabel!
@@ -30,7 +34,7 @@ class MyMoviesTableViewCell: UITableViewCell {
 
 		let hasWatched = !movie.hasWatched
 		movieController.updateHasWatched(movie: movie, hasWatched: hasWatched)
-
+		updateViews()
 	}
 
 	func updateViews() {
