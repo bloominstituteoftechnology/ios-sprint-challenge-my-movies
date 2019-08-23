@@ -19,10 +19,50 @@ class MovieController {
 	
 	//MARK: - CRUD
 	
+//	func createEntry(for movie: Movie) {
+//		CoreDataStack.shared.mainContext.performAndWait {
+//			do {
+//				try CoreDataStack.shared.save()
+//			} catch {
+//				NSLog("Error saving context when creating a new task")
+//			}
+//			putInDB(entry: entry)
+//		}
+//	}
 	
+	func update(movie: Movie, hasWatched: Bool) {
+		movie.hasWatched = hasWatched
+		
+		CoreDataStack.shared.mainContext.performAndWait {
+			do {
+				try CoreDataStack.shared.save()
+			} catch {
+				NSLog("Error saving context when updating a new task")
+			}
+		}
+		putInDB(movie: Movie)
+	}
 	
-	//MARK: - Networking
-    
+	func delete(movie: Movie) {
+		deleteFromDB(movie: Movie)
+		let moc = CoreDataStack.shared.mainContext
+		
+		moc.performAndWait {
+			moc.delete(movie)
+			do {
+				try CoreDataStack.shared.save()
+			} catch {
+				NSLog("Error saving context when deleting a new task")
+			}
+		}
+		
+	}
+}
+	
+//MARK: - Networking
+
+extension MovieController {
+	
     func searchForMovie(with searchTerm: String, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
