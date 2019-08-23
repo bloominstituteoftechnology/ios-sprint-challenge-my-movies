@@ -11,21 +11,20 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
 
-//	lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
-//		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//		let timeDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
-//		let moodDescriptor = NSSortDescriptor(key: "mood", ascending: true)
-//		fetchRequest.sortDescriptors = [moodDescriptor, timeDescriptor]
-//		let moc = CoreDataStack.shared.mainContext
-//		let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
-//		frc.delegate = self
-//		do {
-//			try frc.performFetch()
-//		} catch {
-//			fatalError("Error performing fetch for frc: \(error)")
-//		}
-//		return frc
-//	}()
+	lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+		let hasWatchedDescriptor = NSSortDescriptor(key: "hasWatched", ascending: false)
+		fetchRequest.sortDescriptors = [hasWatchedDescriptor]
+		let moc = CoreDataStack.shared.mainContext
+		let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+		frc.delegate = self
+		do {
+			try frc.performFetch()
+		} catch {
+			fatalError("Error performing fetch for frc: \(error)")
+		}
+		return frc
+	}()
 
     override func viewDidLoad() {
         super.viewDidLoad()
