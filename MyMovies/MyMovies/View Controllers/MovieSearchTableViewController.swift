@@ -8,6 +8,8 @@
 
 import UIKit
 
+var movieController = MovieController()
+
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
     override func viewDidLoad() {
@@ -44,8 +46,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         return cell
     }
-    
-    var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }

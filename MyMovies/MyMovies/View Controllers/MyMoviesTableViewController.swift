@@ -11,8 +11,6 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
-    let movieController = MovieController()
-    
     lazy var fetchResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
@@ -37,8 +35,8 @@ class MyMoviesTableViewController: UITableViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-//        movieController.fetchMyMovieFromServer()
-//        tableView.reloadData()
+        movieController.fetchMyMovieFromServer()
+        tableView.reloadData()
         
     }
 
@@ -69,7 +67,7 @@ class MyMoviesTableViewController: UITableViewController {
 
   
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             //tableView.deleteRows(at: [indexPath], with: .fade)

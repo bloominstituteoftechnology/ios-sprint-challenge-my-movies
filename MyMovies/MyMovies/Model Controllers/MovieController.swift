@@ -9,15 +9,16 @@
 import Foundation
 import CoreData
 
+
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let fireBaseBaseURL = URL(string: "https://mymovies-bb595.firebaseio.com/")!
     
-    init() {
-        self.fetchMyMovieFromServer()
-    }
+//    init() {
+//        self.fetchMyMovieFromServer()
+//    }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -159,9 +160,13 @@ extension MovieController {
     }
     
     func fetchSingleMovieFromPersistent(identifier: UUID, context: NSManagedObjectContext) -> Movie? {
-        let request: NSFetchRequest<Movie> = Movie.fetchRequest()
-        request.predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
-        let movie = try! context.fetch(request).first
+        var movie: Movie? = nil
+        context.performAndWait {
+            let request: NSFetchRequest<Movie> = Movie.fetchRequest()
+            let predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
+            request.predicate = predicate
+            movie = try? context.fetch(request).first
+        }
         return movie
     }
     
