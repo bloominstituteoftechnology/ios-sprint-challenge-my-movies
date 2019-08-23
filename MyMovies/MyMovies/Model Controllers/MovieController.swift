@@ -15,6 +15,10 @@ class MovieController {
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let fireBaseBaseURL = URL(string: "https://mymovies-bb595.firebaseio.com/")!
     
+    init() {
+        self.fetchMyMovieFromServer()
+    }
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -100,8 +104,8 @@ extension MovieController {
 
 extension MovieController {
     
-    func fetchMyMovieFromServer(completion: @escaping () -> Void) {
-        let requestURL = baseURL.appendingPathExtension("json")
+    func fetchMyMovieFromServer(completion: @escaping () -> Void = {}) {
+        let requestURL = fireBaseBaseURL.appendingPathExtension("json")
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             if let error = error {
                 NSLog("Error fetching movie from server: \(error)")

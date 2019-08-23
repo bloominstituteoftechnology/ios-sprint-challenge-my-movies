@@ -37,6 +37,8 @@ class MyMoviesTableViewController: UITableViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
+//        movieController.fetchMyMovieFromServer()
+//        tableView.reloadData()
         
     }
 
