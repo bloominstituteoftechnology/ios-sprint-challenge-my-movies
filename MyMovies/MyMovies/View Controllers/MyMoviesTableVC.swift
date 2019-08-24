@@ -88,12 +88,18 @@ class MyMoviesTableVC: UITableViewController {
 
 }
 
+//MARK: - MYMovie Cell Delegate
+
 extension MyMoviesTableVC: MyMovieCellDelegate {
-	func watchStatusToggle(for movie: Movie) {
+	
+	func watchStatusToggle(for movie: Movie, completion: @escaping (Bool) -> Void) {
 		movie.hasWatched.toggle()
 		movieController.update(movie: movie)
+		completion(movie.hasWatched)
 	}
 }
+
+//MARK: - Fetch Result Controller Delegate
 
 extension MyMoviesTableVC: NSFetchedResultsControllerDelegate {
 	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
