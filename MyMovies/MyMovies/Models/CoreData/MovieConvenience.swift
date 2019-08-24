@@ -26,7 +26,11 @@ extension Movie {
 	convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 		guard movieRepresentation.identifier != nil else { return nil }
 		
-		self.init(movieRepresentation: movieRepresentation, context: context)
+		self.init(identifier: movieRepresentation.identifier ?? UUID(),
+				  title: movieRepresentation.title ?? "Missing Title",
+				  movieId: movieRepresentation.id ?? 0,
+				  hasWatched: movieRepresentation.hasWatched ?? false,
+				  context: context)
 	}
 	
 	//Task -> EntryRepresentation
