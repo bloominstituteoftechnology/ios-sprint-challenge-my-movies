@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MyMovieCellDelegate {
-	func watchStatusToggle(for movie: Movie, completion: @escaping (Bool) -> Void)
+	func watchStatusToggle(for movie: Movie)
 }
 
 class MyMovieCell: UITableViewCell {
@@ -33,9 +33,8 @@ class MyMovieCell: UITableViewCell {
 	@IBAction func hasWatchedToggleBtn(_ sender: UIButton) {
 		guard let movie = movie else { return }
 		
-		delegate?.watchStatusToggle(for: movie, completion: { hasWatched in
-			self.setBtnTitle(hasWatched)
-		})
+		delegate?.watchStatusToggle(for: movie)
+		configCell()
 	}
 	
 	//MARK: - Helpers
@@ -44,11 +43,7 @@ class MyMovieCell: UITableViewCell {
 		guard let movie = movie else { return }
 		
 		titleLbl.text = movie.title
-		setBtnTitle(movie.hasWatched)
-	}
-	
-	private func setBtnTitle(_ hasWatched: Bool) {
-		let title = hasWatched ? "Watched" : "UnWatched"
+		let title = movie.hasWatched ? "Watched" : "UnWatched"
 		watchedBtn.setTitle(title, for: .normal)
 	}
 }

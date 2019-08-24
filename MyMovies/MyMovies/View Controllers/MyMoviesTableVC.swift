@@ -92,10 +92,11 @@ class MyMoviesTableVC: UITableViewController {
 
 extension MyMoviesTableVC: MyMovieCellDelegate {
 	
-	func watchStatusToggle(for movie: Movie, completion: @escaping (Bool) -> Void) {
-		movie.hasWatched.toggle()
+	func watchStatusToggle(for movie: Movie) {
+		movie.managedObjectContext?.performAndWait {
+			movie.hasWatched.toggle()
+		}
 		movieController.update(movie: movie)
-		completion(movie.hasWatched)
 	}
 }
 
