@@ -34,3 +34,4 @@ extension Movie {
         self.init(title: movieRepresentation.title, identifier: identifier, hasWatched: hasWatched, context: context)
     }
 }
+
