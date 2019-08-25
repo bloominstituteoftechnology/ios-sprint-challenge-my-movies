@@ -56,3 +56,5 @@ class MovieController {
     
     var searchedMovies: [MovieRepresentation] = []
 }
+
+
