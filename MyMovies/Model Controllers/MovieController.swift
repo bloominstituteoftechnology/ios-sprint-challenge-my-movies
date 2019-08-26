@@ -58,7 +58,7 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
-    let firebaseURL = URL(string: "https://journal-coredata-project.firebaseio.com/")!
+    let firebaseURL = URL(string: "https://movie-sprint.firebaseio.com/")!
 }
 
 extension MovieController {
