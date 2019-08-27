@@ -38,8 +38,10 @@ class MyMoviesTableViewCell: UITableViewCell {
 
 	func updateViews() {
 		guard let movie = movie else { return }
+		guard let title = movie.title else { return }
+		print("\(title) - \(movie.hasWatched)")
 		titleLabel.text = movie.title
-		movie.hasWatched ? watchButton.setTitle("Watched", for: .normal) : watchButton.setTitle("Watch", for: .normal)
+		movie.hasWatched ? watchButton.setTitle("Watched", for: .normal) : watchButton.setTitle("Mark As Watched", for: .normal)
 		movie.hasWatched ? watchButton.setTitleColor(.movieDBGreen, for: .normal) : watchButton.setTitleColor(.movieDBDarkBlue, for: .normal)
 		if movie.hasWatched {
 			watchButton.layer.borderColor = UIColor.movieDBGreen.cgColor

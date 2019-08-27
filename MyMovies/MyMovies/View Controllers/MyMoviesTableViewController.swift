@@ -120,9 +120,14 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
 			guard let newIndexPath = newIndexPath else { return }
 			tableView.insertRows(at: [newIndexPath], with: .fade)
 		case .move:
-			guard let indexPath = indexPath,
+			guard let oldIndexPath = indexPath,
 				let newIndexPath = newIndexPath else { return }
-			tableView.moveRow(at: indexPath, to: newIndexPath)
+			tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+			tableView.insertRows(at: [newIndexPath], with: .automatic)
+
+			if oldIndexPath.section != newIndexPath.section {
+				tableView.reloadRows(at: [newIndexPath], with: .fade)
+			}
 		case .update:
 			guard let indexPath = indexPath else { return }
 			tableView.reloadRows(at: [indexPath], with: .fade)

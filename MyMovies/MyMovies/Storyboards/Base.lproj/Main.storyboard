@@ -164,7 +164,7 @@
         <scene sceneID="gJ9-cD-NAE">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="n3I-hj-PYE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV">
+                    <tabBarItem key="tabBarItem" title="My Movies" image="film-reel-50" id="y85-fk-XTV">
                         <color key="badgeColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -193,7 +193,7 @@
         <scene sceneID="UKt-WO-3pL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Ki-Vo-PRv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Movie Search" id="sdT-54-ch4">
+                    <tabBarItem key="tabBarItem" title="Movie Search" image="search-60" id="sdT-54-ch4">
                         <color key="badgeColor" red="0.058823529630000003" green="0.180392161" blue="0.24705882370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -216,4 +216,8 @@
             <point key="canvasLocation" x="1495.6521739130435" y="-27.455357142857142"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="film-reel-50" width="25" height="25"/>
+        <image name="search-60" width="30" height="30"/>
+    </resources>
 </document>
