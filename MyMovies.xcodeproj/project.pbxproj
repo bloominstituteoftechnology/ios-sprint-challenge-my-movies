@@ -10,7 +10,6 @@
 		4556A6D1233525E100FD0CC5 /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4556A6CF233525E100FD0CC5 /* Movie.xcdatamodeld */; };
 		4556A6D32335271D00FD0CC5 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556A6D22335271D00FD0CC5 /* CoreDataStack.swift */; };
 		4556A6D5233527A700FD0CC5 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556A6D4233527A700FD0CC5 /* Movie+Convenience.swift */; };
-		4556A6D72335383D00FD0CC5 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556A6D62335383C00FD0CC5 /* CoreDataController.swift */; };
 		46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209E42126A63600E7FF73 /* AppDelegate.swift */; };
 		46E209EA2126A63600E7FF73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E209E82126A63600E7FF73 /* Main.storyboard */; };
 		46E209EC2126A63700E7FF73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E209EB2126A63700E7FF73 /* Assets.xcassets */; };
@@ -25,7 +24,6 @@
 		4556A6D0233525E100FD0CC5 /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
 		4556A6D22335271D00FD0CC5 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		4556A6D4233527A700FD0CC5 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
-		4556A6D62335383C00FD0CC5 /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		46E209E12126A63600E7FF73 /* MyMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E209E42126A63600E7FF73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46E209E92126A63600E7FF73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -91,7 +89,6 @@
 		46E20A072126AFA300E7FF73 /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4556A6D62335383C00FD0CC5 /* CoreDataController.swift */,
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
 			);
 			path = "Model Controllers";
@@ -202,7 +199,6 @@
 				4556A6D5233527A700FD0CC5 /* Movie+Convenience.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
-				4556A6D72335383D00FD0CC5 /* CoreDataController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				4556A6D1233525E100FD0CC5 /* Movie.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
