@@ -49,6 +49,10 @@ class MyMovieController {
     
     //MARK: - Firebase code
     
+    func fbDelete (representation: MovieRepresentation, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
+        
+    }
+    
     func put(representation: MovieRepresentation?, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
         guard let representation = representation,
         let identifier = representation.identifier?.uuidString else {
