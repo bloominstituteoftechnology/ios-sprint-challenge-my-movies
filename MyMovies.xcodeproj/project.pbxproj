@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		382C1E01233522370022D70A /* Movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 382C1DFF233522370022D70A /* Movies.xcdatamodeld */; };
+		382C1E03233522470022D70A /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382C1E02233522470022D70A /* Movie+Convenience.swift */; };
+		382C1E052335232C0022D70A /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382C1E042335232C0022D70A /* CoreDataStack.swift */; };
 		46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209E42126A63600E7FF73 /* AppDelegate.swift */; };
 		46E209EA2126A63600E7FF73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E209E82126A63600E7FF73 /* Main.storyboard */; };
 		46E209EC2126A63700E7FF73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E209EB2126A63700E7FF73 /* Assets.xcassets */; };
@@ -18,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		382C1E00233522370022D70A /* Movies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movies.xcdatamodel; sourceTree = "<group>"; };
+		382C1E02233522470022D70A /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		382C1E042335232C0022D70A /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		46E209E12126A63600E7FF73 /* MyMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E209E42126A63600E7FF73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46E209E92126A63600E7FF73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -41,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		382C1E06233523320022D70A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				382C1E042335232C0022D70A /* CoreDataStack.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		46E209D82126A63600E7FF73 = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +76,7 @@
 			children = (
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
+				382C1E06233523320022D70A /* Helpers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
 				46E20A092126AFC200E7FF73 /* Resources */,
@@ -72,7 +87,9 @@
 		46E20A052126AF5900E7FF73 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				382C1DFF233522370022D70A /* Movies.xcdatamodeld */,
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+				382C1E02233522470022D70A /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -187,9 +204,12 @@
 			files = (
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
+				382C1E03233522470022D70A /* Movie+Convenience.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				382C1E01233522370022D70A /* Movies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				382C1E052335232C0022D70A /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +407,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		382C1DFF233522370022D70A /* Movies.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				382C1E00233522370022D70A /* Movies.xcdatamodel */,
+			);
+			currentVersion = 382C1E00233522370022D70A /* Movies.xcdatamodel */;
+			path = Movies.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 46E209D92126A63600E7FF73 /* Project object */;
 }
