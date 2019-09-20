@@ -12,7 +12,7 @@ import CoreData
 extension Movie {
     
     @discardableResult convenience init(title: String,
-                                        identifier: String = UUID().uuidString,
+                                        identifier: UUID,
                                         hasWatched: Bool,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
@@ -26,10 +26,9 @@ extension Movie {
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
         
         guard let identifier = movieRepresentation.identifier,
+            let title = movieRepresentation.title,
             let hasWatched = movieRepresentation.hasWatched else { return nil }
         
-        // TODO: How can title be an optional and not an optional at the same time?
-        // Doesn't make sense, unless Xcode is referring to two different versions of title
         self.init(title: title, identifier: identifier, hasWatched: hasWatched, context: context)
     }
     

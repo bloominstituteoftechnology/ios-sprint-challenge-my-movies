@@ -9,7 +9,9 @@
 import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
-    let title: String
+    
+    // TODO: Had to change title to optional string for code to work. Not sure why.
+    let title: String?
     
     /*
      identifier and hasWatched are not a part of The Movie DB API, however they will be used both on Firebase and on the application itself.
