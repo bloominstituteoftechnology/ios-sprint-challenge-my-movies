@@ -25,7 +25,11 @@ class MovieController {
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
     init() {
-        fetchEntriesFromServer()
+        fetchMoviesFromServer()
+    }
+    
+    func printHi() {
+        print("hi")
     }
     
     func createMovie(with title: String, identifier: UUID, hasWatched: Bool) {
@@ -61,7 +65,7 @@ class MovieController {
         request.httpMethod = HTTPMethod.put.rawValue
         
         do {
-            request.httpBody = try JSONEncoder().encode(movie.entryRepresentation)
+            request.httpBody = try JSONEncoder().encode(movie.movieRepresentation)
         } catch {
             NSLog("Error encoding Movie: \(error)")
             completion(error)
@@ -102,7 +106,7 @@ class MovieController {
         }.resume()
     }
     
-    func fetchEntriesFromServer(completion: @escaping ((Error?) -> Void) = { _ in }) {
+    func fetchMoviesFromServer(completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         let requestURL = baseURL.appendingPathExtension("json")
         
@@ -124,7 +128,7 @@ class MovieController {
             
             do {
                 movieRepresentations = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({$0.value})
-                self.updateEntries(with: movieRepresentations)
+                self.updateMovies(with: movieRepresentations)
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
@@ -135,7 +139,7 @@ class MovieController {
         }.resume()
     }
     
-    private func updateEntries(with representations: [MovieRepresentation]) {
+    private func updateMovies(with representations: [MovieRepresentation]) {
         
         let moviesWithID = representations.filter({ $0.identifier != nil })
         let identifiersToFetch = moviesWithID.compactMap({ UUID(uuidString: $0.identifier!.uuidString) })

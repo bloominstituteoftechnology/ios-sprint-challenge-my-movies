@@ -9,10 +9,12 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    let movieController = MovieController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(UUID())
         searchBar.delegate = self
     }
     
@@ -40,8 +42,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         return cell
     }
-    
-    var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
