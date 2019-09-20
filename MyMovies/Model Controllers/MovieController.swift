@@ -58,6 +58,7 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+	}
 		
 		func put(movie: Movie, completion: @escaping () -> Void = { }) {
 			
@@ -93,7 +94,100 @@ class MovieController {
 				}
 			}
 		}
-    }
+	
+	func fetchTaskFromServer(completion: @escaping () -> Void = { }) {
+		
+		// appendingPathComponent adds a '/'
+		// appendingPathExtension adds a '.'
+		
+		let requestURL = baseURL.appendingPathExtension("json")
+		
+		URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+			
+			if let error = error {
+				NSLog("Error fetching movie: \(error)")
+				completion()
+			}
+			
+			guard let data = data else {
+				NSLog("No data returned from data movie")
+				completion()
+				return
+			}
+			
+			do {
+				let decoder = JSONDecoder()
+				
+				let movieRepresentations = try decoder.decode([String: MovieRepresentation].self, from: data).map({ $0.value })
+				
+				self.updateMovie(with: movieRepresentations)
+				
+			} catch {
+				NSLog("Error decoding: \(error)")
+			}
+		}.resume()
+	}
+	
+	func updateMovie(with representations: [MovieRepresentation]) {
+		
+		let identifiersToFetch = representations.compactMap({ $0.identifier })
+		
+		// [UUID: TaskRepresentation]
+		
+		let representationsById = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+		
+		// Make a mutable copy of the dictionary above.
+		var moviesToCreate = representationsById
+		
+		let context = CoreDataStack.shared.container.newBackgroundContext()
+		
+		context.performAndWait {
+			
+			do {
+				//				let context = CoreDataStack.shared.mainContext
+				
+				let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+				
+				// identifier == \(identifier)
+				fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+				
+				// Which of these tasks exsist in Core Data already?
+				let exsistingMovie = try context.fetch(fetchRequest)
+				
+				// Which need to be updated? Which need to be put into Core Data?
+				for movie in exsistingMovie {
+					guard let identifier = movie.identifier,
+						// This gets the task representation that corresponds to the task from Core Data.
+						let representation = representationsById[identifier] else { continue }
+					
+					movie.title = representation.title
+					movie.hasWatched = representation.hasWatched ?? false
+					
+					moviesToCreate.removeValue(forKey: identifier)
+				}
+				
+				// Take the task that AREN'T in Core Data and create new ones for them.
+				for represntation in moviesToCreate.values {
+					Movie(movieRepresentation: represntation, context: context)
+				}
+				
+				CoreDataStack.shared.save(context: context)
+				
+			} catch {
+				NSLog("Error fetching task from persistent store: \(error)")
+			}
+		}
+	}
+	
+	func addMovie(with title: String, hasWatched: Bool) -> Movie {
+		let movie = Movie(title: title, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
+		
+		CoreDataStack.shared.save()
+		put(movie: movie)
+		
+		return movie
+	}
+	
     
     // MARK: - Properties
     
