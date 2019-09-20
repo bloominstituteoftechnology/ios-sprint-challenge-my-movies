@@ -179,19 +179,16 @@ class MovieController {
 		}
 	}
 	
-	func addMovie(with title: String, hasWatched: Bool) -> Movie {
-		let movie = Movie(title: title, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
+	func addMovie(movie: MovieRepresentation) {
+		let addedMovie = Movie()
 		
 		CoreDataStack.shared.save()
-		put(movie: movie)
 		
-		return movie
+		put(movie: addedMovie)
+		
 	}
 	
-	func updateTheMovie(movie: Movie, with title: String, hasWacthed: Bool) {
-		
-		movie.title = title
-		movie.hasWatched = hasWacthed
+	func updateTheMovie(movie: Movie) {
 		
 		CoreDataStack.shared.save()
 		put(movie: movie)
@@ -199,7 +196,7 @@ class MovieController {
 	}
 	
 	func delete(movie: Movie) {
-		
+		let theMovie = Movie()
 		CoreDataStack.shared.mainContext.delete(movie)
 		CoreDataStack.shared.save()
 	}
