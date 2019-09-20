@@ -52,7 +52,6 @@
 		46E209D82126A63600E7FF73 = {
 			isa = PBXGroup;
 			children = (
-				4556A6D62335383C00FD0CC5 /* CoreDataController.swift */,
 				46E209E32126A63600E7FF73 /* MyMovies */,
 				46E209E22126A63600E7FF73 /* Products */,
 			);
@@ -92,6 +91,7 @@
 		46E20A072126AFA300E7FF73 /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4556A6D62335383C00FD0CC5 /* CoreDataController.swift */,
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
 			);
 			path = "Model Controllers";

@@ -10,6 +10,9 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    
+    let addMovieButton: UIButton = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +41,14 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
+        addMovieButton.addTarget(self, action: #selector(addMovie), for: .touchUpInside)
+        addMovieButton.tag = indexPath.row
+        
         return cell
+    }
+    
+    @objc func addMovie(){
+        
     }
     
     var movieController = MovieController()
