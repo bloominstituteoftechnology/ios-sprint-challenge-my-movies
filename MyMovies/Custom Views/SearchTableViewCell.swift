@@ -10,12 +10,19 @@ import UIKit
 
 class SearchTableViewCell: UITableViewCell {
     
+    var hasBeenAdded: Bool = false
+    
     var movieController: MovieController?
     
     var movie: MovieRepresentation? {
         didSet {
             setViews()
         }
+    }
+    
+    override func awakeFromNib() {
+        
+        setViews()
     }
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -25,16 +32,20 @@ class SearchTableViewCell: UITableViewCell {
         
         titleLabel.text = movie?.title
         
-        addMovieButton.setTitle("ADD MOIVE", for: .normal)
-        addMovieButton.setTitleColor(.white, for: .normal)
-        addMovieButton.backgroundColor = #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)
-        addMovieButton.layer.cornerRadius = 8
+        if hasBeenAdded == false {
+             addMovieButton.setTitle("Add Movie", for: .normal)
+        } else if hasBeenAdded == true {
+            addMovieButton.setTitle("Movie Added", for: .normal)
+        }
+       
+
     }
     
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
+        hasBeenAdded = !hasBeenAdded
         guard let title = titleLabel.text else {return}
         movieController?.createMovie(with: title)
         CoreDataStack.shared.save()
-        
+       
     }
 }

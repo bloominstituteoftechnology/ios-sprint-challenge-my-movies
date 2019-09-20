@@ -17,27 +17,33 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     var movie: Movie? {
         didSet {
-           setViews()
+            setViews()
         }
     }
-
+    
     private func setViews() {
-      titleLabel.text = movie?.title
-         hasWatchedButton.setTitle("UNSEEN", for: .normal)
+        guard let movie = movie else {return}
+        titleLabel.text = movie.title
         
+        if movie.hasWatched == false {
+            hasWatchedButton.setTitle("Unwatched", for: .normal)
+        } else if movie.hasWatched == true {
+            hasWatchedButton.setTitle("Watched", for: .normal)
+            
+        }
     }
     
     @IBAction func hasWatchedButtonTapped(_ sender: UIButton) {
         
         guard let movie = movie else {return}
-       
-        if movie.hasWatched {
+        
+        if movie.hasWatched == false {
             movieController?.updateMovie(movie: movie, hasWatched: true)
-            hasWatchedButton.setTitle("UNSEEN", for: .normal)
-        } else {
+            hasWatchedButton.setTitle("Watched", for: .normal)
+        } else if movie.hasWatched == true {
             movieController?.updateMovie(movie: movie, hasWatched: false)
-            hasWatchedButton.setTitle("SEEN", for: .normal)
-
+            hasWatchedButton.setTitle("Unwatched", for: .normal)
+            
         }
     }
 }

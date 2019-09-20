@@ -63,8 +63,13 @@ class MyMoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetch.sections?[section] else {return nil}
-        return sectionInfo.name
+        
+        if section == 0 {
+            return "Unwatched"
+        } else {
+            return "Watched"
+        }
+        
     }
   
     // Override to support editing the table view.

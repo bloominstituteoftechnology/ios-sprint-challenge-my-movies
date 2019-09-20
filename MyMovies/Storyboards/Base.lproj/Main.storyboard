@@ -117,17 +117,17 @@
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.40000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="227" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="30"/>
+                                                    <rect key="frame" x="243" y="0.0" width="100" height="30"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="IYI-zM-JiC"/>
+                                                        <constraint firstAttribute="width" constant="100" id="IYI-zM-JiC"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
+                                                    <state key="normal" title="Unwatched"/>
                                                     <connections>
                                                         <action selector="hasWatchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="quO-QH-K4k"/>
                                                     </connections>
