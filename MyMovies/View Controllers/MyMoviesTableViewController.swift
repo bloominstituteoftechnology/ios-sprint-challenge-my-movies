@@ -7,17 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,23 +30,23 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+		return fetchedResultsController.sections?[sections].name
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+
+        return fetchedResultsController.sections?.count ?? 1
     }
 
-    /*
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
 
         // Configure the cell...
 
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
@@ -92,4 +93,17 @@ class MyMoviesTableViewController: UITableViewController {
     }
     */
 
+	lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+		let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+
+		let moc = CoreDataStack.shared.mainContext
+		let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+											 managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
+
+		frc.delegate = self
+
+		try! frc.performFetch()
+
+		return frc
+	}()
 }
