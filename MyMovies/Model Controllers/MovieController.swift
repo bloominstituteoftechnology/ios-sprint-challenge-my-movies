@@ -27,6 +27,8 @@ class MovieController {
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
+    private let base = URL(string: "https://mymoviesprint.firebaseio.com/")!
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -106,7 +108,6 @@ class MovieController {
             }.resume()
     }
 
-    
     func updateMovie(with representations: [MovieRepresentation]) {
         
         
@@ -164,7 +165,7 @@ class MovieController {
         
         guard let identifier = movie.identifier else {return}
         
-        let requestURL = baseURL
+        let requestURL = base
             .appendingPathComponent(identifier)
             .appendingPathExtension("json")
         
@@ -187,9 +188,8 @@ class MovieController {
         
     }
     
-    func updateJournal(movie: Movie, with title: String, hasWatched: Bool) {
-        
-        movie.title = title
+    func updateMovie(movie: Movie, hasWatched: Bool) {
+       
         movie.hasWatched = hasWatched
         
         CoreDataStack.shared.save()
