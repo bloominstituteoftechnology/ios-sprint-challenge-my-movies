@@ -6,8 +6,6 @@
 //  Copyright © 2018 Lambda School. All rights reserved.
 //
 
-// Testing 
-
 import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
