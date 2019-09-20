@@ -10,9 +10,8 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
-
-    let movieController = MovieController()
     
+    let myMovieController = MyMovieController()
     lazy var fetchResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true)]
@@ -51,15 +50,18 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchResultsController.sections?[section] else { return nil }
-        return sectionInfo.name.capitalized
+        if sectionInfo.name == "0"  {
+            return "Not Watched"
+        } else {
+            return "Watched"
+        }
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell()}
         // Configure the cell...
-
+        cell.myMovie = fetchResultsController.object(at: indexPath)
         return cell
     }
 
@@ -77,7 +79,7 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            myMovieController.delete(myMovie: fetchResultsController.object(at: indexPath))
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    

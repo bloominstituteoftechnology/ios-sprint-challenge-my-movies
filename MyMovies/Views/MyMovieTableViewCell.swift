@@ -20,7 +20,10 @@ class MyMovieTableViewCell: UITableViewCell {
     }
 
     @IBAction func hasWatchedTapped(_ sender: UIButton) {
-        myMovie?.toggleHasWatched()
+        guard let myMovie = myMovie,
+        let title = myMovie.title else { return }
+        myMovie.hasWatched = !myMovie.hasWatched
+        MyMovieController.shared.update(myMovie: myMovie, with: title, hasWatched: myMovie.hasWatched)
         updateViews()
     }
     

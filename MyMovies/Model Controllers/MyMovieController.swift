@@ -16,6 +16,8 @@ protocol MyMovieDataDelegate {
 
 class MyMovieController {
     
+    static let shared = MyMovieController()
+    
     init() {
         fetchFromServer()
     }

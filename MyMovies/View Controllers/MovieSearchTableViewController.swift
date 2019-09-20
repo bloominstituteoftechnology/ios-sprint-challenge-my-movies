@@ -16,7 +16,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         searchBar.delegate = self
     }
     
@@ -53,8 +52,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
 extension MovieSearchTableViewController: MovieSearchDelegate {
     func addMovie(title: String) {
-        //TODO: Add functionality
+        MyMovieController.shared.create(with: title)
     }
-    
-    
 }
