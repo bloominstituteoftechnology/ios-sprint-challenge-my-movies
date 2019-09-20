@@ -58,6 +58,41 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+		
+		func put(movie: Movie, completion: @escaping () -> Void = { }) {
+			
+			let identifier = movie.identifier ?? UUID()
+			movie.identifier = identifier
+			
+			let requestURL = baseURL
+				.appendingPathComponent(identifier.uuidString)
+				.appendingPathComponent("json")
+			
+			var request = URLRequest(url: requestURL)
+			request.httpMethod = HTTPMethod.put.rawValue
+			
+			guard let movieRepresentation = movie.movieReresentation else {
+				NSLog("Movie Representation is nil")
+				completion()
+				return
+			}
+			
+			do {
+				request.httpBody = try JSONEncoder().encode(movieRepresentation)
+			} catch {
+				NSLog("Error encoding movie repersentation: \(error)")
+				completion()
+				return
+			}
+			
+			URLSession.shared.dataTask(with: request) { (_, _, error) in
+				if let error = error {
+					NSLog("Error PUTing movie: \(error)")
+					completion()
+					return
+				}
+			}
+		}
     }
     
     // MARK: - Properties
