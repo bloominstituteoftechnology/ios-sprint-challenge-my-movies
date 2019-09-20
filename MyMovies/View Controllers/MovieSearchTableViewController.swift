@@ -40,13 +40,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
+//Cant get button to appear in Basic Cell
         addMovieButton.addTarget(self, action: #selector(addMovie), for: .touchUpInside)
         addMovieButton.tag = indexPath.row
         
         return cell
     }
-    
+//Need to then fill out this function
     @objc func addMovie(){
         
     }
