@@ -14,6 +14,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         super.viewDidLoad()
         
         searchBar.delegate = self
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -45,3 +46,4 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
+

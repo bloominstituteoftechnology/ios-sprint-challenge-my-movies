@@ -7,11 +7,23 @@
 //
 
 import Foundation
+import CoreData
+
+enum HTTPMethod: String {
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
+}
 
 class MovieController {
     
+    static let sharedController = MovieController()
+    init(){}
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string: "https://coredatasprintchallenge.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -50,6 +62,51 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    // MARK: - Firebase Network Methods
+    
+    func putMovie(movie: Movie, completion: @escaping () -> Void = { }) {
+        let identifier = movie.identifier ?? UUID()
+        movie.identifier = identifier
+        
+        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        guard let movieRepresentation = movie.movieRepresentation else {
+            NSLog("Movie Representation is nil on line \(#line) in \(#file)")
+            completion()
+            return
+        }
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            NSLog("Error encoding movie representation on line \(#line) in \(#file): \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTting movie on line \(#line) in \(#file): \(error)")
+                completion()
+                return
+            }
+            
+            completion()
+        }.resume()
+        
+    }
+    
+    // MARK: - Core Data Methods
+    @discardableResult func createMovie(title: String, identifier: UUID = UUID(), hasWatched: Bool) -> Movie {
+        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
+        CoreDataStack.shared.save()
+        putMovie(movie: movie)
+        
+        return movie
     }
     
     // MARK: - Properties
