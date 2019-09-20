@@ -20,10 +20,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         guard let searchTerm = searchBar.text else { return }
         
         movieController.searchForMovie(with: searchTerm) { (error) in
-            
             guard error == nil else { return }
             
             DispatchQueue.main.async {
+                self.movieController.createMovie(with: searchTerm)
                 self.tableView.reloadData()
             }
         }

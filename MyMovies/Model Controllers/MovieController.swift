@@ -30,8 +30,8 @@ class MovieController {
     }
     
     // update Method
-    func updateMovie(with: Movie, title: String, hasWatched: Bool) {
-        
+    func updateHasBeenWatcehd(movie: Movie) {
+   // guard let index = MovieRepresentations.
         
     }
     
@@ -172,21 +172,48 @@ extension MovieController {
                     guard let id = movie.identifier,
                         let identifier = UUID(uuidString: id),
                         let representation = representationsByID[identifier] else { continue }
-                    self.update(entry: entry, with: representation)
-                    //  entriesToCreate.removeValue(forKey: identifier)
+                    self.update(movie: movie, with: representation)
+                     entriesToCreate.removeValue(forKey: identifier)
                 }
                 
                 for representation in entriesToCreate.values {
-                    Entry(entryRepresentation: representation, context: context)
+                    Movie(movieRepresentation: representation, context: context)
                 }
                 
             } catch {
                 NSLog("Error fetching tasks for UUIDs: \(error)")
             }
             
-            CoreDataStack.shared.mainContext.save()
+          CoreDataStack.shared.mainContext.saveChanges()
         }
     }
     
+    func deleteEntryFromServer(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        
+        guard let identifier = movie.identifier else {
+            NSLog("movie identifier is nil")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = dataBaseUrl.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error deleting movie from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            }.resume()
+    }
+    private func update(movie: Movie, with movieRep: MovieRepresentation) {
+        movie.title = movieRep.title
+        movie.identifier = movieRep.identifier
+        movie.hasWatched = movieRep.hasWatched ?? false
+    }
 
 }

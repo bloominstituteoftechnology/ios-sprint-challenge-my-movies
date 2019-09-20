@@ -10,7 +10,7 @@ import UIKit
 import  CoreData
 
 enum CellIdentfier: String{
-    case MovieCell
+    case MyMovieCell
 }
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
@@ -21,8 +21,10 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchedRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "hasWatched", cacheName: nil)
+        let context = CoreDataStack.shared.mainContext
+        let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         fetchResultsController.delegate = self
+        try! fetchResultsController.performFetch()
         return fetchResultsController
     }()
     
@@ -51,7 +53,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let movieCell = tableView.dequeueReusableCell(withIdentifier: CellIdentfier.MovieCell.rawValue , for: indexPath)
+        guard let movieCell = tableView.dequeueReusableCell(withIdentifier: CellIdentfier.MyMovieCell.rawValue , for: indexPath)
             as? MovieTableViewCell else {return UITableViewCell()}
             let movie = fetchedResultsController.object(at: indexPath)
             movieCell.movie = movie

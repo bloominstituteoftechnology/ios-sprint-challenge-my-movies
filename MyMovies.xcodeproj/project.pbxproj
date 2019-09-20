@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,7 @@
 		A0633DE7C7BD3E05AB78449E /* Pods_MyMovies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51DE9A235C9DAB809AAEB0FD /* Pods_MyMovies.framework */; };
 		DD2D4D8C233529A2005C1802 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2D4D8B233529A2005C1802 /* Movie.swift */; };
 		DD2D4D8E23352EF5005C1802 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2D4D8D23352EF5005C1802 /* MovieTableViewCell.swift */; };
-		DD2D4D9023353532005C1802 /* GoogleService-Info-2.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD2D4D8F23353532005C1802 /* GoogleService-Info-2.plist */; };
+		DD2D4D9023353532005C1802 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD2D4D8F23353532005C1802 /* GoogleService-Info.plist */; };
 		DDE43EB7233522F600D4757D /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DDE43EB5233522F600D4757D /* MyMovies.xcdatamodeld */; };
 		DDE43EBD2335238A00D4757D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE43EBC2335238A00D4757D /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
@@ -39,7 +39,7 @@
 		51DE9A235C9DAB809AAEB0FD /* Pods_MyMovies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyMovies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD2D4D8B233529A2005C1802 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		DD2D4D8D23352EF5005C1802 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
-		DD2D4D8F23353532005C1802 /* GoogleService-Info-2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-2.plist"; sourceTree = "<group>"; };
+		DD2D4D8F23353532005C1802 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DDE43EB6233522F600D4757D /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		DDE43EBC2335238A00D4757D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,7 +62,6 @@
 				0309CBA5EA09657757E11A4A /* Pods-MyMovies.debug.xcconfig */,
 				1D315F1ADF6EB841D65BB1A0 /* Pods-MyMovies.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -126,7 +125,7 @@
 		46E20A092126AFC200E7FF73 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				DD2D4D8F23353532005C1802 /* GoogleService-Info-2.plist */,
+				DD2D4D8F23353532005C1802 /* GoogleService-Info.plist */,
 				46E209E42126A63600E7FF73 /* AppDelegate.swift */,
 				46E209EB2126A63700E7FF73 /* Assets.xcassets */,
 				46E209F02126A63700E7FF73 /* Info.plist */,
@@ -224,7 +223,7 @@
 			files = (
 				46E209EF2126A63700E7FF73 /* LaunchScreen.storyboard in Resources */,
 				46E209EC2126A63700E7FF73 /* Assets.xcassets in Resources */,
-				DD2D4D9023353532005C1802 /* GoogleService-Info-2.plist in Resources */,
+				DD2D4D9023353532005C1802 /* GoogleService-Info.plist in Resources */,
 				46E209EA2126A63600E7FF73 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

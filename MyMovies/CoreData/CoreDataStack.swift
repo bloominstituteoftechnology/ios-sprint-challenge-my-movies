@@ -15,7 +15,12 @@ class CoreDataStack {
     static let shared = CoreDataStack()
     
     lazy var persistenContainer:NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Movie")
+        let container = NSPersistentContainer(name: "MyMovies")
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            if let error = error {
+                fatalError("unable to load from persistence ")
+            }
+        })
         return container
     }()
 
