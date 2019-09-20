@@ -9,6 +9,12 @@
 import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
+    
+    var movie: Movie? {
+        didSet {
+            
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()

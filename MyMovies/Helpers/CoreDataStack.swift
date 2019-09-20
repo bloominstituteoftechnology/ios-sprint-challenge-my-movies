@@ -35,7 +35,11 @@ class CoreDataStack {
         return container.viewContext
     }
     
-    func save(context: NSManagedObjectContext) {
+    var backgroundContext: NSManagedObjectContext {
+        return container.newBackgroundContext()
+    }
+    
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         context.performAndWait {
             do {

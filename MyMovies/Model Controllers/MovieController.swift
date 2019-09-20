@@ -7,8 +7,22 @@
 //
 
 import Foundation
+import CoreData
+
+enum HTTPMethod: String {
+    
+    case get = "GET" // read only
+    case put = "PUT" // create data
+    case post = "POST" // update or replace data
+    case delete = "DELETE" // delete data
+    
+}
 
 class MovieController {
+    
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -52,7 +66,148 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
+    func put(moive: Movie, completion: @escaping () -> Void = { }) {
+        
+        let base = URL(string: "https://mymoviesprint.firebaseio.com/")!
+        
+        let identifier = moive.identifier ?? UUID().uuidString
+        moive.identifier = identifier
+        
+        let requestURL = base
+            .appendingPathComponent(identifier)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        guard let movieRepresentation = moive.movieRepresentation else {
+            NSLog("Task Representation is nil")
+            completion()
+            return
+        }
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            NSLog("Error encoding task representation: \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            
+            if let error = error {
+                NSLog("Error PUTting task: \(error)")
+                completion()
+                return
+            }
+            
+            completion()
+            }.resume()
+    }
+
     
-    var searchedMovies: [MovieRepresentation] = []
+    func updateMovie(with representations: [MovieRepresentation]) {
+        
+        
+        let identifiersToFetch = representations.compactMap({ $0.identifier?.uuidString })
+        
+        // [UUID: TaskRepresentation]
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        // Make a mutable copy of the dictionary above
+        var tasksToCreate = representationsByID
+        
+        let context = CoreDataStack.shared.backgroundContext
+        
+        context.performAndWait {
+            
+            do {
+                
+                
+                let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+                
+                // identifier == \(identifier)
+                fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+                
+                // Which of these tasks exist in Core Data already?
+                let existingTasks = try context.fetch(fetchRequest)
+                
+                // Which need to be updated? Which need to be put into Core Data?
+                for movie in existingTasks {
+                    guard let identifier = movie.identifier,
+                        // This gets the task representation that corresponds to the task from Core Data
+                        let representation = representationsByID[identifier] else { continue }
+                    
+                    movie.title = representation.title
+                    movie.identifier = representation.identifier?.uuidString
+                    movie.hasWatched = representation.hasWatched!
+                    
+                    tasksToCreate.removeValue(forKey: identifier)
+                }
+                
+                // Take the tasks that AREN'T in Core Data and create new ones for them.
+                for representation in tasksToCreate.values {
+                    Movie(representation, context: context)
+                }
+                
+                CoreDataStack.shared.save(context: context)
+                
+            } catch {
+                NSLog("Error fetching tasks from persistent store: \(error)")
+            }
+        }
+    }
+    
+    func deleteEntryFromServer(movie: Movie, completion: @escaping (Error?) -> Void ) {
+        
+        guard let identifier = movie.identifier else {return}
+        
+        let requestURL = baseURL
+            .appendingPathComponent(identifier)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting task: \(error)")
+                completion(error)
+            }
+            }.resume()
+    }
+    
+    func createMovie(with title: String) {
+        
+        let movie = Movie(title: title)
+        CoreDataStack.shared.save()
+        put(moive: movie!)
+        
+    }
+    
+    func updateJournal(movie: Movie, with title: String, hasWatched: Bool) {
+        
+        movie.title = title
+        movie.hasWatched = hasWatched
+        
+        CoreDataStack.shared.save()
+    }
+    
+    func delete(movie: Movie){
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        context.performAndWait {
+            deleteEntryFromServer(movie: movie) { (error) in
+                NSLog("Error deleting journal")
+            }
+            context.delete(movie)
+            CoreDataStack.shared.save()
+            
+        }
+    }
 }
+   
+
