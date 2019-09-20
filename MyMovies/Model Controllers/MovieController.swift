@@ -50,7 +50,11 @@ class MovieController {
                 completion(error)
             }
         }.resume()
-    }
+    }//End of SearchForMovie func
+    
+    
+    
+    
     
     // MARK: - Properties
     

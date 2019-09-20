@@ -14,7 +14,7 @@ extension Movie {
     //Initialize your Representation
     var movieRepresentation: MovieRepresentation? {
         guard let title = title,
-            let identifier = identifier?.uuidString else{return nil}
+            let identifier = identifier else{return nil}
         
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
         
@@ -34,7 +34,7 @@ extension Movie {
     
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
-        guard let identifier = UUID(uuidString: movieRepresentation.identifier) else{return nil}
+        guard let identifier = movieRepresentation.identifier else{return nil}
         
         self.init(title: movieRepresentation.title, hasWatched: true, identifier: identifier, context:context)
         
