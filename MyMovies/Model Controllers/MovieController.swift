@@ -188,6 +188,22 @@ class MovieController {
 		return movie
 	}
 	
+	func updateTheMovie(movie: Movie, with title: String, hasWacthed: Bool) {
+		
+		movie.title = title
+		movie.hasWatched = hasWacthed
+		
+		CoreDataStack.shared.save()
+		put(movie: movie)
+		
+	}
+	
+	func delete(movie: Movie) {
+		
+		CoreDataStack.shared.mainContext.delete(movie)
+		CoreDataStack.shared.save()
+	}
+	
     
     // MARK: - Properties
     
