@@ -178,15 +178,19 @@ class MovieController {
 
     @discardableResult func createMovie(title: String, identifier: UUID, hasWatched: Bool?) -> Movie {
         
-        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        CoreDataStack.shared.save()
+        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: context)
+        
+        CoreDataStack.shared.save(context: context)
         put(movie: movie)
         
         return movie
     }
     
     func updateMovie(movie: Movie, title: String, identifier: UUID, hasWatched: Bool?) {
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
         guard let hasWatched = hasWatched else { return }
         
@@ -195,12 +199,28 @@ class MovieController {
         movie.hasWatched = hasWatched
         put(movie: movie)
         
-        CoreDataStack.shared.save()
+        CoreDataStack.shared.save(context: context)
     }
     
     func deleteMovie(movie: Movie) {
-        
         CoreDataStack.shared.mainContext.delete(movie)
         CoreDataStack.shared.save()
+        deleteMovieFromServer(movie: movie)
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping () -> Void = { }) {
+        guard let identifier = movie.identifier else { return }
+        let requestURL = fireBaseURL.appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting movie: \(error)")
+                completion()
+                return
+            }
+            completion()
+        }.resume()
     }
 }
