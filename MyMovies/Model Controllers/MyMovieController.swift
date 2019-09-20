@@ -42,15 +42,42 @@ class MyMovieController {
     }
     
     func delete(myMovie: Movie) {
+        fbDelete(representation: myMovie.movieRepresentation)
         CoreDataStack.shared.mainContext.delete(myMovie)
         CoreDataStack.shared.save()
         //Implement delete from Firebase?
+        
     }
     
     //MARK: - Firebase code
     
-    func fbDelete (representation: MovieRepresentation, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
-        
+    func fbDelete (representation: MovieRepresentation?, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
+        guard let representation = representation,
+            let identifier = representation.identifier?.uuidString else {
+                NSLog("Movie Representation is nil for put function.")
+                completion(AppError.objectToRepFailed)
+                return
+        }
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        do {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            request.httpBody = try encoder.encode(representation)
+            print ("HTTP Body: \(String(describing: request.httpBody))")
+        } catch {
+            NSLog("Error encoding task respresentation: \(error)")
+            completion(error)
+            return
+        }
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                NSLog("Error DELETEing myMovie: \(error)")
+                completion(error)
+                return
+            }
+            }.resume()
     }
     
     func put(representation: MovieRepresentation?, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
