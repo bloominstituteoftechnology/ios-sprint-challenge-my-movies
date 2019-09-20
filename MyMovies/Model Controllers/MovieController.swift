@@ -193,6 +193,7 @@ class MovieController {
         movie.hasWatched = hasWatched
         
         CoreDataStack.shared.save()
+        put(moive: movie)
     }
     
     func delete(movie: Movie){
