@@ -11,7 +11,7 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
-    var movieController: MovieController?
+    var movieController = MovieController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +57,8 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            movieController?.delete(movie: fetchedResultsController.object(at: indexPath))
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.delete(movie: movie)
         }
     }
 }
