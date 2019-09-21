@@ -55,9 +55,25 @@ class MyMoviesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        if sectionInfo.name == "0" {
+            return "Not Watched"
+        } else {
+            return "Watched"
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
+            if let id = movie.identifier {
+                print(id.uuidString)
+            } else {
+                print("AHHHHHHHHHHHHHHH")
+            }
             movieController.delete(movie: movie)
         }
     }

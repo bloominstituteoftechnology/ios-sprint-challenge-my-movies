@@ -40,6 +40,6 @@ class MovieTableViewCell: UITableViewCell {
 
     @IBAction func saveTapped(_ sender: UIButton) {
         guard let movieController = movieController, let searchedMovie = searchedMovie else { return }
-        movieController.createMovie(with: searchedMovie.title, identifier: searchedMovie.identifier ?? UUID(), hasWatched: searchedMovie.hasWatched ?? false)
+        movieController.createMovie(with: searchedMovie.title, identifier: searchedMovie.identifier ?? UUID(), hasWatched: false)
     }
 }

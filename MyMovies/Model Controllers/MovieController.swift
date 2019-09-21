@@ -103,36 +103,36 @@ class MovieController {
         }.resume()
     }
     
-    func fetchMoviesFromServer(completion: @escaping ((Error?) -> Void) = { _ in }) {
-        
+    func fetchMoviesFromServer(completion: @escaping () -> Void = { }) {
         let requestURL = fireBase.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             
             if let error = error {
-                NSLog("Error fetching movies from server: \(error)")
-                completion(error)
-                return
+                NSLog("Error fetching movies: \(error)")
+                completion()
             }
             
             guard let data = data else {
-                NSLog("No data returned from data task")
-                completion(NSError())
+                NSLog("No data returned from data movies")
+                completion()
                 return
             }
-            
-            var movieRepresentations: [MovieRepresentation] = []
             
             do {
-                movieRepresentations = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({$0.value})
-                self.updateMovies(with: movieRepresentations)
+                let decoder = JSONDecoder()
+                let representations = try decoder.decode([String: MovieRepresentation].self, from: data).map({ $0.value })
+                
+                self.updateMovies(with: representations)
+                CoreDataStack.shared.save()
+                
             } catch {
-                NSLog("Error decoding JSON data: \(error)")
-                completion(error)
-                return
+                NSLog("Error decoding: \(error)")
             }
             
-            completion(nil)
         }.resume()
     }
     
