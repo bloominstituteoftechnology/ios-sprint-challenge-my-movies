@@ -10,11 +10,14 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var addMovieButton: UIButton!
+    
     var title: String? {
         didSet{
             updateViews()
         }
     }
+    
     var delegate: MovieSearchDelegate?
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -28,6 +31,7 @@ class MovieSearchTableViewCell: UITableViewCell {
         guard let title = title,
         let delegate = delegate else { return }
         delegate.addMovie (title: title)
+        addMovieButton.setTitle("Added", for: .normal)
     }
     
 }
