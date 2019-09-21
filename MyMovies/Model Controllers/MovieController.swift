@@ -8,8 +8,7 @@
 
 import Foundation
 import CoreData
-
-
+import Firebase
 
 class MovieController {
     
@@ -31,8 +30,7 @@ class MovieController {
     
     // update Method
     func updateHasBeenWatcehd(movie: Movie) {
-   // guard let index = MovieRepresentations.
-        
+        movie.hasWatched = !movie.hasWatched
     }
     
     //delete Method
@@ -89,66 +87,7 @@ extension MovieController {
 
 // MARK: - extension for the movie Database fetchRequest.
 extension MovieController {
-    func addMovieToDataBase(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
-        
-        let identifier = movie.identifier ?? UUID().uuidString
-        let requestURL = dataBaseUrl.appendingPathComponent(identifier).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "PUT"
-        
-        do {
-            request.httpBody = try JSONEncoder().encode(movie.movieRepresentation)
-        } catch {
-            NSLog("Error encoding Movie: \(error)")
-            completion(error)
-            return
-        }
-        
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
-            if let error = error {
-                NSLog("Error PUTting Entry to server: \(error)")
-                completion(error)
-                return
-            }
-            
-            completion(nil)
-            }.resume()
-    }
-    
-    func getMoviesFromDataBase(completion: @escaping ((Error?) -> Void) = { _ in }) {
-        
-        let requestURL = dataBaseUrl.appendingPathExtension("json")
-        
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-            
-            if let error = error {
-                NSLog("Error fetching movie from server: \(error)")
-                completion(error)
-                return
-            }
-            
-            guard let data = data else {
-                NSLog("No data returned from data task")
-                completion(NSError())
-                return
-            }
-            
-            var movies: [MovieRepresentation] = []
-            
-            do {
-                movies = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({$0.value})
-                self.updateMovies(with: movies)
-            } catch {
-                NSLog("Error decoding JSON data: \(error)")
-                completion(error)
-                return
-            }
-            
-            completion(nil)
-            }.resume()
-        
-    }
-    
+ 
     private func updateMovies(with representations: [MovieRepresentation]) {
         
         let moviesWithID = representations.filter({ $0.identifier != nil })
