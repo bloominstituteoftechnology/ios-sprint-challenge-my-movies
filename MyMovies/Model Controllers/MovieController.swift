@@ -28,16 +28,9 @@ class MovieController {
         fetchMoviesFromServer()
     }
     
-    func printHi() {
-        print("hi")
-    }
-    
     func createMovie(with title: String, identifier: UUID, hasWatched: Bool) {
-        
         let movie = Movie(title: title, hasWatched: hasWatched, identifier: identifier)
-        
         put(movie: movie)
-        
         CoreDataStack.shared.save()
     }
     
@@ -64,8 +57,12 @@ class MovieController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
+        guard let title = movie.title else { return }
+        let rep = MovieRepresentation(title: title, identifier: movie.identifier, hasWatched: movie.hasWatched)
+        
         do {
-            request.httpBody = try JSONEncoder().encode(movie.movieRepresentation)
+            
+            request.httpBody = try JSONEncoder().encode(rep)
         } catch {
             NSLog("Error encoding Movie: \(error)")
             completion(error)
@@ -91,7 +88,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = fireBase.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
@@ -108,7 +105,7 @@ class MovieController {
     
     func fetchMoviesFromServer(completion: @escaping ((Error?) -> Void) = { _ in }) {
         
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = fireBase.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             
@@ -140,7 +137,6 @@ class MovieController {
     }
     
     private func updateMovies(with representations: [MovieRepresentation]) {
-        
         let moviesWithID = representations.filter({ $0.identifier != nil })
         let identifiersToFetch = moviesWithID.compactMap({ UUID(uuidString: $0.identifier!.uuidString) })
         

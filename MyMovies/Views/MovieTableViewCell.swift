@@ -1,8 +1,8 @@
 //
 //  MovieTableViewCell.swift
-//  Movie List
+//  MyMovies
 //
-//  Created by Jordan Christensen on 8/16/19.
+//  Created by Jordan Christensen on 9/21/19.
 //  Copyright © 2019 Lambda School. All rights reserved.
 //
 
@@ -10,44 +10,36 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var movieLabel: UILabel!
-    @IBOutlet weak var watchedButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var addButton: UIButton!
     
     var movieController: MovieController?
-    var movie: Movie? {
-        didSet{
+    var searchedMovie: MovieRepresentation? {
+        didSet {
             updateViews()
         }
     }
-    
-    func updateViews() {
-        guard let movie = movie else { return }
-        movieLabel.text = movie.title
-        if (movie.hasWatched) {
-            watchedButton.setTitle("Watched", for: .normal)
-        } else {
-            watchedButton.setTitle("Not Watched", for: .normal)
-        }
-    }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        updateViews()
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        guard let movieController = movieController,
-            let movie = movie,
-            let title = movie.title else { return }
-        if (selected) {
-            movieController.update(movie: movie, title: title, hasWatched: !movie.hasWatched)
-            if (movie.hasWatched) {
-                watchedButton.setTitle("Watched", for: .normal)
-            } else {
-                watchedButton.setTitle("Not Watched", for: .normal)
-            }
-        }
+
+        // Configure the view for the selected state
     }
     
+    func updateViews() {
+        guard let searchedMovie = searchedMovie else { return }
+        titleLabel.text = searchedMovie.title
+        
+    }
+
+    @IBAction func saveTapped(_ sender: UIButton) {
+        guard let movieController = movieController, let searchedMovie = searchedMovie else { return }
+        movieController.createMovie(with: searchedMovie.title, identifier: searchedMovie.identifier ?? UUID(), hasWatched: searchedMovie.hasWatched ?? false)
+    }
 }

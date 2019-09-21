@@ -10,7 +10,8 @@
 		0E8A119723354A5B000191D5 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A119223354A5A000191D5 /* Movie+Convenience.swift */; };
 		0E8A119C23354AD6000191D5 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A119B23354AD6000191D5 /* CoreDataStack.swift */; };
 		0E8A119F23354AE5000191D5 /* Movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A119D23354AE5000191D5 /* Movies.xcdatamodeld */; };
-		0E8A11A523355C07000191D5 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A11A423355C07000191D5 /* MovieTableViewCell.swift */; };
+		0E8A11A523355C07000191D5 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A11A423355C07000191D5 /* MyMovieTableViewCell.swift */; };
+		0E8A11A723356661000191D5 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A11A623356661000191D5 /* MovieTableViewCell.swift */; };
 		46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209E42126A63600E7FF73 /* AppDelegate.swift */; };
 		46E209EA2126A63600E7FF73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E209E82126A63600E7FF73 /* Main.storyboard */; };
 		46E209EC2126A63700E7FF73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E209EB2126A63700E7FF73 /* Assets.xcassets */; };
@@ -25,7 +26,8 @@
 		0E8A119223354A5A000191D5 /* Movie+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		0E8A119B23354AD6000191D5 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		0E8A119E23354AE5000191D5 /* Movies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movies.xcdatamodel; sourceTree = "<group>"; };
-		0E8A11A423355C07000191D5 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		0E8A11A423355C07000191D5 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
+		0E8A11A623356661000191D5 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		46E209E12126A63600E7FF73 /* MyMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E209E42126A63600E7FF73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46E209E92126A63600E7FF73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -52,7 +54,8 @@
 		0E8A11A2233558EC000191D5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0E8A11A423355C07000191D5 /* MovieTableViewCell.swift */,
+				0E8A11A423355C07000191D5 /* MyMovieTableViewCell.swift */,
+				0E8A11A623356661000191D5 /* MovieTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,9 +208,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E8A11A723356661000191D5 /* MovieTableViewCell.swift in Sources */,
 				0E8A119C23354AD6000191D5 /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
-				0E8A11A523355C07000191D5 /* MovieTableViewCell.swift in Sources */,
+				0E8A11A523355C07000191D5 /* MyMovieTableViewCell.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				0E8A119723354A5B000191D5 /* Movie+Convenience.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
