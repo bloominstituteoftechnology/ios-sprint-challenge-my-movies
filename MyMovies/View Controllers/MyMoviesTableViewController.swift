@@ -11,7 +11,7 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
 
-    let coreDataController = CoreDataController()
+    let movieController = MovieController()
     
     lazy var fetchResultController: NSFetchedResultsController<Movie> = {
         
@@ -52,6 +52,11 @@ class MyMoviesTableViewController: UITableViewController {
 
        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -73,7 +78,7 @@ class MyMoviesTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
 
         // Configure the cell...
         
@@ -103,7 +108,7 @@ class MyMoviesTableViewController: UITableViewController {
             // Delete the row from the data source
             let movie = fetchResultController.object(at: indexPath)
             
-            coreDataController.delete(movie: movie)
+            movieController.delete(movie: movie)
             
             
         }

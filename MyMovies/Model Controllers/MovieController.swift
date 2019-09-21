@@ -19,6 +19,8 @@ enum HTTPMethod: String {
 
 class MovieController {
     
+    var movieCollection: [Movie] = []
+    
     init(){
         fetchMovieFromServer()
     }
@@ -194,6 +196,10 @@ class MovieController {
         
     }
     
+    
+    func addMovie(movie: Movie){
+        movieCollection.append(movie)
+    }
     
     
     

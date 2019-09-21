@@ -11,7 +11,9 @@ import UIKit
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
     
-    let addMovieButton: UIButton = UIButton()
+    var movieController = MovieController()
+    var movie: Movie?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,19 +41,23 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
+        //New Title label outlet
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-//Cant get button to appear in Basic Cell
-        addMovieButton.addTarget(self, action: #selector(addMovie), for: .touchUpInside)
-        addMovieButton.tag = indexPath.row
+
         
         return cell
     }
-//Need to then fill out this function
-    @objc func addMovie(){
+
+    
+    @IBAction func addMovieButton(_ sender: Any) {
+        guard let movieToBeAdded = movie else{return}
+        movieController.put(movie: movieToBeAdded)
         
     }
     
-    var movieController = MovieController()
+   
+    
+    
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
