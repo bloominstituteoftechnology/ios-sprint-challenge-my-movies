@@ -25,4 +25,14 @@ extension Movie {
         self.identifier = identifier
         self.hasWatched = hasWatched
     }
+    
+    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
+        
+        guard let identifier = movieRepresentation.identifier else { return nil }
+        
+        self.init(title: movieRepresentation.title,
+                  identifier: identifier,
+                  hasWatched: movieRepresentation.hasWatched ?? false,
+                  context: context)
+    }
 }

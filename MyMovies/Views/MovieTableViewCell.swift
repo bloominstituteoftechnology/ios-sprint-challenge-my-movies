@@ -37,7 +37,9 @@ class MovieTableViewCell: UITableViewCell {
     }
     
     @IBAction func hasWatchedTapped(_ sender: UIButton) {
-        
+        guard let movie = movie else { return }
+        movie.hasWatched.toggle()
+        updateViews()
     }
     
 
