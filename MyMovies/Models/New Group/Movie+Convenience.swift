@@ -11,7 +11,7 @@ import CoreData
 
 extension Movie {
 
-	convenience init(title: String, identifier: UUID, hasWatched: Bool, context: NSManagedObjectContext) {
+	convenience init(title: String, identifier: String = UUID().uuidString, hasWatched: Bool = false, context: NSManagedObjectContext) {
 
 		self.init(context: context)
 		self.title = title
