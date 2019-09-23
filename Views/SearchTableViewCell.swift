@@ -10,15 +10,30 @@ import UIKit
 
 class SearchTableViewCell: UITableViewCell {
 
-	override func awakeFromNib() {
-		super.awakeFromNib()
-		// Initialization code
+	@IBOutlet weak var titleLabel: UILabel!
+	@IBOutlet weak var saveMovieButton: UIButton!
+
+	var movieController: MovieController?
+
+	var movie: MovieRepresentation? {
+		didSet {
+			setViews()
+		}
 	}
 
-	override func setSelected(_ selected: Bool, animated: Bool) {
-		super.setSelected(selected, animated: animated)
+	private func setViews() {
 
-		// Configure the view for the selected state
+		titleLabel.text = movie?.title
+
+		saveMovieButton.setTitle("ADD MOIVE", for: .normal)
+	}
+
+	@IBAction func saveMovieButtonTapped(_ sender: Any) {
+
+		guard let title = titleLabel.text else {return}
+		movieController?.createMovie(with: title)
+		CoreDataStack.shared.save()
+		
 	}
 
 }

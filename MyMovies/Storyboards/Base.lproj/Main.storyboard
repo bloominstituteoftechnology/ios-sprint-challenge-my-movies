@@ -41,7 +41,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="49" id="d7W-qE-xfL">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="49" id="d7W-qE-xfL" customClass="SearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="375" height="49"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
@@ -57,6 +57,9 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6cf-Wm-NDZ">
                                             <rect key="frame" x="330" y="9.5" width="37" height="30"/>
                                             <state key="normal" title="SAVE"/>
+                                            <connections>
+                                                <action selector="saveMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="VkP-re-1LO"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -67,6 +70,10 @@
                                         <constraint firstItem="YcI-5M-jaH" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="mXC-zw-hu7"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="saveMovieButton" destination="6cf-Wm-NDZ" id="ejd-aG-UJN"/>
+                                    <outlet property="titleLabel" destination="YcI-5M-jaH" id="Xvd-Df-eN7"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
