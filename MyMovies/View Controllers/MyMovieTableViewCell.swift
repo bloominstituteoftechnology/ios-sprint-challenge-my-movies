@@ -18,6 +18,8 @@ class MyMovieTableViewCell: UITableViewCell {
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var watchedButton: UIButton!
 	
+    var movieController: MovieController?
+
 	var delegate: MyMovieCellDelegate?
 	var movie: Movie? {
 		didSet {

@@ -62,11 +62,11 @@ class MovieController {
 		
 		func put(movie: Movie, completion: @escaping () -> Void = { }) {
 			
-			let identifier = movie.identifier ?? UUID()
+			let identifier = movie.identifier ?? UUID().uuidString
 			movie.identifier = identifier
 			
 			let requestURL = baseURL
-				.appendingPathComponent(identifier.uuidString)
+				.appendingPathComponent(identifier)
 				.appendingPathComponent("json")
 			
 			var request = URLRequest(url: requestURL)
@@ -130,7 +130,7 @@ class MovieController {
 	
 	func updateMovie(with representations: [MovieRepresentation]) {
 		
-		let identifiersToFetch = representations.compactMap({ $0.identifier })
+		let identifiersToFetch = representations.compactMap({ $0.identifier?.uuidString })
 		
 		// [UUID: TaskRepresentation]
 		
@@ -179,13 +179,12 @@ class MovieController {
 		}
 	}
 	
-	func addMovie(movie: MovieRepresentation) {
-		let addedMovie = Movie()
+	func addMovie(with theTitle: String) {
+		let addedMovie = Movie(title: theTitle)
 		
 		CoreDataStack.shared.save()
 		
-		put(movie: addedMovie)
-		
+		put(movie: addedMovie!)
 	}
 	
 	func updateTheMovie(movie: Movie) {

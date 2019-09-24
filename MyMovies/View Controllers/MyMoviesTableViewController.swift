@@ -46,7 +46,7 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return movieResultsController.sections?.count ?? 0
+        return movieResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,10 +58,10 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
 
-		let movie = movieResultsController.object(at: indexPath)
+//		let movie = movieResultsController.object(at: indexPath)
 		
-		cell.movie = movie
-		cell.delegate = self
+		cell.movieController = movieController
+		cell.movie = movieResultsController.object(at: indexPath)
 		
         return cell
     }

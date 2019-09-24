@@ -16,11 +16,13 @@ extension Movie {
 			let identifier = identifier
 			 else { return nil }
 		
+        let id = UUID(uuidString: identifier)
+
 		
-		return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+		return MovieRepresentation(title: title, identifier: id, hasWatched: hasWatched)
 	}
 	
-	convenience init(title: String, identifier: UUID = UUID(), hasWatched: Bool, context: NSManagedObjectContext) {
+	@discardableResult convenience init?(title: String, identifier: String = UUID().uuidString, hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 		
 		self.init(context: context)
 		
@@ -30,13 +32,13 @@ extension Movie {
 		
 	}
 	
-	@discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
-			guard let identifier = movieRepresentation.identifier else { return nil }
+	@discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 		
-		self.init(title: movieRepresentation.title,
-				   identifier: identifier,
-				   hasWatched: movieRepresentation.hasWatched ?? false,
-				   context: context)
+			let title = movieRepresentation.title
+			 guard let hasWatched = movieRepresentation.hasWatched,
+				 let identifier = movieRepresentation.identifier?.uuidString else {return nil}
+			 
+			 self.init(title: title, identifier: identifier, hasWatched: hasWatched, context: context)
 	}
 	
 }
