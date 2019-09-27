@@ -26,6 +26,7 @@ class AddMovieTableViewCell: UITableViewCell {
     @IBAction func addMovieTapped(_ sender: UIButton) {
         guard let title = self.textLabel?.text else { return }
         MovieController.sharedController.createMovie(title: title, hasWatched: false)
+        addMovieButton.setTitle("Added!", for: .normal)
     }
     
 }

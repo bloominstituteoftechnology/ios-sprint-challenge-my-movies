@@ -107,7 +107,7 @@ class MovieController {
     }
     
     func fetchMoviesFromFirebase(completion: @escaping () -> Void = {  }) {
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             if let error = error {
@@ -123,8 +123,9 @@ class MovieController {
             
             do {
                 let decoder = JSONDecoder()
-                let movieRepresentations = try decoder.decode([String: MovieRepresentation].self, from: data).map({ $0.value })
-                self.updateMovie(with: movieRepresentations)
+                let movieRepresentations = try decoder.decode([String: MovieRepresentation].self, from: data)
+                let movieArray = movieRepresentations.map({ $0.value })
+                self.updateMovie(with: movieArray)
             } catch {
                 NSLog("Error decoding Movies from Firebase: \(error)")
             }
@@ -155,12 +156,12 @@ class MovieController {
                 let existingMovies = try context.fetch(fetchRequest)
                 
                 for movie in existingMovies {
-                    guard let identifier = movie.identifier,
+                    guard let identifier = movie.identifier?.uuidString,
                         let representation = representationsByID[identifier] else { return }
                     
                     movie.title = representation.title
                     movie.hasWatched = representation.hasWatched ?? false
-                    movie.identifier = representation.identifier
+                    movie.identifier = UUID(uuidString: representation.identifier!)
                     
                     moviesToCreate.removeValue(forKey: identifier)
                 }

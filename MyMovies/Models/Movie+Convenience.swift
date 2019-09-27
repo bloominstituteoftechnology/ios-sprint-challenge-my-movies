@@ -15,7 +15,7 @@ extension Movie {
         guard let title = title,
             let identifier = identifier else { return nil }
         
-        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+        return MovieRepresentation(title: title, identifier: identifier.uuidString, hasWatched: hasWatched)
     }
     
     convenience init(title: String, identifier: UUID = UUID(), hasWatched: Bool, context: NSManagedObjectContext) {
@@ -28,7 +28,7 @@ extension Movie {
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
         
-        guard let identifier = movieRepresentation.identifier else { return nil }
+        guard let identifier = UUID(uuidString: movieRepresentation.identifier!) else { return nil }
         
         self.init(title: movieRepresentation.title,
                   identifier: identifier,
