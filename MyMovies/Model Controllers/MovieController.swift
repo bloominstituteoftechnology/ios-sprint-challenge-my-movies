@@ -11,10 +11,10 @@ import CoreData
 
 enum HTTPMethod: String {
 
-	case get = "GET" // read only
-	case put = "PUT" // create data
-	case post = "POST" // update or replace data
-	case delete = "DELETE" // delete data
+	case get = "GET"
+	case put = "PUT"
+	case post = "POST"
+	case delete = "DELETE"
 
 }
 
@@ -24,13 +24,13 @@ class MovieController {
 
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+	private let firebaseBaseURL = URL(string: "https://mymoviesprint.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
         
-        let queryParameters = ["query": searchTerm,
-                               "api_key": apiKey]
+        let queryParameters = ["query": searchTerm, "api_key": apiKey]
         
         components?.queryItems = queryParameters.map({URLQueryItem(name: $0.key, value: $0.value)})
         
@@ -42,7 +42,7 @@ class MovieController {
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             
             if let error = error {
-                NSLog("Error searching for movie with search term \(searchTerm): \(error)")
+                NSLog("Error searching for movie with \(searchTerm): \(error)")
                 completion(error)
                 return
             }
@@ -66,12 +66,12 @@ class MovieController {
     
     // MARK: - Properties
     
-	func put(moive: Movie, completion: @escaping () -> Void = { }) {
+	func put(movie: Movie, completion: @escaping () -> Void = { }) {
 
 		let base = URL(string: "https://mymoviesprint.firebaseio.com/")!
 
-		let identifier = moive.identifier ?? UUID().uuidString
-		moive.identifier = identifier
+		let identifier = movie.identifier ?? UUID().uuidString
+		movie.identifier = identifier
 
 		let requestURL = base
 			.appendingPathComponent(identifier)
@@ -81,7 +81,7 @@ class MovieController {
 		request.httpMethod = HTTPMethod.put.rawValue
 
 		guard let movieRepresentation = movie.movieRepresentation else {
-			NSLog("Task Representation is nil")
+			NSLog("Respresentation is nil")
 			completion()
 			return
 		}
@@ -155,7 +155,7 @@ class MovieController {
 
 		guard let identifier = movie.identifier else {return}
 
-		let requestURL = baseURL
+		let requestURL = firebaseBaseURL
 			.appendingPathComponent(identifier)
 			.appendingPathExtension("json")
 
@@ -174,16 +174,16 @@ class MovieController {
 
 		let movie = Movie(title: title)
 		CoreDataStack.shared.save()
-		put(moive: movie!)
+		put(movie: movie!)
 
 	}
 
-	func updateJournal(movie: Movie, with title: String, hasWatched: Bool) {
+	func updateMovie(movie: Movie, hasWatched: Bool) {
 
-		movie.title = title
 		movie.hasWatched = hasWatched
 
 		CoreDataStack.shared.save()
+		put(movie: movie)
 	}
 
 	func delete(movie: Movie){

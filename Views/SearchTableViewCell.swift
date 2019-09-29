@@ -13,6 +13,8 @@ class SearchTableViewCell: UITableViewCell {
 	@IBOutlet weak var titleLabel: UILabel!
 	@IBOutlet weak var saveMovieButton: UIButton!
 
+	var hasBeenAdded: Bool = false
+
 	var movieController: MovieController?
 
 	var movie: MovieRepresentation? {
@@ -21,15 +23,25 @@ class SearchTableViewCell: UITableViewCell {
 		}
 	}
 
+	override func awakeFromNib() {
+		setViews()
+	}
+
 	private func setViews() {
 
 		titleLabel.text = movie?.title
 
-		saveMovieButton.setTitle("ADD MOIVE", for: .normal)
+		if hasBeenAdded == false {
+			saveMovieButton.setTitle("Add Movie", for: .normal)
+		} else if hasBeenAdded == true {
+			saveMovieButton.setTitle("Movie Added", for: .normal)
+		}
 	}
 
-	@IBAction func saveMovieButtonTapped(_ sender: Any) {
+	@IBAction func saveMovieButtonTapped(_ sender: UIButton) {
 
+		hasBeenAdded = !hasBeenAdded
+		
 		guard let title = titleLabel.text else {return}
 		movieController?.createMovie(with: title)
 		CoreDataStack.shared.save()

@@ -30,77 +30,54 @@ class MyMoviesTableViewController: UITableViewController {
 		return frc
 	}()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-        self.clearsSelectionOnViewWillAppear = false
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
+		self.clearsSelectionOnViewWillAppear = false
+		self.navigationItem.rightBarButtonItem = self.editButtonItem
+	}
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+	override func didReceiveMemoryWarning() {
+		super.didReceiveMemoryWarning()
+	}
 
-    // MARK: - Table view data source
+	// MARK: - Table view data source
 
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		guard let sectionInfo = fetch.sections?[section] else {return nil}
-		return sectionInfo.name
+
+		if section == 0 {
+			return "Unwatched"
+		} else {
+			return "Watched"
+		}
 	}
 
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return fetch.sections?.count ?? 1
-    }
+	}
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return fetch.sections?[section].numberOfObjects ?? 0
-    }
+		return fetch.sections?[section].numberOfObjects ?? 0
+	}
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
 
-        	 cell.movie = fetch.object(at: indexPath)
+		cell.movieController = movieController
+		cell.movie = fetch.object(at: indexPath)
 
-        return cell
-    }
+		return cell
+	}
 
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
 
 			let movie = fetch.object(at: indexPath)
 			movieController.delete(movie: movie)
 		}
 	}
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
