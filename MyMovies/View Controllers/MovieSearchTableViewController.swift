@@ -8,22 +8,23 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    
+    //MARK: - View life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         searchBar.delegate = self
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
-        
         movieController.searchForMovie(with: searchTerm) { (error) in
-            
             guard error == nil else { return }
             
             DispatchQueue.main.async {
+                self.movieController.createMovie(with: searchTerm)
                 self.tableView.reloadData()
             }
         }
@@ -42,6 +43,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     var movieController = MovieController()
-    
     @IBOutlet weak var searchBar: UISearchBar!
 }
+
