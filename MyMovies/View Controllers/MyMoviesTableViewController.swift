@@ -21,8 +21,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchedRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
         let context = CoreDataStack.shared.mainContext
-        let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
+        let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: context, sectionNameKeyPath:"hasWatched", cacheName: nil)
         fetchResultsController.delegate = self
         try! fetchResultsController.performFetch()
         return fetchResultsController
@@ -34,16 +35,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         tableView.reloadData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return fetchedResultsController.sections?.count ?? 0
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,6 +52,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         guard let movieCell = tableView.dequeueReusableCell(withIdentifier: CellIdentfier.MyMovieCell.rawValue , for: indexPath)
             as? MovieTableViewCell else {return UITableViewCell()}
             let movie = fetchedResultsController.object(at: indexPath)
+        movieCell.hasWatchedButton.setTitle("unwatched", for: .normal)
             movieCell.movie = movie
         return movieCell
     }
@@ -67,7 +64,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
             movieController.deleteMovie(movie)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+           
         }
     }
     

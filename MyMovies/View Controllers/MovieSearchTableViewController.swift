@@ -7,13 +7,14 @@
 //
 
 import UIKit
-import Firebase
+
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
+    
+    //MARK: - View life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         searchBar.delegate = self
     }
     
@@ -24,9 +25,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             
             DispatchQueue.main.async {
                 self.movieController.createMovie(with: searchTerm)
-                let  movieref = self.movieReference.child(searchTerm.lowercased())
-                let values = ["movie":searchTerm.lowercased()]
-                movieref.setValue(values)
                 self.tableView.reloadData()
             }
         }
@@ -45,6 +43,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     var movieController = MovieController()
-    let movieReference = Database.database().reference(withPath:"movies")
     @IBOutlet weak var searchBar: UISearchBar!
 }
+

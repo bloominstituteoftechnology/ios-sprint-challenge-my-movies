@@ -23,19 +23,23 @@ class MovieController {
 //MARK: - methods
     
     //create method
-   @discardableResult func createMovie(with title: String) {
+func createMovie(with title: String) {
         let movie = Movie(title: title, context: CoreDataStack.shared.mainContext)
+        putMovieInDatabase(movie)
         CoreDataStack.shared.mainContext.saveChanges()
     }
     
     // update Method
-    func updateHasBeenWatcehd(movie: Movie) {
+    func updateHasBeenWatched(forMovie movie: Movie) {
         movie.hasWatched = !movie.hasWatched
+        putMovieInDatabase(movie)
+        
     }
     
     //delete Method
     func deleteMovie(_ movie: Movie) {
         CoreDataStack.shared.mainContext.delete(movie)
+        deleteMovieFromServer(movie: movie)
         CoreDataStack.shared.mainContext.saveChanges()
     }
     
@@ -87,72 +91,60 @@ extension MovieController {
 
 // MARK: - extension for the movie Database fetchRequest.
 extension MovieController {
- 
-    private func updateMovies(with representations: [MovieRepresentation]) {
+    
+    func putMovieInDatabase(_ movie: Movie, completion: @escaping(Error?) -> Void = {_ in}) {
         
-        let moviesWithID = representations.filter({ $0.identifier != nil })
-        let identifiersToFetch = moviesWithID.compactMap({UUID(uuidString: $0.identifier!)})
-        
-        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesWithID))
-        
-        var entriesToCreate = representationsByID
-        
-        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        
-        let context = CoreDataStack.shared.persistenContainer.newBackgroundContext()
-        
-        context.performAndWait {
+        let movieIdentifier = movie.identifier ?? UUID().uuidString
+        let firebaseURL = dataBaseUrl.appendingPathComponent(movieIdentifier).appendingPathExtension("json")
+           var request = URLRequest(url: firebaseURL)
+         request.httpMethod = "PUT"
             
-            do {
-                let movies = try context.fetch(fetchRequest)
-                
-                for movie in movies {
-                    guard let id = movie.identifier,
-                        let identifier = UUID(uuidString: id),
-                        let representation = representationsByID[identifier] else { continue }
-                    self.update(movie: movie, with: representation)
-                     entriesToCreate.removeValue(forKey: identifier)
-                }
-                
-                for representation in entriesToCreate.values {
-                    Movie(movieRepresentation: representation, context: context)
-                }
-                
-            } catch {
-                NSLog("Error fetching tasks for UUIDs: \(error)")
+        do {
+            request.httpBody = try JSONEncoder().encode(movie.movieRepresentation)
+           } catch let error as NSError {
+               print("error: encoding Movie: \(error)")
+           }
+       
+        URLSession.shared.dataTask(with: request) { (_,_,error) in
+            if let error = error as NSError? {
+                print("error putting movie into database: \(error.localizedDescription)")
             }
             
-          CoreDataStack.shared.mainContext.saveChanges()
-        }
-    }
-    
-    func deleteEntryFromServer(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
+            
+        }.resume()
+       }
+
+
+    func deleteMovieFromServer(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         guard let identifier = movie.identifier else {
             NSLog("movie identifier is nil")
             completion(NSError())
             return
         }
-        
         let requestURL = dataBaseUrl.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
-        
+
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 NSLog("Error deleting movie from server: \(error)")
                 completion(error)
                 return
             }
-            
+
             completion(nil)
             }.resume()
+    }
+    
+    func updateMovie(with movie: Movie, hasBeenWatched: Bool) {
+        movie.hasWatched = !hasBeenWatched
+        putMovieInDatabase(movie)
     }
     private func update(movie: Movie, with movieRep: MovieRepresentation) {
         movie.title = movieRep.title
         movie.identifier = movieRep.identifier
         movie.hasWatched = movieRep.hasWatched ?? false
     }
-
+    
 }
