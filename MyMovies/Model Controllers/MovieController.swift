@@ -15,6 +15,17 @@ class MovieController {
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let firebaseURL = URL(string: "https://my-movies-db27d.firebaseio.com/")!
     
+    func saveToPersistentStore() {
+        let moc = CoreDataStack.shared.mainContext
+        
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            moc.reset()
+            print("Error saving moc: \(error)")
+        }
+    }
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -59,6 +70,8 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     typealias CompletionHandler = (Error?) -> Void
     
+    // MARK: Functions
+    
     func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         let uuid = movie.identifier ?? UUID()
         let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
@@ -91,5 +104,29 @@ class MovieController {
             
             completion(nil)
         }.resume()
+    }
+    
+    func fetchMovieListFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let baseURL = firebaseURL.appendingPathExtension("json")
+        let requestURL = URLRequest(url: baseURL)
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                print("Error fetching movie list: \(error)")
+                completion(error)
+            }
+            
+            guard let data = data else {
+                print("Error getting data: \(error)")
+                completion(error)
+                return
+            }
+            
+            do {
+                let jsonDecoder = JSONDecoder()
+                let movieRepresentation = try jsonDecoder.decode([String: MovieRepresentation].self, from: data)
+                
+            }
+        }
     }
 }
