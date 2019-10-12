@@ -56,4 +56,31 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    
+    // MARK: - CRUD Functions
+    
+    func addMovie(movieTitle: String) {
+        let movie = Movie(title: movieTitle, hasWatched: false, identifier: UUID())
+        
+        CoreDataStack.shared.save()
+    }
+    
+    func updateStatus(for movie: Movie) {
+        if movie.hasWatched == true {
+            movie.hasWatched = false
+        } else if movie.hasWatched == false {
+            movie.hasWatched = true
+        }
+        
+        CoreDataStack.shared.save()
+    }
+    
+    func delete(movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        
+        CoreDataStack.shared.save()
+    }
+    
 }

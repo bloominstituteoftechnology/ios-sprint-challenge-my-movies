@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+protocol AddMovieDelegate {
+    func addMovie(title: String)
+}
+
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
@@ -35,9 +39,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.titleLabel.text = movieController.searchedMovies[indexPath.row].title
+        cell.addMovieButton.setTitle("Add Movie", for: .normal)
+        cell.movieController = movieController
+        cell.movieDelegate = self
         
         return cell
     }
@@ -46,11 +53,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    @IBAction func addMovieButtonTapped(_ sender: Any) {
-        // Add movie to list of saved movies and save to core data
-        
+}
+
+extension MovieSearchTableViewController: AddMovieDelegate {
+    func addMovie(title: String) {
+        movieController.addMovie(movieTitle: title)
     }
-    
 }
 
 
