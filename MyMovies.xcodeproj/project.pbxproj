@@ -17,6 +17,7 @@
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 		F3235B512351647F00C2B1FB /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F3235B4F2351647F00C2B1FB /* MyMovies.xcdatamodeld */; };
 		F3235B532351683F00C2B1FB /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3235B522351683F00C2B1FB /* CoreDataStack.swift */; };
+		F3235B552351696900C2B1FB /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3235B542351696900C2B1FB /* Movie+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		F3235B502351647F00C2B1FB /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		F3235B522351683F00C2B1FB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		F3235B542351696900C2B1FB /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				F3235B4F2351647F00C2B1FB /* MyMovies.xcdatamodeld */,
 				F3235B522351683F00C2B1FB /* CoreDataStack.swift */,
+				F3235B542351696900C2B1FB /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 			files = (
 				F3235B532351683F00C2B1FB /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				F3235B552351696900C2B1FB /* Movie+Convenience.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,

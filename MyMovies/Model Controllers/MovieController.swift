@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string: "https://my-movies-db27d.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -55,4 +57,33 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    typealias CompletionHandler = (Error?) -> Void
+    
+    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard var representation = movie.movieRepresentation else {
+                completion(nil)
+                return
+            }
+            
+            representation.identifier = uuid.uuidString
+            movie.identifier = uuid
+            
+            try CoreDataStack.shared.save()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error sending task or saving to persistent store: \(error)")
+            completion(error)
+            return
+        }
+        
+        
+        
+        
+    }
 }
