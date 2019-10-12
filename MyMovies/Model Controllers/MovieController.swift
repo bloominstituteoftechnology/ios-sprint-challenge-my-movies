@@ -82,8 +82,14 @@ class MovieController {
             return
         }
         
-        
-        
-        
+        URLSession.shared.dataTask(with: request) { (ata, _, error) in
+            if let error = error {
+                print("Error PUTting movie on firebase: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
     }
 }
