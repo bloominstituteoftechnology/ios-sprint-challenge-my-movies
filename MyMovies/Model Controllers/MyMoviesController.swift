@@ -108,7 +108,36 @@ class MyMoviesController {
     // MARK: - Server Methods
     
     private func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
         
+        do {
+            // convert managed object into Codable-conforming struct
+            guard var representation = movie.representation else {
+                completion(nil)
+                return
+            }
+            representation.identifier = uuid
+            movie.identifier = uuid
+            
+            try CoreDataStack.shared.save()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error saving or encoding movie: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                print("Error saving movie to server: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+        completion(nil)
     }
     
     private func deleteFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
