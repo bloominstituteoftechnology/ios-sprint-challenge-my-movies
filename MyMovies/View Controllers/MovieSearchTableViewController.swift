@@ -29,6 +29,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            movieController.searchedMovies.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -45,3 +52,5 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
+
+
