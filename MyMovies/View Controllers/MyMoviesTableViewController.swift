@@ -46,7 +46,9 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name
+        guard let sectionName = MovieWatchedStatus(rawValue: Int16(sectionInfo.name) ?? 0) else { return nil }
+        
+        return sectionName.name.capitalized
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,7 +66,25 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
-            movieController.delete(movie: movie)
+            
+            movieController.deleteMovieFromServer(movie) { (error) in
+                if let error = error {
+                    print("Error deleting task from server: \(error)")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(movie)
+                    
+                    do {
+                        try moc.save()
+                    } catch {
+                        moc.reset()
+                        print("Error saving managed object context: \(error)")
+                    }
+                }
+            }
         }
     }
     

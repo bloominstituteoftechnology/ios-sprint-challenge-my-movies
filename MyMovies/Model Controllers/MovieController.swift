@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum HTTPMethod: String {
     case get = "GET"
@@ -32,6 +33,7 @@ class MovieController {
     func saveMovie(with title: String, identifier: UUID, hasWatched: Bool = false) -> Movie {
         let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
         saveToPersistentStore()
+        put(movie: movie)
         return movie
     }
     
@@ -71,6 +73,56 @@ class MovieController {
             completion()
         }.resume()
         saveToPersistentStore()
+    }
+    
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void) {
+        guard let uuid = movie.identifier else {
+            completion(nil)
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            print("Deleted task with UUID: \(uuid.uuidString)")
+            completion(error)
+        }.resume()
+    }
+    
+    func updateMovies(with representations: [MovieRepresentation]) {
+        let identifiersToFetch = representations.compactMap({ $0.identifier })
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        var entriesToCreate = representationsByID
+        
+        do {
+            let context = CoreDataStack.shared.mainContext
+            let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+            
+            let existingMovies = try context.fetch(fetchRequest)
+            
+            for movie in existingMovies {
+                guard let identifier = movie.identifier,
+                    let representation = representationsByID[identifier] else { continue }
+                
+                movie.title = representation.title
+                movie.hasWatched = representation.hasWatched ?? false
+                
+                entriesToCreate.removeValue(forKey: identifier)
+            }
+            
+            for representation in entriesToCreate.values {
+                Movie(movieRepresentation: representation, context: context)
+            }
+            
+            saveToPersistentStore()
+        } catch {
+            print("Error fetching entries from persistent store: \(error)")
+        }
     }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {

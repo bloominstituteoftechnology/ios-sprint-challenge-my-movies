@@ -9,6 +9,20 @@
 import Foundation
 import CoreData
 
+enum MovieWatchedStatus: Int16, CaseIterable {
+    case unwatched = 0
+    case watched = 1
+    
+    var name: String {
+        switch self {
+        case .unwatched:
+            return "Unwatched"
+        case .watched:
+            return "Watched"
+        }
+    }
+}
+
 extension Movie {
     
     var movieRepresentation: MovieRepresentation? {
