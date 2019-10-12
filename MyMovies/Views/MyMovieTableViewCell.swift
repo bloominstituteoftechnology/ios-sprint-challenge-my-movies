@@ -12,6 +12,7 @@ class MyMovieTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
+    
     var movieController: MovieController?
     
     var movie: Movie? {
@@ -42,12 +43,7 @@ class MyMovieTableViewCell: UITableViewCell {
     }
     
     @IBAction func watchedButtonTapped(_ sender: Any) {
-        guard let movie = movie else { return }
-        if movie.hasWatched {
-            movie.hasWatched = false
-        } else {
-            movie.hasWatched = true
-        }
+        movie?.hasWatched.toggle()
         updateViews()
     }
     
