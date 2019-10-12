@@ -17,10 +17,28 @@ enum HTTPMethod: String {
 
 class MovieController {
     
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
     let firebaseURL = URL(string: "https://mymovies-2d3de.firebaseio.com/")!
+    
+    
+    // MARK: - Methods
+    
+    @discardableResult func saveMovie(with title: String, identifier: UUID, hasWatched: Bool = false) -> Movie {
+        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
+        saveToPersistentStore()
+        return movie
+    }
+    
+    func delete(movie: Movie) {
+        CoreDataStack.shared.mainContext.delete(movie)
+        saveToPersistentStore()
+    }
     
     func put(movie: Movie, completion: @escaping () -> Void = {}) {
         let identifier = movie.identifier ?? UUID()
@@ -52,6 +70,7 @@ class MovieController {
             }
             completion()
         }.resume()
+        saveToPersistentStore()
     }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
@@ -93,7 +112,9 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
+    func saveToPersistentStore() {
+        CoreDataStack.shared.saveToPersistentStore()
+    }
     
-    var searchedMovies: [MovieRepresentation] = []
+    
 }
