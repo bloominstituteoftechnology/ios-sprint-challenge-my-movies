@@ -64,11 +64,44 @@ class MyMoviesController {
     }
     
     func update(movie: Movie, with representation: MovieRepresentation) {
-        
+        guard let hasWatched = representation.hasWatched else { return }
+        movie.hasWatched = hasWatched
+        movie.title = representation.title
     }
     
-    func updateMovies(with representations: [MovieRepresentation]) {
+    func updateMovies(with representations: [MovieRepresentation]) throws {
+        // Create a dictionary of Representations keyed by their UUID
+          // filter out entries with no UUID
+        let moviesWithID = representations.filter({ $0.identifier != nil })
+          // create array of just the UUIDs (string form)
+        let identifiersToFetch = moviesWithID.compactMap({ $0.identifier })
+          // creates the dictionary
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesWithID))
         
+        var moviesToCreate = representationsByID    // all movies for now, will be wittled down later
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                for movie in existingMovies {
+                    guard let id = movie.identifier, let representation = representationsByID[id] else { continue }
+                    self.update(movie: movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in moviesToCreate.values {
+                    let _ = Movie(representation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching tasks for UUIDs: \(error)")
+            }
+        }
+        try CoreDataStack.shared.save(context: context)
     }
     
     
@@ -97,6 +130,4 @@ class MyMoviesController {
             completion(nil)
         }.resume()
     }
-    
-    
 }
