@@ -96,12 +96,12 @@ class MovieController {
     
     func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
         
-        guard let identifier = movie.identifier else {
+        guard let identifier = movie.identifier?.uuidString else {
             completion(nil)
             return
         }
         
-        let baseWithIdentifierURL = baseURL.appendingPathComponent(identifier.uuidString)
+        let baseWithIdentifierURL = baseURL.appendingPathComponent(identifier)
         let requestURL = baseWithIdentifierURL.appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
