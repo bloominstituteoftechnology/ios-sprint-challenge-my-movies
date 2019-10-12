@@ -26,9 +26,19 @@ class MyMovieTableViewCell: UITableViewCell {
         if movie.hasWatched {
             hasWatchedButton.setTitle("Watched", for: .normal)
         } else {
-            hasWatchedButton.setTitle("UnWatched", for: .normal)
+            hasWatchedButton.setTitle("Unwatched", for: .normal)
         }
         
     }
+    
+    @IBAction func watchedButtonTapped(_ sender: Any) {
+        guard let movie = movie else { return }
+        if movie.hasWatched {
+            movie.hasWatched = false
+        } else {
+            movie.hasWatched = true
+        }
+    }
+    
 
 }

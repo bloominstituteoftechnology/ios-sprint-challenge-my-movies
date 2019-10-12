@@ -51,9 +51,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        guard let identifier = movieController.searchedMovies[indexPath.row].identifier, let hasWatched = movieController.searchedMovies[indexPath.row].hasWatched else { return }
         let title = movieController.searchedMovies[indexPath.row].title
-        movieController.saveMovie(with: title, identifier: identifier, hasWatched: hasWatched)
+        let _ = movieController.saveMovie(with: title, identifier: movieController.searchedMovies[indexPath.row].identifier ?? UUID(), hasWatched: movieController.searchedMovies[indexPath.row].hasWatched ?? false)
     }
     
 

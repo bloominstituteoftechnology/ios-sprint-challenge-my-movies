@@ -29,7 +29,7 @@ class MovieController {
     
     // MARK: - Methods
     
-    @discardableResult func saveMovie(with title: String, identifier: UUID, hasWatched: Bool = false) -> Movie {
+    func saveMovie(with title: String, identifier: UUID, hasWatched: Bool = false) -> Movie {
         let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
         saveToPersistentStore()
         return movie
