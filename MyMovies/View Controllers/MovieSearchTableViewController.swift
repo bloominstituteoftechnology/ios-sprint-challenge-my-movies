@@ -7,9 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-    
     
 
     override func viewDidLoad() {
@@ -46,4 +46,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    @IBAction func addMovieButtonTapped(_ sender: Any) {
+        // Add movie to list of saved movies and save to core data
+        
+    }
+    
 }
+
+
