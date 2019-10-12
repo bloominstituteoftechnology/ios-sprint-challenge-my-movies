@@ -55,4 +55,6 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    var myMovies: [Movie] = []
+    
 }

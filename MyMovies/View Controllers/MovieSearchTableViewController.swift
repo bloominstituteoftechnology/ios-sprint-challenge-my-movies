@@ -36,8 +36,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     @objc func searchButtonTapped(movie: Movie) {
         // When clicked, take the movie and append it to the list of movies we already have.
         
-        
-        
+        movieController.myMovies.append(movie)
         
     }
     
