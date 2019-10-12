@@ -9,12 +9,16 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    var searchButton: UIButton!
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
+    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
@@ -29,6 +33,16 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    @objc func searchButtonTapped(movie: Movie) {
+        // When clicked, take the movie and append it to the list of movies we already have.
+        
+        
+        
+        
+    }
+    
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -37,6 +51,17 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        
+        let searchButton = UIButton(type: .system)
+        searchButton.setTitle("Add Movie", for: .normal)
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
+        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        cell.addSubview(searchButton)
+        searchButton.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20.0).isActive = true
+        searchButton.centerYAnchor.constraint(equalTo: cell.centerYAnchor, constant: 0.0).isActive = true
+        searchButton.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
+        searchButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+        
         
         return cell
     }
