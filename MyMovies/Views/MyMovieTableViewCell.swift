@@ -12,6 +12,7 @@ class MyMovieTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
+    var movieController: MovieController?
     
     var movie: Movie? {
         didSet {
@@ -29,6 +30,15 @@ class MyMovieTableViewCell: UITableViewCell {
             hasWatchedButton.setTitle("Unwatched", for: .normal)
         }
         
+        movieController?.put(movie: movie)
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            print("Error saving movie: \(error)")
+        }
+        
     }
     
     @IBAction func watchedButtonTapped(_ sender: Any) {
@@ -38,6 +48,7 @@ class MyMovieTableViewCell: UITableViewCell {
         } else {
             movie.hasWatched = true
         }
+        updateViews()
     }
     
 

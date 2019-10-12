@@ -39,20 +39,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-//        let addMovieButton = UIButton()
-//        addMovieButton.setTitle("Add Movie", for: .normal)
-//        cell.addSubview(addMovieButton)
-        cell.accessoryType = .detailButton
+        cell.movieTitleLabel.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let title = movieController.searchedMovies[indexPath.row].title
-        let _ = movieController.saveMovie(with: title, identifier: movieController.searchedMovies[indexPath.row].identifier ?? UUID(), hasWatched: movieController.searchedMovies[indexPath.row].hasWatched ?? false)
     }
     
 

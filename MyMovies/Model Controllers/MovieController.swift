@@ -34,33 +34,24 @@ class MovieController {
     
     // MARK: - Methods
     
-    func saveMovie(with title: String, identifier: UUID, hasWatched: Bool = false) -> Movie {
-        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
-        saveToPersistentStore()
-        put(movie: movie)
-        return movie
-    }
-    
-    func delete(movie: Movie) {
-        CoreDataStack.shared.mainContext.delete(movie)
-        saveToPersistentStore()
-    }
-    
     func put(movie: Movie, completion: @escaping (Error?) -> Void = {_ in }) {
         let identifier = movie.identifier ?? UUID()
-        movie.identifier = identifier
+//        movie.identifier = identifier
         
         let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
-        guard let movieRepresentation = movie.movieRepresentation else {
+        guard var movieRepresentation = movie.movieRepresentation else {
             print("Movie representation is nil")
             completion(NSError())
             return
         }
         
         do {
+            movieRepresentation.identifier = identifier
+            try saveToPersistentStore()
+            
             request.httpBody = try JSONEncoder().encode(movieRepresentation)
         } catch {
             print("Error encoding movie representation: \(error)")
@@ -76,7 +67,10 @@ class MovieController {
             }
             completion(nil)
         }.resume()
-        saveToPersistentStore()
+    }
+    
+    func saveToPersistentStore() throws {
+        try CoreDataStack.shared.mainContext.save()
     }
     
     func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in } ) {
@@ -214,9 +208,7 @@ class MovieController {
         }.resume()
     }
     
-    func saveToPersistentStore() {
-        CoreDataStack.shared.saveToPersistentStore()
-    }
+    
     
     
 }
