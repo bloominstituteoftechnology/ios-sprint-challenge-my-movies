@@ -79,7 +79,23 @@ class MyMoviesController {
     }
     
     private func deleteFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            completion(nil)
+            return
+        }
         
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                print("Error deleting movie from server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
     }
     
     
