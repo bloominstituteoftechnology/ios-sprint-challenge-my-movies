@@ -13,7 +13,9 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var watchedStatusButton: UIButton!
     
-
+    var movie: Movie?
+    var watchedStatusDelegate: ToggleWatchedStatusDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -26,6 +28,8 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     @IBAction func toggleWatchedStatus(_ sender: Any) {
+        guard let movie = movie else { return }
+        watchedStatusDelegate?.toggleWatchedStatus(movie: movie)
     }
     
 

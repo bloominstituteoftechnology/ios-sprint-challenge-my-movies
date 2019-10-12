@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol AddMovieDelegate {
-    func addMovie(title: String)
+    func addMovie(movieRepresentation: MovieRepresentation)
 }
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
@@ -41,10 +41,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
         
-        cell.titleLabel.text = movieController.searchedMovies[indexPath.row].title
+        let movie = movieController.searchedMovies[indexPath.row]
+        
+        cell.titleLabel.text = movie.title
         cell.addMovieButton.setTitle("Add Movie", for: .normal)
         cell.movieController = movieController
         cell.movieDelegate = self
+        cell.movieRepresentation = movie
         
         return cell
     }
@@ -56,8 +59,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 }
 
 extension MovieSearchTableViewController: AddMovieDelegate {
-    func addMovie(title: String) {
-        movieController.addMovie(movieTitle: title)
+    func addMovie(movieRepresentation: MovieRepresentation) {
+        movieController.addMovie(movieRepresentation)
     }
 }
 

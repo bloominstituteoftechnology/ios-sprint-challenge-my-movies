@@ -15,6 +15,7 @@ class MovieTableViewCell: UITableViewCell {
     
     var movieController: MovieController?
     var movieDelegate: AddMovieDelegate?
+    var movieRepresentation: MovieRepresentation?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,8 +29,8 @@ class MovieTableViewCell: UITableViewCell {
     }
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        guard let title = titleLabel.text else { return }
-        movieDelegate?.addMovie(title: title)
+        guard let movie = movieRepresentation else { return }
+        movieDelegate?.addMovie(movieRepresentation: movie)
     }
     
 
