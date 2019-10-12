@@ -46,9 +46,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        guard let sectionName = MovieWatchedStatus(rawValue: Int16(sectionInfo.name) ?? 0) else { return nil }
-        
-        return sectionName.name.capitalized
+        return sectionInfo.name
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,6 +77,7 @@ class MyMoviesTableViewController: UITableViewController {
                     
                     do {
                         try moc.save()
+                        tableView.reloadData()
                     } catch {
                         moc.reset()
                         print("Error saving managed object context: \(error)")

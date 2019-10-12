@@ -18,6 +18,10 @@ enum HTTPMethod: String {
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
@@ -42,7 +46,7 @@ class MovieController {
         saveToPersistentStore()
     }
     
-    func put(movie: Movie, completion: @escaping () -> Void = {}) {
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = {_ in }) {
         let identifier = movie.identifier ?? UUID()
         movie.identifier = identifier
         
@@ -52,7 +56,7 @@ class MovieController {
         
         guard let movieRepresentation = movie.movieRepresentation else {
             print("Movie representation is nil")
-            completion()
+            completion(NSError())
             return
         }
         
@@ -60,24 +64,53 @@ class MovieController {
             request.httpBody = try JSONEncoder().encode(movieRepresentation)
         } catch {
             print("Error encoding movie representation: \(error)")
-            completion()
+            completion(error)
             return
         }
         
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 print("Error PUTing movie: \(error)")
-                completion()
+                completion(error)
                 return
             }
-            completion()
+            completion(nil)
         }.resume()
         saveToPersistentStore()
     }
     
+    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in } ) {
+        let requestURL = firebaseURL.appendingPathExtension(".json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                print("Error fetching movies: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned")
+                completion(error)
+                return
+            }
+            
+            do {
+                let movieRepresentation = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                
+                try self.updateMovies(with: movieRepresentation)
+                completion(nil)
+            } catch {
+                print("Error decoding movie representation")
+                completion(error)
+                return
+            }
+        }
+    }
+    
     func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void) {
         guard let uuid = movie.identifier else {
-            completion(nil)
+            completion(NSError())
             return
         }
         
@@ -91,38 +124,55 @@ class MovieController {
         }.resume()
     }
     
-    func updateMovies(with representations: [MovieRepresentation]) {
-        let identifiersToFetch = representations.compactMap({ $0.identifier })
-        
-        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
-        
-        var entriesToCreate = representationsByID
-        
-        do {
-            let context = CoreDataStack.shared.mainContext
+    private func updateMovies(with representations: [MovieRepresentation]) throws {
+            let tasksWithID = representations.filter({ $0.identifier != nil })
+            
+            let identifiersToFetch = tasksWithID.compactMap({ $0.identifier })
+            
+            // Creating a dictionary of TaskRepresentation objects keyed by UUID
+            let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, tasksWithID))
+            
+            // Running log of all the tasks we need to do something with (either update existing tasks or create new ones)
+            var tasksToCreate = representationsByID
+            
+            // Fetch the objects from CoreData that have a UUID contained in the identifiersToFetch array
             let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+            fetchRequest.predicate = NSPredicate(format: "uuid IN %@", identifiersToFetch)
             
-            let existingMovies = try context.fetch(fetchRequest)
+            let context = CoreDataStack.shared.container.newBackgroundContext()
             
-            for movie in existingMovies {
-                guard let identifier = movie.identifier,
-                    let representation = representationsByID[identifier] else { continue }
-                
-                movie.title = representation.title
-                movie.hasWatched = representation.hasWatched ?? false
-                
-                entriesToCreate.removeValue(forKey: identifier)
+            context.perform {
+                do {
+                    let existingMovies = try context.fetch(fetchRequest)
+                    
+                    // Updating existing Tasks
+                    for movie in existingMovies {
+                        guard let id = movie.identifier,
+                            let representation = representationsByID[id] else {
+                                continue
+                        }
+                        self.update(movie: movie, with: representation)
+                        
+                        // Remove the object that we just updated from our running log
+                        tasksToCreate.removeValue(forKey: id)
+                    }
+                    
+                    // Create new Tasks for all remaining server Tasks
+                    for representation in tasksToCreate.values {
+                        let _ = Movie(movieRepresentation: representation, context: context)
+                    }
+                } catch {
+                    print("Error fetching tasks for UUIDs: \(error)")
+                }
             }
             
-            for representation in entriesToCreate.values {
-                Movie(movieRepresentation: representation, context: context)
-            }
-            
-            saveToPersistentStore()
-        } catch {
-            print("Error fetching entries from persistent store: \(error)")
+            try CoreDataStack.shared.save(context: context)
         }
+    
+    func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.hasWatched = representation.hasWatched!
+        
     }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {

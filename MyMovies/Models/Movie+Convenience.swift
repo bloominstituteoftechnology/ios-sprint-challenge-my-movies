@@ -9,20 +9,6 @@
 import Foundation
 import CoreData
 
-enum MovieWatchedStatus: Int16, CaseIterable {
-    case unwatched = 0
-    case watched = 1
-    
-    var name: String {
-        switch self {
-        case .unwatched:
-            return "Unwatched"
-        case .watched:
-            return "Watched"
-        }
-    }
-}
-
 extension Movie {
     
     var movieRepresentation: MovieRepresentation? {
@@ -31,7 +17,7 @@ extension Movie {
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
     
-    convenience init(title: String, identifier: UUID, hasWatched: Bool, context: NSManagedObjectContext) {
+    convenience init(title: String, identifier: UUID = UUID(), hasWatched: Bool, context: NSManagedObjectContext) {
         self.init(context: context)
         
         self.title = title
@@ -39,7 +25,7 @@ extension Movie {
         self.hasWatched = hasWatched
     }
     
-    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
+    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let identifier = movieRepresentation.identifier,
             let hasWatched = movieRepresentation.hasWatched else { return nil }
         self.init(title: movieRepresentation.title, identifier: identifier, hasWatched: hasWatched, context: context)
