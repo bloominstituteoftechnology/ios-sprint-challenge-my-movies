@@ -72,17 +72,15 @@ class MyMoviesTableViewController: UITableViewController {
                     return
                 }
                 
-                DispatchQueue.main.async {
-                    let moc = CoreDataStack.shared.mainContext
-                    moc.delete(movie)
-                    
-                    do {
-                        try moc.save()
-                        tableView.reloadData()
-                    } catch {
-                        moc.reset()
-                        print("Error saving managed object context: \(error)")
-                    }
+                let moc = CoreDataStack.shared.mainContext
+                moc.delete(movie)
+                
+                do {
+                    try moc.save()
+                    tableView.reloadData()
+                } catch {
+                    moc.reset()
+                    print("Error saving moc: \(error)")
                 }
             }
         }
