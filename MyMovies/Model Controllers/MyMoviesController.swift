@@ -159,4 +159,32 @@ class MyMoviesController {
             completion(nil)
         }.resume()
     }
+    
+    func fetchMyMovies(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                print("Error fetching my movies: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned by data task")
+                completion(nil)
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let dictionaryOfMovies = try decoder.decode([String : MovieRepresentation].self, from: data)
+                let movieRepresentations = Array(dictionaryOfMovies.values)
+                try self.updateMovies(with: movieRepresentations)
+            } catch {
+                print("Error decoding task representations: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
 }
