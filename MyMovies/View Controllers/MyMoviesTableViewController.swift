@@ -77,7 +77,6 @@ class MyMoviesTableViewController: UITableViewController {
                 
                 do {
                     try moc.save()
-                    tableView.reloadData()
                 } catch {
                     moc.reset()
                     print("Error saving moc: \(error)")

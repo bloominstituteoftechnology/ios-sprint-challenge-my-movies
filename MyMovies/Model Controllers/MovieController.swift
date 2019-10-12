@@ -152,11 +152,11 @@ class MovieController {
     
     func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void) {
         guard let uuid = movie.identifier else {
-            completion(NSError())
+            completion(nil)
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.delete.rawValue
         
