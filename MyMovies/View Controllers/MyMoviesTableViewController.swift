@@ -74,8 +74,19 @@ class MyMoviesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // TODO: Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+//            guard let cell = tableView.cellForRow(at: indexPath) as? MyMoviesTableViewCell,
+//                let movie = cell.movie
+//            else { return }
+            let movie = fetchedResultsController.object(at: indexPath)
+            MyMoviesController.shared.deleteFromServer(movie: movie) { error in
+                if let error = error {
+                    print("Error deleting movie from server: \(error)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    MyMoviesController.shared.deleteMovie(movie: movie)
+                }
+            }
         }
     }
 

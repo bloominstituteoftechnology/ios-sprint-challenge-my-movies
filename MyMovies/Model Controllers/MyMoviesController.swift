@@ -62,21 +62,14 @@ class MyMoviesController {
     }
     
     func deleteMovie(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        deleteFromServer(movie: movie) { (error) in
-            if let error = error {
-                print("Will not delete local copy")
-                completion(error)
-                return
-            } else {
-                CoreDataStack.shared.mainContext.delete(movie)
-                do {
-                    try CoreDataStack.shared.save()
-                } catch {
-                    print("Error saving after delete: \(error)")
-                }
-                completion(nil)
-            }
+        CoreDataStack.shared.mainContext.delete(movie)
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            print("Error saving after delete: \(error)")
+            CoreDataStack.shared.mainContext.reset()
         }
+        completion(nil)
     }
     
     func update(movie: Movie, with representation: MovieRepresentation) {
@@ -156,7 +149,7 @@ class MyMoviesController {
         completion(nil)
     }
     
-    private func deleteFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+    func deleteFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = movie.identifier else {
             completion(nil)
             return
