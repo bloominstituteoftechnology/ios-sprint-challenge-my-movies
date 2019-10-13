@@ -10,8 +10,6 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
-
-    private let myMoviesController = MyMoviesController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -20,7 +18,7 @@ class MyMoviesTableViewController: UITableViewController {
             NSSortDescriptor(key: "title", ascending: true)
         ]
         let moc = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasSeen", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
         do {
             try frc.performFetch()
@@ -54,7 +52,11 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name
+        if sectionInfo.name == "0" {
+            return "Not watched"
+        } else {
+            return "Watched"
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

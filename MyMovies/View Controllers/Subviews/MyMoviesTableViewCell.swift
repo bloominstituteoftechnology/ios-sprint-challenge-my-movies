@@ -32,4 +32,8 @@ class MyMoviesTableViewCell: UITableViewCell {
         btnWatched.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
     }
 
+    @IBAction func watchedTapped(_ sender: Any) {
+        guard let movie = movie else { return }
+        MyMoviesController.shared.toggleSeen(movie: movie)
+    }
 }

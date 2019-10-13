@@ -48,9 +48,17 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    
-    @IBAction func addMovieTapped(_ sender: Any) {
-        
+    @IBAction func addMovieTapped(_ sender: UIButton) {
+        guard let cell = sender.superview?.superview as? UITableViewCell,
+            let title = cell.textLabel?.text,
+            !title.isEmpty
+        else {
+            print("Nope")
+            return
+        }
+        print("Yes: \(title)")
+        MyMoviesController.shared.addMovie(title: title)
     }
+    
     
 }

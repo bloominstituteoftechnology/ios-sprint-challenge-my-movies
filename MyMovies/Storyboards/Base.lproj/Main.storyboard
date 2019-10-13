@@ -104,6 +104,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="watchedTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="2TZ-iU-CBt"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>

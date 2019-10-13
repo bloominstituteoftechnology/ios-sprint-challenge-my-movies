@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 
 class MyMoviesController {
+    static let shared = MyMoviesController()
+    
     let baseURL = URL(string: "https://lambda-my-movies.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
     
@@ -17,8 +19,22 @@ class MyMoviesController {
     // MARK: - Local Store Methods
     
     func addMovie(representation: MovieRepresentation) {
-        guard let movie = Movie(representation: representation) else { return }
+        guard let movie = Movie(representation: representation) else{
+            print("No movie returned")
+            return
+        }
         
+        put(movie: movie)
+        
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            print("Error saving new movie: \(error)")
+        }
+    }
+    
+    func addMovie(title: String) {
+        let movie = Movie(title: title)
         put(movie: movie)
         
         do {
