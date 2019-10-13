@@ -37,11 +37,28 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
+        cell.textLabel?.translatesAutoresizingMaskIntoConstraints = false
+        cell.textLabel?.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 18).isActive = true
+        cell.textLabel?.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -100).isActive = true
+        cell.textLabel?.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor).isActive = true
         return cell
     }
     
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    @IBAction func addMovieTapped(_ sender: UIButton) {
+        guard let cell = sender.superview?.superview as? UITableViewCell,
+            let title = cell.textLabel?.text,
+            !title.isEmpty
+        else {
+            print("Nope")
+            return
+        }
+        print("Yes: \(title)")
+        MyMoviesController.shared.addMovie(title: title)
+    }
+    
+    
 }
