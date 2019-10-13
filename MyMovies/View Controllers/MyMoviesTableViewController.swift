@@ -7,45 +7,51 @@
 //
 
 import UIKit
+import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    let myMovieController = MyMovieController()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    //create your fetchController that will be in charge of updating the view
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let fetchReqeust: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        //fetchedResultsController NEEDS sort descriptors or it wont know how to populate the table View
+        fetchReqeust.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true), NSSortDescriptor(key: "title", ascending: true)]
+        let moc = CoreDataStack.shared.mainContext
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchReqeust, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
+        
+        //set the delegate to self
+        fetchedResultsController.delegate = self
+        do {
+            //call performFetch on your FRC
+            try fetchedResultsController.performFetch()
+        } catch {
+            print("Error performing fetchedResultsController: \(error)////  \(error.localizedDescription)")
+        }
+        //don't forget to reutrn your frc
+        return fetchedResultsController
+    }()
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return fetchedResultsController.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myMovieCell", for: indexPath)
+        
         // Configure the cell...
 
         return cell
     }
-    */
+  
 
     /*
     // Override to support conditional editing of the table view.
