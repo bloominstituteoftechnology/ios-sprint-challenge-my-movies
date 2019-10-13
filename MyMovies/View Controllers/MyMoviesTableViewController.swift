@@ -30,6 +30,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        MyMoviesController.shared.fetchMyMovies()
     }
     
     override func viewWillAppear(_ animated: Bool) {
