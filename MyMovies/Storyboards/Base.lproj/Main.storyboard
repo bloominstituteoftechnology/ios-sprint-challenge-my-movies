@@ -46,22 +46,41 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Movie title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g3u-ee-BpN">
-                                            <rect key="frame" x="16" y="25" width="79" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g3u-ee-BpN">
+                                            <rect key="frame" x="16" y="25" width="170" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="170" id="AqM-hw-jzm"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1Y-nM-fet">
-                                            <rect key="frame" x="319" y="20" width="34" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Save"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1Y-nM-fet">
+                                            <rect key="frame" x="263" y="20" width="90" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="90" id="gVN-DQ-ayE"/>
+                                            </constraints>
+                                            <state key="normal" title="Save Movie"/>
                                             <connections>
-                                                <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="yOO-dk-VDb"/>
+                                                <action selector="addMovie:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="TL4-Zp-vil"/>
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="J1Y-nM-fet" secondAttribute="trailing" constant="6" id="2GT-tZ-RMT"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="J1Y-nM-fet" secondAttribute="trailing" constant="6" id="3SW-aA-cDo"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="g3u-ee-BpN" secondAttribute="bottom" constant="13" id="BSU-6a-o1k"/>
+                                        <constraint firstItem="J1Y-nM-fet" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="9" id="Fm7-W8-bqG"/>
+                                        <constraint firstItem="g3u-ee-BpN" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="14" id="QTQ-If-U85"/>
+                                        <constraint firstItem="g3u-ee-BpN" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="14" id="dM5-lL-cVu"/>
+                                        <constraint firstItem="J1Y-nM-fet" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="g3u-ee-BpN" secondAttribute="trailing" constant="8" id="eZe-5i-IMN"/>
+                                        <constraint firstItem="J1Y-nM-fet" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="9" id="edv-fb-9AW"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="J1Y-nM-fet" secondAttribute="bottom" constant="9" id="iRO-xd-Hk0"/>
+                                        <constraint firstItem="g3u-ee-BpN" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="jTe-NY-etf"/>
+                                        <constraint firstItem="g3u-ee-BpN" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="k88-74-KK0"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="J1Y-nM-fet" secondAttribute="bottom" constant="9" id="k8j-Ol-Rje"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="g3u-ee-BpN" secondAttribute="bottom" constant="13" id="yBp-VT-2Vh"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="saveButton" destination="J1Y-nM-fet" id="X4H-Vv-N24"/>

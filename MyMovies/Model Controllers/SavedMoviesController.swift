@@ -14,7 +14,7 @@ class SavedMoviesController {
     //MARK: - PROPERTIES
     //A static instance of this class to have a single accessible instance available throughout the app.
     static let shared = SavedMoviesController()
-    let baseURL = URL(string: "https://mymoviessc.firebaseio.com/")
+    let baseURL = URL(string: "https://mymovies-cc95b.firebaseio.com/")
     
     //MARK: - FUNCTIONS FOR LOCAL STORAGE
     func toggleHasWatched(for movie: Movie) {
@@ -28,12 +28,13 @@ class SavedMoviesController {
         put(movie: movie)
     }
     
-    func addMovie(for representation: MovieRepresentation) {
-        guard let newMovie = Movie(movieRepresentation: representation) else { return }
+    func addMovie(with title: String) {
+        let newMovie = Movie(title: title)
         put(movie: newMovie)
         
         do {
             try CoreDataStack.shared.save()
+            print("Movie saved successfully to CoreDataStack")
         } catch {
             print("Error saving new movie to local storage: \(error)")
         }
@@ -111,9 +112,9 @@ class SavedMoviesController {
             
             do {
                 let jsonDecoder = JSONDecoder()
-                let moviesDict = try jsonDecoder.decode([String: MovieRepresentation].self, from: data)
-                let movieRepresentations = Array(moviesDict.values)
-                try self.fetchMoviesToTableView(for: movieRepresentations)
+                let moviesDict = try jsonDecoder.decode([String: MovieRepresentation].self, from: data).map({$0.value})
+                //let movieRepresentations = Array(moviesDict.values)
+                try self.fetchMoviesToTableView(for: moviesDict)
             } catch {
                 print("Error decoding data from server: \(error)")
                 completion(error)
@@ -150,6 +151,7 @@ class SavedMoviesController {
                 completion(error)
                 return
             }
+            print("Movie saved successfully")
         }.resume()
         completion(nil)
     }

@@ -28,13 +28,4 @@ class MovieSearchTableViewCell: UITableViewCell {
         titleLabel.text = movie.title
     }
     
-    //MARK: - IBACTIONS
-    @IBAction func addMovie(_ sender: UIButton) {
-        guard let cell = sender.superview?.superview as? MovieSearchTableViewCell else { return }
-        if let title = cell.titleLabel.text {
-            let newMovieRepresentation = MovieRepresentation(title: title, identifier: nil, hasWatched: nil)
-            SavedMoviesController.shared.addMovie(for: newMovieRepresentation)
-        }
-    }
-    
 }
