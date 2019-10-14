@@ -7,11 +7,17 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
     private let firebaseURL = URL(string: "https://mymovies-lambdasprintchallenge.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
@@ -88,17 +94,6 @@ class MovieController {
         }.resume()
     }
     
-    func create(title: String, identifier: UUID?, hasWatched: Bool?) {
-        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
-        put(movie: movie)
-    }
-    
-    func save() {
-        
-        
-        
-    }
-    
     func delete(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
         
         guard let identifier = movie.identifier else {
@@ -116,7 +111,45 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
+//    func updateMovies(with representations: [MovieRepresentation]) {
+//        let moviesWithID = representations.filter({ $0.identifier != nil })
+//        let idsToFetch = moviesWithID.compactMap({ $0.identifier })
+//        let representationsByID = Dictionary(uniqueKeysWithValues: zip(idsToFetch, moviesWithID))
+//        
+//        var moviesToCreate = representationsByID
+//        
+//        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+//        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
+//        
+//        let context  = CoreDataStack.shared.container.newBackgroundContext()
+//        context.perform {
+//            do {
+//                
+//            } catch {
+//                
+//            }
+//        }
+//        
+//        
+//    }
     
-    var searchedMovies: [MovieRepresentation] = []
+    func create(movieWithTitle: String) {
+        let _ = Movie(title: movieWithTitle, identifier: UUID(), hasWatched: false)
+    }
+    
+    func save(movie: Movie, with representation: MovieRepresentation) {
+        
+        guard let hasWatched = representation.hasWatched else { return }
+        movie.title = representation.title
+        movie.identifier = representation.identifier
+        movie.hasWatched = hasWatched
+        put(movie: movie)
+        
+    }
+}
+
+extension MovieController: AddMovieDelegate {
+    func movieWasAdded(_ movieTitle: String) {
+        create(movieWithTitle: movieTitle)
+    }
 }

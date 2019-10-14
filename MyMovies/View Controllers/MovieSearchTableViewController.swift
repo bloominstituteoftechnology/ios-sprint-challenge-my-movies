@@ -13,6 +13,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     @IBOutlet weak var searchBar: UISearchBar!
     
     var movieController = MovieController()
+    var delegate: AddMovieDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,9 +45,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         return cell
     }
+    
     @IBAction func addMovieButtonPressed(_ sender: UIButton) {
-        
-        
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        let movieTitle = movieController.searchedMovies[indexPath.row].title
+        delegate?.movieWasAdded(movieTitle)
     }
     
     
