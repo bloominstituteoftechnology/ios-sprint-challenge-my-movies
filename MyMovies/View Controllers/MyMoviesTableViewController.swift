@@ -10,6 +10,8 @@ import UIKit
 
 class MyMoviesTableViewController: UITableViewController {
 
+    let movieController: MovieController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

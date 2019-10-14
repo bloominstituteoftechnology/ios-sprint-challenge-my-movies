@@ -40,33 +40,24 @@
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL">
-                                <rect key="frame" x="0.0" y="72" width="375" height="30.5"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="30.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="CIg-Yg-5wz">
-                                            <rect key="frame" x="12" y="0.0" width="351" height="30.5"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rL4-7b-n7m">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="30.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2g-Vd-dJn">
-                                                    <rect key="frame" x="50" y="0.0" width="301" height="30.5"/>
-                                                    <state key="normal" title="Button"/>
-                                                </button>
-                                            </subviews>
-                                        </stackView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2g-Vd-dJn">
+                                            <rect key="frame" x="290" y="7" width="73" height="30"/>
+                                            <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="addMovieButtonPressed:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="iwx-Sf-SWe"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="CIg-Yg-5wz" secondAttribute="bottom" id="2Pi-mo-XIW"/>
-                                        <constraint firstItem="CIg-Yg-5wz" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="12" id="Ee2-kc-6VR"/>
-                                        <constraint firstItem="CIg-Yg-5wz" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" id="nvg-P5-U62"/>
-                                        <constraint firstAttribute="trailing" secondItem="CIg-Yg-5wz" secondAttribute="trailing" constant="12" id="rMt-hL-IJ9"/>
+                                        <constraint firstItem="H2g-Vd-dJn" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="3Le-r6-Bqm"/>
+                                        <constraint firstAttribute="trailing" secondItem="H2g-Vd-dJn" secondAttribute="trailing" constant="12" id="biE-0N-jbd"/>
+                                        <constraint firstItem="H2g-Vd-dJn" firstAttribute="leading" relation="lessThanOrEqual" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="290" id="mh6-vN-UdJ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>

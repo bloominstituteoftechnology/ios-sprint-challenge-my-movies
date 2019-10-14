@@ -9,8 +9,6 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
-    @IBOutlet weak var titleLabel: UILabel!
     
     
     override func viewDidLoad() {
@@ -42,6 +40,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
+    }
+    @IBAction func addMovieButtonPressed(_ sender: UIButton) {
+        
+        
     }
     
     var movieController = MovieController()
