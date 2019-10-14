@@ -11,16 +11,24 @@ import CoreData
 
 class MovieSearchTableViewCell: UITableViewCell {
 
+    //MARK: - IBOUTLETS
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var saveButton: UIButton!
     
-    var movie: Movie? {
+    //MARK: - PROPERTIES
+    var movie: MovieRepresentation? {
         didSet {
-            guard let titleLabelText = movie?.title else { return }
-            titleLabel.text = titleLabelText
+            updateViews()
         }
     }
     
+    //MARK: - PRIVATE FUNCTIONS
+    private func updateViews() {
+        guard let movie = movie else { return }
+        titleLabel.text = movie.title
+    }
+    
+    //MARK: - IBACTIONS
     @IBAction func saveTapped(_ sender: Any) {
     }
     
