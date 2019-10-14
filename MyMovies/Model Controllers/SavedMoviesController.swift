@@ -16,15 +16,36 @@ class SavedMoviesController {
     static let shared = SavedMoviesController()
     
     //MARK: - FUNCTIONS FOR LOCAL STORAGE
+    func toggleHasWatched(for movie: Movie) {
+        do {
+            movie.hasWatched.toggle()
+            try CoreDataStack.shared.save()
+        } catch {
+            print("Error updating hasWatched value for movie '\(movie.title ?? "blank movie")': \(error)")
+        }
+    }
+    
     func addMovie(for representation: MovieRepresentation) {
+        guard let _ = Movie(movieRepresentation: representation) else { return }
+        
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            print("Error saving new movie to local storage: \(error)")
+        }
     }
     
-    func deleteMovie() {
+    func deleteMovie(for movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+        CoreDataStack.shared.mainContext.delete(movie)
         
-    }
-    
-    func updateMovie() {
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            print("Error deleting movie from local storage: \(error)")
+            CoreDataStack.shared.mainContext.reset()
+        }
         
+        completion(nil)
     }
     
     //MARK: - FUNCTIONS FOR ONLINE STORAGE

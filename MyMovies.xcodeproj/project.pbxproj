@@ -20,6 +20,7 @@
 		A468F08B2354026100F78611 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A468F08A2354026100F78611 /* CoreDataStack.swift */; };
 		A468F08D235404BF00F78611 /* SavedMoviesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A468F08C235404BF00F78611 /* SavedMoviesController.swift */; };
 		A468F08F2354080D00F78611 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A468F08E2354080D00F78611 /* Movie+Convenience.swift */; };
+		A468F09123540FBB00F78611 /* SavedMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A468F09023540FBB00F78611 /* SavedMoviesTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		A468F08A2354026100F78611 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A468F08C235404BF00F78611 /* SavedMoviesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedMoviesController.swift; sourceTree = "<group>"; };
 		A468F08E2354080D00F78611 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		A468F09023540FBB00F78611 /* SavedMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedMoviesTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				A468F088235400D600F78611 /* MovieSearchTableViewCell.swift */,
+				A468F09023540FBB00F78611 /* SavedMoviesTableViewCell.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 				A468F0862353FFF100F78611 /* Movie.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 				A468F08B2354026100F78611 /* CoreDataStack.swift in Sources */,
+				A468F09123540FBB00F78611 /* SavedMoviesTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
