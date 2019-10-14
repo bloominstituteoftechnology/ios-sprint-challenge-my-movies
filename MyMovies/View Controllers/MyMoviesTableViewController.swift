@@ -11,16 +11,18 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
+    
+    
     let movieController = MovieController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "priority", ascending: false),
+            NSSortDescriptor(key: "hasWatched", ascending: false),
             NSSortDescriptor(key: "title", ascending: true)
         ]
         let moc = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "priority", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
         try! frc.performFetch()
         return frc
@@ -41,19 +43,27 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+         
+        
+        return sectionInfo.name
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-       
+        let movie = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = movie.title
 
         return cell
     }
@@ -65,14 +75,45 @@ class MyMoviesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let movie = fetchedResultsController.object(at: indexPath)
+            
+            movieController.deleteTaskFromServer(movie) { (error) in
+                if let error = error {
+                    print("Error deleting task from server: \(error)")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(movie)
+                    
+                    do {
+                        try moc.save()
+                        tableView.reloadData()
+                        
+                    } catch {
+                        moc.reset()
+                        print("Error saving managed object context: \(error)")
+                    }
+                }
+            }
+        }
     }
     
 
+    @IBAction func watchedButtonTapped(_ sender: Any) {
+        
+        let movie = Movie()
+        
+        if movie.hasWatched == true {
+            movie.hasWatched = !movie.hasWatched
+             // Set the name of the button to "Unwatched"
+        } else {
+            movie.hasWatched = !movie.hasWatched
+            // Set the name of the button to "Watched"
+        }
+        
+    }
     
 
     /*

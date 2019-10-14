@@ -10,6 +10,8 @@ import Foundation
 
 class MovieController {
     
+    typealias CompletionHandler = (Error?) -> Void
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -49,6 +51,21 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
+        }.resume()
+    }
+    
+    func deleteTaskFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = movie.identifier else {
+            completion(nil)
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            completion(error)
         }.resume()
     }
     

@@ -32,12 +32,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             }
         }
     }
-    
+
     @objc func searchButtonTapped(movie: Movie) {
-        // When clicked, take the movie and append it to the list of movies we already have.
         
         movieController.myMovies.append(movie)
-        
+
     }
     
     
@@ -54,7 +53,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let searchButton = UIButton(type: .system)
         searchButton.setTitle("Add Movie", for: .normal)
         searchButton.translatesAutoresizingMaskIntoConstraints = false
-        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(searchButtonTapped(movie:)), for: .touchUpInside)
         cell.addSubview(searchButton)
         searchButton.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20.0).isActive = true
         searchButton.centerYAnchor.constraint(equalTo: cell.centerYAnchor, constant: 0.0).isActive = true
