@@ -34,10 +34,12 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        SavedMoviesController.shared.fetchMoviesFromServer()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidLoad()
+        tableView.reloadData()
     }
 
     // MARK: - TABLE VIEW DATA SOURCE

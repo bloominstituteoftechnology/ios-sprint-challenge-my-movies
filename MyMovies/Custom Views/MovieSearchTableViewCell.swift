@@ -29,7 +29,12 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
     
     //MARK: - IBACTIONS
-    @IBAction func saveTapped(_ sender: Any) {
+    @IBAction func addMovie(_ sender: UIButton) {
+        guard let cell = sender.superview?.superview as? MovieSearchTableViewCell else { return }
+        if let title = cell.titleLabel.text {
+            let newMovieRepresentation = MovieRepresentation(title: title, identifier: nil, hasWatched: nil)
+            SavedMoviesController.shared.addMovie(for: newMovieRepresentation)
+        }
     }
     
 }
