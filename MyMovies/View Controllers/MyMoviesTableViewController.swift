@@ -33,11 +33,11 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
+        didRefresh(self)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
    
@@ -80,31 +80,14 @@ class MyMoviesTableViewController: UITableViewController {
 
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
          if editingStyle == .delete {
-             let movie = fetchResultsController.object(at: indexPath)
-             
-            movieController.deleteMovieFromServer(movie: movie) { (error) in
-                 if let error = error {
-                     print("Error deleting movie from server: \(error)")
-                     return
-                 }
-                 
-                 // actions on the main context need to happen on the main thread
-                 DispatchQueue.main.async {
-                     let moc = CoreDataStack.shared.mainContext
-                     moc.delete(movie)
-                     
-                     do {
-                         try moc.save()
-                     } catch {
-                         moc.reset()
-                         print("Error svaing managed object context: \(error)")
-                     }
-                 }
-             }
+            let movie = fetchResultsController.object(at: indexPath)
+            movieController.delete(movie)
          }
-     }
-
+    }
 }
+
+
+
 
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
@@ -137,7 +120,7 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             case .delete:
                 tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
             default:
-                break /// break == we're aware we're not handling stuff and intentionally doing that
+                break
             }
         }
         
@@ -151,8 +134,6 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             case .move:
                 guard let oldIndexPath = indexPath, let newIndexPath = newIndexPath else { return }
-//                tableView.deleteRows(at: [oldIndexPath], with: .automatic)
-//                tableView.insertRows(at: [newIndexPath], with: .automatic)
                 tableView.moveRow(at: oldIndexPath, to: newIndexPath)
             case .delete:
                 guard let indexPath = indexPath else { return }

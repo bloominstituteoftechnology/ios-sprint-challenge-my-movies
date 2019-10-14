@@ -94,15 +94,15 @@ class MovieController {
         
     }
     
-    func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
         
-        guard let identifier = movie.identifier?.uuidString else {
+        guard let identifier = movie.identifier else {
             completion(nil)
             return
         }
         
-        let baseWithIdentifierURL = baseURL.appendingPathComponent(identifier)
-        let requestURL = baseWithIdentifierURL.appendingPathExtension("json")
+        let movieURL = moviesListURL.appendingPathComponent(identifier.uuidString)
+        let requestURL = movieURL.appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
@@ -120,6 +120,7 @@ class MovieController {
             
         }.resume()
     }
+    
     
     func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in })  {
            
@@ -220,15 +221,16 @@ class MovieController {
         CoreDataStack.shared.save()
     }
     
-//    func delete(movie: Movie) {
-//        let moc = CoreDataStack.shared.mainContext
-//        moc.delete(movie)
-//        deleteMovieFromServer(movie: movie)
-//
-//
-//        CoreDataStack.shared.save()
-//
-//    }
+    func delete(_ movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        deleteMovieFromServer(movie) { (error) in
+            
+            DispatchQueue.main.async {
+                moc.delete(movie)
+                CoreDataStack.shared.save()
+            }
+        }
+    }
     
     func update(movie: Movie, movieRepresentation: MovieRepresentation) {
         movie.title = movieRepresentation.title
