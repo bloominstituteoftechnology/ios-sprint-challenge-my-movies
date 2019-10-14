@@ -58,13 +58,12 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Save"/>
                                             <connections>
-                                                <action selector="saveTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="7Em-hC-BOs"/>
+                                                <action selector="addMovie:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="KJV-wF-g6V"/>
                                             </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="saveButton" destination="J1Y-nM-fet" id="lXp-Gc-ABV"/>
                                     <outlet property="titleLabel" destination="g3u-ee-BpN" id="aEs-JD-eGG"/>
                                 </connections>
                             </tableViewCell>

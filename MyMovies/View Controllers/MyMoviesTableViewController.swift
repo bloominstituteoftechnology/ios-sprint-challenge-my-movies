@@ -67,7 +67,8 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as? SavedMoviesTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? SavedMoviesTableViewCell else { return UITableViewCell() }
+        cell.movie = fetchedResultsController.object(at: indexPath)
         return cell
     }
 

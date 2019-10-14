@@ -42,4 +42,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    @IBAction func addMovie(_ sender: UIButton) {
+        guard let cell = sender.superview?.superview as? MovieSearchTableViewCell, let movie = cell.movie, !movie.title.isEmpty else { return }
+        SavedMoviesController.shared.addMovie(for: movie)
+    }
 }

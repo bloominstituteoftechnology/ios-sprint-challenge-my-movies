@@ -29,8 +29,9 @@ class SavedMoviesTableViewCell: UITableViewCell {
     }
     
     //MARK: - IBACTIONS
-    @IBAction func hasWatchedTapped(_ sender: Any) {
+    @IBAction func hasWatchedTapped(_ sender: UIButton) {
         guard let movie = movie else { return }
+        sender.setTitle(movie.hasWatched ? "Not Seen" : "Seen", for: .normal)
         SavedMoviesController.shared.toggleHasWatched(for: movie)
     }
     
