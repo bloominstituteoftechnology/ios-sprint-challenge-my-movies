@@ -46,28 +46,28 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgK-by-8w5">
-                                            <rect key="frame" x="16" y="11" width="42" height="22"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgK-by-8w5">
+                                            <rect key="frame" x="16" y="11" width="42" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="So9-IG-m3T">
-                                            <rect key="frame" x="300" y="6" width="73" height="30"/>
+                                            <rect key="frame" x="300" y="6" width="73" height="31.5"/>
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
                                                 <action selector="addMovie:" destination="MaO-Y4-pTy" eventType="touchUpInside" id="Jgc-vs-gna"/>
                                                 <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="b6c-JF-XDY"/>
-                                                <action selector="addMovie:" destination="8Bc-u1-IMl" eventType="touchUpInside" id="vvM-B3-hLu"/>
                                             </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="So9-IG-m3T" firstAttribute="leading" secondItem="rgK-by-8w5" secondAttribute="trailing" constant="242" id="DX6-R5-6CV"/>
-                                        <constraint firstAttribute="trailing" secondItem="So9-IG-m3T" secondAttribute="trailing" constant="2" id="Ngt-oK-4O9"/>
+                                        <constraint firstItem="So9-IG-m3T" firstAttribute="centerY" secondItem="rgK-by-8w5" secondAttribute="centerY" id="Fee-7a-nVe"/>
+                                        <constraint firstItem="So9-IG-m3T" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="IJZ-Wg-S0R"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="So9-IG-m3T" secondAttribute="trailing" constant="-14" id="hZA-AQ-G1p"/>
                                         <constraint firstItem="rgK-by-8w5" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="o1B-PH-9BY"/>
+                                        <constraint firstItem="So9-IG-m3T" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="-5" id="vb8-WT-hqf"/>
                                         <constraint firstItem="rgK-by-8w5" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="11" id="zNj-44-0fX"/>
-                                        <constraint firstItem="So9-IG-m3T" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="6" id="zwe-J1-YON"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
