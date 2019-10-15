@@ -29,7 +29,7 @@ class CoreDataStack {
         return container.viewContext
     }
     
-    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         context.performAndWait {
             do {

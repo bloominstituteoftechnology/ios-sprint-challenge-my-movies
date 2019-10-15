@@ -61,7 +61,7 @@ class MovieController {
     
     func put(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
         
-        guard let identifier = movie.identifier else { return }
+        let identifier = movie.identifier ?? UUID()
         
         let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
@@ -75,7 +75,7 @@ class MovieController {
             representation.identifier = identifier
             movie.identifier = identifier
             
-            try CoreDataStack.shared.mainContext.save()
+            CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
             
         } catch {
@@ -111,33 +111,47 @@ class MovieController {
         }.resume()
     }
     
-//    func updateMovies(with representations: [MovieRepresentation]) {
-//        let moviesWithID = representations.filter({ $0.identifier != nil })
-//        let idsToFetch = moviesWithID.compactMap({ $0.identifier })
-//        let representationsByID = Dictionary(uniqueKeysWithValues: zip(idsToFetch, moviesWithID))
-//        
-//        var moviesToCreate = representationsByID
-//        
-//        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
-//        
-//        let context  = CoreDataStack.shared.container.newBackgroundContext()
-//        context.perform {
-//            do {
-//                
-//            } catch {
-//                
-//            }
-//        }
-//        
-//        
-//    }
-    
-    func create(movieWithTitle: String) {
-        let _ = Movie(title: movieWithTitle, identifier: UUID(), hasWatched: false)
+    func updateMovies(with representations: [MovieRepresentation]) {
+        let moviesWithID = representations.filter({ $0.identifier != nil })
+        let idsToFetch = moviesWithID.compactMap({ $0.identifier })
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(idsToFetch, moviesWithID))
+        
+        var moviesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
+        
+        let context  = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(movie: movie, with: representation)
+                    
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in moviesToCreate.values {
+                    let _ = Movie(movieRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching movies for UUIDS: \(error)")
+            }
+        }
+        
+        CoreDataStack.shared.save(context: context)
     }
     
-    func save(movie: Movie, with representation: MovieRepresentation) {
+    func create(movieWithTitle: String) {
+        let movie = Movie(title: movieWithTitle, identifier: UUID(), hasWatched: false)
+        put(movie: movie)
+    }
+    
+    func update(movie: Movie, with representation: MovieRepresentation) {
         
         guard let hasWatched = representation.hasWatched else { return }
         movie.title = representation.title
@@ -148,8 +162,8 @@ class MovieController {
     }
 }
 
-extension MovieController: AddMovieDelegate {
-    func movieWasAdded(_ movieTitle: String) {
-        create(movieWithTitle: movieTitle)
-    }
-}
+//extension MovieController: AddMovieDelegate {
+//    func movieWasAdded(_ movieTitle: String) {
+//        create(movieWithTitle: movieTitle)
+//    }
+//}

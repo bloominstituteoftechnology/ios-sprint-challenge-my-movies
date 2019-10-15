@@ -31,14 +31,9 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,10 +57,11 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+                as? MovieTableViewCell else { return UITableViewCell() }
         
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
+        cell.movie = movie
         
         return cell
     }
@@ -132,4 +128,9 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-
+extension MyMoviesTableViewController: AddMovieDelegate {
+    func movieWasAdded(_ movieTitle: String) {
+        guard let movieController = movieController else { return }
+        movieController.create(movieWithTitle: movieTitle)
+    }
+}

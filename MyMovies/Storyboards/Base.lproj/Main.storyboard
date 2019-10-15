@@ -55,9 +55,9 @@
                                         </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="H2g-Vd-dJn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="12" id="1xu-UL-dfJ"/>
                                         <constraint firstItem="H2g-Vd-dJn" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="3Le-r6-Bqm"/>
                                         <constraint firstAttribute="trailing" secondItem="H2g-Vd-dJn" secondAttribute="trailing" constant="12" id="biE-0N-jbd"/>
-                                        <constraint firstItem="H2g-Vd-dJn" firstAttribute="leading" relation="lessThanOrEqual" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="290" id="mh6-vN-UdJ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -78,7 +78,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
@@ -89,7 +89,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo" customClass="MovieTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cK-VO-zdo" id="F0q-Pd-Woa">
@@ -120,6 +120,9 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="ZCJ-IO-4yS"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

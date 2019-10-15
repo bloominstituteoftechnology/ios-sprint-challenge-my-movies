@@ -49,8 +49,14 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     @IBAction func addMovieButtonPressed(_ sender: UIButton) {
         guard let indexPath = tableView.indexPathForSelectedRow else { return }
         let movieTitle = movieController.searchedMovies[indexPath.row].title
-        delegate?.movieWasAdded(movieTitle)
+        
+        movieController.create(movieWithTitle: movieTitle)
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
+        }
+//        delegate?.movieWasAdded(movieTitle)
     }
-    
-    
 }
