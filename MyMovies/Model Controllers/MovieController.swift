@@ -117,16 +117,107 @@ class MovieController {
             }
             
             guard let data = data else {
-                print("Error getting data: \(error)")
+                print("Error getting data")
                 completion(error)
                 return
             }
             
             do {
                 let jsonDecoder = JSONDecoder()
-                let movieRepresentation = try jsonDecoder.decode([String: MovieRepresentation].self, from: data)
+                let movieRepresentation = try jsonDecoder.decode([String: MovieRepresentation].self, from: data).map( { $0.value } )
+                let moc = CoreDataStack.shared.container.newBackgroundContext()
                 
+                self.checkMovieRepresentation(movieRepresentations: movieRepresentation, context: moc)
+                completion(nil)
+            } catch {
+                print("Error decoding movie: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
+    
+    func updateMovieRep(movie: Movie, movieRepresentation: MovieRepresentation) {
+        guard let identifierString = movieRepresentation.identifier,
+            let identifier = UUID(uuidString: identifierString) else { return }
+        movie.identifier = identifier
+        movie.title = movieRepresentation.title
+        movie.hasWatched = movieRepresentation.hasWatched ?? false
+        
+    }
+    
+    func checkMovieRepresentation(movieRepresentations: [MovieRepresentation], context: NSManagedObjectContext) {
+        
+        context.performAndWait {
+            for movieRepresentation in movieRepresentations {
+                if let identifier = movieRepresentation.identifier, let movie = self.fetchMovieFromPersistentStore(identifier: identifier, context: context) {
+                    self.updateMovieRep(movie: movie, movieRepresentation: movieRepresentation)
+                } else {
+                    _ = Movie(movieRepresentation: movieRepresentation, context: context)
+                }
+            }
+            
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                print("Error saving context: \(error)")
             }
         }
     }
+    
+    func fetchMovieFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Movie? {
+        let fetchMovieRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchMovieRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        var movie: Movie?
+        context.performAndWait {
+            do {
+                movie = try context.fetch(fetchMovieRequest).first
+            } catch {
+                print("Error fetching movie \(identifier) with error: \(error)")
+            }
+        }
+        return movie
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let identifierString = movie.identifier?.uuidString
+        guard let identifier = identifierString else { return }
+        
+        
+        let url = firebaseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var requestURL = URLRequest(url: url)
+        requestURL.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                print("Error PUTting movie to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    // MARK: CRUD Methods
+    
+    func create(title: String) {
+        let movie = Movie(title: title)
+        put(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    func update(movie: Movie) {
+        movie.hasWatched.toggle()
+        put(movie: movie)
+    }
+    
+    func delete(movie: Movie) {
+        deleteMovieFromServer(movie: movie)
+        CoreDataStack.shared.mainContext.delete(movie)
+        saveToPersistentStore()
+    }
+    
 }
+
+
