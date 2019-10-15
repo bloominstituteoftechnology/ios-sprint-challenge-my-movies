@@ -8,9 +8,7 @@
 
 import UIKit
 
-class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-    
-    var searchButton: UIButton!
+class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate, AddMovieDelegate {
    
 
     override func viewDidLoad() {
@@ -33,10 +31,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
 
-    @objc func searchButtonTapped(movie: Movie) {
+    
+    func addMovie(with cell: SearchedMovieTableViewCell) {
         
-        movieController.myMovies.append(movie)
-
+        guard let movieRepresentation = cell.movieRepresentation else { return }
+//        movieController.createMovie(with: movieRepresentation)
+        movieController.put(movieRepresentation: movieRepresentation)
+        
     }
     
     
@@ -46,21 +47,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? SearchedMovieTableViewCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
-        let searchButton = UIButton(type: .system)
-        searchButton.setTitle("Add Movie", for: .normal)
-        searchButton.translatesAutoresizingMaskIntoConstraints = false
-        searchButton.addTarget(self, action: #selector(searchButtonTapped(movie:)), for: .touchUpInside)
-        cell.addSubview(searchButton)
-        searchButton.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20.0).isActive = true
-        searchButton.centerYAnchor.constraint(equalTo: cell.centerYAnchor, constant: 0.0).isActive = true
-        searchButton.heightAnchor.constraint(equalToConstant: 20.0).isActive = true
-        searchButton.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-        
-        
+        let movie = movieController.searchedMovies[indexPath.row]
+        cell.movieRepresentation = movie
+        cell.delegate = self
+
         return cell
     }
     
@@ -68,3 +60,5 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
+
+

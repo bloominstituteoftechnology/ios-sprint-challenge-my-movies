@@ -9,8 +9,7 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
-    
+class MyMoviesTableViewController: UITableViewController, UpdateWatchedDelegate {
     
     
     let movieController = MovieController()
@@ -31,14 +30,24 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
+    
+  
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    
+    func updateWatchedButton(with cell: MyMovieTableViewCell) {
+        guard let movie = cell.movie else { return }
+        
+        movieController.updateWatched(with: movie)
+        
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -53,17 +62,19 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-         
         
-        return sectionInfo.name
+        
+        return sectionInfo.name == "0" ? "Unwatched": "Watched"
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
 
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
+        cell.movie = movie
+        cell.delegate = self
+        
 
         return cell
     }
