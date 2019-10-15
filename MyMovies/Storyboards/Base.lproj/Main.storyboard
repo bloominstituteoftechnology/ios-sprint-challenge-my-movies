@@ -69,10 +69,6 @@
                                         <constraint firstItem="rgK-by-8w5" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="11" id="zNj-44-0fX"/>
                                         <constraint firstItem="So9-IG-m3T" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="6" id="zwe-J1-YON"/>
                                     </constraints>
-                                    <connections>
-                                        <outlet property="addButton" destination="So9-IG-m3T" id="VC2-8b-OwN"/>
-                                        <outlet property="movieTitle" destination="rgK-by-8w5" id="FJ0-dY-V3e"/>
-                                    </connections>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="addButton" destination="So9-IG-m3T" id="q37-Mn-gi0"/>
