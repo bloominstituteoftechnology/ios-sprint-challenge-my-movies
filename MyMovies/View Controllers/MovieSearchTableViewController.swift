@@ -9,7 +9,12 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    var movieController = MovieController()
+    var delegate: AddMovieDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,7 +46,17 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBAction func addMovieButtonPressed(_ sender: UIButton) {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        let movieTitle = movieController.searchedMovies[indexPath.row].title
+        
+        movieController.create(movieWithTitle: movieTitle)
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
+        }
+//        delegate?.movieWasAdded(movieTitle)
+    }
 }
