@@ -67,9 +67,9 @@ class MovieController {
            fetchMoviesFromServer()
        }
        
-       //MARK: Firebase Networking
+       //Firebase Networking
        
-       // MARK:PUT Movies to Firebase
+       // MARK:PUT Movie to Firebase
        //TODO: Return en optional Error ???
        func put(movie: Movie, completion: @escaping () -> Void = { }) {
            
@@ -272,7 +272,6 @@ class MovieController {
     func createMovie(title: String, hasWatched: Bool, context: NSManagedObjectContext) {
         
         let newMovie = Movie(title: title, hasWatched: hasWatched, context: context)
-        
            put(movie: newMovie)
        }
        
