@@ -106,6 +106,49 @@ class MovieController {
 		}.resume()
 	}
 
+	func updateMovie(with representations: [MovieRepresentation]) {
+
+		let identifiersToFetch = representations.compactMap({ $0.identifier?.uuidString})
+
+		let representaionsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+
+		var tasksToCreate = representaionsByID
+
+		let context = CoreDataStack.shared.backgroundContext
+
+		context.performAndWait {
+
+			do {
+
+				let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+
+				fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+
+				let existingTasks = try context.fetch(fetchRequest)
+
+				for movie in existingTasks {
+					guard let identifier = movie.identifier,
+						let representation = representaionsByID[identifier] else { continue }
+
+					movie.title = representation.title
+					movie.identifier = representation.identifier?.uuidString
+					movie.hasWatched = representation.hasWatched!
+
+					tasksToCreate.removeValue(forKey: identifier)
+				}
+
+				for representation in tasksToCreate.values {
+					Movie(representation, context: context)
+				}
+
+				CoreDataStack.shared.save(context: context)
+
+			} catch {
+				NSLog("Error fetching tasks from persistent store: \(error)")
+			}
+		}
+	}
+
 	
     
     var searchedMovies: [MovieRepresentation] = []
