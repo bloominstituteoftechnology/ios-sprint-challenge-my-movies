@@ -10,6 +10,10 @@ import CoreData
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     //MARK: Properties
     
     var searchedMovies: [MovieRepresentation] = []
@@ -58,7 +62,7 @@ class MovieController {
         }.resume()
     }
     
-    //MARK: Firebase
+    //MARK: MyMovies
     
     enum HTTPMethod: String {
         case get = "GET"
@@ -140,7 +144,85 @@ class MovieController {
         }.resume()
     }
     
+    func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in } ) {
+        let requestURL = myMoviesBaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error getting movies: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from data task.")
+                completion(NSError())
+                return
+            }
+            
+            var movieRepresentations: [MovieRepresentation] = []
+            
+            do {
+                movieRepresentations = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({ $0.value })
+                self.updateMovies(with: movieRepresentations)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding movie representations: \(error)")
+                completion(error)
+            }
+        }.resume()
+    }
+    
+    func updateMovies(with representations: [MovieRepresentation]) {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        let identifiersToFetch = representations.map({ $0.identifier })
+        var representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.performAndWait {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                for movie in existingMovies {
+                    guard let identifier = movie.identifier,
+                        let representation = representationsByID[identifier] else { continue }
+                    
+                    update(movie: movie, representation: representation)
+                    
+                    representationsByID.removeValue(forKey: identifier)
+                    
+                }
+                
+                for representation in representationsByID.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+                
+                save(context: context)
+            } catch {
+                NSLog("Error fetching existing movies: \(error)")
+            }
+        }
+    }
+    
     //MARK: CoreData
+    
+    func update(movie: Movie, representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.hasWatched = representation.hasWatched ?? false
+    }
+    
+    func save(context: NSManagedObjectContext) {
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                NSLog("Error saving context: \(error)")
+            }
+        }
+    }
 
     func addMovie(_ movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
         guard let movie = Movie(movieRepresentation: movieRepresentation, context: context) else { return }
