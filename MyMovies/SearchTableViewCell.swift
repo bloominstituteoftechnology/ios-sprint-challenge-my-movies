@@ -10,36 +10,53 @@ import UIKit
 
 class SearchTableViewCell: UITableViewCell {
     
+    var added: Bool = false
+    
     var movieController: MovieController?
-    var movie: Movie?
+    var movie: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
+      
     
-
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var addedButton: UIButton!
     
-
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        updateViews()
     }
 
+    private func updateViews() {
+        
+        titleLabel.text = movie?.title
+        
+        if added == false {
+            addedButton.setTitle("Add Movie", for: .normal)
+        } else if added == true {
+            addedButton.setTitle("Added", for: .normal)
+        }
+        
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
-    @IBAction func addMovieButton(_ sender: Any) {
+    @IBAction func addMovieButton(_ sender: UIButton) {
         
-        guard let movie = movie,
-            let title = movie.title,
-            let identifier = movie.identifier else { return }
+        added = !added
         
-        movieController?.createMovie(with: title, identifier: identifier, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        guard let movie = movie else { return }
         
-        movieController?.updateMovie(movie: movie, with: title, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        movieController?.createMovie(with: movie.title, hasWatched: movie.hasWatched, context: CoreDataStack.shared.mainContext)
         
+//        movieController?.createMovie(with: title, identifier: identifier, hasWatched: false, context: CoreDataStack.shared.mainContext)
         
     }
-    
 
 }
 

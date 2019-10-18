@@ -20,6 +20,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let base = URL(string: "https://mymoviesprint.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -153,7 +154,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL
+        let requestURL = base
             .appendingPathComponent(identifier.uuidString)
             .appendingPathComponent("json")
         
@@ -174,9 +175,9 @@ class MovieController {
         
     }
     
-    func createMovie(with title: String, identifier: UUID, hasWatched: Bool?, context: NSManagedObjectContext) {
+    func createMovie(with title: String, hasWatched: Bool?, context: NSManagedObjectContext) {
         
-        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: context)
+        let movie = Movie(title: title, hasWatched: hasWatched, context: context)
         CoreDataStack.shared.save(context: context)
         put(movie: movie)
         

@@ -40,26 +40,39 @@
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="SearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="375" height="30.5"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="31"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="30.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="31"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ulP-V6-pTY">
-                                            <rect key="frame" x="286" y="0.0" width="73" height="30.5"/>
+                                            <rect key="frame" x="286" y="0.0" width="73" height="31"/>
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
-                                                <action selector="addMovieButton:" destination="d7W-qE-xfL" eventType="touchUpInside" id="PhW-7P-1LE"/>
+                                                <action selector="addMovieButton:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Wzr-Jl-aSK"/>
                                             </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nHi-zU-JaX">
+                                            <rect key="frame" x="16" y="5" width="42" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="nHi-zU-JaX" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="2LI-DK-8yW"/>
                                         <constraint firstAttribute="bottom" secondItem="ulP-V6-pTY" secondAttribute="bottom" id="DZW-3C-byR"/>
                                         <constraint firstAttribute="trailing" secondItem="ulP-V6-pTY" secondAttribute="trailing" constant="16" id="WrA-U9-Y0x"/>
                                         <constraint firstItem="ulP-V6-pTY" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" id="eLN-Jn-nBb"/>
+                                        <constraint firstAttribute="bottom" secondItem="nHi-zU-JaX" secondAttribute="bottom" constant="4.5" id="jIi-OG-ubf"/>
+                                        <constraint firstItem="nHi-zU-JaX" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="5" id="pYm-ah-Qpk"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addedButton" destination="ulP-V6-pTY" id="qWN-Hz-faz"/>
+                                    <outlet property="titleLabel" destination="nHi-zU-JaX" id="wLI-kX-TYd"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -105,7 +118,7 @@
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
                                                     <connections>
-                                                        <action selector="hasWatchedButtonTapped:" destination="1Gb-tL-YFt" eventType="touchUpInside" id="y0h-kf-2Tm"/>
+                                                        <action selector="watchedButton:" destination="9cK-VO-zdo" eventType="touchUpInside" id="R2Q-k4-GAE"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -119,6 +132,10 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="titleLabel" destination="a6O-zS-fmH" id="jYz-yZ-32d"/>
+                                    <outlet property="wasWatchedButton" destination="3Ay-OW-Mt0" id="EUx-p3-VJS"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

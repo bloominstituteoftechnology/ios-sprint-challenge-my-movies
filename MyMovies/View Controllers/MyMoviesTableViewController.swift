@@ -80,11 +80,10 @@ class MyMoviesTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
-
-        let movie = fetchResultController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
         
+        cell.movieController = movieController
+        cell.movie = fetchResultController.object(at: indexPath)
         
         return cell
     }
