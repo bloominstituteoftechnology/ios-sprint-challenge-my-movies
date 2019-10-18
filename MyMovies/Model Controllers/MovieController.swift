@@ -57,6 +57,12 @@ class MovieController {
         //put movie
     }
     
+    func toggleWatched(movie: Movie, context: NSManagedObjectContext) {
+        movie.hasWatched.toggle()
+        CoreDataStack.shared.save(context: context)
+        //put movie
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []

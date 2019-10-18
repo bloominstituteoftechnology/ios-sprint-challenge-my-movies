@@ -66,7 +66,12 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = fetchedResultsController.sections?[section]
-        return sectionInfo?.name
+        
+        if sectionInfo?.name == "0" {
+            return "Not Watched"
+        } else {
+            return "Watched"
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,9 +79,11 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
 
-        cell.textLabel?.text = fetchedResultsController.object(at: indexPath).title
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.movieController = movieController
+        cell.updateViews()
 
         return cell
     }
