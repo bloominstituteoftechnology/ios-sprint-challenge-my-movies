@@ -11,9 +11,11 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
+    
     var movieController: MovieController {
         return (self.tabBarController?.viewControllers![0] as! MovieSearchTableViewController).movieController
     }
+    
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
 
@@ -34,7 +36,6 @@ class MyMoviesTableViewController: UITableViewController {
          }
          return frc
      }()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +74,7 @@ class MyMoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if fetchedResultsController.sections?[section].name == "0" {
+        if fetchedResultsController.sections?[section].name == "1" {
             return "Watched Movies"
         } else {
             return "Unwatched Movies"

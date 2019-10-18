@@ -46,25 +46,32 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vpz-EQ-MuV">
-                                            <rect key="frame" x="286" y="7" width="73" height="30"/>
-                                            <state key="normal" title="Add Movie"/>
-                                            <connections>
-                                                <action selector="saveButtonTabbed:" destination="d7W-qE-xfL" eventType="touchUpInside" id="OBq-go-CwC"/>
-                                            </connections>
-                                        </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ikU-2T-krj">
-                                            <rect key="frame" x="16" y="11.5" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="9Ck-KR-TjB">
+                                            <rect key="frame" x="16" y="7" width="343" height="30"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ikU-2T-krj">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vpz-EQ-MuV">
+                                                    <rect key="frame" x="58" y="0.0" width="285" height="30"/>
+                                                    <state key="normal" title="Add Movie"/>
+                                                    <connections>
+                                                        <action selector="saveButtonTabbed:" destination="d7W-qE-xfL" eventType="touchUpInside" id="OBq-go-CwC"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Vpz-EQ-MuV" secondAttribute="trailing" id="G07-xt-v9J"/>
+                                            </constraints>
+                                        </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="Vpz-EQ-MuV" secondAttribute="trailing" constant="16" id="0u1-va-GdG"/>
-                                        <constraint firstItem="ikU-2T-krj" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="Oer-5R-jum"/>
-                                        <constraint firstItem="ikU-2T-krj" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="xm6-5e-dz5"/>
-                                        <constraint firstItem="Vpz-EQ-MuV" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="zj5-uM-Ki6"/>
+                                        <constraint firstItem="9Ck-KR-TjB" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="7NY-Ix-2hx"/>
+                                        <constraint firstItem="9Ck-KR-TjB" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="Yvb-aA-5ti"/>
+                                        <constraint firstAttribute="trailing" secondItem="9Ck-KR-TjB" secondAttribute="trailing" constant="16" id="rUc-Ai-UQH"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -84,7 +91,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">

@@ -36,6 +36,10 @@ class MovieController {
     
     var searchedMovies: [MovieRepresentation] = []
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -76,6 +80,7 @@ class MovieController {
     }
     
     func createMovie(title: String, context: NSManagedObjectContext) {
+        
         let movie = Movie(title: title, context: context)
         put(movie: movie) { (error) in
             if error == nil {
