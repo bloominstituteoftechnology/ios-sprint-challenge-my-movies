@@ -22,6 +22,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     @IBAction func addButtonTapped(_ sender: UIButton) {
     
         movieController.createMovie(title: movieTitle, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        
     }
     
     
