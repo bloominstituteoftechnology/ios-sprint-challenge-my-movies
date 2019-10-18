@@ -149,7 +149,51 @@ class MovieController {
 		}
 	}
 
-	
-    
-    var searchedMovies: [MovieRepresentation] = []
+	func deleteEntryFromServer(movie: Movie, completion: @escaping (Error?) -> Void) {
+
+		guard let identifier = movie.identifier else { return }
+
+		let requestURL = firebaseBaseURL
+		.appendingPathComponent(identifier)
+		.appendingPathExtension("json")
+
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = HTTPMethod.delete.rawValue
+
+		URLSession.shared.dataTask(with: request) { (_, _, error) in
+			if let error = error {
+				NSLog("Error deleting task: \(error)")
+				completion(error)
+			}
+		}.resume()
+	}
+
+	func createMovie(with title: String) {
+
+		let movie = Movie(title: title)
+		CoreDataStack.shared.save()
+		put(movie: movie!)
+
+	}
+
+	func updateMovie(movie: Movie, hasWatched: Bool) {
+
+		movie.hasWatched = hasWatched
+		CoreDataStack.shared.save()
+		put(movie: movie)
+
+	}
+
+	func delete(movie: Movie) {
+
+		let context = CoreDataStack.shared.mainContext
+
+		context.performAndWait {
+			deleteEntryFromServer(movie: movie) { (error) in
+				NSLog("Error deleting journal")
+			}
+			context.delete(movie)
+			CoreDataStack.shared.save()
+		}
+	}
 }
