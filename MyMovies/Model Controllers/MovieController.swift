@@ -66,14 +66,14 @@ class MovieController {
            fetchMoviesFromServer()
        }
        
-       //MARK: Networking
+       //MARK: Firebase Networking
        
        // MARK:PUT Movies to Firebase
        //TODO: Return en optional Error ???
-       func put(entry: Movie, completion: @escaping () -> Void = { }) {
+       func put(movie: Movie, completion: @escaping () -> Void = { }) {
            
-           let identifier = entry.identifier ?? UUID()
-           entry.identifier = identifier
+           let identifier = movie.identifier ?? UUID()
+           movie.identifier = identifier
            
            let requestURL = baseURL
                .appendingPathComponent(identifier.uuidString)
@@ -111,7 +111,7 @@ class MovieController {
        
        
        //MARK: DeleteFromServer
-       func deleteFromServer(entry: Movie, completion: @escaping () -> Void? = { }) {
+       func deleteFromServer(movie: Movie, completion: @escaping () -> Void? = { }) {
            
            let identifier = movie.identifier ?? UUID()
            movie.identifier = identifier
@@ -123,7 +123,7 @@ class MovieController {
            var request = URLRequest(url: requestURL)
            request.httpMethod = HTTPMethod.delete.rawValue
            
-           guard let movieRepresentation = movie.entryRepresentation else {
+           guard let movieRepresentation = movie.movieRepresentation else {
                NSLog("Movie Representation is nil")
                completion()
                return
@@ -227,7 +227,7 @@ class MovieController {
                
                do {
                   
-                   let fetchRequest: NSFetchRequest<Entry> = Movie.fetchRequest()
+                   let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
                    
                    // Only fetch the movies with the identifiers that are in this identifiersToFetch array
                                                        //"identifiersToFetch.contains(identifier)"
@@ -276,14 +276,14 @@ class MovieController {
        //Update
        
        func update(movie: Movie, movieRepresentation: MovieRepresentation) {
+        
         movie.title = movieRepresentation.title
-        movie.hasWatched = movieRepresentation.hasWatched
-        movie.identifier - movieRepresentation.identifier
+        movie.hasWatched = movieRepresentation.hasWatched ?? false
           }
        
        //Delete
        
-       func deleteMovie(entry: Movie, context: NSManagedObjectContext) {
+       func deleteMovie(movie: Movie, context: NSManagedObjectContext) {
            context.performAndWait {
                deleteFromServer(movie: movie)
                context.delete(movie)

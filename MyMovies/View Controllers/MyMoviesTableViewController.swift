@@ -81,12 +81,26 @@ class MyMoviesTableViewController: UITableViewController {
         
         cell.movie = fetchedResultsController.object(at: indexPath)
 
-
-
         //        cell.textLabel?.text = fetchedResultsController.object(at: indexPath).title
         //        cell.textLabel?.text = fetchedResultsController.object(at: indexPath).
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+         
+         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+         return sectionInfo.name.capitalized
+     }
+    
+    //Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+         
+         guard editingStyle == .delete else { return }
+         
+         let movie = fetchedResultsController.object(at: indexPath)
+        movieController.deleteMovie(movie: movie, context: CoreDataStack.shared.mainContext)
+     }
+    
     
 
     /*

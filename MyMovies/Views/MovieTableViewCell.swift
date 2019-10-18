@@ -17,6 +17,7 @@ class MovieTableViewCell: UITableViewCell {
     
     //TODO: need to implement?
     var hasWatchedString = "Watched?"
+    //var movieController: MovieController?
     
     // MARK: Properties
     var movie: Movie? {
