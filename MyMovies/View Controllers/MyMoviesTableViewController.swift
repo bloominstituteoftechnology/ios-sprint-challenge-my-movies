@@ -35,19 +35,18 @@ class MyMoviesTableViewController: UITableViewController {
         
         // MUST make the descriptor with the same key path as the sectionNameKeyPath be the first sort descriptor in this array
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "Watched", ascending: true),
-            NSSortDescriptor(key: "Not Watched", ascending: true)
+            NSSortDescriptor(key: "hasWatched", ascending: true),
         ]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: CoreDataStack.shared.mainContext,
-                                             sectionNameKeyPath: "priority",
+                                             sectionNameKeyPath: "hasWatched",
                                              cacheName: nil)
         
         frc.delegate = self
         
         do {
-            try frc.performFetch() // Fetch the tasks
+            try frc.performFetch() // Fetch the movies
         } catch {
             fatalError("Error performing fetch for frc: \(error)")
         }
@@ -101,42 +100,6 @@ class MyMoviesTableViewController: UITableViewController {
         movieController.deleteMovie(movie: movie, context: CoreDataStack.shared.mainContext)
      }
     
-    
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation

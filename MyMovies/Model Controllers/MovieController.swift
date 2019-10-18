@@ -155,7 +155,7 @@ class MovieController {
            
            // Set up the URL
            
-           let requestURL = baseURL.appendingPathExtension("json")
+           let requestURL = firebaseBaseURL.appendingPathExtension("json")
            
            // Create the URLRequest
            
