@@ -18,12 +18,34 @@ class CoreDataStack {
 	}
 
 	var backgroundContext: NSManagedObjectContext {
-
+		return container.newBackgroundContext()
 	}
 
-	var mainContext: NSManagedObjectContext { return container.}
+	var mainContext: NSManagedObjectContext { return container.viewContext}
 
-	func save(context: NSManagedObjectContext = CoreDataStack.shared.main)
+	func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 
+		context.performAndWait {
 
+			do {
+				try context.save()
+			} catch {
+				NSLog("Unable to save to context: \(error)")
+				context.reset()
+			}
+		}
+	}
+
+	let container: NSPersistentContainer = {
+
+		let container = NSPersistentContainer(name: "MovieCoreData" as String)
+		container.loadPersistentStores() { (storeDescription, error) in
+			if let error = error as NSError? { fatalError("Unresolved error \(error), \(error.userInfo)")
+			}
+		}
+
+		container.viewContext
+		.automaticallyMergesChangesFromParent = true
+		return container
+	}()
 }
