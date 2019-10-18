@@ -10,6 +10,12 @@ import CoreData
 
 class MovieController {
     
+    //MARK: Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
+    
+    //MARK: MovieDB
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
         let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -51,19 +57,72 @@ class MovieController {
         }.resume()
     }
     
-    func addMovie(_ movie: MovieRepresentation, context: NSManagedObjectContext) {
-        let movie = Movie(movieRepresentation: movie, context: context)
+    //MARK: Firebase
+    
+    enum HTTPMethod: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case delete = "DELETE"
+    }
+    
+    func put(movieRepresentation: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in}) {
+        let baseURL = URL(string: "https://mymovies-497c3.firebaseio.com/")!
+        
+        guard let identifier = movieRepresentation.identifier else {
+            NSLog("No identifier for movie.")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = baseURL
+            .appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            NSLog("Error encoding movie representation: \(error)")
+            completion(NSError())
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTting movie: \(error)")
+                completion(NSError())
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
+    
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = {_ in}) {
+        guard let movieRepresentation = movie.representation else {
+            NSLog("Movie representation is nil")
+            completion(NSError())
+            return
+        }
+        
+        put(movieRepresentation: movieRepresentation, completion: completion)
+    }
+    
+    //MARK: CoreData
+
+    func addMovie(_ movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
+        guard let movie = Movie(movieRepresentation: movieRepresentation, context: context) else { return }
         CoreDataStack.shared.save(context: context)
-        //put movie
+        put(movie: movie)
     }
     
     func toggleWatched(movie: Movie, context: NSManagedObjectContext) {
         movie.hasWatched.toggle()
         CoreDataStack.shared.save(context: context)
-        //put movie
+        put(movie: movie)
     }
-    
-    // MARK: - Properties
-    
-    var searchedMovies: [MovieRepresentation] = []
+
 }

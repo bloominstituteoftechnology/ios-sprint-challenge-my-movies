@@ -10,6 +10,14 @@ import CoreData
 
 extension Movie {
     
+    var representation: MovieRepresentation? {
+        guard let title = title else {
+                return nil
+        }
+        
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+    }
+    
     @discardableResult convenience init(title: String, identifier: UUID = UUID(), hasWatched: Bool = false, context: NSManagedObjectContext) {
         self.init(context: context)
         
