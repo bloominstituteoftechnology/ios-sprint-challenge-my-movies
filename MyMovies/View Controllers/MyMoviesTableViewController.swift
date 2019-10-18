@@ -14,10 +14,10 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +37,7 @@ class MyMoviesTableViewController: UITableViewController {
         return 0
     }
 
-    /*
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
@@ -45,7 +45,7 @@ class MyMoviesTableViewController: UITableViewController {
 
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
