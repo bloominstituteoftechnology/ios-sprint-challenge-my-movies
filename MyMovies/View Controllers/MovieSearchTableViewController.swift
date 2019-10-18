@@ -9,9 +9,9 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
     
-    var movieController = MovieController()
+    let movieController = MovieController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         print(UUID())
@@ -44,7 +44,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-
-    
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    
 }

@@ -1,8 +1,8 @@
 //
 //  MyMovieTableViewCell.swift
-//  MyMovies
+//  Movie List
 //
-//  Created by Marc Jacques on 10/18/19.
+//  Created by Marc Jacques on 8/16/19.
 //  Copyright © 2019 Lambda School. All rights reserved.
 //
 

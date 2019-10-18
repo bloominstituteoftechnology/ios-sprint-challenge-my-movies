@@ -1,5 +1,5 @@
 //
-//  MoviesTableViewCell.swift
+//  MovieTableViewCell.swift
 //  MyMovies
 //
 //  Created by Marc Jacques on 10/18/19.
@@ -11,35 +11,35 @@ import UIKit
 class MovieTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var watchedButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
     
     var movieController: MovieController?
     var searchedMovie: MovieRepresentation? {
-        didSet{
+        didSet {
             updateViews()
         }
     }
-    
-    func updateViews() {
-      guard let searchedMovie = searchedMovie else { return }
-      titleLabel.text = searchedMovie.title
-    }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        updateViews()
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
+
         // Configure the view for the selected state
     }
     
+    func updateViews() {
+        guard let searchedMovie = searchedMovie else { return }
+        titleLabel.text = searchedMovie.title
+        
+    }
+
     @IBAction func saveTapped(_ sender: UIButton) {
         guard let movieController = movieController, let searchedMovie = searchedMovie else { return }
         movieController.createMovie(with: searchedMovie.title, identifier: searchedMovie.identifier ?? UUID(), hasWatched: false)
     }
-
-    
 }

@@ -9,18 +9,16 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController {
     
     var movieController = MovieController()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
@@ -36,38 +34,37 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         
         return frc
     }()
-    
+
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
-        
-        // Configure the cell...
+
         cell.movieController = movieController
         cell.movie = fetchedResultsController.object(at: indexPath)
-        
+
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-          
-          guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-          
-          if sectionInfo.name == "0" {
-              return "Not Watched"
-          } else {
-              return "Watched"
-          }
-      }
+        
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        if sectionInfo.name == "0" {
+            return "Not Watched"
+        } else {
+            return "Watched"
+        }
+    }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -75,12 +72,14 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             if let id = movie.identifier {
                 print(id.uuidString)
             } else {
-                NSLog("Error while deleting")
+                print("AHHHHHHHHHHHHHHH")
             }
             movieController.delete(movie: movie)
         }
     }
-    
+}
+
+extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -122,5 +121,3 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
 }
-
-
