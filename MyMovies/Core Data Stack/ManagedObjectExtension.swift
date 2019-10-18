@@ -20,4 +20,15 @@ extension NSManagedObjectContext {
             }
         }
     }
+    
+    func save(context: NSManagedObjectContext) {
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                NSLog("error saving context: \(error.localizedDescription)")
+                context.reset()
+            }
+        }
+    }
 }

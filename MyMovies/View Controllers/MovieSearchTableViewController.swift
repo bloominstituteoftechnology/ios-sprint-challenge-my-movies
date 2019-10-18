@@ -24,6 +24,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             guard error == nil else { return }
             
             DispatchQueue.main.async {
+                self.movieController.addMovie(withTitle: searchTerm, context: CoreDataStack.shared.mainContext)
                 self.tableView.reloadData()
             }
         }

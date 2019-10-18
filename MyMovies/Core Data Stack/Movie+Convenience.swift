@@ -11,12 +11,23 @@ import CoreData
 
 extension Movie {
     
-    
-    convenience init(title: String, hasWatched: Bool = false, identifier: UUID, context: NSManagedObjectContext) {
+
+    convenience init(title: String, hasWatched: Bool = false, identifier: UUID = UUID(), context: NSManagedObjectContext) {
         self.init(context: context)
         self.title = title
         self.identifier = identifier
         self.hasWatched = hasWatched
-        
     }
+    
+    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
+
+        guard let identifier = movieRepresentation.identifier, let hasWatched = movieRepresentation.hasWatched else {return nil}
+        
+        self.init(title: movieRepresentation.title, hasWatched: hasWatched, identifier: identifier, context: context)
+    }
+    
+    var movieRepresentation: MovieRepresentation {
+        return MovieRepresentation(title: title!, identifier: identifier, hasWatched: hasWatched)
+    }
+    
 }

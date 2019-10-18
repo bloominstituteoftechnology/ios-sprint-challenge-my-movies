@@ -19,6 +19,7 @@
 		DDDCE7C7235A17490010F1A3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7C6235A17490010F1A3 /* CoreDataStack.swift */; };
 		DDDCE7C9235A1A1A0010F1A3 /* ManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7C8235A1A1A0010F1A3 /* ManagedObjectExtension.swift */; };
 		DDDCE7CB235A1AA60010F1A3 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7CA235A1AA60010F1A3 /* Movie+Convenience.swift */; };
+		DDDCE7CD235A65170010F1A3 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7CC235A65170010F1A3 /* MovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		DDDCE7C6235A17490010F1A3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		DDDCE7C8235A1A1A0010F1A3 /* ManagedObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectExtension.swift; sourceTree = "<group>"; };
 		DDDCE7CA235A1AA60010F1A3 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		DDDCE7CC235A65170010F1A3 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
+				DDDCE7CC235A65170010F1A3 /* MovieTableViewCell.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
 			);
 			path = "View Controllers";
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDDCE7CD235A65170010F1A3 /* MovieTableViewCell.swift in Sources */,
 				DDDCE7C9235A1A1A0010F1A3 /* ManagedObjectExtension.swift in Sources */,
 				DDDCE7C7235A17490010F1A3 /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
