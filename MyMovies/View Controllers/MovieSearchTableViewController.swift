@@ -9,6 +9,8 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    var movie: MyMovies?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             }
         }
     }
+    
+    @IBAction func addMovie(_ sender: UIButton) {
+        if let movie = movie {
+            movieController.createMovie(with: title!, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        }
+    }
+    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
