@@ -31,18 +31,18 @@ class MyMoviesTableViewController: UITableViewController {
 		return frc
 	}()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-         self.clearsSelectionOnViewWillAppear = false
-         self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
+		self.clearsSelectionOnViewWillAppear = false
+		self.navigationItem.rightBarButtonItem = self.editButtonItem
+	}
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
+	override func didReceiveMemoryWarning() {
+		super.didReceiveMemoryWarning()
+	}
 
-    // MARK: - Table view data source
+	// MARK: - Table view data source
 
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
@@ -53,35 +53,34 @@ class MyMoviesTableViewController: UITableViewController {
 		}
 	}
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return fetch.sections?.count ?? 1
-    }
+	}
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
 		return fetch.sections?[section].numberOfObjects ?? 0
-    }
+	}
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
 
 		cell.movieController = movieController
 		cell.movie = fetch.object(at: indexPath)
 
-        return cell
-    }
+		return cell
+	}
 
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+		if editingStyle == .delete {
 
 			let movie = fetch.object(at: indexPath)
 			movieController.delete(movie: movie)
-    }
-}
+		}
+	}
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
-
 
 	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 		tableView.beginUpdates()

@@ -22,10 +22,10 @@ class SearchTableViewCell: UITableViewCell {
 		}
 	}
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setViews()
-    }
+	override func awakeFromNib() {
+		super.awakeFromNib()
+		setViews()
+	}
 
 	private func setViews() {
 

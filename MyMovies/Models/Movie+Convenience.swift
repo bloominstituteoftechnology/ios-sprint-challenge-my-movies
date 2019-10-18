@@ -15,15 +15,15 @@ extension Movie {
 
 		guard let title = title,
 			let identifier = identifier else { return nil }
-			let id = UUID(uuidString: identifier)
+		let id = UUID(uuidString: identifier)
 
 		return MovieRepresentation(title: title, identifier: id, hasWatched: hasWatched)
 	}
 
 	@discardableResult convenience init?(title: String,
-					  identifier: String = UUID().uuidString,
-					  hasWatched: Bool = false,
-					  context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+										 identifier: String = UUID().uuidString,
+										 hasWatched: Bool = false,
+										 context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 
 		self.init(context: context)
 		self.title = title
