@@ -191,6 +191,14 @@ class MovieController {
         
     }
     
+    func toggleHasBeenWatched(with movie: Movie) {
+        
+        movie.hasWatched = !movie.hasWatched
+        try? CoreDataStack.shared.saveToPersistentStore()
+        put(movie: movie)
+        
+    }
+    
     func delete(movie: Movie, context: NSManagedObjectContext) {
         
         context.performAndWait {

@@ -13,7 +13,7 @@ class SearchTableViewCell: UITableViewCell {
     var movieController: MovieController?
     var movie: Movie?
     
-    @IBOutlet weak var movieTitleLabel: UILabel!
+
     
 
     override func awakeFromNib() {
@@ -29,7 +29,17 @@ class SearchTableViewCell: UITableViewCell {
     
     @IBAction func addMovieButton(_ sender: Any) {
         
+        guard let movie = movie,
+            let title = movie.title,
+            let identifier = movie.identifier else { return }
+        
+        movieController?.createMovie(with: title, identifier: identifier, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        
+        movieController?.updateMovie(movie: movie, with: title, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        
+        
     }
     
 
 }
+

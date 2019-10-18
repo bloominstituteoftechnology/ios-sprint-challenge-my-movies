@@ -10,7 +10,8 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
     
-    
+    var movieController = MovieController()
+    var movie: Movie?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,7 +20,9 @@ class MovieTableViewCell: UITableViewCell {
     
     @IBAction func watchedButton(_ sender: UIButton) {
         
+        guard let movie = movie else { return }
         
+        movieController.toggleHasBeenWatched(with: movie)
         
     }
     
