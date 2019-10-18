@@ -19,6 +19,7 @@
 		80C83CAB235A107400B13964 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C83CAA235A107400B13964 /* CoreDataStack.swift */; };
 		80C83CAD235A11D900B13964 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C83CAC235A11D900B13964 /* Movie+Convenience.swift */; };
 		80C83CAF235A26E900B13964 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C83CAE235A26E900B13964 /* MyMovieTableViewCell.swift */; };
+		80C83CB2235A6C1E00B13964 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C83CB1235A6C1E00B13964 /* MovieSearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		80C83CAA235A107400B13964 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		80C83CAC235A11D900B13964 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		80C83CAE235A26E900B13964 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
+		80C83CB1235A6C1E00B13964 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				80C83CAE235A26E900B13964 /* MyMovieTableViewCell.swift */,
+				80C83CB1235A6C1E00B13964 /* MovieSearchTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80C83CB2235A6C1E00B13964 /* MovieSearchTableViewCell.swift in Sources */,
 				80C83CAF235A26E900B13964 /* MyMovieTableViewCell.swift in Sources */,
 				80C83CAB235A107400B13964 /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,

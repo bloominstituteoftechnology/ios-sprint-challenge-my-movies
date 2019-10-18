@@ -11,7 +11,10 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
-    let movieController = MovieController()
+    var movieController: MovieController {
+        
+        return (self.tabBarController?.viewControllers![0] as! MovieSearchTableViewController).movieController
+    }
     
     lazy var fetchedResultsController: NSFetchedResultsController<MyMovies> = {
         
@@ -37,6 +40,11 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,7 +76,8 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
 
-        cell.movieTitle.text = fetchedResultsController.object(at: indexPath).title
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.movieController = movieController
         
         return cell
     }

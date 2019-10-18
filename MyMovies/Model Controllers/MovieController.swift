@@ -67,7 +67,11 @@ class MovieController {
     // FIREBASE
     let fireBaseURL = URL(string: "https://mymovies-4a993.firebaseio.com/")!
     
-    func fetchEntriesFromServer(completion: @escaping () -> Void = { }) {
+    init() {
+        fetchMoviesFromServer()
+    }
+    
+    func fetchMoviesFromServer(completion: @escaping () -> Void = { }) {
         
         let requestURL = fireBaseURL.appendingPathExtension("json")
         
@@ -82,7 +86,7 @@ class MovieController {
             }
             
             guard let data = data else {
-                NSLog("No data return from entry fetch data task")
+                NSLog("No data return from movie fetch data task")
                 completion()
                 return
             }
@@ -205,6 +209,13 @@ class MovieController {
     func createMovie(with title: String, hasWatched: Bool, context: NSManagedObjectContext) {
         
         let movie = MyMovies(title: title, hasWatched: hasWatched, context: context)
+        CoreDataStack.shared.save(context: context)
+        put(movie: movie)
+    }
+    
+    func updateMovie(movie: MyMovies, hasWatched: Bool, context: NSManagedObjectContext) {
+        
+        movie.hasWatched = hasWatched
         CoreDataStack.shared.save(context: context)
         put(movie: movie)
     }
