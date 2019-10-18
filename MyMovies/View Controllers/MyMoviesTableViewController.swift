@@ -126,9 +126,6 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             tableView.deleteRows(at: [oldIndexPath], with: .automatic)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
 
-            if oldIndexPath.section != newIndexPath.section {
-                tableView.reloadRows(at: [newIndexPath], with: .fade)
-            }
         case .update:
             guard let indexPath = indexPath else { return }
             tableView.reloadRows(at: [indexPath], with: .fade)
