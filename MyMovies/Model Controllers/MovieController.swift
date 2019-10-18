@@ -14,6 +14,7 @@ class MovieController {
     //MARK: baseURL
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseBaseURL = URL(string: "https://mymovies-66ef3.firebaseio.com/")!
     
     //MARK: SearchForMovie
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
@@ -72,10 +73,11 @@ class MovieController {
        //TODO: Return en optional Error ???
        func put(movie: Movie, completion: @escaping () -> Void = { }) {
            
+        
            let identifier = movie.identifier ?? UUID()
            movie.identifier = identifier
            
-           let requestURL = baseURL
+           let requestURL = firebaseBaseURL
                .appendingPathComponent(identifier.uuidString)
                .appendingPathExtension("json")
            
@@ -96,7 +98,7 @@ class MovieController {
                return
            }
            
-           // dtata task
+           // data task
            URLSession.shared.dataTask(with: request) { (_, _, error) in
                
                if let error = error {
@@ -104,7 +106,6 @@ class MovieController {
                    completion()
                    return
                }
-               
                completion()
            }.resume()
        }
@@ -269,8 +270,10 @@ class MovieController {
        //Create
        
     func createMovie(title: String, hasWatched: Bool, context: NSManagedObjectContext) {
-        let movie = Movie(title: title, hasWatched: hasWatched, context: context)
-           put(movie: movie)
+        
+        let newMovie = Movie(title: title, hasWatched: hasWatched, context: context)
+        
+           put(movie: newMovie)
        }
        
        //Update

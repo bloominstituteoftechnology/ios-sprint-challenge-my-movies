@@ -40,39 +40,24 @@
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL">
-                                <rect key="frame" x="0.0" y="72" width="375" height="47"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="46.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="46.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="yZD-Hm-Akq">
-                                            <rect key="frame" x="8" y="8" width="359" height="31"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NQO-33-EAu">
-                                                    <rect key="frame" x="0.0" y="0.0" width="313" height="31"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="May-oF-8QI">
-                                                    <rect key="frame" x="329" y="0.0" width="30" height="31"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="30" id="5kI-cb-zKy"/>
-                                                        <constraint firstAttribute="height" constant="30.5" id="5su-jX-TyK"/>
-                                                    </constraints>
-                                                    <state key="normal" title="Add"/>
-                                                </button>
-                                            </subviews>
-                                        </stackView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="May-oF-8QI">
+                                            <rect key="frame" x="337" y="8" width="30" height="30.5"/>
+                                            <state key="normal" title="Add"/>
+                                            <connections>
+                                                <action selector="addButtonTapped:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="dgf-Jv-8IW"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="yZD-Hm-Akq" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="8" id="0zP-h0-3k8"/>
-                                        <constraint firstItem="yZD-Hm-Akq" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="8" id="H9Y-2d-9Rc"/>
-                                        <constraint firstAttribute="trailing" secondItem="yZD-Hm-Akq" secondAttribute="trailing" constant="8" id="QZ2-2m-RXg"/>
-                                        <constraint firstItem="yZD-Hm-Akq" firstAttribute="centerX" secondItem="8Bc-u1-IMl" secondAttribute="centerX" id="XQg-Ll-7wZ"/>
-                                        <constraint firstItem="yZD-Hm-Akq" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="fN8-pK-AYS"/>
-                                        <constraint firstAttribute="bottom" secondItem="yZD-Hm-Akq" secondAttribute="bottom" constant="8" id="vVu-JA-4jF"/>
+                                        <constraint firstItem="May-oF-8QI" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="8" id="LvZ-ee-Von"/>
+                                        <constraint firstAttribute="bottom" secondItem="May-oF-8QI" secondAttribute="bottom" constant="8" id="NNl-WW-GPw"/>
+                                        <constraint firstAttribute="trailing" secondItem="May-oF-8QI" secondAttribute="trailing" constant="8" id="nFb-bI-lEm"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
