@@ -9,45 +9,37 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var movieLabel: UILabel!
+    
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var watchedButton: UIButton!
-
+    
     var movieController: MovieController?
-    var movie: Movie? {
+    var searchedMovie: MovieRepresentation? {
         didSet{
             updateViews()
         }
     }
-
+    
     func updateViews() {
-        guard let movie = movie else { return }
-        movieLabel.text = movie.title
-        if (movie.hasWatched) {
-            watchedButton.setTitle("Watched", for: .normal)
-        } else {
-            watchedButton.setTitle("Not Watched", for: .normal)
-        }
+      guard let searchedMovie = searchedMovie else { return }
+      titleLabel.text = searchedMovie.title
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        guard let movieController = movieController,
-            let movie = movie,
-            let title = movie.title else { return }
-        if (selected) {
-            movieController.update(movie: movie, title: title, hasWatched: !movie.hasWatched)
-            if (movie.hasWatched) {
-                watchedButton.setTitle("Watched", for: .normal)
-            } else {
-                watchedButton.setTitle("Not Watched", for: .normal)
-            }
-        }
+        
+        // Configure the view for the selected state
+    }
+    
+    @IBAction func saveTapped(_ sender: UIButton) {
+        guard let movieController = movieController, let searchedMovie = searchedMovie else { return }
+        movieController.createMovie(with: searchedMovie.title, identifier: searchedMovie.identifier ?? UUID(), hasWatched: false)
     }
 
+    
 }

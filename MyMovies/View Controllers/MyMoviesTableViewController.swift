@@ -11,14 +11,11 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-    var movieController: MovieController?
+    var movieController = MovieController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,7 +49,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
         
         // Configure the cell...
         cell.movieController = movieController
@@ -61,9 +58,26 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+          
+          guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+          
+          if sectionInfo.name == "0" {
+              return "Not Watched"
+          } else {
+              return "Watched"
+          }
+      }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            movieController?.delete(movie: fetchedResultsController.object(at: indexPath))
+            let movie = fetchedResultsController.object(at: indexPath)
+            if let id = movie.identifier {
+                print(id.uuidString)
+            } else {
+                NSLog("Error while deleting")
+            }
+            movieController.delete(movie: movie)
         }
     }
     

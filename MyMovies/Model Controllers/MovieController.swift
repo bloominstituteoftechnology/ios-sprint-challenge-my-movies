@@ -17,6 +17,7 @@ enum HTTPMethod: String {
 }
 
 class MovieController {
+    
     var searchedMovies: [MovieRepresentation] = []
 
     private let fireBase = URL(string: "https://mymovies2-8d1a3.firebaseio.com/")!
@@ -58,9 +59,12 @@ class MovieController {
         let requestURL = fireBase.appendingPathComponent(movie.identifier?.uuidString ?? UUID().uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
+        
+        guard let title = movie.title else { return }
+        let rep = MovieRepresentation(title: title, identifier: movie.identifier, hasWatched: movie.hasWatched)
 
         do {
-            request.httpBody = try JSONEncoder().encode(movie.movieRepresentation)
+            request.httpBody = try JSONEncoder().encode(rep)
         } catch {
             NSLog("Error encoding Movie: \(error)")
             completion(error)
@@ -86,7 +90,7 @@ class MovieController {
             return
         }
 
-        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = fireBase.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
 
@@ -103,7 +107,7 @@ class MovieController {
 
     func fetchMoviesFromServer(completion: @escaping ((Error?) -> Void) = { _ in }) {
 
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = fireBase.appendingPathExtension("json")
 
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
 
