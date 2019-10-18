@@ -6,14 +6,13 @@
 //  Copyright © 2018 Lambda School. All rights reserved.
 //
 
-import Foundation
+import CoreData
 
 class MovieController {
     
-    private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
-    private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
+        let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
+        let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
         
@@ -50,6 +49,12 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    func addMovie(_ movie: MovieRepresentation, context: NSManagedObjectContext) {
+        let movie = Movie(movieRepresentation: movie, context: context)
+        CoreDataStack.shared.save(context: context)
+        //put movie
     }
     
     // MARK: - Properties
