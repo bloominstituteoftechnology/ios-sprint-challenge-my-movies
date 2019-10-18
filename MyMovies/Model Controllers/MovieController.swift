@@ -16,11 +16,12 @@ class MovieController {
     
     //MARK: MovieDB
     
+    private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
+    private let movieDBBaseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
-        let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
-        let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
         
-        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
+        var components = URLComponents(url: movieDBBaseURL, resolvingAgainstBaseURL: true)
         
         let queryParameters = ["query": searchTerm,
                                "api_key": apiKey]
@@ -66,8 +67,9 @@ class MovieController {
         case delete = "DELETE"
     }
     
-    func put(movieRepresentation: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in}) {
-        let baseURL = URL(string: "https://mymovies-497c3.firebaseio.com/")!
+    let myMoviesBaseURL = URL(string: "https://mymovies-497c3.firebaseio.com/")!
+    
+    func put(movieRepresentation: MovieRepresentation, completion: @escaping (Error?) -> Void = {_ in} ) {
         
         guard let identifier = movieRepresentation.identifier else {
             NSLog("No identifier for movie.")
@@ -75,7 +77,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL
+        let requestURL = myMoviesBaseURL
             .appendingPathComponent(identifier.uuidString)
             .appendingPathExtension("json")
         
@@ -101,7 +103,8 @@ class MovieController {
         }.resume()
     }
     
-    func put(movie: Movie, completion: @escaping (Error?) -> Void = {_ in}) {
+    func put(movie: Movie, completion: @escaping (Error?) -> Void = {_ in} ) {
+        
         guard let movieRepresentation = movie.representation else {
             NSLog("Movie representation is nil")
             completion(NSError())
@@ -109,6 +112,32 @@ class MovieController {
         }
         
         put(movieRepresentation: movieRepresentation, completion: completion)
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in } ) {
+        
+        guard let identifier = movie.identifier else {
+            NSLog("No identifier for movie.")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = myMoviesBaseURL
+            .appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting movie: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
     }
     
     //MARK: CoreData
@@ -123,6 +152,14 @@ class MovieController {
         movie.hasWatched.toggle()
         CoreDataStack.shared.save(context: context)
         put(movie: movie)
+    }
+    
+    func deleteMovie(movie: Movie, context: NSManagedObjectContext) {
+        context.performAndWait {
+            deleteMovieFromServer(movie: movie)
+            context.delete(movie)
+            CoreDataStack.shared.save(context: context)
+        }
     }
 
 }
