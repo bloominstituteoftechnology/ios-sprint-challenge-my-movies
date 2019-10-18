@@ -67,7 +67,46 @@ class MovieController {
         }.resume()
     }
     
+	func put(movie: Movie, completion: @escaping () -> Void = { }) {
 
+		let base = URL(string: "https://mymovies-c6c11.firebaseio.com/")!
+
+		let identifier = movie.identifier ?? UUID().uuidString
+		movie.identifier = identifier
+
+		let requestURL = base
+		.appendingPathComponent(identifier)
+		.appendingPathExtension("json")
+
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = HTTPMethod.put.rawValue
+
+		guard let movieRepresentative = movie.movieRepresentation else {
+			NSLog("Representative is nil")
+			completion()
+			return
+		}
+
+		do {
+			request.httpBody = try JSONEncoder().encode(movieRepresentative)
+		} catch {
+			NSLog("Error encoding task representation: \(error)")
+			completion()
+			return
+		}
+
+		URLSession.shared.dataTask(with: request) { (_, _, error) in
+
+			if let error = error {
+				NSLog("Error putting task: \(error)")
+				completion()
+				return
+			}
+			completion()
+		}.resume()
+	}
+
+	
     
     var searchedMovies: [MovieRepresentation] = []
 }
