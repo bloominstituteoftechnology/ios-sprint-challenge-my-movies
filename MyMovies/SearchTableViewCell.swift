@@ -9,6 +9,12 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
+    
+    var movieController: MovieController?
+    var movie: Movie?
+    
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,5 +26,10 @@ class SearchTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    @IBAction func addMovieButton(_ sender: Any) {
+        
+    }
+    
 
 }

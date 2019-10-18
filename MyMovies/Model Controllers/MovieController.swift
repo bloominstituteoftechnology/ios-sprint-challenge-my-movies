@@ -174,7 +174,13 @@ class MovieController {
         
     }
     
-    //func createMovie()
+    func createMovie(with title: String, identifier: UUID, hasWatched: Bool?, context: NSManagedObjectContext) {
+        
+        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: context)
+        CoreDataStack.shared.save(context: context)
+        put(movie: movie)
+        
+    }
     
     func updateMovie(movie: Movie, with title: String, hasWatched: Bool, context: NSManagedObjectContext) {
         
