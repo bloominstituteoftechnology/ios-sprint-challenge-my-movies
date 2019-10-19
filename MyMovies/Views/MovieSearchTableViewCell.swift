@@ -26,10 +26,9 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBAction func addMovie(_ sender: UIButton) {
         
         guard let movieController = movieController,
-            let movie = movieRepresentation,
-            let hasWatched = movie.hasWatched else { return }
+            let movie = movieRepresentation else { return }
         
-        movieController.createMovie(with: movie.title, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
+        movieController.createMovie(with: movie.title, hasWatched: false, context: CoreDataStack.shared.mainContext)
     }
     
     // MARK: - Methods

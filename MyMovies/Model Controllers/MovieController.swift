@@ -151,7 +151,7 @@ class MovieController {
         let identifier = movie.identifier ?? UUID()
         movie.identifier = identifier
         
-        let requestURL = baseURL
+        let requestURL = fireBaseURL
             .appendingPathComponent(identifier.uuidString)
             .appendingPathExtension("json")
         
@@ -188,7 +188,7 @@ class MovieController {
         let identifier = movie.identifier ?? UUID()
         movie.identifier = identifier
         
-        let requestURL = baseURL
+        let requestURL = fireBaseURL
             .appendingPathComponent(identifier.uuidString)
             .appendingPathExtension("json")
         
