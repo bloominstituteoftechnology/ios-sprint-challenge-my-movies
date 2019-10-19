@@ -13,6 +13,7 @@ class SearchMovieTableViewCell: UITableViewCell {
     var movieController: MovieController?
     var movieRepresentation: MovieRepresentation?
 
+    @IBOutlet weak var addButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,9 +25,10 @@ class SearchMovieTableViewCell: UITableViewCell {
             let movieController = movieController else { return }
         
         movieController.createMovie(title: movieRepresentation.title, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        addButton.setTitle("Added", for: .normal)
+
         
     }
-    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

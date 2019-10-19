@@ -21,16 +21,20 @@ extension Movie {
         
     }
     
-    @discardableResult convenience init(title: String, hasWatched: Bool?, identifier: UUID? = UUID(), context: NSManagedObjectContext) {
+    @discardableResult convenience init(title: String,
+                                        hasWatched: Bool?,
+                                        identifier: UUID? = UUID(),
+                                        context: NSManagedObjectContext) {
         
         self.init(context: context)
         
         self.title = title
-        self.hasWatched = hasWatched ?? false
+        self.hasWatched = hasWatched!
         self.identifier = identifier
     }
     
-    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
+    @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
+                                         context: NSManagedObjectContext) {
         
         self.init(title: movieRepresentation.title,
                   hasWatched: movieRepresentation.hasWatched,

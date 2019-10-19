@@ -60,6 +60,9 @@
                                         <constraint firstAttribute="trailing" secondItem="May-oF-8QI" secondAttribute="trailing" constant="8" id="nFb-bI-lEm"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addButton" destination="May-oF-8QI" id="o1O-KK-tWD"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

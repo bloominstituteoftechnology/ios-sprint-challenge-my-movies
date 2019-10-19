@@ -71,7 +71,7 @@ class MovieController {
     
     // MARK:PUT Movie to Firebase
     //TODO: Return en optional Error ???
-    func put(movie: Movie, completion: @escaping () -> Void = { }) {
+    func putProtocol(movie: Movie, completion: @escaping () -> Void = { }) {
         
         
         let identifier = movie.identifier ?? UUID()
@@ -204,7 +204,9 @@ class MovieController {
         movie.title = title
         movie.hasWatched = hasWatched
         CoreDataStack.shared.save(context: context)
-        put(movie: movie)
+        putProtocol(movie: movie)
+        CoreDataStack.shared.save(context: context)
+
     }
     
     //MARK: UpdateEntries (server)
@@ -271,7 +273,7 @@ class MovieController {
     func createMovie(title: String, hasWatched: Bool, context: NSManagedObjectContext) {
         
         let newMovie = Movie(title: title, hasWatched: hasWatched, context: context)
-        put(movie: newMovie)
+        putProtocol(movie: newMovie)
     }
     
     //Update
