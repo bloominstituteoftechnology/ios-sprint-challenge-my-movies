@@ -76,20 +76,17 @@ class MovieController {
     private func deleteFromServer(_ movie: Movie, completion: @escaping() -> Void = {}) {
         guard let identifier = movie.identifier else {return}
     
-        let firebaseURL = baseURL
+        let firebaseURL = databaseURL
             .appendingPathComponent(identifier.uuidString)
             .appendingPathExtension("json")
         var request = URLRequest(url: firebaseURL)
         request.httpMethod = HttpMethod.delete.rawValue
-        
         session.dataTask(with: request) { (_, _, error) in
             if let error = error {
-                NSLog("failed to delete \(movie.title ?? "")from server: \(error)")
+                 NSLog("failed to delete \(movie.title ?? "")from server: \(error)")
             }
         }.resume()
     }
-
-
 
 }
 
