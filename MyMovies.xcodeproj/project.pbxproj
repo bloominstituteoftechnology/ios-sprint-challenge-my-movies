@@ -20,6 +20,7 @@
 		FA962BF4235A13C7009683CF /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA962BF3235A13C7009683CF /* CoreDataStack.swift */; };
 		FA962BF6235A188C009683CF /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA962BF5235A188C009683CF /* Movie+Convenience.swift */; };
 		FA962BF9235A1F9F009683CF /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA962BF8235A1F9F009683CF /* MovieTableViewCell.swift */; };
+		FA962BFB235A793E009683CF /* SearchMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA962BFA235A793E009683CF /* SearchMovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		FA962BF3235A13C7009683CF /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FA962BF5235A188C009683CF /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		FA962BF8235A1F9F009683CF /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		FA962BFA235A793E009683CF /* SearchMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				FA962BF8235A1F9F009683CF /* MovieTableViewCell.swift */,
+				FA962BFA235A793E009683CF /* SearchMovieTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				FA962BF2235A0FCE009683CF /* Qs.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				FA962BFB235A793E009683CF /* SearchMovieTableViewCell.swift in Sources */,
 				FA962BF0235A0F54009683CF /* Movie.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 				FA962BF4235A13C7009683CF /* CoreDataStack.swift in Sources */,

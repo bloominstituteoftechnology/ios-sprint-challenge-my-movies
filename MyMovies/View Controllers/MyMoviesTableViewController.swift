@@ -79,9 +79,6 @@ class MyMoviesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
         
         cell.movie = fetchedResultsController.object(at: indexPath)
-
-        //        cell.textLabel?.text = fetchedResultsController.object(at: indexPath).title
-        //        cell.textLabel?.text = fetchedResultsController.object(at: indexPath).
         return cell
     }
     
@@ -145,8 +142,7 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
                 let newIndexPath = newIndexPath else { return }
             
             tableView.moveRow(at: indexPath, to: newIndexPath)
-            //            tableView.deleteRows(at: [indexPath], with: .automatic)
-        //            tableView.insertRows(at: [newIndexPath], with: .automatic)
+   
         case .update:
             guard let indexPath = indexPath else { return }
             tableView.reloadRows(at: [indexPath], with: .automatic)

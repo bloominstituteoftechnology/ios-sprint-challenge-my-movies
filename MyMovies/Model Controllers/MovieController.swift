@@ -61,237 +61,237 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     
     var coreDataStack: CoreDataStack?
-       
-       // Using this initializer as the "viewDidLoad" of the EntriesController
-       init() {
-           fetchMoviesFromServer()
-       }
-       
-       //Firebase Networking
-       
-       // MARK:PUT Movie to Firebase
-       //TODO: Return en optional Error ???
-       func put(movie: Movie, completion: @escaping () -> Void = { }) {
-           
+    
+    // Using this initializer as the "viewDidLoad" of the EntriesController
+    init() {
+        fetchMoviesFromServer()
+    }
+    
+    //Firebase Networking
+    
+    // MARK:PUT Movie to Firebase
+    //TODO: Return en optional Error ???
+    func put(movie: Movie, completion: @escaping () -> Void = { }) {
         
-           let identifier = movie.identifier ?? UUID()
-           movie.identifier = identifier
-           
-           let requestURL = firebaseBaseURL
-               .appendingPathComponent(identifier.uuidString)
-               .appendingPathExtension("json")
-           
-           var request = URLRequest(url: requestURL)
-           request.httpMethod = HTTPMethod.put.rawValue
-           
-           guard let movieRepresentation = movie.movieRepresentation else {
-               NSLog("Movie Representation is nil")
-               completion()
-               return
-           }
-           
-           do {
-               request.httpBody = try JSONEncoder().encode(movieRepresentation)
-           } catch {
-               NSLog("Error encoding movie representation: \(error)")
-               completion()
-               return
-           }
-           
-           // data task
-           URLSession.shared.dataTask(with: request) { (_, _, error) in
-               
-               if let error = error {
-                   NSLog("Error PUTting movie: \(error)")
-                   completion()
-                   return
-               }
-               completion()
-           }.resume()
-       }
-       
-       
-       //MARK: DeleteFromServer
-       func deleteFromServer(movie: Movie, completion: @escaping () -> Void? = { }) {
-           
-           let identifier = movie.identifier ?? UUID()
-           movie.identifier = identifier
-           
-           let requestURL = baseURL
-               .appendingPathComponent(identifier.uuidString)
-               .appendingPathExtension("json")
-           
-           var request = URLRequest(url: requestURL)
-           request.httpMethod = HTTPMethod.delete.rawValue
-           
-           guard let movieRepresentation = movie.movieRepresentation else {
-               NSLog("Movie Representation is nil")
-               completion()
-               return
-           }
-           
-           do {
-               request.httpBody = try JSONEncoder().encode(movieRepresentation)
-           } catch {
-               NSLog("Error encoding movie representation: \(error)")
-               completion()
-               return
-           }
-           
-           //data task
-           URLSession.shared.dataTask(with: request) { (_, _, error) in
-               
-               if let error = error {
-                   NSLog("Error PUTting movie: \(error)")
-                   completion()
-                   return
-               }
-               completion()
-           }.resume()
-       }
-       
-       //MARK: FetchMoviesFromServer
-       func fetchMoviesFromServer(completion: @escaping () -> Void = { }) {
-           
-           // Set up the URL
-           
-           let requestURL = firebaseBaseURL.appendingPathExtension("json")
-           
-           // Create the URLRequest
-           
-           var request = URLRequest(url: requestURL)
-           request.httpMethod = HTTPMethod.get.rawValue
-           
-           // Perform the data task
-           URLSession.shared.dataTask(with: request) { (data, _, error) in
-               
-               // Check for errors
-               
-               if let error = error {
-                   NSLog("Error fetching movies: \(error)")
-                   completion()
-                   return
-               }
-               
-               // Decode the data
-               
-               guard let data = data else {
-                   NSLog("No data returned from movie fetch data task")
-                   completion()
-                   return
-               }
-               
-               let decoder = JSONDecoder()
-               
-               do {
-                   
-                   let movies = try decoder.decode([String: MovieRepresentation].self, from: data).map({ $0.value })
-                   
-                   // Figure out the entries that need to be created, and the ones that need to be updated
-                   self.updateMovies(with: movies)
-                   
-               } catch {
-                   NSLog("Error decoding MovieRepresenations: \(error)")
-               }
-               completion()
-           }.resume()
-       }
-       
-       //MARK: UpdateMovie (server)
-       //fetched from server, then called PUT
+        
+        let identifier = movie.identifier ?? UUID()
+        movie.identifier = identifier
+        
+        let requestURL = firebaseBaseURL
+            .appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        guard let movieRepresentation = movie.movieRepresentation else {
+            NSLog("Movie Representation is nil")
+            completion()
+            return
+        }
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            NSLog("Error encoding movie representation: \(error)")
+            completion()
+            return
+        }
+        
+        // data task
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            
+            if let error = error {
+                NSLog("Error PUTting movie: \(error)")
+                completion()
+                return
+            }
+            completion()
+        }.resume()
+    }
+    
+    
+    //MARK: DeleteFromServer
+    func deleteFromServer(movie: Movie, completion: @escaping () -> Void? = { }) {
+        
+        let identifier = movie.identifier ?? UUID()
+        movie.identifier = identifier
+        
+        let requestURL = baseURL
+            .appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        guard let movieRepresentation = movie.movieRepresentation else {
+            NSLog("Movie Representation is nil")
+            completion()
+            return
+        }
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            NSLog("Error encoding movie representation: \(error)")
+            completion()
+            return
+        }
+        
+        //data task
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            
+            if let error = error {
+                NSLog("Error PUTting movie: \(error)")
+                completion()
+                return
+            }
+            completion()
+        }.resume()
+    }
+    
+    //MARK: FetchMoviesFromServer
+    func fetchMoviesFromServer(completion: @escaping () -> Void = { }) {
+        
+        // Set up the URL
+        
+        let requestURL = firebaseBaseURL.appendingPathExtension("json")
+        
+        // Create the URLRequest
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        
+        // Perform the data task
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            // Check for errors
+            
+            if let error = error {
+                NSLog("Error fetching movies: \(error)")
+                completion()
+                return
+            }
+            
+            // Decode the data
+            
+            guard let data = data else {
+                NSLog("No data returned from movie fetch data task")
+                completion()
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                
+                let movies = try decoder.decode([String: MovieRepresentation].self, from: data).map({ $0.value })
+                
+                // Figure out the entries that need to be created, and the ones that need to be updated
+                self.updateMovies(with: movies)
+                
+            } catch {
+                NSLog("Error decoding MovieRepresenations: \(error)")
+            }
+            completion()
+        }.resume()
+    }
+    
+    //MARK: UpdateMovie 
+    //fetched from server, then called PUT
     func updateMovie(movie: Movie, title: String, hasWatched: Bool, context: NSManagedObjectContext) {
         
         movie.title = title
         movie.hasWatched = hasWatched
         CoreDataStack.shared.save(context: context)
-
-           put(movie: movie)
-       }
+        put(movie: movie)
+    }
     
-       //MARK: UpdateEntries (server)
-       func updateMovies(with representations: [MovieRepresentation]) {
-           
-           // Which representations do we already have in Core Data?
-           //Creating an Array of the representation's identifiers
-           let identifiersToFetch = representations.map({ $0.identifier })
-           
-           // [[UUID]: [MovieRepresentation]]
-           let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
-           
-           // Make a mutable copy of the dictionary above
-           
-           // How many movies (that could need to be created OR updated)
-           var moviesToCreate = representationsByID
-           let context = CoreDataStack.shared.container.newBackgroundContext()
-           
-           context.performAndWait {
-               
-               do {
-                  
-                   let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-                   
-                   // Only fetch the movies with the identifiers that are in this identifiersToFetch array
-                                                       //"identifiersToFetch.contains(identifier)"
-                   fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-                   
-                   let existingMovies = try context.fetch(fetchRequest)
-                   
-                   //MARK: Update the ones we do have
-                   
-                   // Movie
-                   for movie in existingMovies {
-                       
-                       // Grab the MovieRepresentation that corresponds to this Movie
-                       guard let identifier = movie.identifier,
-                           let representation = representationsByID[identifier] else { continue }
-                       
-                       update(movie: movie, movieRepresentation: representation)
-                       // We just updated a movie, we don't need to create a new Movie for this identifier
-                       moviesToCreate.removeValue(forKey: identifier)
-                   }
-              
-                   //MARK: Figure out which ones we don't have
-                   
-                   // movies that don't exist in Core Data already
-                   for representation in moviesToCreate.values {
-                       Movie(movieRepresentation: representation, context: context)
-                   }
-                   
-                   // Persist all the changes (updating and creating of movies) to Core Data
-                   CoreDataStack.shared.save(context: context)
-               } catch {
-                   NSLog("Error fetching movies from persistent store: \(error)")
-               }
-           }
-       }
-       
-       //MARK: CRUD
-       
-       //Create
-       
+    //MARK: UpdateEntries (server)
+    func updateMovies(with representations: [MovieRepresentation]) {
+        
+        // Which representations do we already have in Core Data?
+        //Creating an Array of the representation's identifiers
+        let identifiersToFetch = representations.map({ $0.identifier })
+        
+        // [[UUID]: [MovieRepresentation]]
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        // Make a mutable copy of the dictionary above
+        
+        // How many movies (that could need to be created OR updated)
+        var moviesToCreate = representationsByID
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.performAndWait {
+            
+            do {
+                
+                let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+                
+                // Only fetch the movies with the identifiers that are in this identifiersToFetch array
+                //"identifiersToFetch.contains(identifier)"
+                fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+                
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                //MARK: Update the ones we do have
+                
+                // Movie
+                for movie in existingMovies {
+                    
+                    // Grab the MovieRepresentation that corresponds to this Movie
+                    guard let identifier = movie.identifier,
+                        let representation = representationsByID[identifier] else { continue }
+                    
+                    update(movie: movie, movieRepresentation: representation)
+                    // We just updated a movie, we don't need to create a new Movie for this identifier
+                    moviesToCreate.removeValue(forKey: identifier)
+                }
+                
+                //MARK: Figure out which ones we don't have
+                
+                // movies that don't exist in Core Data already
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+                
+                // Persist all the changes (updating and creating of movies) to Core Data
+                CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error fetching movies from persistent store: \(error)")
+            }
+        }
+    }
+    
+    //MARK: CRUD
+    
+    //Create
+    
     func createMovie(title: String, hasWatched: Bool, context: NSManagedObjectContext) {
         
         let newMovie = Movie(title: title, hasWatched: hasWatched, context: context)
-           put(movie: newMovie)
-       }
-       
-       //Update
-       
-       func update(movie: Movie, movieRepresentation: MovieRepresentation) {
+        put(movie: newMovie)
+    }
+    
+    //Update
+    
+    func update(movie: Movie, movieRepresentation: MovieRepresentation) {
+        guard let hasWatched = movieRepresentation.hasWatched else { return }
         
         movie.title = movieRepresentation.title
-        movie.hasWatched = movieRepresentation.hasWatched ?? false
-          }
-       
-       //Delete
-       
-       func deleteMovie(movie: Movie, context: NSManagedObjectContext) {
-           context.performAndWait {
-               deleteFromServer(movie: movie)
-               context.delete(movie)
-               CoreDataStack.shared.save(context: context)
-           }
-       }
+        movie.hasWatched = hasWatched
+    }
+    
+    //Delete
+    
+    func deleteMovie(movie: Movie, context: NSManagedObjectContext) {
+        context.performAndWait {
+            deleteFromServer(movie: movie)
+            context.delete(movie)
+            CoreDataStack.shared.save(context: context)
+        }
+    }
 }
 
 enum HTTPMethod: String {
