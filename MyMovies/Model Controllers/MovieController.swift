@@ -26,10 +26,15 @@ class MovieController {
     let session = URLSession(configuration: .default)
     var searchedMovies: [MovieRepresentation] = []
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     // MARK: - C.R.U.D Methods
     func addMovie(withTitle title: String, context: NSManagedObjectContext) {
         let movie = Movie(title: title, context: CoreDataStack.shared.mainContext)
         putMovieInDatabase(movie)
+        CoreDataStack.shared.mainContext.saveChanges()
     }
     
     func deleteMovie(_ movie: Movie) {
@@ -95,11 +100,13 @@ extension MovieController {
     
     //MARK: - fetching from server
     func fetchMoviesFromServer(completion: @escaping()-> Void = {}) {
+        
         let fireBaseURL = databaseURL.appendingPathExtension("json")
+        
         let request = URLRequest(url: fireBaseURL)
         
-        session.dataTask(with: request) { (data, response, error) in
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {return}
+        session.dataTask(with: request) { (data, _, error) in
+            
             if let error = error as NSError? {
                 NSLog("error fetching from server: \(error.localizedDescription)")
                 completion()
@@ -121,6 +128,7 @@ extension MovieController {
     
     //MARK: - update movies from server
     private func update(with movieRep: [MovieRepresentation]) {
+        
         let fetchedIdentifiers = movieRep.map({$0.identifier})
         let movieRepId = Dictionary(uniqueKeysWithValues: zip(fetchedIdentifiers, movieRep))
         var moviesToBeCreated = movieRepId
@@ -135,18 +143,18 @@ extension MovieController {
                 
                 for movie in existingMovies {
                     
-                    guard let identifier = movie.identifier, let movieRepresentation = movieRepId[identifier] else {continue}
+                    guard let identifier = movie.identifier,
+                    let movieRepresentation = movieRepId[identifier] else {continue}
                     movie.hasWatched = movieRepresentation.hasWatched ?? false
                     movie.title = movieRepresentation.title
                     
                     moviesToBeCreated.removeValue(forKey: identifier)
-                    
-                    for movieRep in moviesToBeCreated.values {
-                        Movie(movieRepresentation: movieRep, context: backgroundContext)
-                        CoreDataStack.shared.mainContext.save(context: backgroundContext)
-                    }
+                }
+                for movieRep in moviesToBeCreated.values {
+                    Movie(movieRepresentation: movieRep, context: backgroundContext)
                 }
                 
+                CoreDataStack.shared.mainContext.save(context: backgroundContext)
             } catch {
                 NSLog("error fetching from persistence store: \(error.localizedDescription)")
             }

@@ -25,9 +25,11 @@ class MovieTableViewCell: UITableViewCell {
     if hasBeenWatched.titleLabel?.text == "unwatched" {
         movieController.updateMovie(movie)
         hasBeenWatched.setTitle("watched", for: .normal)
+        print(movie.hasWatched)
     } else {
         movieController.updateMovie(movie)
         hasBeenWatched.setTitle("unwatched", for: .normal)
+        print(movie.hasWatched)
     }
     }
     

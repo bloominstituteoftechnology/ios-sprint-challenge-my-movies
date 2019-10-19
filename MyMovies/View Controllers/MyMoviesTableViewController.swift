@@ -28,7 +28,6 @@ class MyMoviesTableViewController: UITableViewController,NSFetchedResultsControl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        movieController.fetchMoviesFromServer()
         tableView.reloadData()
     }
 
@@ -39,6 +38,16 @@ class MyMoviesTableViewController: UITableViewController,NSFetchedResultsControl
 
     // MARK: - Table view data source
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let sectionName = fetchedResultsController.sections?[section] {
+            if sectionName.name == "1" {
+                return "watched"
+            } else {
+                return "unwatched"
+            }
+        }
+        return ""
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 0
