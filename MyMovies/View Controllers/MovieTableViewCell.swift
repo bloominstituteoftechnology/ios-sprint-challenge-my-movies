@@ -22,13 +22,14 @@ class MovieTableViewCell: UITableViewCell {
     
 @IBAction func watchButton(_ sender: UIButton) {
     guard let movie = movie else {return}
-    if hasBeenWatched.titleLabel?.text == "unwatched" {
-        movieController.updateMovie(movie)
+    hasBeenWatched.isSelected = !hasBeenWatched.isSelected
+    if hasBeenWatched.isSelected {
         hasBeenWatched.setTitle("watched", for: .normal)
+        movieController.updateMovie(movie)
         print(movie.hasWatched)
     } else {
-        movieController.updateMovie(movie)
         hasBeenWatched.setTitle("unwatched", for: .normal)
+        movieController.updateMovie(movie)
         print(movie.hasWatched)
     }
     }
@@ -39,3 +40,4 @@ class MovieTableViewCell: UITableViewCell {
     hasBeenWatched.setTitle("unwatched", for: .normal)
     }
 }
+
