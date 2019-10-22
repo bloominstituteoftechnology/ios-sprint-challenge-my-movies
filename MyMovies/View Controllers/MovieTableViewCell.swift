@@ -32,12 +32,11 @@ class MovieTableViewCell: UITableViewCell {
         movieController.updateMovie(movie)
         print(movie.hasWatched)
     }
-    }
+}
     
  private func updateViews() {
         guard let movie = movie else {return}
         titleLabel.text = movie.title
-    hasBeenWatched.setTitle("unwatched", for: .normal)
     }
 }
 
