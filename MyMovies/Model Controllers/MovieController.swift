@@ -65,8 +65,7 @@ class MovieController {
     
     func createMovie(with title: String, hasWatched: Bool, context: NSManagedObjectContext) {
         
-        // let task = Task(name: name, notes: notes, priority: priority, context: context)
-        
+        let movie = Movie(title: title, hasWatched: hasWatched, context: context)
         CoreDataStack.shared.saveToPersistentStore()
         
         

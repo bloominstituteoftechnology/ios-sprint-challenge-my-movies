@@ -38,7 +38,7 @@ extension Movie {
 
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
         
-        // We have to unwrap again, because identifier and hasWatched are optionals in the Movie Representation file and we can't change it (I believe the data is built that way)
+        /// We have to unwrap again, because identifier and hasWatched are optionals in the Movie Representation file and we can't change it (I believe the data is built that way)
         guard let identifier = movieRepresentation.identifier,
             let hasWatched = movieRepresentation.hasWatched else { return nil }
         
