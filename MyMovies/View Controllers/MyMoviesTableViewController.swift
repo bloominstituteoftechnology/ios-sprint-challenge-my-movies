@@ -71,9 +71,12 @@ class MyMoviesTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
         
-        cell.textLabel?.text = fetchedResultsController.object(at: indexPath).title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
+        
+        //cell.textLabel?.text = fetchedResultsController.object(at: indexPath).title
+        cell.movieTitleLabel.text = fetchedResultsController.object(at: indexPath).title
 
         return cell
     }
@@ -94,7 +97,6 @@ class MyMoviesTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
 
 // TODO: Not sure if correct just yet. Just copy/pasted from Tasks guided project.

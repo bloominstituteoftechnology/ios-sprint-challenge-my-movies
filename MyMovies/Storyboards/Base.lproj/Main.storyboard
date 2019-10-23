@@ -84,24 +84,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo" customClass="MyMoviesTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cK-VO-zdo" id="F0q-Pd-Woa">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XrZ-86-7Iq">
-                                            <rect key="frame" x="313" y="11" width="54" height="30"/>
-                                            <state key="normal" title="Button"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XrZ-86-7Iq" userLabel="hasWatched">
+                                            <rect key="frame" x="254" y="11" width="113" height="30"/>
+                                            <state key="normal" title="hasWatched"/>
+                                            <connections>
+                                                <action selector="hasWatchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="Llg-SD-W4z"/>
+                                            </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MovieTitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPt-vG-wYz">
+                                            <rect key="frame" x="24" y="11" width="78" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="XrZ-86-7Iq" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leadingMargin" constant="297" id="d6f-ZR-Jnx"/>
+                                        <constraint firstItem="XrZ-86-7Iq" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leading" constant="254" id="2XU-JL-8xt"/>
+                                        <constraint firstItem="xPt-vG-wYz" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leadingMargin" constant="8" id="9pl-pg-vRD"/>
+                                        <constraint firstItem="xPt-vG-wYz" firstAttribute="top" secondItem="F0q-Pd-Woa" secondAttribute="topMargin" id="Emb-Kh-0IJ"/>
                                         <constraint firstItem="XrZ-86-7Iq" firstAttribute="top" secondItem="F0q-Pd-Woa" secondAttribute="topMargin" id="dVQ-af-2k9"/>
                                         <constraint firstItem="XrZ-86-7Iq" firstAttribute="trailing" secondItem="F0q-Pd-Woa" secondAttribute="trailingMargin" constant="8" id="qmh-GW-tmX"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="movieTitleLabel" destination="xPt-vG-wYz" id="cXP-Um-cPJ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -113,7 +127,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1465" y="632"/>
+            <point key="canvasLocation" x="1464.8" y="631.93403298350825"/>
         </scene>
     </scenes>
 </document>
