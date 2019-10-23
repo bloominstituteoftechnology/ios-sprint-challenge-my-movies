@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -55,4 +56,19 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    // MARK: - Functions
+    
+    // CRUD
+    
+    /// Create
+    
+    func createMovie(with title: String, hasWatched: Bool, context: NSManagedObjectContext) {
+        
+        let movie = Movie(title: title, hasWatched: hasWatched, context: context)
+        CoreDataStack.shared.saveToPersistentStore()
+        
+        
+        // TODO: put(task: task)
+    }
 }

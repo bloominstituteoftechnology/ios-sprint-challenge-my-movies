@@ -41,7 +41,19 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
+    // MARK: - Properties
+    
     var movieController = MovieController()
+    var movie : Movie?
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    // MARK: - Functions
+    
+    @IBAction func addMovie(_ sender: Any) {
+        
+        if let title = searchBar.text {
+            movieController.createMovie(with: title, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        }
+    }
 }
