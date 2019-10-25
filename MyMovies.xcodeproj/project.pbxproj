@@ -15,6 +15,12 @@
 		46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */; };
 		46E20A002126A91300E7FF73 /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FF2126A91300E7FF73 /* MovieController.swift */; };
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
+		DD827076235E86D300F66E2C /* SearchedMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD827075235E86D300F66E2C /* SearchedMovieTableViewCell.swift */; };
+		DDDCE7C5235A170C0010F1A3 /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7C3235A170C0010F1A3 /* Movie.xcdatamodeld */; };
+		DDDCE7C7235A17490010F1A3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7C6235A17490010F1A3 /* CoreDataStack.swift */; };
+		DDDCE7C9235A1A1A0010F1A3 /* ManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7C8235A1A1A0010F1A3 /* ManagedObjectExtension.swift */; };
+		DDDCE7CB235A1AA60010F1A3 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7CA235A1AA60010F1A3 /* Movie+Convenience.swift */; };
+		DDDCE7CD235A65170010F1A3 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDCE7CC235A65170010F1A3 /* MovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +34,12 @@
 		46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewController.swift; sourceTree = "<group>"; };
 		46E209FF2126A91300E7FF73 /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
+		DD827075235E86D300F66E2C /* SearchedMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedMovieTableViewCell.swift; sourceTree = "<group>"; };
+		DDDCE7C4235A170C0010F1A3 /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
+		DDDCE7C6235A17490010F1A3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		DDDCE7C8235A1A1A0010F1A3 /* ManagedObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectExtension.swift; sourceTree = "<group>"; };
+		DDDCE7CA235A1AA60010F1A3 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		DDDCE7CC235A65170010F1A3 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +72,7 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
+				DDDCE7C2235A16F50010F1A3 /* Core Data Stack */,
 				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
 				46E20A082126AFAC00E7FF73 /* View Controllers */,
@@ -89,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
+				DD827075235E86D300F66E2C /* SearchedMovieTableViewCell.swift */,
+				DDDCE7CC235A65170010F1A3 /* MovieTableViewCell.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
 			);
 			path = "View Controllers";
@@ -111,6 +126,17 @@
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		DDDCE7C2235A16F50010F1A3 /* Core Data Stack */ = {
+			isa = PBXGroup;
+			children = (
+				DDDCE7C3235A170C0010F1A3 /* Movie.xcdatamodeld */,
+				DDDCE7C6235A17490010F1A3 /* CoreDataStack.swift */,
+				DDDCE7C8235A1A1A0010F1A3 /* ManagedObjectExtension.swift */,
+				DDDCE7CA235A1AA60010F1A3 /* Movie+Convenience.swift */,
+			);
+			path = "Core Data Stack";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,11 +211,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDDCE7CD235A65170010F1A3 /* MovieTableViewCell.swift in Sources */,
+				DD827076235E86D300F66E2C /* SearchedMovieTableViewCell.swift in Sources */,
+				DDDCE7C9235A1A1A0010F1A3 /* ManagedObjectExtension.swift in Sources */,
+				DDDCE7C7235A17490010F1A3 /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				DDDCE7C5235A170C0010F1A3 /* Movie.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				DDDCE7CB235A1AA60010F1A3 /* Movie+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +419,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DDDCE7C3235A170C0010F1A3 /* Movie.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DDDCE7C4235A170C0010F1A3 /* Movie.xcdatamodel */,
+			);
+			currentVersion = DDDCE7C4235A170C0010F1A3 /* Movie.xcdatamodel */;
+			path = Movie.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 46E209D92126A63600E7FF73 /* Project object */;
 }
