@@ -52,6 +52,45 @@ class MovieController {
         }.resume()
     }
     
+//    let firebaseURL = URL()
+    
+//    func addMovie(movieRepresentation: MovieRepresentation) {
+//        
+//    }
+//    
+    func sendTaskToServer(movie: Movie, completion: @escaping () -> () = { }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard var representation = movie.movieRepresentation else {
+                completion()
+                return
+            }
+            
+            movie.identifier = uuid
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding task: \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            completion()
+            
+            if let error = error {
+                print("Error PUTing task to server; \(error)")
+            }
+            if let response = response {
+                print("\(response)")
+            }
+        }.resume()
+    }
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
