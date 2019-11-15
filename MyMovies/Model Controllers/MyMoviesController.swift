@@ -92,7 +92,7 @@ class MyMoviesController {
             completion()
             return
         }
-        print(request)
+        
         URLSession.shared.dataTask(with: request) { _, _, error in
             
             if let error = error {
@@ -141,7 +141,7 @@ class MyMoviesController {
             completion()
             return
         }
-        print(request)
+        
         URLSession.shared.dataTask(with: request) { _, _, error in
             
             if let error = error {

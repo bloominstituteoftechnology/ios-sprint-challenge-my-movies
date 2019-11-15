@@ -78,7 +78,7 @@ class MyMoviesTableViewController: UITableViewController {
         guard let number = fetchedResultsController.sections?[section].name else { return ""}
         switch number {
         case "0":
-            return "Unwatched: "
+            return "Not Watched: "
         default:
             return "Watched: "
         }
