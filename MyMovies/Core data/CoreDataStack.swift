@@ -14,7 +14,7 @@ class CoreDataTask {
     //MARK: - properties
     static let shared = CoreDataTask()
     
-    private lazy var container: NSPersistentContainer = {
+    var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Movies")
         container.loadPersistentStores { (_, error) in
             if let error = error {

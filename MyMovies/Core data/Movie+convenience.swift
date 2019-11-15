@@ -13,7 +13,7 @@ extension Movie {
     
     //MARK: - properties
     
-    private var movieRep: MovieRepresentation {
+    var movieRep: MovieRepresentation   {
         return MovieRepresentation(title:title!, identifier: identifier, hasWatched: hasBeenWatched)
     }
     
