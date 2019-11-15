@@ -10,8 +10,35 @@ import Foundation
 
 class MovieController {
     
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
+    // MARK: - Methods
+    
+    func createMovieFromRep(movieRepresentation: MovieRepresentation) {
+        let context = CoreDataStack.shared.mainContext
+        let _ = Movie(movieRepresentation: movieRepresentation, context: context)
+        do {
+            try CoreDataStack.shared.save(context: context)
+            print("movie Created")
+        } catch {
+            print("Error saving movies")
+            return
+        }
+    }
+    
+    
+    
+    
+    
+
+    
+    
+    // MARK: - Helper Methods
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -52,7 +79,4 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
-    
-    var searchedMovies: [MovieRepresentation] = []
 }
