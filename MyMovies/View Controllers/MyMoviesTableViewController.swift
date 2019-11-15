@@ -41,6 +41,11 @@ class MyMoviesTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - IBActions
+    @IBAction func watchedTapped(_ sender: UIButton) {
+        
+    }
 
     // MARK: - Table view data source
 
