@@ -7,11 +7,40 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
+    //MARK: - Properties
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let databaseURL = URL(string:"https://mymovies-9f7f0.firebaseio.com/")!
+    var searchedMovies: [MovieRepresentation] = []
+    //MARK: - Initializers
+    
+    init() {
+        // fetch from server
+        
+    }
+    
+    //MARK: - crud methods
+    
+    func addMovie(withTitle title: String, context: NSManagedObjectContext) {
+        
+    }
+    
+    
+    /// Put on movie on server
+    
+    /// delete movie fomr server
+    
+    /// fetch movies from server
+    
+    
+}
+
+// MARK: - extention for movie api
+extension MovieController {
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -52,7 +81,4 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
-    
-    var searchedMovies: [MovieRepresentation] = []
 }
