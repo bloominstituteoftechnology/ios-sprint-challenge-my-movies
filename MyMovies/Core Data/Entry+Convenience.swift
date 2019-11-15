@@ -13,12 +13,12 @@ extension Movie {
     
     @discardableResult convenience init(title: String,
                                         identifier: UUID = UUID(),
-                                        hasWatched: Bool? = false, // ask question
+                                        hasWatched: Bool, // ask question
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.identifier = identifier
-        self.hasWatched = hasWatched ?? false // why is this coaselscing needed when I already provided default
+        self.hasWatched = hasWatched // why is this coaselscing needed when I already provided default
     }
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
