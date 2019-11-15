@@ -27,3 +27,9 @@ struct MovieRepresentation: Equatable, Codable {
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
 }
+
+struct FirebaseMovieRep: Equatable, Codable {
+    var title: String
+    var identifier: String
+    var hasWatched: Bool
+}

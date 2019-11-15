@@ -10,6 +10,8 @@ import Foundation
 
 class MovieController {
     
+    typealias CompletionHandler = (Error?) -> Void
+    
     static var shared = MovieController()
     
     // MARK: - Properties
@@ -18,28 +20,23 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string: "https://mymovies-20d00.firebaseio.com/")!
     
-    // MARK: - Methods
+    // MARK: - CRUD Methods
     
     func createMovieFromRep(movieRepresentation: MovieRepresentation) {
         let context = CoreDataStack.shared.mainContext
-        let _ = Movie(movieRepresentation: movieRepresentation, context: context)
-        do {
-            try CoreDataStack.shared.save(context: context)
-            print("movie Created")
-        } catch {
-            print("Error saving movies")
-            return
-        }
+        guard let movie = Movie(movieRepresentation: movieRepresentation, context: context) else { return }
+        putMoviesOnServer(movie: movie)
     }
     
     func delete(movie: Movie) {
         
-//        deleteEntryFromServer(entry) { error in
-//            if let error = error {
-//                print("Error deleting entry from server: \(error)")
-//                return
-//            }
+        deleteMovieFromServer(movie) { error in
+            if let error = error {
+                print("Error deleting entry from server: \(error)")
+                return
+            }
             
             DispatchQueue.main.async {
                 let moc = CoreDataStack.shared.mainContext
@@ -52,19 +49,71 @@ class MovieController {
                 }
             }
         }
+    }
     
     func updateMovieWatched(movie: Movie) {
         movie.hasWatched.toggle()
-        let context = CoreDataStack.shared.mainContext
-        do {
-            try CoreDataStack.shared.save(context: context)
-            print("movie updated")
-        } catch {
-            print("Error updating movie")
-            return
-        }
+        putMoviesOnServer(movie: movie)
     }
     
+    
+    // MARK: - Firebase Methods
+    
+    func putMoviesOnServer(movie: Movie, completion: @escaping () -> Void = { }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+
+        do {
+            guard let representation = movie.firebaseMovieRep else {
+                completion()
+                return
+            }
+
+            movie.identifier = uuid
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding movie: \(error)")
+            completion()
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            completion()
+
+            if let error = error {
+                print("Error PUTing movie to server: \(error)")
+            }
+        }.resume()
+    }
+
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping (CompletionHandler) = { _ in }) {
+        guard let uuid = movie.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            context.delete(movie)
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            context.reset()
+            print("Error deleting object from managed object context: \(error)")
+        }
+        
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            print(response!)
+            completion(error)
+        }.resume()
+    }
 
     // MARK: - Helper Methods
     

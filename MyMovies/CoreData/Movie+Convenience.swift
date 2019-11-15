@@ -23,12 +23,20 @@ extension Movie {
         self.init(title: movieRepresentation.title, identifier: UUID(), hasWatched: false, context: context)
       }
     
-//    var movieRepresentation: MovieRepresentation? {
-//
-//        guard let title = title,
-//            let identifier = identifier else {
-//                return nil
-//        }
-//        return MovieRepresentation(title: <#T##String#>, identifier: <#T##UUID?#>, hasWatched: <#T##Bool?#>)
-//    }
+    var movieRepresentation: MovieRepresentation? {
+
+        guard let title = title,
+            let identifier = identifier else {
+                return nil
+        }
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+    }
+    
+    var firebaseMovieRep: FirebaseMovieRep? {
+        guard let title = title,
+                   let identifier = identifier else {
+                       return nil
+            }
+        return FirebaseMovieRep(title: title, identifier: identifier.uuidString, hasWatched: hasWatched)
+}
 }
