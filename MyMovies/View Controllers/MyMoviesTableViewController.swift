@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol WatchedDelegate {
+    func changeWatchedStatus(movie: Movie)
+}
+
+
 class MyMoviesTableViewController: UITableViewController {
 
     override func viewDidLoad() {

@@ -8,6 +8,13 @@
 
 import UIKit
 
+
+protocol AddMovieDelegate {
+    func addMovie(movieRepresentation: MovieRepresentation)
+}
+
+
+
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
     override func viewDidLoad() {
