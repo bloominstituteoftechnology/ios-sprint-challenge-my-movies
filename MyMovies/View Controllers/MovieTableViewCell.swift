@@ -16,16 +16,14 @@ class MovieTableViewCell: UITableViewCell {
         }
     }
     
-    var movieController: MovieController?
-    
     @IBOutlet weak var movieTitleLabel: UILabel!
     
      // MARK: - Methods
     
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
-        guard let movieRep = movieRep, let movieController = movieController else { return }
+        guard let movieRep = movieRep else { return }
         
-        movieController.createMovieFromRep(movieRepresentation: movieRep)
+        MovieController.shared.createMovieFromRep(movieRepresentation: movieRep)
     }
     
     func updateViews() {
