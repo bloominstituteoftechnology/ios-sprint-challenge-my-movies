@@ -20,14 +20,14 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         guard let cell = sender.superview?.superview as? MovieTableViewCell else { return }
         
         if let indexPath = tableView.indexPath(for: cell) {
-            movieController.createSavedMovie(title: movieController.searchedMovies[indexPath.row].title)
+            MovieController.sharedInstance.createSavedMovie(title: MovieController.sharedInstance.searchedMovies[indexPath.row].title)
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
-        movieController.searchForMovie(with: searchTerm) { (error) in
+        MovieController.sharedInstance.searchForMovie(with: searchTerm) { (error) in
             
             guard error == nil else { return }
             
@@ -38,18 +38,18 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieController.searchedMovies.count
+        return MovieController.sharedInstance.searchedMovies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
         
-        cell.movieRepresentation = movieController.searchedMovies[indexPath.row]
+        cell.movieRepresentation = MovieController.sharedInstance.searchedMovies[indexPath.row]
         
         return cell
     }
     
-    var movieController = MovieController()
+    //var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }

@@ -12,11 +12,11 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController {
 
     // MARK: - Properties
-    let movieController = MovieController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
+                                        NSSortDescriptor(key: "title", ascending: true)]
         
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -47,7 +47,7 @@ class MyMoviesTableViewController: UITableViewController {
         guard let cell = sender.superview?.superview?.superview as? MyMoviesTableViewCell else { return }
 
         if let indexPath = tableView.indexPath(for: cell) {
-            movieController.hasWatchedMovie(for:
+            MovieController.sharedInstance.hasWatchedMovie(for:
                 fetchedResultsController.object(at: indexPath))
             tableView.reloadData()
         }
@@ -73,14 +73,15 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name
+        
+        return (sectionInfo.name == "0") ? "Not Watched" : "Watched"
     }
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            movieController.delete(for: fetchedResultsController.object(at: indexPath))
+            MovieController.sharedInstance.delete(for: fetchedResultsController.object(at: indexPath))
         }
     }
 }
