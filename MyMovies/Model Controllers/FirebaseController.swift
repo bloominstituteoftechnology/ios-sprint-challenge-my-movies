@@ -88,17 +88,6 @@ class FirebaseController {
             if let error = error {
                 print("Error sending movie to Firebase: \(error)")
             }
-            if let response = response {
-                print("Firebase response: \(response)")
-            }
-            if let data = data {
-                do {
-                    let jsonData = try JSONDecoder().decode([String: String].self, from: data)
-                    print("Received Firebase data: \(jsonData)")
-                } catch {
-                    print("Error decoding received firebase data: \(error)")
-                }
-            }
             completion(error)
         }.resume()
     }

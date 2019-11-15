@@ -18,8 +18,6 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     private let firebaseController = FirebaseController()
     
-    // MARK: - Sync
-    
     init() {
         syncAll()
     }
