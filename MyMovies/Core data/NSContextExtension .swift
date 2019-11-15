@@ -12,10 +12,13 @@ import CoreData
 extension NSManagedObjectContext {
     
     func saveChanges() {
-        do {
-            try save()
-        } catch {
-            NSLog("failed to save changes.")
+        if hasChanges {
+            do {
+                try save()
+            } catch {
+                NSLog("failed to save changes.")
+                reset()
+            }
         }
     }
 }
