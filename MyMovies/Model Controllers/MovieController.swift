@@ -66,6 +66,17 @@ class MovieController {
         }
     }
     
+    func delete(for movie: Movie) {
+        let context = CoreDataStack.shared.mainContext
+        do {
+            context.delete(movie)
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            context.reset()
+            print("Error deleting object from managed object context: \(error)")
+        }
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
