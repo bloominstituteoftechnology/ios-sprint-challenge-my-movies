@@ -9,6 +9,10 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    var movieController = MovieController.shared
+    
+    @IBOutlet weak var searchBar: UISearchBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,14 +38,18 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else {
+            print("Cell cannot be downcast as MovieSearchTableViewCell!")
+            return UITableViewCell()
+        }
+        let title = movieController.searchedMovies[indexPath.row].title
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieRep = MovieRepresentation(title: title, identifier: nil, hasWatched: nil)
+        cell.titleLabel.text = title
+        cell.movieController = movieController
+        
+        // TODO: fix title label overlap
         
         return cell
     }
-    
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }
