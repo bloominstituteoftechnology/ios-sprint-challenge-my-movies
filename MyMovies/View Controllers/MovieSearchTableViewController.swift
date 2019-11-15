@@ -41,6 +41,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = movieController.searchedMovies[indexPath.row]
+        movieController.addMovie(withTitle: movie.title, context: CoreDataTask.shared.context)
+    }
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!

@@ -39,11 +39,12 @@ class MovieController {
         CoreDataTask.shared.context.saveChanges()
     }
     
-    func deleteMovie( _ movie: Movie) {
+
+    func delete(_ movie: Movie) {
+        deleteFromServer(movie)
         CoreDataTask.shared.context.delete(movie)
-        
+        CoreDataTask.shared.context.saveChanges()
     }
-    
     func updateMovie(_ movie: Movie) {
         movie.hasBeenWatched = !movie.hasBeenWatched
         put(movie)
@@ -93,7 +94,7 @@ class MovieController {
         
         let firebaseURL = databaseURL.appendingPathComponent(movieIdentifier.uuidString).appendingPathExtension("json")
          var request = URLRequest(url: firebaseURL)
-             request.httpMethod = HttpMethod.post.rawValue
+             request.httpMethod = HttpMethod.put.rawValue
         do {
             request.httpBody = try JSONEncoder().encode(movie.movieRep)
          } catch {
@@ -111,7 +112,7 @@ class MovieController {
     }
     
     /// delete movie from server
-    private func delete(_ movie: Movie, completion: @escaping() ->Void = {}) {
+    private func deleteFromServer(_ movie: Movie, completion: @escaping() ->Void = {}) {
         guard let identifier = movie.identifier else { return }
         
         let firebaseURL =  databaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
@@ -119,7 +120,7 @@ class MovieController {
         request.httpMethod = HttpMethod.delete.rawValue
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error as NSError? {
-                NSLog("error deleteing from server: \(error.localizedDescription)")
+                NSLog("error deleting from server: \(error.localizedDescription)")
                 completion()
             }
         }.resume()
@@ -140,10 +141,11 @@ class MovieController {
             
             do {
                 let jsonDecoder = JSONDecoder()
+                print(String(data: data, encoding: .utf8))
                 let movies = try jsonDecoder.decode([String: MovieRepresentation].self, from: data).map({$0.value})
                  self.update(movies)
             } catch {
-                NSLog("error decoding data: \(error.localizedDescription)")
+                NSLog("error decoding  movie data: \(error.localizedDescription)")
                 completion()
             }
         }.resume()
