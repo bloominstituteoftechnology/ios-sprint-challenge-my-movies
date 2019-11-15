@@ -10,14 +10,10 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    var movieRep: MovieRepresentation? {
-        didSet {
-            updateViews()
-        }
-    }
+    var movieRep: MovieRepresentation?
     var movieController: MovieController?
+    
+    @IBOutlet weak var addMovieButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,11 +30,11 @@ class MovieSearchTableViewCell: UITableViewCell {
         addMovieFromTMDB()
     }
     
-    private func updateViews() {
-        titleLabel.text = movieRep?.title
-    }
-    
     private func addMovieFromTMDB() {
-        
+        guard let movieRep = movieRep else {
+            print("Cannot add movie; cell missing movieRepresentation!")
+            return
+        }
+        movieController?.addMovieFromTMDB(movieRep: movieRep)
     }
 }

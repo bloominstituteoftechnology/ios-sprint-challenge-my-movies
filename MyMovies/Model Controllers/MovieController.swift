@@ -12,6 +12,8 @@ class MovieController {
     
     // MARK: - Properties
     
+    static let shared = MovieController()
+    
     var searchedMovies: [MovieRepresentation] = []
     private let firebaseController = FirebaseController()
     
@@ -67,5 +69,31 @@ class MovieController {
                 return
         }
         firebaseController.sendToServer(movie: movie)
+    }
+    
+    func delete(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            print("Movie has no identifier!")
+            completion(NSError())
+            return
+        }
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            context.delete(movie)
+            try CoreDataStack.shared.save()
+        } catch {
+            context.reset()
+            print("Error deleting object from managed object context: \(error)")
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            completion(error)
+        }.resume()
     }
 }
