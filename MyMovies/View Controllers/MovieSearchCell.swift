@@ -10,12 +10,13 @@ import UIKit
 
 class MovieSearchCell: UITableViewCell {
 
-    @IBOutlet weak var movieNameLabel: UIView!
+ 
+    @IBOutlet weak var movieNameLabel: UILabel!
     
   @IBOutlet weak var addMovieButton: UIButton!
         
         var movieController: MovieController?
-        var movieDelegate: AddMovieDelegate?
+        var addMovieDelegate: AddMovieDelegate?
         var movieRepresentation: MovieRepresentation?
         
         override func awakeFromNib() {
@@ -28,7 +29,7 @@ class MovieSearchCell: UITableViewCell {
         
         @IBAction func addMovieButtonTapped(_ sender: Any) {
             guard let movie = movieRepresentation else { return }
-            movieDelegate?.addMovie(movieRepresentation: movie)
+            addMovieDelegate?.addMovie(movieRepresentation: movie)
         }
         
 

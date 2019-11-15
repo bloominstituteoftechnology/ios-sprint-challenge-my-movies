@@ -17,9 +17,11 @@ protocol AddMovieDelegate {
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    
+     var movieController = MovieController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         searchBar.delegate = self
     }
     
@@ -41,14 +43,29 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchCellIdentifier", for: indexPath) as? MovieSearchCell else {return UITableViewCell() }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        let movie = movieController.searchedMovies[indexPath.row]
+        
+        cell.movieNameLabel.text = movie.title
+        cell.addMovieButton.setTitle("Add Movie", for: .normal)
+        cell.movieController = movieController
+        cell.addMovieDelegate = self
+        cell.movieRepresentation = movie
         
         return cell
+        
     }
     
-    var movieController = MovieController()
+   
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
+
+extension MovieSearchTableViewController: AddMovieDelegate {
+    func addMovie(movieRepresentation: MovieRepresentation) {
+        movieController.addMovie(movieRepresentation)
+    }
+}
+
+

@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -23,7 +24,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qHm-Hp-Yx5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="470" y="278"/>
+            <point key="canvasLocation" x="-935" y="360"/>
         </scene>
         <!--Movie Search-->
         <scene sceneID="BjU-p7-zCe">
@@ -46,20 +47,19 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="30.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="227" translatesAutoresizingMaskIntoConstraints="NO" id="6EB-NQ-RDg">
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6EB-NQ-RDg">
                                             <rect key="frame" x="5" y="0.0" width="365" height="30.5"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nNz-Xb-EbW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="30.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nNz-Xb-EbW">
+                                                    <rect key="frame" x="0.0" y="0.0" width="178.5" height="30.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="day-PI-e7f">
-                                                    <rect key="frame" x="269" y="0.0" width="96" height="30.5"/>
+                                                    <rect key="frame" x="186.5" y="0.0" width="178.5" height="30.5"/>
                                                     <state key="normal" title="Button"/>
                                                     <connections>
-                                                        <action selector="addMovieButton:" destination="d7W-qE-xfL" eventType="touchUpInside" id="3F8-Ec-MJq"/>
                                                         <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="EKz-U1-ABG"/>
                                                     </connections>
                                                 </button>
@@ -75,7 +75,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="addMovieButton" destination="day-PI-e7f" id="q0R-AD-8JD"/>
-                                    <outlet property="movieNameLabel" destination="8Bc-u1-IMl" id="cZe-Ni-Zao"/>
+                                    <outlet property="movieNameLabel" destination="nNz-Xb-EbW" id="52w-Zc-Nnf"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -91,7 +91,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
@@ -136,6 +136,10 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="H7y-gF-FUY"/>
+                                    <outlet property="movieNameLabel" destination="a6O-zS-fmH" id="TVa-Bk-eRQ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
