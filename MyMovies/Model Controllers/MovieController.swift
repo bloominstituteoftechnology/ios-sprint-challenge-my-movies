@@ -29,7 +29,7 @@ class MovieController {
             completion(NSError())
             return
         }
-        
+        print(requestURL)
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             
             if let error = error {
@@ -46,7 +46,7 @@ class MovieController {
             
             do {
                 let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
-                self.searchedMovies = movieRepresentations
+                self.searchedMovies = movieRepresentations.sorted { $0.title < $1.title }
                 completion(nil)
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
