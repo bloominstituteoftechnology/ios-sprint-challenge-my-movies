@@ -44,7 +44,13 @@ class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - IBActions
     @IBAction func watchedTapped(_ sender: UIButton) {
-        
+        guard let cell = sender.superview?.superview?.superview as? MyMoviesTableViewCell else { return }
+
+        if let indexPath = tableView.indexPath(for: cell) {
+            movieController.hasWatchedMovie(for:
+                fetchedResultsController.object(at: indexPath))
+            tableView.reloadData()
+        }
     }
 
     // MARK: - Table view data source
@@ -77,32 +83,6 @@ class MyMoviesTableViewController: UITableViewController {
             movieController.delete(for: fetchedResultsController.object(at: indexPath))
         }
     }
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
