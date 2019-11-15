@@ -14,6 +14,7 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var button: UIButton!
     
     // MARK: - Properties
     
@@ -27,7 +28,12 @@ class MyMovieTableViewCell: UITableViewCell {
     @IBAction func watchedTapped(_ sender: Any) {
         movie?.hasWatched.toggle()
         if let movie = movie {
-            myMoviesController?.sendMyMovieToServer(movie: movie)            
+            myMoviesController?.sendMyMovieToServer(movie: movie)
+            switch movie.hasWatched {
+            case true:
+                button.setTitle("Watched", for: .normal)
+            case false: button.setTitle("Not Watched", for: .normal)
+            }
         }
     }
     
@@ -36,6 +42,12 @@ class MyMovieTableViewCell: UITableViewCell {
     
     private func updateViews() {
         titleLabel.text = movie?.title
+        guard let watched = movie?.hasWatched else { return }
+        switch watched {
+        case true:
+            button.setTitle("Watched", for: .normal)
+        case false: button.setTitle("Not Watched", for: .normal)
+        }
     }
 
 }
