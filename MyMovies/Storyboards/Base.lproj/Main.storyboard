@@ -47,9 +47,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kVi-Y1-xMy">
-                                            <rect key="frame" x="286" y="6" width="73" height="30"/>
+                                            <rect key="frame" x="345" y="5" width="30" height="33"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Add Movie"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <state key="normal" title="+"/>
+                                            <connections>
+                                                <action selector="addMovieButton:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="kGn-FQ-Uot"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>

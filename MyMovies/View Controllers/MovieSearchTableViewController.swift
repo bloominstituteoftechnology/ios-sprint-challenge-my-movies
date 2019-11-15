@@ -44,5 +44,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     var movieController = MovieController()
     
+    @IBAction func addMovieButton(_ sender: Any) {
+        
+    }
+    
     @IBOutlet weak var searchBar: UISearchBar!
 }

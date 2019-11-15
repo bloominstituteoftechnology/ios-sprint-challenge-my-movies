@@ -12,6 +12,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    let dbURL = URL(string: "https://movie-list-for-ios.firebaseio.com/")
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -51,6 +52,9 @@ class MovieController {
             }
         }.resume()
     }
+    
+//    func saveMovie(movie: Movie, completion: nil)
+    
     
     // MARK: - Properties
     
