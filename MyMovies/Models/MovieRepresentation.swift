@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 struct MovieRepresentation: Equatable, Codable {
     let title: String
@@ -26,4 +27,29 @@ struct MovieRepresentation: Equatable, Codable {
  */
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
+}
+
+extension Movie {
+    var movieRepresentation: MovieRepresentation? {
+        guard let title = self.title,
+            let identifier = self.identifier
+            else {
+                print("Cannot get movie's representation; `title` and/or `identefier` missing!")
+                return nil
+        }
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: self.hasWatched)
+    }
+    
+    convenience init?(representation: MovieRepresentation, context: NSManagedObjectContext) {
+        self.init(context: context)
+        guard let identifier = representation.identifier,
+            let hasWatched = representation.hasWatched
+            else {
+                print("Failed to initialize movie from representation; `identifier` and/or `hasWatched` missing!")
+                return nil
+        }
+        self.title = representation.title
+        self.hasWatched = hasWatched
+        self.identifier = identifier
+    }
 }
