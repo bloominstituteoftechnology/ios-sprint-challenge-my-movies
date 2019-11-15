@@ -42,14 +42,9 @@ extension Movie {
     
     convenience init?(representation: MovieRepresentation, context: NSManagedObjectContext) {
         self.init(context: context)
-        guard let identifier = representation.identifier,
-            let hasWatched = representation.hasWatched
-            else {
-                print("Failed to initialize movie from representation; `identifier` and/or `hasWatched` missing!")
-                return nil
-        }
+
         self.title = representation.title
-        self.hasWatched = hasWatched
-        self.identifier = identifier
+        self.hasWatched = representation.hasWatched ?? false
+        self.identifier = representation.identifier ?? UUID()
     }
 }
