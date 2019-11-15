@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -14,13 +15,15 @@ class MovieController {
     
     static var shared = MovieController()
     
-    // MARK: - Properties
-    
     var searchedMovies: [MovieRepresentation] = []
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let firebaseURL = URL(string: "https://mymovies-20d00.firebaseio.com/")!
+    
+    init() {
+        fetchMoviesFromServer()
+    }
     
     // MARK: - CRUD Methods
     
@@ -30,11 +33,17 @@ class MovieController {
         putMoviesOnServer(movie: movie)
     }
     
+    func createMovieFromFirebaseRep(firebaseRep: FirebaseMovieRep) {
+        let context = CoreDataStack.shared.mainContext
+        guard let movie = Movie(firebaseRep: firebaseRep, context: context) else { return }
+        putMoviesOnServer(movie: movie)
+    }
+    
     func delete(movie: Movie) {
         
         deleteMovieFromServer(movie) { error in
             if let error = error {
-                print("Error deleting entry from server: \(error)")
+                print("Error deleting movie from server: \(error)")
                 return
             }
             
@@ -114,6 +123,33 @@ class MovieController {
             completion(error)
         }.resume()
     }
+    
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = firebaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, _, error in
+            if let error = error {
+                print("Error fetching movies: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned by movie")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let firebaseRepresentations = Array(try JSONDecoder().decode([String : FirebaseMovieRep].self, from: data).values)
+                try self.updateMovies(with: firebaseRepresentations)
+            } catch {
+                print("Error decoding movie representations: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
 
     // MARK: - Helper Methods
     
@@ -156,4 +192,41 @@ class MovieController {
         }.resume()
     }
     
+    private func update(movie: Movie, with fireRep: FirebaseMovieRep) {
+        movie.title = fireRep.title
+        movie.hasWatched = fireRep.hasWatched
+    }
+    
+    private func updateMovies(with representations: [FirebaseMovieRep]) throws {
+        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier) }
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        var moviesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        do {
+            let existingMovies = try context.fetch(fetchRequest)
+            
+            for movie in existingMovies {
+                guard let id = movie.identifier,
+                    let representation = representationsByID[id] else { continue }
+                
+                self.update(movie: movie, with: representation)
+                moviesToCreate.removeValue(forKey: id)
+            }
+            
+            for representation in moviesToCreate.values {
+                Movie(firebaseRep: representation)
+            }
+        } catch {
+            print("Error fetching movies for UUIDs: \(error)")
+        }
+        
+        try CoreDataStack.shared.save(context: context)
+    }
 }

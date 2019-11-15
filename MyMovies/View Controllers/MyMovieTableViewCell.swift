@@ -18,16 +18,9 @@ class MyMovieTableViewCell: UITableViewCell {
     
     @IBOutlet weak var myMovieTitleLabel: UILabel!
     @IBOutlet weak var myMovieWatchedButton: UIButton!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    
+    // MARK: - Methods
+    
     @IBAction func watchedButtonTapped(_ sender: UIButton) {
         guard let movie = movie else { return }
         
@@ -53,7 +46,4 @@ class MyMovieTableViewCell: UITableViewCell {
         }
         myMovieWatchedButton.setTitle(buttonTitle, for: .normal)
     }
-    
-
-    
 }

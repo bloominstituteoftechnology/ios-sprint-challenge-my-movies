@@ -23,6 +23,12 @@ extension Movie {
         self.init(title: movieRepresentation.title, identifier: UUID(), hasWatched: false, context: context)
       }
     
+    @discardableResult convenience init?(firebaseRep: FirebaseMovieRep, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        guard let uuid = UUID(uuidString: firebaseRep.identifier) else { return nil}
+        self.init(title: firebaseRep.title, identifier: uuid, hasWatched: firebaseRep.hasWatched, context: context)
+    }
+    
     var movieRepresentation: MovieRepresentation? {
 
         guard let title = title,

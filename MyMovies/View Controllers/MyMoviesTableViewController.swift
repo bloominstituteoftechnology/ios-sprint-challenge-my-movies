@@ -22,15 +22,6 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     // MARK: - Table view data source
 
@@ -69,16 +60,7 @@ class MyMoviesTableViewController: UITableViewController {
             MovieController.shared.delete(movie: movie)
         }
     }
-    
-   
-
-    // MARK: - Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      
-    }
 }
-
 
     // MARK: - Extensions
 
