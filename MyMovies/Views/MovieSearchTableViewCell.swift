@@ -14,6 +14,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     var movieController: MovieController?
     
     @IBOutlet weak var addMovieButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,5 +37,6 @@ class MovieSearchTableViewCell: UITableViewCell {
             return
         }
         movieController?.addMovieFromTMDB(movieRep: movieRep)
+        addMovieButton.isEnabled = false
     }
 }

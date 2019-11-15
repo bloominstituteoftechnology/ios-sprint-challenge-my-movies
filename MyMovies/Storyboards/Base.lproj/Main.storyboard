@@ -53,14 +53,24 @@
                                                 <action selector="addMovieTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Mk6-fn-rQb"/>
                                             </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bFu-LS-7yb">
+                                            <rect key="frame" x="20" y="11.5" width="34" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="1qB-rv-Imr" firstAttribute="trailing" secondItem="8Bc-u1-IMl" secondAttribute="trailingMargin" id="XxR-S9-1to"/>
+                                        <constraint firstItem="1qB-rv-Imr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bFu-LS-7yb" secondAttribute="trailing" constant="4" id="ZZy-7E-bDW"/>
+                                        <constraint firstItem="bFu-LS-7yb" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="cmn-5e-hJb"/>
+                                        <constraint firstItem="bFu-LS-7yb" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="db4-tk-mqg"/>
                                         <constraint firstItem="1qB-rv-Imr" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="vKL-fh-dSo"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="addMovieButton" destination="1qB-rv-Imr" id="P29-C1-cKy"/>
+                                    <outlet property="titleLabel" destination="bFu-LS-7yb" id="XcF-Mx-3wP"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

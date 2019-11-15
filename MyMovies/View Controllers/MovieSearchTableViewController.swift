@@ -45,9 +45,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let title = movieController.searchedMovies[indexPath.row].title
         
         cell.movieRep = MovieRepresentation(title: title, identifier: nil, hasWatched: nil)
-        cell.textLabel?.text = title
+        cell.titleLabel.text = title
         cell.movieController = movieController
-        cell.textLabel?.trailingAnchor.constraint(greaterThanOrEqualTo: cell.addMovieButton.leadingAnchor, constant: 4).isActive = true
         
         // TODO: fix title label overlap
         
