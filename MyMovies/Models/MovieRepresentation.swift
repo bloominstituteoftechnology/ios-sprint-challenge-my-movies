@@ -17,7 +17,7 @@ struct MovieRepresentation: Equatable, Codable {
      In order make the MovieRepresentation struct decode properly when fetching from the API, their types should stay optional.
      */
     
-    let identifier: UUID?
+    let identifier: String?
     let hasWatched: Bool?
 }
 
@@ -37,7 +37,7 @@ extension Movie {
                 print("Cannot get movie's representation; `title` and/or `identefier` missing!")
                 return nil
         }
-        return MovieRepresentation(title: title, identifier: identifier, hasWatched: self.hasWatched)
+        return MovieRepresentation(title: title, identifier: identifier.uuidString, hasWatched: self.hasWatched)
     }
     
     convenience init?(representation: MovieRepresentation, context: NSManagedObjectContext) {
@@ -45,6 +45,6 @@ extension Movie {
 
         self.title = representation.title
         self.hasWatched = representation.hasWatched ?? false
-        self.identifier = representation.identifier ?? UUID()
+        self.identifier = representation.identifier?.uuid() ?? UUID()
     }
 }

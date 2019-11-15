@@ -10,6 +10,9 @@ import Foundation
 
 extension String {
     static let json = "json"
+    func uuid() -> UUID? {
+        return UUID(uuidString: self) ?? nil
+    }
 }
 
 struct HTTPMethod {

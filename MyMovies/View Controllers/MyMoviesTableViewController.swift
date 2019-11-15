@@ -55,7 +55,11 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section]
             else { return nil }
-        return sectionInfo.name
+        if sectionInfo.name == "0" {
+            return "Unwatched"
+        } else {
+            return "Watched"
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -63,10 +67,13 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else {
+            print("Cannot cast cell as MyMovieCell!")
+            return UITableViewCell()
+        }
 
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
+        cell.movie = movie
 
         return cell
     }
@@ -75,12 +82,7 @@ class MyMoviesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let movie = fetchedResultsController.object(at: indexPath)
-            movieController.delete(movie: movie) { error in
-                if let error = error {
-                    print("Error deleting movie: \(error)")
-                    return
-                }
-            }
+            movieController.delete(movie: movie)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }

@@ -31,8 +31,13 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
 
     @IBAction func watchedButtonTapped(_ sender: UIButton) {
-        movie?.hasWatched.toggle()
+        guard let movie = movie else {
+            print("can't update watched for cell; no `movie`!")
+            return
+        }
+        movie.hasWatched.toggle()
         updateButtonText()
+        MovieController.shared.update(movie: movie)
     }
     
     func updateViews() {

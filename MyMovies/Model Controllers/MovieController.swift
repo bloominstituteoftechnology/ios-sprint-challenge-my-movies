@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -16,6 +17,126 @@ class MovieController {
     
     var searchedMovies: [MovieRepresentation] = []
     private let firebaseController = FirebaseController()
+    
+    // MARK: - Sync
+    
+    init() {
+        syncAll()
+    }
+    
+    // MARK: - Sync
+    
+    func syncAll(completion: @escaping CompletionHandler = { _ in }) {
+        firebaseController.fetchMoviesFromServer { error, reps in
+            if let error = error {
+                print("Error fetching movies from server: \(error)")
+                completion(error)
+            }
+            guard let movieReps = reps else {
+                print("Error; no movies representations received.")
+                completion(nil)
+                return
+            }
+            self.updateLocalEntries(from: movieReps)
+            self.updateServerEntries(using: movieReps)
+            completion(nil)
+        }
+    }
+    
+    private func updateLocalEntries(from serverRepresentations: [MovieRepresentation]) {
+        // This method is called from a network completion closure,
+        // so a background context must be used.
+        let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+        
+        var error: Error?
+        // Wait in case of error; then, if caught, handle it
+        backgroundContext.performAndWait {
+            let idsToFetch = serverRepresentations.compactMap { $0.identifier }
+            let representationsByID = Dictionary(
+                uniqueKeysWithValues: zip(idsToFetch, serverRepresentations)
+            )
+            var entriesToCreate = representationsByID
+            
+            let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
+            do {
+                let existingMovies = try backgroundContext.fetch(fetchRequest)
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id.uuidString]
+                        else { continue }
+                    update(movie: movie, from: representation)
+                    entriesToCreate.removeValue(forKey: id.uuidString)
+                }
+                for representation in entriesToCreate.values {
+                    let _ = Movie(representation: representation, context: backgroundContext)
+                }
+                try CoreDataStack.shared.save(context: backgroundContext)
+            } catch let updateError {
+                error = updateError
+            }
+        }
+        if let caughtError = error {
+            print("Error updating tasks from server: \(caughtError)")
+        }
+    }
+    
+    private func updateServerEntries(using serverMovieReps: [MovieRepresentation]) {
+        // send local entries that aren't on server
+        let idsOnServer = serverMovieReps.map { rep -> String in
+            return rep.identifier!
+        }
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            let request: NSFetchRequest<Movie> = Movie.fetchRequest()
+            request.predicate = NSPredicate(format: "NOT (identifier IN %@)", idsOnServer)
+            guard let moviesToSend: [Movie] = try? context.fetch(request) else {
+                print("Error fetching unsynced movies")
+                return
+            }
+            for movie in moviesToSend {
+                if let rep = movie.movieRepresentation,
+                    serverMovieReps.contains(rep) {
+                    self.firebaseController.sendToServer(movie: movie)
+                }
+            }
+        }
+    }
+    
+    // MARK: - CRUD
+    
+    func update(movie: Movie, from representation: MovieRepresentation) {
+        guard let id = representation.identifier?.uuid(),
+            let hasWatched = representation.hasWatched
+            else {
+                print("rep missing id/haswatched")
+                return
+        }
+        movie.title = representation.title
+        movie.hasWatched = hasWatched
+        movie.identifier = id
+        update(movie: movie)
+    }
+    
+    func update(movie: Movie) {
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            print("\(error)")
+        }
+        firebaseController.sendToServer(movie: movie)
+    }
+    
+    func delete(movie: Movie) {
+        CoreDataStack.shared.mainContext.delete(movie)
+        firebaseController.deleteMovieFromFirebase(movie)
+        do {
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+        } catch {
+            print("Error deleting movie: \(error)")
+            return
+        }
+    }
     
     // MARK: - TMDB API
     
@@ -69,31 +190,5 @@ class MovieController {
                 return
         }
         firebaseController.sendToServer(movie: movie)
-    }
-    
-    func delete(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        guard let uuid = movie.identifier else {
-            print("Movie has no identifier!")
-            completion(NSError())
-            return
-        }
-        
-        let context = CoreDataStack.shared.mainContext
-        
-        do {
-            context.delete(movie)
-            try CoreDataStack.shared.save()
-        } catch {
-            context.reset()
-            print("Error deleting object from managed object context: \(error)")
-        }
-        
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            completion(error)
-        }.resume()
     }
 }

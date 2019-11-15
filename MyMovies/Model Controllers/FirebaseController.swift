@@ -32,7 +32,7 @@ class FirebaseController {
     // MARK: - Fetch
     
     // TODO: implement `Result` type in closure
-    func fetchEntriesFromServer(completion: @escaping (Error?, [MovieRepresentation]?) -> Void = { _,_ in }) {
+    func fetchMoviesFromServer(completion: @escaping (Error?, [MovieRepresentation]?) -> Void = { _,_ in }) {
         let request = urlRequest()
         
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -54,7 +54,7 @@ class FirebaseController {
                 ).values)
                 completion(nil, movieRepresentations) // update local movies from server
             } catch {
-                print("Error decoding entry representations: \(error)")
+                print("Error decoding movie representations: \(error)")
                 completion(error, nil)
                 return
             }
