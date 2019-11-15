@@ -24,6 +24,8 @@ class MyMoviesTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+
 
     // MARK: - Table view data source
 

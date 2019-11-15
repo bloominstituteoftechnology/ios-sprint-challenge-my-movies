@@ -38,6 +38,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
+        
         return cell
     }
     
