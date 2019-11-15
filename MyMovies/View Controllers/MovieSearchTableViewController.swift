@@ -9,11 +9,19 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
+    }
+    
+    @IBAction func addMovieTapped(_ sender: UIButton) {
+        guard let cell = sender.superview?.superview as? MovieTableViewCell else { return }
+        
+        if let indexPath = tableView.indexPath(for: cell) {
+            movieController.createSavedMovie(title: movieController.searchedMovies[indexPath.row].title)
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

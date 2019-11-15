@@ -13,7 +13,6 @@ class MovieTableViewCell: UITableViewCell {
     // MARK: - IBOutlets
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var addMovieButton: UIButton!
     
     // MARK: - Properties
     
