@@ -42,9 +42,9 @@ class MyMoviesTableViewController: UITableViewController {
         guard let sectionInfo = fetchedResultsController.sections?[section].name else { return nil }
         
         if sectionInfo == "1" {
-            return "Need to Watch"
-        } else {
             return "Watched"
+        } else {
+            return "Need to Watch"
         }
     }
 

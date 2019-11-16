@@ -35,20 +35,18 @@ class MyMovieTableViewCell: UITableViewCell {
             }
             
         }
-        
         updateViews()
-        
     }
     
     
     private func updateViews(){
-        movieTitle?.text = movie?.title
-        guard let watched = movie?.hasWatched else { return }
-        
-        if watched {
-            hasWatchedButton.setTitle("Need to Watch", for: .normal)
-        } else {
+        guard let movie = movie else { return }
+        movieTitle?.text = movie.title
+ 
+        if movie.hasWatched {
             hasWatchedButton.setTitle("Watched", for: .normal)
+        } else {
+            hasWatchedButton.setTitle("Need to Watch", for: .normal)
         }
         
     }
