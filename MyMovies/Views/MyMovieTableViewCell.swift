@@ -11,7 +11,7 @@ import UIKit
 class MyMovieTableViewCell: UITableViewCell {
     
     var movieController: MovieController?
-    var movie: MovieRepresentation? {
+    var movie: Movie? {
         didSet {
             updateViews()
         }
@@ -23,10 +23,33 @@ class MyMovieTableViewCell: UITableViewCell {
     
     
     @IBAction func hasWatchedTapped(_ sender: Any) {
+        movie?.hasWatched.toggle()
+        
+        if let movie = movie {
+            movieController?.put(movie: movie)
+            
+            if movie.hasWatched {
+                hasWatchedButton.setTitle("Need to Watch", for: .normal)
+            } else {
+                hasWatchedButton.setTitle("Watched", for: .normal)
+            }
+            
+        }
+        
+        updateViews()
+        
     }
     
     
     private func updateViews(){
+        movieTitle?.text = movie?.title
+        guard let watched = movie?.hasWatched else { return }
+        
+        if watched {
+            hasWatchedButton.setTitle("Need to Watch", for: .normal)
+        } else {
+            hasWatchedButton.setTitle("Watched", for: .normal)
+        }
         
     }
     

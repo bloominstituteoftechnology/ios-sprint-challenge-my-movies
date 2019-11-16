@@ -12,17 +12,16 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     @IBOutlet weak var movieTitle: UILabel!
     
+    
     var movieController: MovieController?
-    var movieRepresentation: MovieRepresentation? {
-        didSet {
-            updateViews()
-        }
-    }
     
     
-    
-    
-    private func updateViews() {
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        guard let movie = movieTitle.text else { return }
+        //
+        
+        let addedMovie = Movie(title: movie)
+        movieController?.put(movie: addedMovie) // send movie to Sever + save to CoreData
         
     }
 

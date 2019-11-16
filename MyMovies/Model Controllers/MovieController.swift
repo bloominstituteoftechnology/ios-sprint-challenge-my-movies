@@ -21,12 +21,8 @@ class MovieController {
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
     //
-    private let fireBaseURL = URL(string: "https://movie-sprint-fca53.firebaseio.com/")!
+    private let fireBaseURL = URL(string: "https://movie-ios11.firebaseio.com/")!
     
-//    init() {
-//        fetchMyMoviesFromServer()
-//    }
-    //
     // MARK: - API Functions
     
     
@@ -138,15 +134,19 @@ class MovieController {
     
     
     func updateMovies(with representions: [MovieRepresentation]) {
-        let moviesWithID = representions.filter { $0.identifier != nil }
-        let identifiersToFetch = moviesWithID.compactMap { $0.identifier!}
+        
+//        let moviesWithID = representions.filter { $0.identifier != nil }
+        
+        let identifiersToFetch = representions.map { $0.identifier }
         
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representions))
         
         var moviesToCreate = representationsByID
         
         let context = CoreDataStack.shared.container.newBackgroundContext()
+        
         let fetchReqeust: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
         fetchReqeust.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
         context.perform {
