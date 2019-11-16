@@ -17,7 +17,7 @@ extension Movie {
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
     
-    @discardableResult convenience init(title: String,
+    convenience init(title: String,
                      hasWatched: Bool = false,
                      identifier: UUID = UUID(),
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
@@ -29,7 +29,7 @@ extension Movie {
         self.identifier = identifier
     }
     
-    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(title: movieRepresentation.title,
                   identifier: movieRepresentation.identifier ?? UUID(),

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+import UIKit
 
 struct MovieRepresentation: Equatable, Codable {
     let title: String
