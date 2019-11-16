@@ -11,6 +11,10 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
+    @IBOutlet weak var seenButton: UIButton!
+    
+    var movieController = MovieController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
            
            let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -64,15 +68,30 @@ class MyMoviesTableViewController: UITableViewController {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? moviesTableViewCell else { return UITableViewCell()}
+        
+        let movie = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = movie.title
+        cell.movieController = movieController
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        
+        
 
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
+        if section == 1 {
+        return "Seen"
+        }
+        else if section == 0 {
+            return "Unseen"
+        }
+        else {return "sorry"}
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -82,17 +101,25 @@ class MyMoviesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let movie = fetchedResultsController.object(at: indexPath)
+            let moc = CoreDataStack.shared.mainContext
+            movieController.deleteMovie(movie)
+            moc.delete(movie)
+            do{
+                try moc.save()
+                tableView.reloadData()
+            } catch {
+                moc.reset()
+                print("Error re-saving the managed object context: \(error)")
+            }
+        }
     }
-    */
+    
+    
 
     /*
     // Override to support rearranging the table view.
@@ -118,6 +145,7 @@ class MyMoviesTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
 
 }
 

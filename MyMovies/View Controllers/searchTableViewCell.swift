@@ -31,6 +31,7 @@ class searchTableViewCell: UITableViewCell {
     @IBAction func saveTapped(_ sender: Any) {
         if let movieRepresentation = movieRepresentation {
             let movie = Movie(title: movieRepresentation.title, identifier: nil, hasWatched: nil, context: CoreDataStack.shared.mainContext)
+            
             movieController?.sendTaskToServer(movie: movie)
             
             
