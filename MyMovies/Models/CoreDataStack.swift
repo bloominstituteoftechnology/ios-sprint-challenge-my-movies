@@ -12,7 +12,7 @@ import CoreData
 class CoreDataStack {
     static let shared = CoreDataStack()
     
-    lazy var container: NSPersistentContainer = {
+    lazy var container: NSPersistentContainer = {  // NSPersisitentContainer is a SQLite DB.
         let container = NSPersistentContainer(name: "Movies")
         container.loadPersistentStores { _, error in
             if let error = error {
@@ -32,7 +32,7 @@ class CoreDataStack {
         
         context.performAndWait {
             do {
-                try context.save()
+                try context.save() // Context is a holding area for changed items, getting ready to be saved/commited.  Scratchpad.
             } catch let saveError {
                 error = saveError
             }
