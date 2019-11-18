@@ -16,10 +16,10 @@ class MyMoviesController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-    init() {
-        fetchMoviesFromServer()
-    }
-    
+//    init() {
+//        fetchMoviesFromServer()
+//    }
+//    
     func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
         let requestURL = dbURL.appendingPathExtension("json")
         
