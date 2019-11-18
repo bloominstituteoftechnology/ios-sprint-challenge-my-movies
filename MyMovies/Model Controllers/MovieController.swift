@@ -149,7 +149,7 @@ class MovieController {
             
             movie.identifier = uuid
             representation.identifier = uuid
-            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+//            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding task: \(error)")

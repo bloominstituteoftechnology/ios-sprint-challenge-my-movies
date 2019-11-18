@@ -48,6 +48,7 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         movieController.fetchMoviesFromServer()
+        
     }
 
 
@@ -68,7 +69,7 @@ class MyMoviesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? moviesTableViewCell else { return UITableViewCell()}
         
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = "🎞 " + movie.title!
+        cell.textLabel?.text = movie.title
         cell.movieController = movieController
         cell.movie = fetchedResultsController.object(at: indexPath)
         

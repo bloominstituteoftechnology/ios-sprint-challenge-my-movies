@@ -32,7 +32,6 @@ class moviesTableViewCell: UITableViewCell {
     @IBAction func seenButtonTapped(_ sender: Any) {
         movie?.hasWatched.toggle()
         movieController?.sendTaskToServer(movie: movie!)
-//        movieController?.fetchMoviesFromServer()
         seenButtonSet()
         
       
