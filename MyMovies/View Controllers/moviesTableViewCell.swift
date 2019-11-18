@@ -19,9 +19,9 @@ class moviesTableViewCell: UITableViewCell {
     func seenButtonSet() {
         seenButton.setTitle("unseen", for: .normal)
     if movie?.hasWatched == true {
-              seenButton.setTitle("Seen", for: .normal)
+              seenButton.setTitle("Seen (toggle)", for: .normal)
           } else if movie?.hasWatched == false {
-              seenButton.setTitle("Unseen", for: .normal)
+              seenButton.setTitle("Unseen (toggle)", for: .normal)
         }
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -32,7 +32,7 @@ class moviesTableViewCell: UITableViewCell {
     @IBAction func seenButtonTapped(_ sender: Any) {
         movie?.hasWatched.toggle()
         movieController?.sendTaskToServer(movie: movie!)
-        movieController?.fetchMoviesFromServer()
+//        movieController?.fetchMoviesFromServer()
         seenButtonSet()
         
       

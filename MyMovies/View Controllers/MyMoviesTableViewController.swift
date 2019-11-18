@@ -68,7 +68,7 @@ class MyMoviesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? moviesTableViewCell else { return UITableViewCell()}
         
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
+        cell.textLabel?.text = "🎞 " + movie.title!
         cell.movieController = movieController
         cell.movie = fetchedResultsController.object(at: indexPath)
         
@@ -80,10 +80,10 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
         if sectionInfo.name == "1" {
-        return "Seen"
+        return "🎥 Seen Movies 🎞"
         }
         else if sectionInfo.name == "0" {
-            return "Unseen"
+            return "🍿 Unseen Movies 🎦"
         }
         else {return "sorry"}
     }
