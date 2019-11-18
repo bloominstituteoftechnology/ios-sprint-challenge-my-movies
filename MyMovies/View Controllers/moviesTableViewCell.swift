@@ -16,14 +16,6 @@ class moviesTableViewCell: UITableViewCell {
     
     var movie: Movie?
     
-    
-
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        seenButtonSet()
-    }
-    
     func seenButtonSet() {
         seenButton.setTitle("unseen", for: .normal)
     if movie?.hasWatched == true {
@@ -40,6 +32,7 @@ class moviesTableViewCell: UITableViewCell {
     @IBAction func seenButtonTapped(_ sender: Any) {
         movie?.hasWatched.toggle()
         movieController?.sendTaskToServer(movie: movie!)
+        movieController?.fetchMoviesFromServer()
         seenButtonSet()
         
       

@@ -14,9 +14,9 @@ class MovieController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-    init() {
-        fetchMoviesFromServer()
-    }
+//    init() {
+//        fetchMoviesFromServer()
+//    }
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -66,7 +66,7 @@ class MovieController {
   
   func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
 
-      let requestURL = baseURL.appendingPathExtension("json")
+      let requestURL = firebaseURL.appendingPathExtension("json")
 
       URLSession.shared.dataTask(with: requestURL) { data, _, error in
           if let error = error {
@@ -95,12 +95,12 @@ class MovieController {
   }
     
     private func updateMovies(with representations: [MovieRepresentation]) throws {
-        let entriesWithID = representations.filter{ $0.identifier != nil }
-        let identifiersToFetch = entriesWithID.compactMap {$0.identifier!}
+        let moviesWithID = representations.filter{ $0.identifier != nil }
+        let identifiersToFetch = moviesWithID.compactMap {$0.identifier!}
 
-        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesWithID))
 
-        var entriesToCreate = representationsByID
+        var moviesToCreate = representationsByID
 
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
@@ -114,14 +114,14 @@ class MovieController {
                     let representation = representationsByID[id] else { continue }
 
                 self.update(movie: movie, with: representation)
-                entriesToCreate.removeValue(forKey: id)
+                moviesToCreate.removeValue(forKey: id)
             }
 
-            for representation in entriesToCreate.values {
+            for representation in moviesToCreate.values {
                Movie(movieRepresentation: representation)
             }
         } catch {
-            print("Error fetching tasks for UUIDs: \(error)")
+            print("Error fetching movies for UUIDs: \(error)")
         }
         try CoreDataStack.shared.save(context: context)
     }
