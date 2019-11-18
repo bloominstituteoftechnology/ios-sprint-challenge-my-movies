@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+import UIKit
 
 struct MovieRepresentation: Equatable, Codable {
     let title: String
@@ -17,7 +19,7 @@ struct MovieRepresentation: Equatable, Codable {
      */
     
     let identifier: UUID?
-    let hasWatched: Bool?
+    var hasWatched: Bool?
 }
 
 /*
