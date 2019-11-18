@@ -13,7 +13,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     let myMoviesController = MyMoviesController()
     
-        override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self

@@ -9,8 +9,6 @@
 import Foundation
 import CoreData
 
-
-
 class MyMoviesController {
     
     let dbURL = URL(string: "https://movie-list-for-ios.firebaseio.com/")!
@@ -23,41 +21,41 @@ class MyMoviesController {
     }
     
     func fetchMoviesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
-          let requestURL = dbURL.appendingPathExtension("json")
-           
-           var request = URLRequest(url: requestURL)
-           request.httpMethod = "GET"
-           
-           URLSession.shared.dataTask(with: request) { data, _, error in
-               if let error = error {
-                   print("Error fetching movies: \(error)")
-                   completion(error)
-                   return
-               }
-               
-               guard let data = data else {
-                   print("No data returned by data movie")
-                   completion(NSError())
-                   return
-               }
-               
-               var movieRepresentations: [MovieRepresentation] = []
-               do {
-                   let decodedMovies = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
-                   movieRepresentations = Array(decodedMovies.values)
-                   try self.updateMyMovies(with: movieRepresentations)
-                   completion(nil)
-               } catch {
-                   print("Error decoding movie representation: \(error)")
-                   completion(error)
-                   return
-               }
-           }.resume()
-       }
+        let requestURL = dbURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print("Error fetching movies: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned by data movie")
+                completion(NSError())
+                return
+            }
+            
+            var movieRepresentations: [MovieRepresentation] = []
+            do {
+                let decodedMovies = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
+                movieRepresentations = Array(decodedMovies.values)
+                try self.updateMyMovies(with: movieRepresentations)
+                completion(nil)
+            } catch {
+                print("Error decoding movie representation: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
     
     
     func sendMovieToServer(movie: Movie, completion: @escaping (Error?) -> Void = { _ in }) {
-       let uuid = movie.identifier ?? UUID()
+        let uuid = movie.identifier ?? UUID()
         let requestURL = dbURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
@@ -68,7 +66,6 @@ class MyMoviesController {
                 return
             }
             
-            //representation.identifier = uuid
             movie.identifier = uuid
             try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
             request.httpBody = try JSONEncoder().encode(representation)
@@ -88,9 +85,6 @@ class MyMoviesController {
         completion(nil)
     }
     
-    
-    // MARK: - Private Methods
-    
     func createMyMovie(title: String) {
         let movie = Movie(title: title)
         
@@ -103,7 +97,56 @@ class MyMoviesController {
         }
     }
     
-    private func updateMyMovies(with representations: [MovieRepresentation]) throws {
+    func updateMyMovie(title: String) {
+        let movie = Movie(title: title)
+        
+        movie.hasWatched = !movie.hasWatched
+        
+        sendMovieToServer(movie: movie)
+        try! CoreDataStack.shared.mainContext.save()
+    }
+    
+    func deleteMyMovie(movie: Movie)  {
+        deleteMovieFromServer(movie)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            context.delete(movie)
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            context.reset()
+            print("There was an error deleting your movie: \(error)")
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        
+        guard let identifier = movie.identifier else {
+                  NSLog("Entry identifier is nil")
+                  completion(NSError())
+                  return
+              }
+              
+        let requestURL = dbURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+              var request = URLRequest(url: requestURL)
+              request.httpMethod = "DELETE"
+              
+              URLSession.shared.dataTask(with: request) { (data, _, error) in
+                  if let error = error {
+                      NSLog("Error deleting entry from server: \(error)")
+                      completion(error)
+                      return
+                  }
+                  
+                  completion(nil)
+                  }.resume()
+    }
+    
+    
+    func updateMyMovies(with representations: [MovieRepresentation]) throws {
         let moviesWithID = representations.filter { $0.identifier != nil }
         let identifiersToFetch = representations.map { $0.identifier }
         

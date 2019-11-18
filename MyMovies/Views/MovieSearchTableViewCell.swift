@@ -12,7 +12,7 @@ import CoreData
 class MovieSearchTableViewCell: UITableViewCell {
     
     let myMoviesController = MyMoviesController()
-
+    
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
@@ -34,6 +34,7 @@ class MovieSearchTableViewCell: UITableViewCell {
         guard let title = movieTitleLabel.text else { return }
         
         myMoviesController.createMyMovie(title: title)
+        
         
     }
     

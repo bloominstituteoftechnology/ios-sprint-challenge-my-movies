@@ -33,8 +33,8 @@ extension Movie {
         guard !representation.title.isEmpty,
             let hasWatched = representation.hasWatched,
             let identifier = representation.identifier
-        else {
-            return nil
+            else {
+                return nil
         }
         
         self.init(title: representation.title,
@@ -42,5 +42,5 @@ extension Movie {
                   identifier: identifier,
                   context: context)
     }
-
+    
 }
