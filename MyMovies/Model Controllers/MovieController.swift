@@ -9,7 +9,8 @@
 import Foundation
 
 class MovieController {
-    
+    private let fireBaseURL = URL(string: "https://mymovies-ca563.firebaseio.com/")
+    typealias CompletionHandler = (Error?) -> Void
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -49,6 +50,31 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
+        }.resume()
+    }
+    
+    func delete(for movie: Movie) {
+        CoreDataStack.shared.mainContext.delete(movie)
+        deleteEntryFromServer(movie)
+        CoreDataStack.shared.save()
+    }
+    
+    func deleteEntryFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+        guard let identifier = movie.identifier else {
+            completion(NSError())
+            return
+        }
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
         }.resume()
     }
     
