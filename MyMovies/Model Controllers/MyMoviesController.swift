@@ -11,7 +11,7 @@ import CoreData
 
 class MyMoviesController {
     
-    let baseURL = URL(string: "")!
+    let baseURL = URL(string: "https://movies-1b1f7.firebaseio.com/alex")!
     
     struct HTTPMethod {
         static let get = "GET"
