@@ -12,7 +12,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     
     struct PropertyKeys {
-        static let cell = "MyMovieCell"
+        static let cell = "MovieCell"
     }
     
     let movieController = MovieController()

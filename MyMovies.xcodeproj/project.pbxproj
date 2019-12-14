@@ -37,6 +37,7 @@
 		933CF2A023A566F900205364 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		933CF2A323A568AE00205364 /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
 		933CF2A523A5691700205364 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		938F223523A59059003526AD /* Movie 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Movie 2.xcdatamodel"; sourceTree = "<group>"; };
 		93CFC52C23A56D8000D0B0E4 /* MyMoviesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesController.swift; sourceTree = "<group>"; };
 		93CFC52E23A5801300D0B0E4 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		93CFC53023A581D300D0B0E4 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
@@ -416,9 +417,10 @@
 		933CF2A223A568AE00205364 /* Movie.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				938F223523A59059003526AD /* Movie 2.xcdatamodel */,
 				933CF2A323A568AE00205364 /* Movie.xcdatamodel */,
 			);
-			currentVersion = 933CF2A323A568AE00205364 /* Movie.xcdatamodel */;
+			currentVersion = 938F223523A59059003526AD /* Movie 2.xcdatamodel */;
 			path = Movie.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

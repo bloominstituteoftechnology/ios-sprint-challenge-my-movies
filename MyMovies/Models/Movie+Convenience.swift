@@ -11,7 +11,7 @@ import CoreData
 
 extension Movie {
     @discardableResult convenience init(title: String,
-                                        hasWatched: Bool,
+                                        hasWatched: Bool = false,
                                         identifier: UUID = UUID(),
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)

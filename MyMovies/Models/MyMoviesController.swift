@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class MyMoviesController {
-    let baseURL = URL(string: "")!
+    let baseURL = URL(string: "https://myfirstdatabase-83185.firebaseio.com/Movies")!
     
     struct HTTPMethod {
         static let get = "GET"
