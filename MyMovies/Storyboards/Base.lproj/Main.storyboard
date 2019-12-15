@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BeQ-Kf-2fy">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BeQ-Kf-2fy">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -41,22 +39,31 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" textLabel="EgU-i6-cdC" style="IBUITableViewCellStyleDefault" id="d7W-qE-xfL">
-                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" textLabel="EgU-i6-cdC" style="IBUITableViewCellStyleDefault" id="d7W-qE-xfL" customClass="SearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EgU-i6-cdC">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EgU-i6-cdC">
                                             <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LYe-pj-u0G">
+                                            <rect key="frame" x="0.0" y="6" width="364" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            <state key="normal" title="Add Movie"/>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addMovieButton" destination="LYe-pj-u0G" id="Wql-g3-JvL"/>
+                                    <outlet property="movieTitleLabel" destination="EgU-i6-cdC" id="akS-aF-xgO"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -82,11 +89,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo" customClass="MyMoviesTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cK-VO-zdo" id="F0q-Pd-Woa">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
@@ -113,6 +120,10 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="KSn-JA-T8o"/>
+                                    <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="Yji-ov-uC8"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
