@@ -10,7 +10,7 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
     
-    var movie: Movie? {
+    var movie: MovieRepresentation? {
         didSet {
             updateViews()
         }
