@@ -49,6 +49,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         let movie = movieController.searchedMovies[indexPath.row]
         cell.movie = movie
+        
+        cell.addMovieFromResults = {
+            let newMovie = Movie(title: movie.title)
+            self.movieController.createMovie(for: newMovie)
+        }
 
 //        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         

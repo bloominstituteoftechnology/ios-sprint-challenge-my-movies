@@ -16,6 +16,8 @@ class MovieSearchTableViewCell: UITableViewCell {
         }
     }
     
+    var addMovieFromResults: (() -> Void)? = nil
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
@@ -25,6 +27,9 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
 
     @IBAction func addMoviePressed(_ sender: UIButton) {
+        if let addMoviePressed = self.addMovieFromResults {
+            addMoviePressed()
+        }
     }
     
 }
