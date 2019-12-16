@@ -19,6 +19,7 @@
 		954C7C6E23A71E2A002A100F /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 954C7C6C23A71E2A002A100F /* Movie.xcdatamodeld */; };
 		954C7C7023A71E9B002A100F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954C7C6F23A71E9B002A100F /* CoreDataStack.swift */; };
 		954C7C7723A72F4E002A100F /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954C7C7623A72F4E002A100F /* MovieTableViewCell.swift */; };
+		954C7C7923A731CB002A100F /* SearchedMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954C7C7823A731CB002A100F /* SearchedMovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		954C7C6D23A71E2A002A100F /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
 		954C7C6F23A71E9B002A100F /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		954C7C7623A72F4E002A100F /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		954C7C7823A731CB002A100F /* SearchedMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedMovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				954C7C7623A72F4E002A100F /* MovieTableViewCell.swift */,
+				954C7C7823A731CB002A100F /* SearchedMovieTableViewCell.swift */,
 			);
 			path = "New Group";
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				954C7C7923A731CB002A100F /* SearchedMovieTableViewCell.swift in Sources */,
 				954C7C7023A71E9B002A100F /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

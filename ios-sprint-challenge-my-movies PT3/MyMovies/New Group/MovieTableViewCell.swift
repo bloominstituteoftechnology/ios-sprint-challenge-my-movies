@@ -11,6 +11,7 @@ import UIKit
 class MovieTableViewCell: UITableViewCell {
 
     @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var hasWatchedText: UIButton!
     
     var movie: Movie? {
         didSet {
@@ -22,8 +23,16 @@ class MovieTableViewCell: UITableViewCell {
         guard let movie = movie else { return }
         
         movieTitleLabel.text = movie.title
+        if movie.hasWatched {
+            hasWatchedText.titleLabel?.text = "Watched"
+        } else {
+            hasWatchedText.titleLabel?.text = "To Watch"
+        }
     }
     
     @IBAction func hasWatched(_ sender: UIButton) {
+        guard let movie = movie else { return }
+
+        movie.hasWatched = !movie.hasWatched
     }
 }

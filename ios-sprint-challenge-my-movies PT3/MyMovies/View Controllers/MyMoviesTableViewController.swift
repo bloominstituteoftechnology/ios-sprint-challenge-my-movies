@@ -17,7 +17,7 @@ class MyMoviesTableViewController: UITableViewController {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "hasWatched", ascending: false),
+            NSSortDescriptor(key: "hasWatched", ascending: true),
             NSSortDescriptor(key: "title", ascending: true)
         ]
         
@@ -39,7 +39,17 @@ class MyMoviesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 0 {
+//
+//        }
+        
         return fetchedResultsController.sections?[section].name
+        
+//        if sectionTitle == "0" {
+//            return "Watched"
+//        } else if sectionTitle == "1" {
+//            return "To Watch"
+//        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -58,29 +68,6 @@ class MyMoviesTableViewController: UITableViewController {
         cell.movie = movie
         return cell
     }
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
