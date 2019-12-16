@@ -39,35 +39,42 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="auN-7v-5BZ">
-                                            <rect key="frame" x="16" y="7" width="343" height="30"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D3l-Bo-fMX">
-                                                    <rect key="frame" x="0.0" y="0.0" width="262" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igg-nA-RZ6">
-                                                    <rect key="frame" x="270" y="0.0" width="73" height="30"/>
-                                                    <state key="normal" title="Add Movie"/>
-                                                </button>
-                                            </subviews>
-                                        </stackView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igg-nA-RZ6">
+                                            <rect key="frame" x="269" y="7" width="90" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="90" id="5mW-WE-Dzr"/>
+                                            </constraints>
+                                            <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="addMoviePressed:" destination="d7W-qE-xfL" eventType="touchUpInside" id="ocj-yn-zj3"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4s-fn-9Zh">
+                                            <rect key="frame" x="16" y="11.5" width="245" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="auN-7v-5BZ" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="5pf-3P-myN"/>
-                                        <constraint firstItem="auN-7v-5BZ" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="OGi-9p-cMP"/>
-                                        <constraint firstAttribute="trailing" secondItem="auN-7v-5BZ" secondAttribute="trailing" constant="16" id="fyf-fs-RHf"/>
+                                        <constraint firstItem="I4s-fn-9Zh" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="Dul-hg-kd9"/>
+                                        <constraint firstAttribute="trailing" secondItem="igg-nA-RZ6" secondAttribute="trailing" constant="16" id="Pop-4p-kTg"/>
+                                        <constraint firstItem="igg-nA-RZ6" firstAttribute="leading" secondItem="I4s-fn-9Zh" secondAttribute="trailing" constant="8" id="Sag-jo-o2Q"/>
+                                        <constraint firstItem="igg-nA-RZ6" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="c3i-84-L57"/>
+                                        <constraint firstItem="I4s-fn-9Zh" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="iED-dH-fLC"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addMovieButton" destination="igg-nA-RZ6" id="Hhi-dX-sTz"/>
+                                    <outlet property="titleLabel" destination="I4s-fn-9Zh" id="7nm-Vs-v1U"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -82,7 +89,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
+            <point key="canvasLocation" x="1340" y="-30"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
