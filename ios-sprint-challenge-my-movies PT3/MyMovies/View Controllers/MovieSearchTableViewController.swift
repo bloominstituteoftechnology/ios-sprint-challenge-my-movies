@@ -9,12 +9,7 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-    
-    @IBOutlet weak var searchBar: UISearchBar!
-    
-    var movieController = MovieController()
-    var delegate: AddMovieDelegate?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,24 +34,16 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+                    as? SearchedMovieTableViewCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.titleTextLabel.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieController = movieController
         
         return cell
     }
     
-    @IBAction func addMovieButtonPressed(_ sender: UIButton) {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        let movieTitle = movieController.searchedMovies[indexPath.row].title
-        
-        movieController.create(movieWithTitle: movieTitle)
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            print("Error saving managed object context: \(error)")
-        }
-//        delegate?.movieWasAdded(movieTitle)
-    }
+    var movieController = MovieController()
+    
+    @IBOutlet weak var searchBar: UISearchBar!
 }

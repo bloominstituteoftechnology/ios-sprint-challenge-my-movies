@@ -17,7 +17,7 @@ class MyMoviesTableViewController: UITableViewController {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "hasWatched", ascending: false),
+            NSSortDescriptor(key: "hasWatched", ascending: true),
             NSSortDescriptor(key: "title", ascending: true)
         ]
         
@@ -36,51 +36,43 @@ class MyMoviesTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - Table view data source
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 0 {
+//
+//        }
+        
+        return fetchedResultsController.sections?[section].name
+        
+//        if sectionTitle == "0" {
+//            return "Watched"
+//        } else if sectionTitle == "1" {
+//            return "To Watch"
+//        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
-                as? MovieTableViewCell else { return UITableViewCell() }
-        
+            as? MovieTableViewCell else { return UITableViewCell() }
+
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
-        
         return cell
     }
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
+    // MARK: - NSFetchedResultsControllerDelegate
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -116,21 +108,14 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             guard let indexPath = indexPath else { return }
             tableView.reloadRows(at: [indexPath], with: .automatic)
         case .move:
-            guard let oldIndexPath = indexPath, let newIndexPath = newIndexPath else { return }
-            tableView.deleteRows(at: [oldIndexPath], with: .automatic)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            guard let oldIndexPath = indexPath,
+                let newIndexPath = newIndexPath else { return }
+            tableView.moveRow(at: oldIndexPath, to: newIndexPath)
         case .delete:
             guard let indexPath = indexPath else { return }
             tableView.deleteRows(at: [indexPath], with: .automatic)
-        default:
-            break
+        @unknown default:
+            return
         }
-    }
-}
-
-extension MyMoviesTableViewController: AddMovieDelegate {
-    func movieWasAdded(_ movieTitle: String) {
-        guard let movieController = movieController else { return }
-        movieController.create(movieWithTitle: movieTitle)
     }
 }
