@@ -32,6 +32,12 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let movie1 = Movie(title: "The big hurt")
+        do {
+        try CoreDataStack.shared.save()
+        } catch {
+            print("woops")
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
