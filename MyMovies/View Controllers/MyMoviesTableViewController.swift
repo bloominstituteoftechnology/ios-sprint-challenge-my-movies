@@ -83,8 +83,15 @@ class MyMoviesTableViewController: UITableViewController {
             let movie = fetchedResultsController.object(at: indexPath)
             cell.movie = movie
             
+//            if movie.hasWatched {
+//                cell.watchedButton.titleLabel?.text = "Watched"
+//            } else {
+//                cell.watchedButton.titleLabel?.text = "Unwatched"
+//            }
+            
             cell.changeWatchedStatus = {
                 movie.hasWatched.toggle()
+                self.movieController.updateMovie(for: movie)
                 tableView.reloadData()
             }
         
