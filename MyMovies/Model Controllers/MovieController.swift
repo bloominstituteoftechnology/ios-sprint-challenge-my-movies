@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -50,6 +51,46 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    // Fetches the current Core Data entries
+    func fetchMovies() {
+        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            let movies = try? moc.fetch(fetchRequest)
+            
+        }
+    }
+    
+    func update(with representations: [MovieRepresentation]) {
+        let entriesWithID = representations.filter({ $0.identifier != nil })
+        let identifiersToFetch = entriesWithID.compactMap({ UUID(uuidString: $0.identifier!) })
+        
+        let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+        var entriesToCreate = represenationsByID
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        let representation = representationsByID[identifier] else { continue }
+        self.update(entry: entry, with: represenation)
+        
+        entriesToCreate.removeValue(forKey: identifier)
+    }
+
+    
+    // Saves content to Core Data
+    func saveMovie() {
+        let moc = CoreDataStack.shared.mainContext
+        do {
+          try moc.save()
+        } catch {
+            print("There was a problem saving: \(error)")
+        }
     }
     
     // MARK: - Properties

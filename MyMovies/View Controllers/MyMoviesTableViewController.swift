@@ -7,17 +7,35 @@
 //
 
 import UIKit
+import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<Movies> = {
+        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "title", ascending: true),
+            NSSortDescriptor(key: "identifier", ascending: true)
+        ]
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: moc,
+            sectionNameKeyPath: "title",
+            cacheName: nil)
+        frc.delegate = self
+        try? frc.performFetch()
+        return frc
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+         self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+         self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,6 +53,25 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
+    }
+    
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movies = fetchedResultsController.object(at: indexPath)
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(movies)
+            do {
+                try moc.save()
+                tableView.reloadData()
+            } catch {
+                moc.reset()
+                print("Error svaing: \(error)")
+            }
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
     }
 
     /*
@@ -55,17 +92,9 @@ class MyMoviesTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
+    
+
+    
 
     /*
     // Override to support rearranging the table view.
@@ -92,4 +121,8 @@ class MyMoviesTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
+    
 }
