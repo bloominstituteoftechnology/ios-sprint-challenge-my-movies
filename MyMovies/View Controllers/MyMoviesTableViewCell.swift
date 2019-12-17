@@ -28,14 +28,16 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     
-    private func updateViews() {
+    func updateViews() {
         guard let movie = movie else { return }
         titleLabel.text = movie.title
         
         if movie.hasWatched {
             watchedButton.titleLabel?.text = "Watched"
+            print("\(movie.title) \(movie.hasWatched)")
         } else {
             watchedButton.titleLabel?.text = "Unwatched"
+            print("\(movie.title) \(movie.hasWatched)")
         }
     }
 

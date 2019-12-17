@@ -92,7 +92,6 @@ class MyMoviesTableViewController: UITableViewController {
             cell.changeWatchedStatus = {
                 movie.hasWatched.toggle()
                 self.movieController.updateMovie(for: movie)
-                tableView.reloadData()
             }
         
             return cell
