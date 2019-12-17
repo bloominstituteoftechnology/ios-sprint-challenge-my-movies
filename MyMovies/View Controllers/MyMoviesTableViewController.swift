@@ -13,12 +13,12 @@ class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - Properties
     // Create a new instance of MovieController to access the array and the helper methods.
-    var movieController = MovieController.shared
+    var movieController = MovieController()
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "hasWatched", ascending: true),
+//            NSSortDescriptor(key: "hasWatched", ascending: true),
             NSSortDescriptor(key: "title", ascending: true)
         ]
 
