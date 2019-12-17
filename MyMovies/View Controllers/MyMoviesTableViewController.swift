@@ -13,7 +13,8 @@ class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - Properties
     // Create a new instance of MovieController to access the array and the helper methods.
-    var movieController = MovieController()
+    var movieController = MovieController.shared
+    
     private lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
@@ -32,22 +33,31 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let movie1 = Movie(title: "The big hurt")
-        do {
-        try CoreDataStack.shared.save()
-        } catch {
-            print("woops")
-        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // Implement pull to refresh in table view
+    @IBAction func refresh(_ sender: Any) {
+        movieController.fetchMoviesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
 
     // MARK: - Table view data source
@@ -64,7 +74,7 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return movieController.searchedMovies.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
         override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,6 +85,16 @@ class MyMoviesTableViewController: UITableViewController {
         
             return cell
         }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.deleteMovie(for: movie)
+            tableView.reloadData()
+        }
+    }
 
 }
 

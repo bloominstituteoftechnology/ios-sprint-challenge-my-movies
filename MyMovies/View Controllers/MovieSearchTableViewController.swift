@@ -11,7 +11,7 @@ import CoreData
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
-    var movieController = MovieController()
+    var movieController = MovieController.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
