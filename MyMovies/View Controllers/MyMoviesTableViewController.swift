@@ -82,6 +82,11 @@ class MyMoviesTableViewController: UITableViewController {
             
             let movie = fetchedResultsController.object(at: indexPath)
             cell.movie = movie
+            
+            cell.changeWatchedStatus = {
+                movie.hasWatched.toggle()
+                tableView.reloadData()
+            }
         
             return cell
         }
