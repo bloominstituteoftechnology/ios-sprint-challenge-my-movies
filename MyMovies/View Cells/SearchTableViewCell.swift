@@ -8,20 +8,33 @@
 
 import UIKit
 
+
 class SearchTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var movieTitleLabel: UILabel!
+    var movieController: MovieController?
     
-    @IBOutlet weak var addMovieButton: UIButton!
-    
-    var movieRepresenation: MovieRepresentation? {
+    var movie: MovieRepresentation? {
         didSet {
             updateViews()
         }
     }
     
+
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    
+    @IBOutlet weak var addMovieButton: UIButton!
+    
+    @IBAction func addMovieButtonTapped(_ sender: UIButton) {
+        guard let title = movie?.title else { return }
+        movieController?.create(title: title)
+        print("\(title)")
+
+
+    }
+    
+    
     func updateViews() {
-        guard let movieRep = movieRepresenation else { return }
-        movieTitleLabel.text = movieRep.title
+        guard let movie = movie else { return }
+        movieTitleLabel.text = movie.title
     }
 }

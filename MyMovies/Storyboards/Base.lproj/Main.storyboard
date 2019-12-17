@@ -57,11 +57,14 @@
                                             <rect key="frame" x="0.0" y="6" width="364" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                             <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="QZB-eh-od2"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addMovieButton" destination="LYe-pj-u0G" id="Wql-g3-JvL"/>
+                                    <outlet property="addMovieButton" destination="LYe-pj-u0G" id="X3T-J0-ypB"/>
                                     <outlet property="movieTitleLabel" destination="EgU-i6-cdC" id="akS-aF-xgO"/>
                                 </connections>
                             </tableViewCell>

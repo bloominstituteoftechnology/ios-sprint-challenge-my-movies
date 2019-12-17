@@ -10,10 +10,14 @@ import Foundation
 import CoreData
 
 class MovieController {
+    
+    
+    
     private let fireBaseURL = URL(string: "https://mymovies-ca563.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -52,6 +56,10 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    init() {
+        fetchEntriesFromServer()
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
@@ -113,9 +121,9 @@ class MovieController {
             }.resume()
         }
         
-        func create(title: String, hasWatched: Bool) {
+        func create(title: String) {
                
-               let movie = Movie(title: title, hasWatched: hasWatched)
+               let movie = Movie(title: title)
                put(movie: movie)
                CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
                
