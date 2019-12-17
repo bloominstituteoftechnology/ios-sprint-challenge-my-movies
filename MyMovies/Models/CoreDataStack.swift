@@ -11,7 +11,7 @@ import CoreData
 
 class CoreDataStack {
     
-    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
         context.performAndWait {
             do {
                 try context.save()
@@ -26,7 +26,7 @@ class CoreDataStack {
     
     lazy var container: NSPersistentContainer = {
         let newContainer = NSPersistentContainer(name: "Movie")
-        newContainer.loadPersistentStores { (_, error) in
+        newContainer.loadPersistentStores { _, error in
             guard error == nil else {
                 fatalError("Failed to load persistent stores: \(error!)")
             }

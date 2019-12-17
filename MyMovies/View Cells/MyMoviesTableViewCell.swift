@@ -26,5 +26,10 @@ class MyMoviesTableViewCell: UITableViewCell {
         let hasWatchedButtonTitle = movie.hasWatched ? "Watched" : "Unwatched"
         hasWatchedButton.setTitle(hasWatchedButtonTitle, for: .normal)
     }
-   
+    @IBAction func hasWatchedTapped(_ sender: Any) {
+        guard let movie = movie else { return }
+        MovieController.shared.toggle(movie: movie)
+        
+    }
+    
 }

@@ -26,7 +26,7 @@ class SearchTableViewCell: UITableViewCell {
     
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
         guard let title = movie?.title else { return }
-        movieController?.create(title: title)
+        MovieController.shared.create(title: title)
         print("\(title)")
 
 

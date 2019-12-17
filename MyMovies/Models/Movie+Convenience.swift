@@ -11,7 +11,9 @@ import CoreData
 
 extension Movie {
     var movieRepresentation: MovieRepresentation? {
-        guard let title = title else { return nil }
+        guard let title = title,
+            !title.isEmpty,
+        let identifier = identifier else { return nil }
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
     
@@ -28,11 +30,13 @@ extension Movie {
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let identifier = movieRepresentation.identifier,
-            let hasWatched = movieRepresentation.hasWatched else { return nil}
+            let hasWatched = movieRepresentation.hasWatched,
+            !movieRepresentation.title.isEmpty else { return nil }
         
         self.init(title: movieRepresentation.title,
                   identifier: identifier,
-                  hasWatched: hasWatched)
+                  hasWatched: hasWatched,
+                  context: context)
     }
     
     
