@@ -9,27 +9,33 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    //MARK: Properties
+    
+    var movieController = MovieController()
+    
+    //MARK: Outlets
+    
+    @IBOutlet weak var searchBar: UISearchBar!
 
+    //MARK: Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
     
-//    @IBAction func addMovieTapped(_ sender: UIButton) {
-//        guard let cell = sender.superview?.superview as? MovieTableViewCell else { return }
-//
-//        if let indexPath = tableView.indexPath(for: cell) {
-//            MovieController.sharedInstance.createSavedMovie(title: MovieController.sharedInstance.searchedMovies[indexPath.row].title)
-//        }
-//    }
-    
+    //MARK: Table View Data Source
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell") as? MovieTableViewCell else { return }
-        if let indexPath = tableView.indexPath(for: cell) {
-            MovieController.sharedInstance.createSavedMovie(title: MovieController.sharedInstance.searchedMovies[indexPath.row].title)
-        }
+        MovieController.sharedInstance.createSavedMovie(title: MovieController.sharedInstance.searchedMovies[indexPath.row].title)
+        
+        let title = MovieController.sharedInstance.searchedMovies[indexPath.row].title
+        
+        let alert = UIAlertController(title: "\(title)", message: "Added to the list", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Return", style: .cancel, handler: nil)
+        alert.addAction(alertAction)
+        present(alert, animated: true, completion: nil)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -57,7 +63,4 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }

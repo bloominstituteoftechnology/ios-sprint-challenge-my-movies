@@ -37,9 +37,12 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = false
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        MovieController.sharedInstance.fetchMoviesFromServer()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -62,7 +65,6 @@ class MyMoviesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 1
     }
 
@@ -85,12 +87,10 @@ class MyMoviesTableViewController: UITableViewController {
         return (sectionInfo.name == "0") ? "Not Watched" : "Watched"
     }
 
-    
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            tableView.deleteRows(at: [indexPath], with: .fade)
             MovieController.sharedInstance.delete(for:fetchedResultsController.object(at: indexPath))
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }    
     }
 }

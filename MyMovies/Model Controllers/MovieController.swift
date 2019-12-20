@@ -70,22 +70,26 @@ class MovieController {
         URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
                 print("Error fetching movies: \(error)")
+                DispatchQueue.main.async {
                 completion(error)
+                }
                 return
             }
 
             guard let data = data else {
-                print("No data returned by data movie")
+                print("No data returned in fetch")
+                DispatchQueue.main.async {
                 completion(NSError())
+                }
                 return
             }
-
-            var movieRepresentations: [MovieRepresentation] = []
+            
             do {
-                let decodedMovies = try JSONDecoder().decode([String: MovieRepresentation].self, from: data)
-                movieRepresentations = Array(decodedMovies.values)
+                let movieRepresentations = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
                 try self.updateMovie(with: movieRepresentations)
+                DispatchQueue.main.async {
                 completion(nil)
+                }
             } catch {
                 print("Error decoding movie representation: \(error)")
                 completion(error)
@@ -101,12 +105,13 @@ class MovieController {
         request.httpMethod = "PUT"
 
         do {
-            guard let representation = movie.movieRepresentation else {
+            guard var representation = movie.movieRepresentation else {
                 completion(NSError())
                 return
             }
+            representation.identifier = uuid
             movie.identifier = uuid
-            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+            try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding movie: \(error)")
@@ -140,7 +145,9 @@ class MovieController {
             }
             if let error = error {
                 print("Error deleting entry to server \(error)")
-                completion(error)
+                DispatchQueue.main.async {
+                    completion(error)
+                }
                 return
             }
             completion(nil)
@@ -171,7 +178,7 @@ class MovieController {
                 }
 
                 for representation in entriesToCreate.values {
-                    Movie(movieRepresentation: representation)
+                    Movie(movieRepresentation: representation, context: context)
                 }
             } catch {
                 print("Error fetching entries for UUIDs: \(error)")
