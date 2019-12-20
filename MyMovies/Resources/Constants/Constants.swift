@@ -11,3 +11,7 @@ import Foundation
 struct Networking {
     static let baseURL = "https://mymovies-f1ecb.firebaseio.com/"
 }
+
+struct Cells {
+    static let movieCell = "MovieCell"
+}
