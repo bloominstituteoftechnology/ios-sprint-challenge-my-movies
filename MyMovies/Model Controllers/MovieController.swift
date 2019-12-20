@@ -106,7 +106,7 @@ class MovieController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
-        URLSession.shared.dataTask(with: request) { _, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             print(response!)
             DispatchQueue.main.async {
                 completion(error)
@@ -130,17 +130,95 @@ class MovieController {
                 let existingMovies = try context.fetch(fetchRequest)
                 for movie in existingMovies {
                     guard let id = movie.identifier, let representation = repByID[id] else { continue }
+                    self.update(movie: movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
                     
-                    
+                }
+                for representation in moviesToCreate.values {
+                    Movie(movieRep: representation)
                 }
             } catch {
                 print("Error fetching movies: \(error)")
             }
         }
+        try CoreDataStack.shared.save(context: context)
     }
     
     private func update(movie: Movie, with representation: MovieRepresentation) {
-        movie.title = 
+        movie.title = representation.title
+        movie.hasWatched = representation.hasWatched ?? false
+    }
+    
+    func hasWatchedMovie(for movie: Movie) {
+        movie.hasWatched.toggle()
+        put(movie: movie)
+        
+        do {
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+        } catch {
+            print("error saving \(error)")
+        }
+    }
+    
+    func createSavedMovie(title: String) {
+        let movie = Movie(title: title, hasWatched: false)
+        put(movie: movie)
+        do {
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+        } catch {
+            print("error saving movie \(error)")
+        }
+    }
+    
+    func delete(for movie: Movie) {
+        deleteMovieFromServer(movie: movie)
+        let context = CoreDataStack.shared.mainContext
+        do {
+            context.delete(movie)
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            context.reset()
+            print("Error deleting movie \(error)")
+        }
+    }
+    
+    
+    func fetchFromServer(completion: @escaping CompletionHandler = {_ in}) {
+        let requestURL = fireBaseURL.appendingPathComponent("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                print("Error Fetching movie: \(error)")
+                DispatchQueue.main.async {
+                completion(error)
+                }
+                return
+            }
+            guard let data = data else {
+                print("no data")
+                DispatchQueue.main.async {
+                completion(NSError())
+                }
+                return
+            }
+            
+            do {
+                let movieRepresentations = Array(try JSONDecoder()
+                    .decode([String: MovieRepresentation].self,
+                            from: data).values)
+                try self.updateMovies(with: movieRepresentations)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            } catch {
+                print("Errod decoding movie \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
     }
     
     // MARK: - Properties
