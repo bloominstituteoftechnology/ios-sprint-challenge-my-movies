@@ -8,14 +8,24 @@
 
 import Foundation
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
 class MovieController {
+    
+    typealias CompletionHandler = (Error?) -> ()
     
     // MARK: - Properties
     var searchedMovies: [MovieRepresentation] = []
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
-    func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
+    // MARK: - Search Functionality (TheMovieDB API)
+    func searchForMovie(with searchTerm: String, completion: @escaping CompletionHandler) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
         
@@ -50,6 +60,44 @@ class MovieController {
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
+            }
+        }.resume()
+    }
+    
+    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let identifier = movie.identifier ?? UUID()
+        guard let requestURL = Networking.baseURL?.appendingPathComponent(identifier.uuidString).appendingPathExtension("json") else { return }
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        let encoder = JSONEncoder()
+        do {
+            guard var representation = movie.movieRepresentation else {
+                completion(NSError())
+                return
+            }
+            
+            representation.identifier = identifier
+            movie.identifier = identifier
+            try CoreDataStack.shared.save()
+            request.httpBody = try encoder.encode(representation)
+        } catch let encodeError {
+            print("Error encoding movie: \(encodeError.localizedDescription)")
+            completion(encodeError)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print("Error PUTting movie to server: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(nil)
             }
         }.resume()
     }

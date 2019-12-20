@@ -14,20 +14,27 @@ class MovieSearchCell: UITableViewCell {
     // MARK: - Outlets
     @IBOutlet weak var movieTitleLabel: UILabel!
     
-    var movie: MovieRepresentation? {
+    weak var delegate: MovieSearchCellDelegate?
+    var movieRep: MovieRepresentation? {
         didSet {
             updateViews()
         }
     }
     
     private func updateViews() {
-        guard let movie = movie else { return }
-        movieTitleLabel.text = movie.title
+        guard let movieRep = movieRep else { return }
+        movieTitleLabel.text = movieRep.title
     }
     
     // --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     // MARK: - Actions
     @IBAction func addMovieTapped(_ sender: UIButton) {
-        /// Add Movie to Firebase
+        guard let movieRep = movieRep, let movie = Movie(movieRepresentation: movieRep) else { return }
+        do {
+            try CoreDataStack.shared.save()
+        } catch let dataError {
+            print("Error saving managed object context: \(dataError.localizedDescription)")
+        }
+        delegate?.didAdd(movie)
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 struct Networking {
-    static let baseURL = "https://mymovies-f1ecb.firebaseio.com/"
+    static let baseURL = URL(string: "https://mymovies-f1ecb.firebaseio.com/")
 }
 
 struct Cells {
