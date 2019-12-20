@@ -89,8 +89,25 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            MovieController.sharedInstance.delete(for:fetchedResultsController.object(at: indexPath))
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let movie = fetchedResultsController.object(at: indexPath)
+            
+            MovieController.sharedInstance.deleteMovieFromServer(movie) { error in
+                if let error = error {
+                    print("Error deleting movie from server: \(error)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(movie)
+                    do {
+                        try moc.save()
+                        tableView.reloadData()
+                    } catch {
+                        moc.reset()
+                        print("Error saving object \(error)")
+                    }
+                }
+            }
         }    
     }
 }
