@@ -21,6 +21,8 @@ class MovieSearchCell: UITableViewCell {
         }
     }
     
+    // --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    // MARK: - Cell Configuration
     private func updateViews() {
         guard let movieRep = movieRep else { return }
         movieTitleLabel.text = movieRep.title

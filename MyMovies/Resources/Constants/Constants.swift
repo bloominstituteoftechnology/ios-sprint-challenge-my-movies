@@ -14,4 +14,5 @@ struct Networking {
 
 struct Cells {
     static let movieCell = "MovieCell"
+    static let myMovieCell = "MyMovieCell"
 }

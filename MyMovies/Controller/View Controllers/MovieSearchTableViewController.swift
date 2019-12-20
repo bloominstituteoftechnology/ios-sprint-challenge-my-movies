@@ -35,6 +35,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             guard error == nil else { return }
             
             DispatchQueue.main.async {
+                searchBar.text = ""
                 self.tableView.reloadData()
             }
         }
