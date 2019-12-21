@@ -17,7 +17,13 @@ enum HTTPMethod: String {
 
 class MovieController {
     
+    static let sharedMovie = MovieController()
+    
     typealias CompletionHandler = (Error?) -> Void
+    
+    init() {
+        fetchFromServer()
+    }
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -63,7 +69,7 @@ class MovieController {
     }
     
     
-    private func put(movie: Movie, completion: @escaping CompletionHandler = {_ in }) {
+     func put(movie: Movie, completion: @escaping CompletionHandler = {_ in }) {
         let requestURL = fireBaseURL.appendingPathComponent(movie.identifier?.uuidString ?? UUID().uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
@@ -90,10 +96,14 @@ class MovieController {
     }
     
     
-    func createMovie(with title: String, identifier: UUID, hasWatched: Bool) {
-        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
+   @discardableResult func createMovie(title: String, identifier: UUID, hasWatched: Bool) -> Movie {
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context:context)
         put(movie: movie)
-        try? CoreDataStack.shared.save()
+        CoreDataStack.shared.save(context: context)
+        
+        return movie
+        
     }
     
     func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = {_ in}) {
@@ -141,7 +151,7 @@ class MovieController {
                 print("Error fetching movies: \(error)")
             }
         }
-        try CoreDataStack.shared.save(context: context)
+         CoreDataStack.shared.save(context: context)
     }
     
     private func update(movie: Movie, with representation: MovieRepresentation) {
@@ -152,34 +162,17 @@ class MovieController {
     func hasWatchedMovie(for movie: Movie) {
         movie.hasWatched.toggle()
         put(movie: movie)
-        
-        do {
-            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
-        } catch {
-            print("error saving \(error)")
-        }
+        CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+      
     }
-    
-    func createSavedMovie(title: String) {
-        let movie = Movie(title: title, hasWatched: false)
-        put(movie: movie)
-        do {
-            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
-        } catch {
-            print("error saving movie \(error)")
-        }
-    }
+
     
     func delete(for movie: Movie) {
         deleteMovieFromServer(movie: movie)
         let context = CoreDataStack.shared.mainContext
-        do {
             context.delete(movie)
-            try CoreDataStack.shared.save(context: context)
-        } catch {
-            context.reset()
-            print("Error deleting movie \(error)")
-        }
+            CoreDataStack.shared.save(context: context)
+
     }
     
     
