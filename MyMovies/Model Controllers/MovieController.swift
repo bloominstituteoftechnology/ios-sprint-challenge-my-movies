@@ -65,7 +65,7 @@ class MovieController {
     
     func update(with representations: [MovieRepresentation]) {
         let entriesWithID = representations.filter({ $0.identifier != nil })
-        let identifiersToFetch = entriesWithID.compactMap({ UUID(uuidString: $0.identifier!) })
+        let identifiersToFetch = entriesWithID.compactMap{(UUID(uuidString: $0.identifier!))}
         
         let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
         
@@ -76,7 +76,7 @@ class MovieController {
         
         let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        let representation = representationsByID[identifier] else { continue }
+        let representation = representationsByID[identifier] else do { continue }
         self.update(entry: entry, with: represenation)
         
         entriesToCreate.removeValue(forKey: identifier)

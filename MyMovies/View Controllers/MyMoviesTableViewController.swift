@@ -10,23 +10,6 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
-    
-    private lazy var fetchedResultsController: NSFetchedResultsController<Movies> = {
-        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "title", ascending: true),
-            NSSortDescriptor(key: "identifier", ascending: true)
-        ]
-        let moc = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: moc,
-            sectionNameKeyPath: "title",
-            cacheName: nil)
-        frc.delegate = self
-        try? frc.performFetch()
-        return frc
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,21 +25,43 @@ class MyMoviesTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - NSFetch
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<Movies> = {
+           let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
+           fetchRequest.sortDescriptors = [
+               NSSortDescriptor(key: "title", ascending: true),
+               NSSortDescriptor(key: "identifier", ascending: true)
+           ]
+           let moc = CoreDataStack.shared.mainContext
+           let frc = NSFetchedResultsController(
+               fetchRequest: fetchRequest,
+               managedObjectContext: moc,
+               sectionNameKeyPath: "title",
+               cacheName: nil)
+           frc.delegate = self
+           try? frc.performFetch()
+           return frc
+       }()
+    
+    
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
             let movies = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
@@ -74,15 +79,15 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
 
-        // Configure the cell...
-
+        let object = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = object.title
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -124,5 +129,27 @@ class MyMoviesTableViewController: UITableViewController {
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let newIndexPath = newIndexPath else { return }
+            guard let oldIndexPath = oldIndexPath else { return }
+            tableView.deleteRows(at: oldIndexPath, with: .automatic)
+            tableView.insertRows(at: newIndexPath, with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: indexPath, with: .automatic)
+        @unknown default:
+            fatalError()
+        }
+    }
+
     
 }
