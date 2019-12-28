@@ -48,8 +48,18 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
        
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
+        
         return cell
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "My Movies" {
+//            let detailVC = segue.destination as! MyMoviesTableViewController
+//            if let indexPath = tableView.indexPathForSelectedRow {
+//                detailVC.
+//            }
+//        }
+//    }
     
 
     

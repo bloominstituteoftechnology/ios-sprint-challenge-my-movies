@@ -11,9 +11,11 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
 
+    let movieController = MovieController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
          self.clearsSelectionOnViewWillAppear = false
 
@@ -71,7 +73,7 @@ class MyMoviesTableViewController: UITableViewController {
                 tableView.reloadData()
             } catch {
                 moc.reset()
-                print("Error svaing: \(error)")
+                print("Error saving: \(error)")
             }
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
@@ -130,7 +132,7 @@ class MyMoviesTableViewController: UITableViewController {
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anyObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             guard let newIndexPath = newIndexPath else { return }
@@ -139,13 +141,12 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             guard let indexPath = indexPath else { return }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         case .move:
-            guard let newIndexPath = newIndexPath else { return }
-            guard let oldIndexPath = oldIndexPath else { return }
-            tableView.deleteRows(at: oldIndexPath, with: .automatic)
-            tableView.insertRows(at: newIndexPath, with: .automatic)
+            guard let oldIndexPath = indexPath, let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .update:
             guard let indexPath = indexPath else { return }
-            tableView.reloadRows(at: indexPath, with: .automatic)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         @unknown default:
             fatalError()
         }

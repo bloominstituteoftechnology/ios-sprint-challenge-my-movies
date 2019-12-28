@@ -17,7 +17,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        movieController.saveMovie()
+        movieController.save()
     }
     
     
