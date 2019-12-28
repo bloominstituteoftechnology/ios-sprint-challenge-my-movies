@@ -10,6 +10,7 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    let coreDataStack = CoreDataStack()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             }
         }
     }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+                DispatchQueue.main.async {
+            self.movieController.clearSearchForMovies()
+            self.tableView.reloadData()
+        }
+    }
+
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -43,10 +51,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else { return UITableViewCell() }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
-       
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        let movie = movieController.searchedMovies[indexPath.row]
+        cell.movie = movie
+//        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
