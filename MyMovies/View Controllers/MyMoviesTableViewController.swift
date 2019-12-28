@@ -52,12 +52,12 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return fetchedResultsController.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return fetchedResultsController.sections?.count ?? 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     // Override to support editing the table view.
@@ -81,11 +81,14 @@ class MyMoviesTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
-
-        let movies = fetchedResultsController.object(at: indexPath)
-        movieController.delete(movie: movies)
-        tableView.deleteRows(at: [indexPath], with: .fade)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
+               
+        let movie = fetchedResultsController.object(at: indexPath)
+               cell.movie = movie
+        
+//        cell.textLabel?.text = movies.title
+        
+        
         
         return cell
     }

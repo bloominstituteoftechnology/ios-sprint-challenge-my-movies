@@ -8,17 +8,43 @@
 
 import UIKit
 
+enum WatchStatus: String{
+    case watched = "Watched"
+    case notWatched = "Not Watched"
+}
 class MyMoviesTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var hasWatchedButton: UIButton!
+    
+    let movieController = MovieController()
+    
+    var movie: Movies? {
+        didSet {
+            updateViews()
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func updateViews() {
+        guard let movie = movie else { return }
+        titleLabel.text = movie.title
+        
     }
+    
+    
+    @IBAction func hasWatchedButtonPressed(_ sender: Any) {
+        guard let title = hasWatchedButton.titleLabel?.text else { return }
+        if title == "Watched" {
+            self.hasWatchedButton.setTitle(WatchStatus.notWatched.rawValue, for: .normal)
+        } else if title == "Not Watched" {
+            DispatchQueue.main.async {
+                self.hasWatchedButton.setTitle(WatchStatus.watched.rawValue, for: .highlighted)
+            }
+           
+        }
+    }
+    
 
 }

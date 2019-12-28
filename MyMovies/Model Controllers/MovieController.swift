@@ -94,7 +94,7 @@ class MovieController {
     func create(title: String) {
         let moc = CoreDataStack.shared.mainContext
         let newMovie = Movies(context: moc,
-                              hasWatched: true,
+                              hasWatched: false,
                               identifier: UUID().uuidString,
                               title: title)
         try? moc.save()
