@@ -27,7 +27,7 @@ class MovieSearchTableViewCell: UITableViewCell {
         
     }
     
-    @IBAction func addMovieButtonTapped(_ sender: Any) {
+    @IBAction func addMovieButtonTapped(_ sender: UIButton) {
         guard let title = titleLabel.text else { return }
         movieController.create(title: title)
         movieController.fetchMovies()

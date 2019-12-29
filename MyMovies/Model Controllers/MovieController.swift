@@ -63,30 +63,47 @@ class MovieController {
         let moc = CoreDataStack.shared.mainContext
         do {
             let movies = try? moc.fetch(fetchRequest)
-            print(movies)
         } catch {
             print("Error Fetching: \(error)")
         }
     }
     
-//    func update(with representations: [MovieRepresentation]) {
-//        let entriesWithID = representations.filter({ $0.identifier != nil })
-//        let identifiersToFetch = entriesWithID.compactMap({ $0.identifier! })
-//        
-//        let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
-//        
-//        var entriesToCreate = representationByID
-//        
-//        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-//        
-//        let context = CoreDataStack.shared.container.newBackgroundContext()
-//        
-//        let representation = representationsByID[identifier] else { continue }
-//        self.update(entry: entry, with: represenation)
-//        
-//        entriesToCreate.removeValue(forKey: identifier)
-//    }
+    func updateMovies(with representations: [MovieRepresentation]) throws {
+        let entriesWithID = representations.filter({ $0.identifier != nil })
+        let identifiersToFetch = entriesWithID.compactMap({ $0.identifier! })
+        
+        let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+        var entriesToCreate = representationByID
+        
+        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.perform {
+            do {
+            let existingEntries = try context.fetch(fetchRequest)
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationByID[id] else {
+                        context.delete(entry)
+                        continue
+                }
+                entry.title = representation.title
+                entry.hasWatched = representation.hasWatched ?? false
+                entriesToCreate.removeValue(forKey: id)
+            }
+            for representation in entriesToCreate.values {
+                Movies(movieRepresentation: representation, context: context)
+            }
+            } catch {
+                print("Error fetching tasks for UUIDs: \(error)")
+            }
+        }
+        try CoreDataStack.shared.save(context: context)
+    }
+        
 
     // MARK: - CRUD Data Model Methods
     
@@ -94,7 +111,7 @@ class MovieController {
     func create(title: String) {
         let moc = CoreDataStack.shared.mainContext
         let newMovie = Movies(context: moc,
-                              hasWatched: false,
+                              hasWatched: true,
                               identifier: UUID().uuidString,
                               title: title)
         try? moc.save()
@@ -108,6 +125,10 @@ class MovieController {
         } catch {
             print("There was a problem saving: \(error)")
         }
+    }
+    
+    func update() {
+        
     }
     
     func delete(movie: Movies) {

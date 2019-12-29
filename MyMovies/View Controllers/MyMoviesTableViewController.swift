@@ -9,21 +9,25 @@
 import UIKit
 import CoreData
 
+
+
+
 class MyMoviesTableViewController: UITableViewController {
     
     let movieController = MovieController()
+    
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Movies> = {
         let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "title", ascending: true),
-            NSSortDescriptor(key: "identifier", ascending: true)
+            NSSortDescriptor(key: "hasWatched", ascending: true)
         ]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: moc,
-            sectionNameKeyPath: "title",
+            sectionNameKeyPath: "hasWatched",
             cacheName: nil)
         frc.delegate = self
         try? frc.performFetch()
@@ -41,7 +45,7 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
+//        myMoviesTableViewCell.updateWatchStatus()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -52,11 +56,13 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return fetchedResultsController.sections?.count ?? 0
+        print("There are \(fetchedResultsController.sections?.count) sections")
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print("There are \(fetchedResultsController.sections?[section].numberOfObjects) Rows")
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
@@ -64,62 +70,76 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movies = fetchedResultsController.object(at: indexPath)
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(movies)
-            do {
-                try moc.save()
-                tableView.reloadData()
-            } catch {
-                moc.reset()
-                print("Error svaing: \(error)")
+            DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(movies)
+                    do {
+                        try moc.save()
+                        tableView.reloadData()
+                    } catch {
+                        moc.reset()
+                        print("Error saving: \(error)")
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                }
             }
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
-               
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
         let movie = fetchedResultsController.object(at: indexPath)
-               cell.movie = movie
-        
-//        cell.textLabel?.text = movies.title
-        
-        
+        let label = UILabel()
+        let button = UIButton()
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(stackView)
+        stackView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 5).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -5).isActive = true
+        stackView.heightAnchor.constraint(equalTo: cell.contentView.heightAnchor).isActive = true
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.spacing = 5
+        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(button)
+    
+        label.text = movie.title
+        label.autoresizesSubviews = true
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor.black, for: .normal)
+        if movie.hasWatched == true {
+            button.setTitle(WatchStatus.watched.rawValue, for: .normal)
+        } else if movie.hasWatched == false {
+            button.setTitle(WatchStatus.notWatched.rawValue, for: .normal)
+        }
+        button.addTarget(self, action: #selector(updateWatchStatus(button:movie:)), for: .touchUpInside)
+        cell.contentView.addSubview(button)
+       
         
         return cell
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        if sectionInfo.name == "0" {
+            return "Not Watched"
+        } else {
+            return "Watched"
+        }
     }
-    */
-
     
 
-    
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
+    @objc func updateWatchStatus(button: UIButton, movie: Movies) {
+          DispatchQueue.main.async {
+            if button.titleLabel?.text == "Not Watched" {
+                button.setTitle(WatchStatus.watched.rawValue, for: .normal)
+//                movieController.update(with: movie)
+            } else if button.titleLabel?.text == "Watched" {
+                button.setTitle(WatchStatus.notWatched.rawValue, for: .normal)
+            }
+        }
+      }
 
     /*
     // MARK: - Navigation
@@ -155,8 +175,10 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             guard let indexPath = indexPath else { return }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         case .move:
-            guard let indexPath = indexPath, let newIndexPath = newIndexPath else { return }
-            tableView.moveRow(at: indexPath, to: newIndexPath)
+            guard let oldIndexPath = indexPath else { return }
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .update:
             guard let indexPath = indexPath else { return }
             tableView.reloadRows(at: [indexPath], with: .automatic)

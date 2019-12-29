@@ -6,45 +6,61 @@
 //  Copyright © 2019 Lambda School. All rights reserved.
 //
 
-import UIKit
-
-enum WatchStatus: String{
-    case watched = "Watched"
-    case notWatched = "Not Watched"
-}
-class MyMoviesTableViewCell: UITableViewCell {
+//import UIKit
+//
+//enum WatchStatus: String {
+//    case watched = "Watched"
+//    case notWatched = "Not Watched"
+//
+//    static var toggleStatus: [WatchStatus] {
+//        return [.watched, .notWatched]
+//    }
+//}
+//class MyMoviesTableViewCell: UITableViewCell {
+//
+//
+//
+//    @IBOutlet weak var titleLabel: UILabel!
+//    @IBOutlet weak var hasWatchedButton: UIButton!
     
-    
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var hasWatchedButton: UIButton!
-    
-    let movieController = MovieController()
-    
-    var movie: Movies? {
-        didSet {
-            updateViews()
-        }
-    }
-    
-    func updateViews() {
-        guard let movie = movie else { return }
-        titleLabel.text = movie.title
-        
-    }
-    
-    
-    @IBAction func hasWatchedButtonPressed(_ sender: Any) {
-        guard let title = hasWatchedButton.titleLabel?.text else { return }
-        if title == "Watched" {
-            self.hasWatchedButton.setTitle(WatchStatus.notWatched.rawValue, for: .normal)
-        } else if title == "Not Watched" {
-            DispatchQueue.main.async {
-                self.hasWatchedButton.setTitle(WatchStatus.watched.rawValue, for: .highlighted)
-            }
-           
-        }
-    }
-    
-
-}
+//    let movieController = MovieController()
+//    
+//    var movie: Movies? {
+//        didSet {
+//            updateViews()
+//        }
+//    }
+//    
+//    func updateViews() {
+//        guard let movie = movie else { return }
+//        DispatchQueue.main.async {
+//            self.titleLabel.text = movie.title
+////            self.hasWatchedButton.addTarget(self, action: #selector(self.hasWatchedButtonPressed(_:)), for: .touchUpInside)
+//            
+//        }
+//    }
+//    
+//    @IBAction func hasWatchedButtonPressed(_ sender: UIButton) {
+//        updateWatchStatus()
+//    }
+//    
+//    func updateWatchStatus() {
+//        DispatchQueue.main.async {
+//                    guard (self.hasWatchedButton.titleLabel?.text) != nil else { return }
+//                    if self.movie?.hasWatched == true {
+//                        self.movie?.hasWatched.toggle()
+//                        self.hasWatchedButton.setTitle("Watched", for: .normal)
+//                        print(self.hasWatchedButton.titleLabel?.text)
+//                        print(self.movie?.hasWatched.hashValue)
+//        //                movieController.update(with: self.movie)
+//                        
+//                    } else if self.movie?.hasWatched == false {
+//                        self.movie?.hasWatched.toggle()
+//                        self.hasWatchedButton.setTitle("Not Watched", for: .normal)
+//                        print(self.hasWatchedButton.titleLabel?.text)
+//                        print(self.movie?.hasWatched.hashValue)
+//                    }
+//                }
+//    }
+//    
+//}
