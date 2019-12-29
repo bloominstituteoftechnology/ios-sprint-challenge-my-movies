@@ -15,6 +15,7 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController {
     
     let movieController = MovieController()
+    let apiController = APIController()
     
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Movies> = {
@@ -131,26 +132,16 @@ class MyMoviesTableViewController: UITableViewController {
     
 
     @objc func updateWatchStatus(button: UIButton, movie: Movies) {
+        let NewMovie = MovieRepresentation(title: movie.title, identifier: movie.identifier, hasWatched: movie.hasWatched)
           DispatchQueue.main.async {
             if button.titleLabel?.text == "Not Watched" {
                 button.setTitle(WatchStatus.watched.rawValue, for: .normal)
-//                movieController.update(with: movie)
+                movieController.update(with: movie)
             } else if button.titleLabel?.text == "Watched" {
                 button.setTitle(WatchStatus.notWatched.rawValue, for: .normal)
             }
         }
-      }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
     }
-    */
-
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {

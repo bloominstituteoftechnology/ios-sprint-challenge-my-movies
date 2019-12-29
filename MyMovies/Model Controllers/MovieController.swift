@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 class MovieController {
+    let apiController = APIController()
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -68,41 +69,7 @@ class MovieController {
         }
     }
     
-    func updateMovies(with representations: [MovieRepresentation]) throws {
-        let entriesWithID = representations.filter({ $0.identifier != nil })
-        let identifiersToFetch = entriesWithID.compactMap({ $0.identifier! })
-        
-        let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
-        
-        var entriesToCreate = representationByID
-        
-        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        
-        let context = CoreDataStack.shared.container.newBackgroundContext()
-        
-        context.perform {
-            do {
-            let existingEntries = try context.fetch(fetchRequest)
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationByID[id] else {
-                        context.delete(entry)
-                        continue
-                }
-                entry.title = representation.title
-                entry.hasWatched = representation.hasWatched ?? false
-                entriesToCreate.removeValue(forKey: id)
-            }
-            for representation in entriesToCreate.values {
-                Movies(movieRepresentation: representation, context: context)
-            }
-            } catch {
-                print("Error fetching tasks for UUIDs: \(error)")
-            }
-        }
-        try CoreDataStack.shared.save(context: context)
-    }
+  
         
 
     // MARK: - CRUD Data Model Methods
@@ -111,7 +78,7 @@ class MovieController {
     func create(title: String) {
         let moc = CoreDataStack.shared.mainContext
         let newMovie = Movies(context: moc,
-                              hasWatched: true,
+                              hasWatched: false,
                               identifier: UUID().uuidString,
                               title: title)
         try? moc.save()
@@ -127,7 +94,8 @@ class MovieController {
         }
     }
     
-    func update() {
+    func update(movie: Movies) {
+        
         
     }
     
