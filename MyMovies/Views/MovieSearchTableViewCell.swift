@@ -14,7 +14,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var addMovieButton: UIButton!
     
     let movieController = MovieController()
-    
+    let apiController = APIController()
     var movie: MovieRepresentation? {
         didSet {
             updateViews()
@@ -28,9 +28,8 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
     
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
-        guard let title = titleLabel.text else { return }
-        movieController.create(title: title)
-        movieController.fetchMovies()
+        guard let movie = movie, let title = titleLabel.text else { return }
+        movieController.create(movie: movie)
         
     }
     

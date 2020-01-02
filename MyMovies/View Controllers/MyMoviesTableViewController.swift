@@ -9,9 +9,6 @@
 import UIKit
 import CoreData
 
-
-
-
 class MyMoviesTableViewController: UITableViewController {
     
     let movieController = MovieController()
@@ -37,7 +34,7 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.editButtonItem
         // Uncomment the following line to preserve selection between presentations
          self.clearsSelectionOnViewWillAppear = false
 
@@ -57,13 +54,11 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        print("There are \(fetchedResultsController.sections?.count) sections")
         return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print("There are \(fetchedResultsController.sections?[section].numberOfObjects) Rows")
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
@@ -72,8 +67,8 @@ class MyMoviesTableViewController: UITableViewController {
         if editingStyle == .delete {
             let movies = fetchedResultsController.object(at: indexPath)
             DispatchQueue.main.async {
-                    let moc = CoreDataStack.shared.mainContext
-                    moc.delete(movies)
+                self.movieController.delete(movie: movies)
+                let moc = CoreDataStack.shared.mainContext
                     do {
                         try moc.save()
                         tableView.reloadData()
@@ -94,28 +89,28 @@ class MyMoviesTableViewController: UITableViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         cell.contentView.addSubview(stackView)
-        stackView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 5).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -5).isActive = true
-        stackView.heightAnchor.constraint(equalTo: cell.contentView.heightAnchor).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -10).isActive = true
+        stackView.topAnchor.constraint(equalTo: cell.contentView.topAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor).isActive = true
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.alignment = .center
         stackView.spacing = 5
         stackView.addArrangedSubview(label)
         stackView.addArrangedSubview(button)
     
         label.text = movie.title
         label.autoresizesSubviews = true
-
-        button.translatesAutoresizingMaskIntoConstraints = false
+        
         button.setTitleColor(UIColor.black, for: .normal)
         if movie.hasWatched == true {
-            button.setTitle(WatchStatus.watched.rawValue, for: .normal)
+            button.setTitle("Watched", for: .normal)
         } else if movie.hasWatched == false {
-            button.setTitle(WatchStatus.notWatched.rawValue, for: .normal)
+            button.setTitle("Not Watched", for: .normal)
         }
-        button.addTarget(self, action: #selector(updateWatchStatus(button:movie:)), for: .touchUpInside)
-        cell.contentView.addSubview(button)
+        button.addTarget(self, action: #selector(updateWatchStatus(button:)), for: .touchUpInside)
+
        
         
         return cell
@@ -130,15 +125,13 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
     
-
-    @objc func updateWatchStatus(button: UIButton, movie: Movies) {
-        let NewMovie = MovieRepresentation(title: movie.title, identifier: movie.identifier, hasWatched: movie.hasWatched)
+    @objc func updateWatchStatus(button: UIButton) {
           DispatchQueue.main.async {
             if button.titleLabel?.text == "Not Watched" {
-                button.setTitle(WatchStatus.watched.rawValue, for: .normal)
-                movieController.update(with: movie)
+                button.setTitle("Watched", for: .normal)
+                self.movieController.save()
             } else if button.titleLabel?.text == "Watched" {
-                button.setTitle(WatchStatus.notWatched.rawValue, for: .normal)
+                button.setTitle("Not Watched", for: .normal)
             }
         }
     }

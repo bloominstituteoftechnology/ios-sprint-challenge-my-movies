@@ -18,7 +18,9 @@ enum HTTPMethod: String {
 
 class APIController {
     
-    let baseURL = URL(string: "https://movie-d88b6.firebaseio.com/mymovies/V53PSP7l452vDX6kyzYg")!
+    typealias CompletionHandler = (Error?) -> Void
+    
+    let baseURL = URL(string: "https://movie-d88b6.firebaseio.com/")!
     
     // using init as "viewDidLoad"
     init() {
@@ -101,6 +103,8 @@ class APIController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
+        
+        
         guard let movieRepresentation = movie.movieRepresentation else {
             NSLog("Movie Representation is nil")
             completion()
@@ -115,5 +119,34 @@ class APIController {
             return
         }
         
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            guard error == nil else {
+                print("Error Putting task to server: \(error!)")
+                completion()
+                return
+            }
+            completion()
+        }.resume()
     }
+    
+    //Delete
+    func deleteTaskFromServer(_ movie: Movies, completion: @escaping CompletionHandler = { _ in }) {
+         guard let uuid =  movie.identifier else {
+             completion(NSError())
+             return
+         }
+         
+         let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+         var request = URLRequest(url: requestURL)
+         request.httpMethod = "DELETE"
+         
+         URLSession.shared.dataTask(with: request) { (_, _, error) in
+             guard error == nil else {
+                 print("Error deleting task: \(error!)")
+                 completion(error)
+                 return
+             }
+             completion(nil)
+         }.resume()
+     }
 }

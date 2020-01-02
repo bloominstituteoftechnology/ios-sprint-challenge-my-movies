@@ -75,13 +75,15 @@ class MovieController {
     // MARK: - CRUD Data Model Methods
     
     
-    func create(title: String) {
+    func create(movie: MovieRepresentation) {
         let moc = CoreDataStack.shared.mainContext
         let newMovie = Movies(context: moc,
-                              hasWatched: false,
+                              hasWatched: movie.hasWatched,
                               identifier: UUID().uuidString,
-                              title: title)
+                              title: movie.title)
         try? moc.save()
+        
+        apiController.putMovies(movie: newMovie)
     }
     
     // Saves content to Core Data
@@ -94,13 +96,20 @@ class MovieController {
         }
     }
     
-    func update(movie: Movies) {
-        
+    func update(movieStatus: String) {
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            try moc.save()
+        } catch {
+            print("there was a problem Updating Core Data: \(error)")
+        }
         
     }
     
     func delete(movie: Movies) {
-        
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        apiController.deleteTaskFromServer(movie)
     }
     
     // MARK: - Properties
