@@ -141,11 +141,7 @@ class APIController {
          request.httpMethod = "DELETE"
          
          URLSession.shared.dataTask(with: request) { (_, _, error) in
-             guard error == nil else {
-                 print("Error deleting task: \(error!)")
-                 completion(error)
-                 return
-             }
+          +++++++   
              completion(nil)
          }.resume()
      }
