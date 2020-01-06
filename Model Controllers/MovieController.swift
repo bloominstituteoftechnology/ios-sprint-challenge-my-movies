@@ -2,14 +2,17 @@
 //  MovieController.swift
 //  MyMovies
 //
-//  Created by Spencer Curtis on 8/17/18.
-//  Copyright © 2018 Lambda School. All rights reserved.
+//  Created by Angelique Abacajan on 12/20/19.
+//  Copyright © 2019 Lambda School. All rights reserved.
 //
 
 import Foundation
 
 class MovieController {
     
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -26,7 +29,7 @@ class MovieController {
             completion(NSError())
             return
         }
-        
+        print(requestURL)
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             
             if let error = error {
@@ -43,7 +46,7 @@ class MovieController {
             
             do {
                 let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
-                self.searchedMovies = movieRepresentations
+                self.searchedMovies = movieRepresentations.sorted { $0.title < $1.title }
                 completion(nil)
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
@@ -52,7 +55,5 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
     
-    var searchedMovies: [MovieRepresentation] = []
 }
