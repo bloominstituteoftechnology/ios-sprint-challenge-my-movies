@@ -60,10 +60,11 @@ class MyMoviesController {
         }.resume()
     }
     
-    func sendMyMovieToServer(movie: MovieRepresentation, completion: @escaping () -> Void = { }) {
-        
-        let identifier = movie.identifier ?? UUID()
-        movie.identifier = identifier
+   func sendMyMovieToServer(movie: MovieRepresentation, completion: @escaping () -> Void = { }) {
+    var temp = movie
+    
+    var identifier = temp.identifier ?? UUID()
+    temp.identifier = identifier
         
         let requestURL = baseURL
             .appendingPathComponent(identifier.uuidString)
@@ -99,7 +100,7 @@ class MyMoviesController {
         }.resume()
     }
     
-    func deleteMovie(_ movie: Movie, completion: @escaping () -> Void = { }) {
+    func deleteMovie(_ movie: Movies, completion: @escaping () -> Void = { }) {
         
         let identifier = movie.identifier ?? UUID()
         movie.identifier = identifier
@@ -162,7 +163,7 @@ class MyMoviesController {
         
         var moviesToCreate = representationsByID
         
-        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         // Only fetch tasks with these identifiers
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch) // or potentially "identifier NOT IN %@"
         
@@ -189,7 +190,7 @@ class MyMoviesController {
                 }
                 
                 for representation in moviesToCreate.values {
-                    Movie(movieRepresentation: representation, context: context)
+                    Movies(movieRepresentation: representation, context: context)
                 }
                 try CoreDataStack.shared.save(context: context)
             } catch {

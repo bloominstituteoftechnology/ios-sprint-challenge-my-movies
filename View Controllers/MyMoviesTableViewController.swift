@@ -21,9 +21,9 @@ class MyMoviesTableViewController: UITableViewController {
         static let hasWatched = "hasWatched"
     }
     let myMoviesController = MyMoviesController()
-    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+    lazy var fetchedResultsController: NSFetchedResultsController<Movies> = {
         
-        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
         
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: PropertyKeys.hasWatched, ascending: true), // HERE

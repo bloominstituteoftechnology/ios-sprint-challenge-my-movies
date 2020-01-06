@@ -26,14 +26,12 @@ class MovieTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func saveTapped(_ sender: Any) {
-        guard let movie = movie else { return }
-        
-        let newMovie = Movie(title: movie.title)
-        myMoviesController?.sendMyMovieToServer(movie: newMovie)
-    }
-    
-    
-    
+           guard let movie = movie else { return }
+           
+           let newMovie = Movies(title: movie.title)
+           myMoviesController?.sendMyMovieToServer(movie: newMovie)
+       }
+       
     // MARK: - Private
     
     private func updateViews() {

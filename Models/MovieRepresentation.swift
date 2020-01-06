@@ -10,11 +10,9 @@ import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
     let title: String
-    
-    let identifier: UUID?
+    var identifier: UUID?
     let hasWatched: Bool?
 }
-
 
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]

@@ -19,7 +19,7 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     var myMoviesController: MyMoviesController?
-    var movie: Movie? {
+    var movie: Movies? {
         didSet {
             updateViews()
         }

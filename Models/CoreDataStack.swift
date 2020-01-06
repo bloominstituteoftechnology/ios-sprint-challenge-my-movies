@@ -11,9 +11,11 @@ import CoreData
 
 class CoreDataStack {
     
-    // Access CoreData
+    // Let us access the CoreDataStack from anywhere in the app.
     static let shared = CoreDataStack()
-        
+    
+    // Set up a persistent container
+    
     lazy var container: NSPersistentContainer = {
         
         let container = NSPersistentContainer(name: "MyMovies")
@@ -27,6 +29,7 @@ class CoreDataStack {
         return container
     }()
     
+    // Create easy access to the moc (managed object context)
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }

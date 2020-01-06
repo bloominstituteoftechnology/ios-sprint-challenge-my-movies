@@ -9,8 +9,8 @@
 import Foundation
 import CoreData
 
-extension Movie {
-    
+extension Movies {
+        
     @discardableResult convenience init(title: String,
                                         hasWatched: Bool = false,
                                         identifier: UUID = UUID(),
@@ -33,7 +33,7 @@ extension Movie {
     
     var movieRepresentation: MovieRepresentation? {
         
-        guard let title = Title else { return nil }
+        guard let title = title else { return nil }
         
         return MovieRepresentation(title: title,
                                    identifier: identifier, hasWatched: hasWatched)
