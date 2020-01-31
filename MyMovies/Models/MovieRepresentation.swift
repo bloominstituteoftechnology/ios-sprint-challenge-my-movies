@@ -9,15 +9,16 @@
 import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
-    let title: String
+    // changed for lets to vars
+    var title: String
     
     /*
      identifier and hasWatched are not a part of The Movie DB API, however they will be used both on Firebase and on the application itself.
      In order make the MovieRepresentation struct decode properly when fetching from the API, their types should stay optional.
      */
     
-    let identifier: UUID?
-    let hasWatched: Bool?
+    var identifier: UUID?
+    var hasWatched: Bool?
 }
 
 /*
