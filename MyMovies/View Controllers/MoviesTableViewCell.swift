@@ -7,14 +7,27 @@
 //
 
 import UIKit
+protocol MoviesTableViewCellDelegate {
+    func addMovieToList(with movie: Movie)
+}
 
 class MoviesTableViewCell: UITableViewCell {
     
-    var movie: Movie?
+    @IBOutlet weak var saveMovie: UIButton!
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
 
-    weak var delegate: 
+    var delegate: MoviesTableViewCellDelegate?
+    
+    private func updateViews() {
+        guard let movie = movie else { return }
+        
+    }
 }
-@IBOutlet saveMovie: UIButton!
+
 
 @IBAction func saveMovie(_ sender: UIButton) {
     
