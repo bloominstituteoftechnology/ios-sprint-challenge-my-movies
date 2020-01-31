@@ -47,7 +47,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         print("Accessory button tapped!")
-        print("saved \(tableView.cellForRow(at: indexPath)?.textLabel) to my movies")
+        //print("saved \(tableView.cellForRow(at: indexPath)?.textLabel) to my movies")
+        
+        let tappedMovie = tableView.cellForRow(at: indexPath)
+        print(tappedMovie)
     }
     
     var movieController = MovieController()
