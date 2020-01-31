@@ -25,6 +25,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                print("searched for: \(searchTerm)")
             }
         }
     }
@@ -37,11 +38,21 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.accessoryType = .detailButton
+        cell.detailTextLabel?.text = "" // "Add Movie"
+        // change title of button later?
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        print("Accessory button tapped!")
+        print("saved \(tableView.cellForRow(at: indexPath)?.textLabel) to my movies")
     }
     
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+
 }
+

@@ -7,6 +7,26 @@
 //
 
 import UIKit
+import CoreData
+
+/*
+ This project uses The Movie DB API. The starter project has search functionality working for you already, as that isn't the point of this Sprint Challenge. There is no need to reference the API's documentation whatsoever.
+
+ The requirements for this project are as follows:
+
+     1.A Movie Core Data object. Its attributes should match the properties found in the MovieRepresentation object in the starter project. DONE
+
+     2.Update the MovieSearchTableViewController's prototype cell to have a button that allows the user to save a movie to their list of saved movies. These saved movies should be stored in Core Data. 
+
+     3.Display the list of saved movies in the MyMoviesTableViewController. You must use an NSFetchedResultsController to display the movies. Separate the movies into two sections in the table view by whether they have been watched or not.
+
+     4.This table view's prototype cell should let the user update whether they have seen the movie or not.
+
+     5.Send changes to the user's saved movies to a Firebase Database when creating, saving, and deleting movies.
+
+     6.Synchronize the movies in Firebase with the device's NSPersistentStore. This must be done on a background NSManagedObjectContext.
+
+ */
 
 class MyMoviesTableViewController: UITableViewController {
 
