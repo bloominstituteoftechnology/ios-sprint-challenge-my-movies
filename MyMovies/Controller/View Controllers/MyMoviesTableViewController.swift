@@ -64,8 +64,8 @@ class MyMoviesTableViewController: UITableViewController {
 
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
            if editingStyle == .delete {
-               let entry = fetchedResultsController.object(at: indexPath)
-               //movieController.deleteEntry(entry: entry)
+               let movie = fetchedResultsController.object(at: indexPath)
+               //movieController.deleteMovie(movie: Movie)
            }
        }
 

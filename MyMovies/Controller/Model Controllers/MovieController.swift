@@ -98,6 +98,45 @@ class MovieController {
         }.resume()
     }
     
+    func put(movie: Movie, complete: @escaping CompletionHandler = {_ in }) {
+        let postURL = baseURL.appendingPathComponent(movie.identifier?.uuidString ?? UUID().uuidString).appendingPathExtension("json")
+        guard let request = NetworkService.createRequest(url: postURL, method: .put, headerType: .contentType, headerValue: .json) else {
+            complete(NSError(domain: "PutRequestError", code: 400, userInfo: nil))
+            return
+        }
+        //construct representation of Movie for firebase server
+        guard var rep = movie.movieRepresentation,
+            let id = movie.identifier else {
+            complete(NSError(domain: "MovieRepresentationConversion", code: 1))
+            return
+        }
+        //this is rep elsewhere but rep is a let here
+        movie.identifier = id
+        
+        //encode
+        let encodingStatus = NetworkService.encode(from: rep, request: request)
+        if let error = encodingStatus.error {
+            print("error encoding: \(error)")
+            complete(error)
+            return
+        } else {
+            guard let encodingRequest = encodingStatus.request else {return}
+            URLSession.shared.dataTask(with: encodingRequest) { (data, response, error) in
+                if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                    print("Bad response code")
+                    complete(NSError(domain: "APIStatusNotOK", code: response.statusCode, userInfo: nil))
+                    return
+                }
+                if let error = error {
+                    complete(error)
+                    return
+                }
+                complete(nil)
+            }.resume()
+        }
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
