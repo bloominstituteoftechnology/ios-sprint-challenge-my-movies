@@ -55,4 +55,16 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    
+    //compare
+    
+    
+    //MARK: TESTING
+    #warning("testing only")
+    
+    func saveMovie(movie: Movie) {
+        watchedMovies.append(movie)
+    }
 }
+var watchedMovies: [Movie] = [] //TODO: load this from CoreData

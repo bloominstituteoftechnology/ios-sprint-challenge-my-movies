@@ -13,7 +13,12 @@ class APIMovieTableViewCell: UITableViewCell {
     @IBOutlet weak var movieWatchedButton: UIButton!
     
     @IBAction func movieWatchedButtonWasTapped(_ sender: Any) {
-        print("tapped")
+        guard let movie = movie else {return}
+        //save to CoreData if not watched
+        movie.hasWatched = true
+        CoreDataStack.shared.save()
+        movieController?.saveMovie(movie: movie)
+        //delete from CoreData if watched
     }
     
     var movie: Movie? {
@@ -21,6 +26,8 @@ class APIMovieTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    
+    var movieController: MovieController?
     
     func updateViews() {
         guard let movie = movie else {return}

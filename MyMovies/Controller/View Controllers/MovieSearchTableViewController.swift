@@ -37,7 +37,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? APIMovieTableViewCell else {return UITableViewCell()}
         
         cell.movie = Movie(movieRepresentation: movieController.searchedMovies[indexPath.row])
-        
+        cell.movieController = movieController
         return cell
     }
     
