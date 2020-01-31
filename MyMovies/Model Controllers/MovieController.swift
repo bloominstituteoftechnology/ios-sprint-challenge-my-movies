@@ -169,8 +169,8 @@ class MovieController {
                 return
             }
             // both versions have same id
-            representation.identifier = uuid
-            movie.identifier = uuid
+            //representation.identifier = uuid
+            //movie.identifier = uuid
             try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {

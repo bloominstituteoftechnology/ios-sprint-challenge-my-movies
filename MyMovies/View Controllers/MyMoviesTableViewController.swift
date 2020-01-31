@@ -92,7 +92,8 @@ class MyMoviesTableViewController: UITableViewController {
 
         let movie = fetchedResultsController.object(at: indexPath)
         cell.textLabel?.text = movie.title
-        //cell.detailTextLabel?.text = "\(movie.hasWatched)" // change later
+        cell.detailTextLabel?.text = "\(movie.hasWatched)" // change later
+        
 
         return cell
     }

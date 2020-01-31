@@ -46,11 +46,19 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        print("Accessory button tapped!")
-        //print("saved \(tableView.cellForRow(at: indexPath)?.textLabel) to my movies")
         
         let tappedMovie = tableView.cellForRow(at: indexPath)
-        print(tappedMovie)
+        guard let movieTitle = tappedMovie?.textLabel?.text else {return}
+        print(movieTitle)
+        
+        let createdMovie = Movie(title: movieTitle)
+        movieController.sendMovieToServer(movie: createdMovie)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
     
     var movieController = MovieController()
