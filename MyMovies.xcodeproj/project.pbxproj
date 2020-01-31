@@ -20,6 +20,7 @@
 		B9AAF89D23E48D9C003DC616 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAF89C23E48D9C003DC616 /* Movie+Convenience.swift */; };
 		B9AAF89F23E48E5D003DC616 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAF89E23E48E5D003DC616 /* CoreDataStack.swift */; };
 		B9AAF8A123E49868003DC616 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAF8A023E49868003DC616 /* MyMovieTableViewCell.swift */; };
+		B9AAF8A423E4AE84003DC616 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAF8A323E4AE84003DC616 /* NetworkService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		B9AAF89C23E48D9C003DC616 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		B9AAF89E23E48E5D003DC616 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B9AAF8A023E49868003DC616 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
+		B9AAF8A323E4AE84003DC616 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 		46E20A052126AF5900E7FF73 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B9AAF8A223E4AE76003DC616 /* Services */,
 				B9AAF89B23E48D8A003DC616 /* CoreData */,
 			);
 			path = Models;
@@ -150,6 +153,14 @@
 				B9AAF89E23E48E5D003DC616 /* CoreDataStack.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		B9AAF8A223E4AE76003DC616 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B9AAF8A323E4AE84003DC616 /* NetworkService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9AAF8A423E4AE84003DC616 /* NetworkService.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				B9AAF89D23E48D9C003DC616 /* Movie+Convenience.swift in Sources */,

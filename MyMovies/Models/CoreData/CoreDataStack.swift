@@ -11,15 +11,13 @@ import CoreData
 
 class CoreDataStack {
     static let shared = CoreDataStack()
-    private let modelName = "MyMovies"
-    
+    let modelname = "MyMovies"
     lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: modelName)
+        let container = NSPersistentContainer(name: modelname)
         container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Failed to load persistent stores \(error)")
             }
-            container.viewContext.automaticallyMergesChangesFromParent = true
         }
         return container
     }()
@@ -28,18 +26,20 @@ class CoreDataStack {
         return container.viewContext
     }
     
-    //MARK: Update
-    /**
-     Saves whatever changes are in the context that's passed in (default is mainContext)
-     */
+    var backgroundContext: NSManagedObjectContext {
+        return container.newBackgroundContext()
+    }
+    
     func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        var error: Error?
         context.performAndWait {
             do {
                 try context.save()
-            } catch {
-                context.reset()
-                NSLog("Saving Task failed with error: \(error)")
+            } catch let saveError {
+                error = saveError
             }
         }
+        //if let error = error {throw error}
     }
 }
+

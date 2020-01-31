@@ -12,16 +12,32 @@ class APIMovieTableViewCell: UITableViewCell {
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet weak var movieWatchedButton: UIButton!
     
-    @IBAction func movieWatchedButtonWasTapped(_ sender: Any) {
-        guard let movie = movie else {return}
-        //save to CoreData if not watched
-        movie.hasWatched = true
-        CoreDataStack.shared.save()
-        movieController?.saveMovie(movie: movie)
-        //delete from CoreData if watched
+    @IBAction func movieWatchedButtonWasTapped(_ sender: Any) {        
+        guard let movieRep = movie,
+            let movie = Movie(movieRepresentation: movieRep)
+        else {return}
+        let wasWatched = movie.hasWatched
+        //setup button UI, gracefully inform user of change
+        if movieWatchedButton.titleLabel?.text != addedText {
+            movieWatchedButton.alpha = 0
+            movieWatchedButton.setTitle("Added!", for: .normal) //TODO: compare to CoreData object hasWatched
+            UIView.animate(withDuration: 0.5) {
+                self.movieWatchedButton.alpha = 1
+            }
+            //save to CoreData
+            movie.hasWatched = true
+            CoreDataStack.shared.save()
+            movieController?.saveMovie(movie: movie)
+        } else {
+            //TODO: Alert
+        }
+        
     }
     
-    var movie: Movie? {
+    private let addedText = "Added!"
+    private let addMovieText = "Add Movie"
+    
+    var movie: MovieRepresentation? {
         didSet {
             updateViews()
         }
@@ -31,10 +47,10 @@ class APIMovieTableViewCell: UITableViewCell {
     
     func updateViews() {
         guard let movie = movie else {return}
-        if movie.hasWatched {
-            movieWatchedButton.setTitle("Watched", for: .normal)
+        if movie.hasWatched ?? false {
+            movieWatchedButton.setTitle(addedText, for: .normal)
         } else {
-            movieWatchedButton.setTitle("Add Movie", for: .normal)
+            movieWatchedButton.setTitle(addMovieText, for: .normal)
         }
         movieNameLabel.text = movie.title
     }

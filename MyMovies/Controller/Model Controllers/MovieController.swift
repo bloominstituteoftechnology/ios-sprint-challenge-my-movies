@@ -12,6 +12,52 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let fireBaseURL = URL(string: "https://lambda-mymovie-challenge.firebaseio.com/")!
+    let mainContext = CoreDataStack.shared.mainContext
+    typealias CompletionHandler = (Error?) -> ()
+    
+    init() {
+        fetchEntriesFromServer()
+    }
+    
+    func fetchEntriesFromServer(complete: @escaping CompletionHandler = {_ in}) {
+        let url = baseURL.appendingPathExtension("json")
+        guard let request = NetworkService.createRequest(url: url, method: .get) else {
+            complete(NSError(domain: "bad request", code: 400, userInfo: nil))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print(error)
+                complete(error)
+                return
+            }
+            guard let data = data else {
+                let error = NSError(domain: "MovieController.fetchEntriesFromServer.request.httpBody.NODATA", code: 0, userInfo: nil)
+                print(error)
+                complete(error)
+                return
+            }
+            guard let optionalMovieReps = NetworkService.decode(to: [String: MovieRepresentation].self, data: data) else {
+                let error = NSError(domain: "MovieController.fetchEntriesFromServer.DECODE_ERROR", code: 0, userInfo: nil)
+                print(error)
+                complete(error)
+                return
+            }
+            var movieReps = [MovieRepresentation]()
+            for (_, representation) in optionalMovieReps {
+                movieReps.append(representation)
+            }
+            self.updateMovies(with: movieReps)
+            complete(nil)
+        }.resume()
+        
+    }
+    
+    func updateMovies(with reps: [MovieRepresentation]) {
+        
+    }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -64,7 +110,6 @@ class MovieController {
     #warning("testing only")
     
     func saveMovie(movie: Movie) {
-        watchedMovies.append(movie)
+        print("tapped")
     }
 }
-var watchedMovies: [Movie] = [] //TODO: load this from CoreData
