@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1A88F4BE23E48D01002948E0 /* MyMovie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4BC23E48D01002948E0 /* MyMovie.xcdatamodeld */; };
+		1A88F4BE23E48D01002948E0 /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4BC23E48D01002948E0 /* Movie.xcdatamodeld */; };
 		1A88F4C123E49054002948E0 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4C023E49054002948E0 /* MovieTableViewCell.swift */; };
 		1A88F4C323E49464002948E0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4C223E49464002948E0 /* CoreDataStack.swift */; };
 		1A88F4C523E4959A002948E0 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4C423E4959A002948E0 /* Movie+Convenience.swift */; };
@@ -56,7 +56,7 @@
 		1A88F4BB23E48CEF002948E0 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				1A88F4BC23E48D01002948E0 /* MyMovie.xcdatamodeld */,
+				1A88F4BC23E48D01002948E0 /* Movie.xcdatamodeld */,
 				1A88F4C223E49464002948E0 /* CoreDataStack.swift */,
 			);
 			path = CoreData;
@@ -235,7 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A88F4BE23E48D01002948E0 /* MyMovie.xcdatamodeld in Sources */,
+				1A88F4BE23E48D01002948E0 /* Movie.xcdatamodeld in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				1A88F4C123E49054002948E0 /* MovieTableViewCell.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
@@ -445,13 +445,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		1A88F4BC23E48D01002948E0 /* MyMovie.xcdatamodeld */ = {
+		1A88F4BC23E48D01002948E0 /* Movie.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				1A88F4BD23E48D01002948E0 /* MyMovie.xcdatamodel */,
 			);
 			currentVersion = 1A88F4BD23E48D01002948E0 /* MyMovie.xcdatamodel */;
-			path = MyMovie.xcdatamodeld;
+			path = Movie.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
