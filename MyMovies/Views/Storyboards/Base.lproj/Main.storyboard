@@ -46,30 +46,27 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="46.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="286" translatesAutoresizingMaskIntoConstraints="NO" id="hOQ-0X-aU7">
-                                            <rect key="frame" x="16" y="8" width="382" height="30.5"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5mN-QB-Wu2">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="30.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n70-zS-TTc">
-                                                    <rect key="frame" x="328" y="0.0" width="54" height="30.5"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <connections>
-                                                        <action selector="isWatchedButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="l00-mr-xV4"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                        </stackView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n70-zS-TTc">
+                                            <rect key="frame" x="348" y="8" width="46" height="30.5"/>
+                                            <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="isWatchedButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="l00-mr-xV4"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5mN-QB-Wu2">
+                                            <rect key="frame" x="8" y="8" width="332" height="31"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="hOQ-0X-aU7" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="aTa-R5-I7D"/>
-                                        <constraint firstItem="hOQ-0X-aU7" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="8" id="gVi-1H-ws8"/>
-                                        <constraint firstAttribute="bottom" secondItem="hOQ-0X-aU7" secondAttribute="bottom" constant="8" id="lOs-Kv-pKU"/>
-                                        <constraint firstAttribute="trailing" secondItem="hOQ-0X-aU7" secondAttribute="trailing" constant="16" id="sph-hT-ty3"/>
+                                        <constraint firstAttribute="bottom" secondItem="5mN-QB-Wu2" secondAttribute="bottom" constant="8" id="2I7-Xh-LwD"/>
+                                        <constraint firstItem="n70-zS-TTc" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="8" id="PPF-7Y-nbd"/>
+                                        <constraint firstAttribute="bottom" secondItem="n70-zS-TTc" secondAttribute="bottom" constant="8" id="aes-1Y-a9z"/>
+                                        <constraint firstAttribute="trailing" secondItem="n70-zS-TTc" secondAttribute="trailing" constant="20" id="gyQ-8o-iUP"/>
+                                        <constraint firstItem="5mN-QB-Wu2" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="8" id="oC9-AD-g9f"/>
+                                        <constraint firstItem="5mN-QB-Wu2" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="8" id="ul9-Cb-1On"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -89,7 +86,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1495.6521739130435" y="-27.455357142857142"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">

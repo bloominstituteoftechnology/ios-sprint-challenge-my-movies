@@ -8,13 +8,13 @@
 
 import UIKit
 
-struct PropertyKey {
-    static let cell = "MovieCell"
-}
-
 class MovieSearchTableViewController: UITableViewController {
     let movieController = MovieController()
     let firebaseMovies = FirebaseMovies()
+    
+    struct PropertyKey {
+        static let cell = "MovieCell"
+    }
     
     @IBOutlet weak var searchBar: UISearchBar!
     

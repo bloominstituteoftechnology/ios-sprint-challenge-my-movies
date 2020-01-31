@@ -19,21 +19,21 @@ enum HTTPMethod: String {
 class FirebaseMovies {
     let baseURL = URL(string: "https://fir-movies-65ade.firebaseio.com/")!
     
-    typealias completionWithError = (Error?) -> ()
+//    typealias completionWithError = (Error?) -> ()
     
-    func fetchFirebaseMovieFromServer(completion: @escaping completionWithError) {
+    func fetchFirebaseMovieFromServer(completion: @escaping (Error?) -> Void) {
         let requestURL = baseURL.appendingPathExtension("json")
         let request = URLRequest(url: requestURL)
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 print("Error fetching task: \(error)")
-                completion(nil)
+                completion(error)
                 return
             }
             
             guard let data = data else {
                 print("No data returned from task")
-                completion(nil)
+                completion(error)
                 return
             }
             
