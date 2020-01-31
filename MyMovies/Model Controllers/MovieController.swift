@@ -44,7 +44,7 @@ class MovieController {
             
             do {
                 let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
-                self.searchedMovies = movieRepresentations
+                self.searchedMovie = movieRepresentations
                 completion(nil)
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
@@ -52,8 +52,4 @@ class MovieController {
             }
         }.resume()
     }
-    
-    // MARK: - Properties
-    
-    var searchedMovies: [MovieRepresentation] = []
 }

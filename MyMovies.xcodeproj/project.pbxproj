@@ -12,6 +12,7 @@
 		1A88F4C323E49464002948E0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4C223E49464002948E0 /* CoreDataStack.swift */; };
 		1A88F4C523E4959A002948E0 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4C423E4959A002948E0 /* Movie+Convenience.swift */; };
 		1A88F4C823E496F6002948E0 /* FirebaseMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4C723E496F6002948E0 /* FirebaseMovies.swift */; };
+		1A88F4CB23E4A484002948E0 /* FirebaseMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A88F4CA23E4A484002948E0 /* FirebaseMovieTableViewCell.swift */; };
 		46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209E42126A63600E7FF73 /* AppDelegate.swift */; };
 		46E209EA2126A63600E7FF73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E209E82126A63600E7FF73 /* Main.storyboard */; };
 		46E209EC2126A63700E7FF73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E209EB2126A63700E7FF73 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 		1A88F4C223E49464002948E0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		1A88F4C423E4959A002948E0 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		1A88F4C723E496F6002948E0 /* FirebaseMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMovies.swift; sourceTree = "<group>"; };
+		1A88F4CA23E4A484002948E0 /* FirebaseMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMovieTableViewCell.swift; sourceTree = "<group>"; };
 		46E209E12126A63600E7FF73 /* MyMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E209E42126A63600E7FF73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46E209E92126A63600E7FF73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -64,7 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
-				1A88F4C023E49054002948E0 /* MovieTableViewCell.swift */,
+				1A88F4C923E4A46F002948E0 /* TableViewCells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -75,6 +77,15 @@
 				1A88F4C723E496F6002948E0 /* FirebaseMovies.swift */,
 			);
 			path = FirebaseNetwork;
+			sourceTree = "<group>";
+		};
+		1A88F4C923E4A46F002948E0 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				1A88F4C023E49054002948E0 /* MovieTableViewCell.swift */,
+				1A88F4CA23E4A484002948E0 /* FirebaseMovieTableViewCell.swift */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		46E209D82126A63600E7FF73 = {
@@ -231,6 +242,7 @@
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				1A88F4CB23E4A484002948E0 /* FirebaseMovieTableViewCell.swift in Sources */,
 				1A88F4C323E49464002948E0 /* CoreDataStack.swift in Sources */,
 				1A88F4C523E4959A002948E0 /* Movie+Convenience.swift in Sources */,
 				1A88F4C823E496F6002948E0 /* FirebaseMovies.swift in Sources */,

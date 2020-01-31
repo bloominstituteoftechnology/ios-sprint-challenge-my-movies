@@ -15,12 +15,13 @@ enum HTTPMethod: String {
     case post = "POST"
     case delete = "DELETE"
 }
-typealias completion = (Error?) -> ()
 
 class FirebaseMovies {
     let baseURL = URL(string: "https://fir-movies-65ade.firebaseio.com/")!
     
-    func fetchFirebaseMovieFromServer(completion: @escaping completion) {
+    typealias completionWithError = (Error?) -> ()
+    
+    func fetchFirebaseMovieFromServer(completion: @escaping completionWithError) {
         let requestURL = baseURL.appendingPathExtension("json")
         let request = URLRequest(url: requestURL)
         URLSession.shared.dataTask(with: request) { (data, _, error) in
@@ -47,7 +48,7 @@ class FirebaseMovies {
         }.resume()
     }
     
-    func sendFirebaseMovieToServer(movie: Movie, completion: @escaping completion) {
+    func sendFirebaseMovieToServer(movie: Movie, completion: @escaping () -> Void = {}) {
         let identifier = movie.identifier ?? UUID()
         movie.identifier = identifier
         
@@ -57,7 +58,7 @@ class FirebaseMovies {
         request.httpMethod = HTTPMethod.put.rawValue
         guard let movieRepresentation = movie.movieRepresentation else {
             print("Movie representation is not found")
-            completion(nil)
+            completion()
             return
         }
         
@@ -66,17 +67,17 @@ class FirebaseMovies {
             request.httpBody = try JSONEncoder().encode(movieRepresentation)
         } catch {
             print("Error encoding movie representation: \(error)")
-            completion(nil)
+            completion()
             return
         }
         
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 print("error putting data:\(error)")
-                completion(nil)
+                completion()
                 return
             }
-            completion(nil)
+            completion()
         }.resume()
     }
     
@@ -112,7 +113,7 @@ class FirebaseMovies {
         }
     }
     
-    func deleteFirebaseMovie(movie: Movie, completion: @escaping completion) {
+    func deleteFirebaseMovie(movie: Movie, completion: @escaping () -> Void = {}) {
         let identifier = movie.identifier ?? UUID()
         movie.identifier = identifier
         
@@ -123,7 +124,7 @@ class FirebaseMovies {
         
         guard let movieRepresentation = movie.movieRepresentation else {
             print("Movie representation is nil")
-            completion(nil)
+            completion()
             return
         }
         
@@ -140,17 +141,17 @@ class FirebaseMovies {
             request.httpBody = try JSONEncoder().encode(movieRepresentation)
         } catch {
             print("Error encoding movie rep: \(error)")
-            completion(nil)
+            completion()
             return
         }
         
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 print("Error putting data: \(error)")
-                completion(nil)
+                completion()
                 return
             }
-            completion(nil)
+            completion()
         }.resume()
     }
 }
