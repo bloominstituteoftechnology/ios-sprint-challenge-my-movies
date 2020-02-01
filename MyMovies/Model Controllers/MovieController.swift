@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
+    let apiController = APIController()
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -50,6 +52,65 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    func clearSearchForMovies() {
+        searchedMovies = []
+    }
+    
+    // Fetches the current Core Data entries
+    func fetchMovies() {
+        let fetchRequest: NSFetchRequest<Movies> = Movies.fetchRequest()
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            let movies = try? moc.fetch(fetchRequest)
+        } catch {
+            print("Error Fetching: \(error)")
+        }
+    }
+    
+  
+        
+
+    // MARK: - CRUD Data Model Methods
+    
+    
+    func create(movie: MovieRepresentation) {
+        let moc = CoreDataStack.shared.mainContext
+        let newMovie = Movies(context: moc,
+                              hasWatched: movie.hasWatched,
+                              identifier: UUID().uuidString,
+                              title: movie.title)
+        try? moc.save()
+        
+        apiController.putMovies(movie: newMovie)
+    }
+    
+    // Saves content to Core Data
+    func save() {
+        let moc = CoreDataStack.shared.mainContext
+        do {
+          try moc.save()
+        } catch {
+            print("There was a problem saving: \(error)")
+        }
+    }
+    
+    func update(movie: Movies) {
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            try moc.save()
+            apiController.putMovies(movie: movie)
+        } catch {
+            print("there was a problem Updating Core Data: \(error)")
+        }
+        
+    }
+    
+    func delete(movie: Movies) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(movie)
+        apiController.deleteTaskFromServer(movie)
     }
     
     // MARK: - Properties
