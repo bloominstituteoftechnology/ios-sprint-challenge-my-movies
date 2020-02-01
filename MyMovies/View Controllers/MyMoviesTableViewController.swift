@@ -84,16 +84,24 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
         
+        if sectionInfo.name == "0" {
+            return "Not Watched"
+        }
+        else if sectionInfo.name == "1" {
+            return "Watched"
+        }
+        
         return sectionInfo.name.capitalized
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MovieTableViewCell else {return UITableViewCell()}
 
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
-        cell.detailTextLabel?.text = "\(movie.hasWatched)" // change later
-        
+        //cell.textLabel?.text = movie.title
+        //cell.detailTextLabel?.text = "\(movie.hasWatched)" // change later
+        cell.movie = movie
+        cell.movieController = self.movieController
 
         return cell
     }

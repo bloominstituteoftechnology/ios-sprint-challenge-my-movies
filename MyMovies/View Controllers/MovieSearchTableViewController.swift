@@ -39,7 +39,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         cell.accessoryType = .detailButton
-        cell.detailTextLabel?.text = "" // "Add Movie"
+        cell.detailTextLabel?.text = "Add Movie->" // "Add Movie"
         // change title of button later?
         
         return cell

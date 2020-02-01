@@ -158,7 +158,7 @@ class MovieController {
     // PUT when we make new tasks. Sends to firebase
     func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         let uuid = movie.identifier ?? UUID() // if it doesn't have one, make one
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = fireBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT" // post ADDS to db (can add copies), "put" also finds recored and overrides it, or just adds
         
@@ -169,8 +169,8 @@ class MovieController {
                 return
             }
             // both versions have same id
-            //representation.identifier = uuid
-            //movie.identifier = uuid
+            representation.identifier = uuid
+            movie.identifier = uuid
             try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
@@ -208,7 +208,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json") // json type payload
+        let requestURL = fireBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json") // json type payload
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
