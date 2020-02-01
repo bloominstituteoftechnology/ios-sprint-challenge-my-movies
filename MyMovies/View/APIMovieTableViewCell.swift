@@ -34,7 +34,7 @@ class APIMovieTableViewCell: UITableViewCell {
                 }
             }
         } else {
-            //TODO: Alert
+            delegate?.alert()
         }
         
     }
@@ -42,6 +42,7 @@ class APIMovieTableViewCell: UITableViewCell {
     private let addedText = " Added! "
     private let addMovieText = " Add To My List "
     var movieController: MovieController?
+    var delegate: MovieSearchTableViewController?
     
     var movieRepresentation: MovieRepresentation? {
         didSet {

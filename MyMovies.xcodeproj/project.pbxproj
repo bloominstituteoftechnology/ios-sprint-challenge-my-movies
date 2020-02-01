@@ -21,6 +21,7 @@
 		B9AAF89F23E48E5D003DC616 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAF89E23E48E5D003DC616 /* CoreDataStack.swift */; };
 		B9AAF8A123E49868003DC616 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAF8A023E49868003DC616 /* MyMovieTableViewCell.swift */; };
 		B9AAF8A423E4AE84003DC616 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAF8A323E4AE84003DC616 /* NetworkService.swift */; };
+		B9DA6CF323E624C400DBCD70 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DA6CF223E624C400DBCD70 /* Alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		B9AAF89E23E48E5D003DC616 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B9AAF8A023E49868003DC616 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
 		B9AAF8A323E4AE84003DC616 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		B9DA6CF223E624C400DBCD70 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +74,7 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A052126AF5900E7FF73 /* Models */,
+				46E20A052126AF5900E7FF73 /* Model */,
 				B9AAF89723E48A44003DC616 /* View */,
 				B9AAF89A23E48A6C003DC616 /* Controller */,
 				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
@@ -81,14 +83,13 @@
 			path = MyMovies;
 			sourceTree = "<group>";
 		};
-		46E20A052126AF5900E7FF73 /* Models */ = {
+		46E20A052126AF5900E7FF73 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B9AAF8A723E5C9E1003DC616 /* Helpers */,
 				B9AAF8A223E4AE76003DC616 /* Services */,
 				B9AAF89B23E48D8A003DC616 /* CoreData */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		46E20A072126AFA300E7FF73 /* Model Controllers */ = {
@@ -104,6 +105,7 @@
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				B9DA6CF123E624B700DBCD70 /* Helpers */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -148,9 +150,7 @@
 		B9AAF89B23E48D8A003DC616 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
-				B9AAF89423E488B6003DC616 /* MyMovies.xcdatamodeld */,
-				B9AAF89C23E48D9C003DC616 /* Movie+Convenience.swift */,
+				B9DA6CF523E626C400DBCD70 /* Movie */,
 				B9AAF89E23E48E5D003DC616 /* CoreDataStack.swift */,
 			);
 			path = CoreData;
@@ -164,11 +164,22 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		B9AAF8A723E5C9E1003DC616 /* Helpers */ = {
+		B9DA6CF123E624B700DBCD70 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B9DA6CF223E624C400DBCD70 /* Alert.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B9DA6CF523E626C400DBCD70 /* Movie */ = {
+			isa = PBXGroup;
+			children = (
+				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+				B9AAF89423E488B6003DC616 /* MyMovies.xcdatamodeld */,
+				B9AAF89C23E48D9C003DC616 /* Movie+Convenience.swift */,
+			);
+			path = Movie;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +260,7 @@
 				B9AAF89D23E48D9C003DC616 /* Movie+Convenience.swift in Sources */,
 				B9AAF89F23E48E5D003DC616 /* CoreDataStack.swift in Sources */,
 				B9AAF89923E48A63003DC616 /* APIMovieTableViewCell.swift in Sources */,
+				B9DA6CF323E624C400DBCD70 /* Alert.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				B9AAF89623E488B6003DC616 /* MyMovies.xcdatamodeld in Sources */,

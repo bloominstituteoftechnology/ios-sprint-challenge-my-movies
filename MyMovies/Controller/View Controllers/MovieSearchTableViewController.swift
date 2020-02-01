@@ -36,6 +36,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    //MARK: APIMovieTableViewCell Delegate Method
+    func alert() {
+        Alert.show(title: "Oops!", message: "That movie was recently added to your list. Please tap \"My Movies\" at the bottom of your screen to see it.", vc: self)
+    }
+    
     //MARK: TableView Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
@@ -46,6 +51,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         cell.movieRepresentation = movieController.searchedMovies[indexPath.row]
         cell.movieController = movieController
+        cell.delegate = self
         return cell
     }
     
