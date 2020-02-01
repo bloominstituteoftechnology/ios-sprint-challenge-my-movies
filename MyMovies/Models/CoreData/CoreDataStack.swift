@@ -44,7 +44,6 @@ class CoreDataStack {
                 print("error saving: \(String(describing: error))")
             }
         }
-        //if let error = error {throw error}
     }
 }
 

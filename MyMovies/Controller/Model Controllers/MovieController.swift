@@ -23,23 +23,7 @@ class MovieController {
     init() {
         fetchEntriesFromServer()
     }
-    
-    //MARK: Create
-    func createMovie(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Movie")
-        var entitiesCount = 0
-        do {
-            entitiesCount = try context.count(for: fetchRequest)
-        }
-        catch {
-            print("error executing fetch request: \(error)")
-        }
         
-        if entitiesCount == 0 {
-            CoreDataStack.shared.save(context: context)
-        }
-    }
-    
     //MARK: Read
     func fetchEntriesFromServer(complete: @escaping CompletionHandler = {_ in}) {
         let url = fireBaseURL.appendingPathExtension("json")
@@ -120,30 +104,39 @@ class MovieController {
     //PUT method does both in the case of Firebase when we want a custom identifier
     
     func updateMovies(with reps: [MovieRepresentation]) {
+        //create fetchRequest
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        //create array of identifiers from array of movieReps
         let identifiers = reps.compactMap { $0.identifier }
-        
-        var repDict = Dictionary(uniqueKeysWithValues: zip(identifiers, reps))
+        //only fetch identifiers passed in
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiers)
-        let context = CoreDataStack.shared.backgroundContext
-        context.perform {
+        //create dictionary of movies to be updated. Type is [UUID:MovieRepresentation] (this matches the remote database format)
+        var repDict = Dictionary(uniqueKeysWithValues: zip(identifiers, reps))
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.performAndWait {
             do {
+                //fetch movies as outlined above
                 let movies = try context.fetch(fetchRequest)
                 for movie in movies {
+                    //get the specific movie to update
                     guard let id = movie.identifier,
                         let representation = repDict[id]
                     else {continue}
+                    //update the movie
                     self.updateMovie(movie: movie, movieRep: representation)
+                    //remove from the dictionaries of movies to be updated
                     repDict.removeValue(forKey: id)
                 }
                 for rep in repDict.values {
-                    Movie(movieRepresentation: rep)
+                    Movie(movieRepresentation: rep, context: context)
                 }
+                CoreDataStack.shared.save(context: context)
             } catch {
                 print(error)
             }
         }
-        CoreDataStack.shared.save(context: context)
+        
     }
     
     func updateMovie(movie: Movie, movieRep: MovieRepresentation) {

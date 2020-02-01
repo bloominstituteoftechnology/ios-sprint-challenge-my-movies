@@ -15,17 +15,15 @@ class APIMovieTableViewCell: UITableViewCell {
     
     //MARK: IBActions
     @IBAction func movieWatchedButtonWasTapped(_ sender: Any) {        
-        guard let movieRep = movie,
-            let movie = Movie(movieRepresentation: movieRep)
-        else {return}
-        //save to CoreData
-        movieController?.updateMovies(with: [movieRep])
-        
+        guard let movieRepresentation = movieRepresentation else {return}
         //setup button UI, gracefully inform user of change
         #warning("There are better ways to avoid duplication. This check only does it in the case of the movie having just been added. There's no check to prevent movies in CoreData from being added to CoreData again on subsequent search iterations, and there should be in the final product")
-        if addMovieButton.titleLabel?.text != addedText {
+        if addMovieButton.currentTitle != addedText {
+            //save to CoreData
+            movieController?.updateMovies(with: [movieRepresentation])
+            guard let movie = Movie(movieRepresentation: movieRepresentation) else {return}
             addMovieButton.alpha = 0
-            addMovieButton.setTitle("Added!", for: .normal) //TODO: compare to CoreData object hasWatched
+            addMovieButton.setTitle(addedText, for: .normal) //TODO: compare to CoreData object hasWatched
             UIView.animate(withDuration: 0.5) {
                 self.addMovieButton.alpha = 1
             }
@@ -45,7 +43,7 @@ class APIMovieTableViewCell: UITableViewCell {
     private let addMovieText = "Add To My List"
     var movieController: MovieController?
     
-    var movie: MovieRepresentation? {
+    var movieRepresentation: MovieRepresentation? {
         didSet {
             updateViews()
         }
@@ -53,7 +51,7 @@ class APIMovieTableViewCell: UITableViewCell {
     
     //MARK: Methods
     func updateViews() {
-        guard let movie = movie else {return}
+        guard let movie = movieRepresentation else {return}
         if movie.hasWatched ?? false {
             addMovieButton.setTitle(addedText, for: .normal)
         } else {
