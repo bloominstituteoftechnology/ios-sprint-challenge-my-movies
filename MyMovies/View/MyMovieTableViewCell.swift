@@ -19,7 +19,6 @@ class MyMovieTableViewCell: UITableViewCell {
         guard let movie = movie,
             let title = movie.title
         else {return}
-        
         movie.hasWatched = !movie.hasWatched
         let rep = movie.movieRepresentation ?? MovieRepresentation(title: title, identifier: movie.identifier, hasWatched: movie.hasWatched)
         movieController?.updateMovie(movie: movie, movieRep: rep)
@@ -35,17 +34,15 @@ class MyMovieTableViewCell: UITableViewCell {
     
     //MARK: Methods
     func updateViews() {
-        guard let movie = movie else {
-            print("movie is nil")
-            return
-        }
+        hasWatchedButton.titleEdgeInsets = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+        hasWatchedButton.layer.borderColor = UIColor.systemBlue.cgColor
+        hasWatchedButton.layer.borderWidth = 2
+        guard let movie = movie else {return}
         movieTitleLabel.text = movie.title
         if movie.hasWatched {
-            hasWatchedButton.setTitle("haven't watched", for: .normal)
-            print("Have watched \(movie.title)")
+            hasWatchedButton.setTitle(" Haven't watched ", for: .normal)
         } else {
-            hasWatchedButton.setTitle("have watched", for: .normal)
-            print("Haven't watched \(movie.title)")
+            hasWatchedButton.setTitle(" Have watched ", for: .normal)
         }
     }
 
