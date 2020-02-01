@@ -88,15 +88,38 @@ class MovieController {
                 completion(NSError())
                 return
             }
-            
-            do {
-                let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
-                self.searchedMovies = movieRepresentations
-                completion(nil)
-            } catch {
-                NSLog("Error decoding JSON data: \(error)")
-                completion(error)
+            let context = CoreDataStack.shared.backgroundContext
+            context.performAndWait {
+                do {
+                    //decode data into movieReps
+                    let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
+                    
+                    //get array of titles for searching in CoreData
+                    let searchedMovieTitles = movieRepresentations.compactMap{$0.title}
+                    //create fetchRequest and assign predicate as searched titles
+                    let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+                    fetchRequest.predicate = NSPredicate(format: "title IN %@", searchedMovieTitles)
+                    //create array of matching movies to be removed from result
+                    let savedMoviesInSearch = try context.fetch(fetchRequest)
+                    //create array of matching movie reps
+                    var savedMovieRepArray = [MovieRepresentation]()
+                    for movie in savedMoviesInSearch {
+                        guard var rep = movie.movieRepresentation else {return}
+                        rep.identifier = nil
+                        rep.hasWatched = nil
+                        savedMovieRepArray.append(rep)
+                    }
+                    
+                    //only display movies that aren't already in the list
+                    self.searchedMovies = movieRepresentations.filter{!savedMovieRepArray.contains($0)}
+                    context.reset()
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding JSON data: \(error)")
+                    completion(error)
+                }
             }
+            
         }.resume()
     }
     

@@ -17,7 +17,7 @@ struct MovieRepresentation: Equatable, Codable {
      */
     
     var identifier: UUID?
-    let hasWatched: Bool?
+    var hasWatched: Bool?
 }
 
 /*
