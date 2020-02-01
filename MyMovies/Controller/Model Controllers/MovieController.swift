@@ -24,6 +24,22 @@ class MovieController {
         fetchEntriesFromServer()
     }
     
+    //MARK: Create
+    func createMovie(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Movie")
+        var entitiesCount = 0
+        do {
+            entitiesCount = try context.count(for: fetchRequest)
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        if entitiesCount == 0 {
+            CoreDataStack.shared.save(context: context)
+        }
+    }
+    
     //MARK: Read
     func fetchEntriesFromServer(complete: @escaping CompletionHandler = {_ in}) {
         let url = fireBaseURL.appendingPathExtension("json")
@@ -109,7 +125,7 @@ class MovieController {
         
         var repDict = Dictionary(uniqueKeysWithValues: zip(identifiers, reps))
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiers)
-        let context = mainContext
+        let context = CoreDataStack.shared.backgroundContext
         context.perform {
             do {
                 let movies = try context.fetch(fetchRequest)

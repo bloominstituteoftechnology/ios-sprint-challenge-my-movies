@@ -32,12 +32,11 @@ class MyMovieTableViewCell: UITableViewCell {
     
     func updateViews() {
         guard let movie = movie else {return}
+        movieTitleLabel.text = movie.title
         if movie.hasWatched {
-            movieTitleLabel.text = movie.title
-            hasWatchedButton.setTitle("watch", for: .normal)
+            hasWatchedButton.setTitle("haven't watched", for: .normal)
         } else {
-            hasWatchedButton.setTitle("watched", for: .normal)
-            movieTitleLabel.text = movie.title
+            hasWatchedButton.setTitle("have watched", for: .normal)
         }
     }
 

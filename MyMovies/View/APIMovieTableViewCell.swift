@@ -17,7 +17,7 @@ class APIMovieTableViewCell: UITableViewCell {
             let movie = Movie(movieRepresentation: movieRep)
         else {return}
         //save to CoreData
-        CoreDataStack.shared.save()
+        movieController?.updateMovies(with: [movieRep])
         
         //setup button UI, gracefully inform user of change
         #warning("There are better ways to avoid duplication. This check only does it in the case of the movie having just been added. There's no check to prevent movies in CoreData from being added to CoreData again on subsequent search iterations, and there should be in the final product")
@@ -40,7 +40,7 @@ class APIMovieTableViewCell: UITableViewCell {
     }
     
     private let addedText = "Added!"
-    private let addMovieText = "Add Movie"
+    private let addMovieText = "Add To My List"
     
     var movie: MovieRepresentation? {
         didSet {

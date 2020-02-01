@@ -49,9 +49,9 @@ class MyMoviesTableViewController: UITableViewController {
         guard let sectionData = fetchedResultsController.sections?[section] else {return nil}
         //0 false, 1 true
         if sectionData.name == "0" {
-            return "Movies I haven't watched"
+            return "Movies I haven't seen"
         } else {
-            return "Movies I have watched"
+            return "Movies I've seen"
         }
     }
 
