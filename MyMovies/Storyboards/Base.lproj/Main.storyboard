@@ -72,8 +72,8 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addMovieButton" destination="Q1q-mf-C8F" id="tL6-aY-b8P"/>
                                     <outlet property="movieNameLabel" destination="16g-dS-CKp" id="BNZ-f6-2fd"/>
-                                    <outlet property="movieWatchedButton" destination="Q1q-mf-C8F" id="tL6-aY-b8P"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

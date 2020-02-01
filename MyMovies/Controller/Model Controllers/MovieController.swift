@@ -11,16 +11,20 @@ import CoreData
 
 class MovieController {
     
+    // MARK: - Properties
+    var searchedMovies: [MovieRepresentation] = []
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let fireBaseURL = URL(string: "https://lambda-mymovie-challenge.firebaseio.com/")!
     let mainContext = CoreDataStack.shared.mainContext
     typealias CompletionHandler = (Error?) -> ()
     
+    //MARK: Init
     init() {
         fetchEntriesFromServer()
     }
     
+    //MARK: Read
     func fetchEntriesFromServer(complete: @escaping CompletionHandler = {_ in}) {
         let url = fireBaseURL.appendingPathExtension("json")
         guard let request = NetworkService.createRequest(url: url, method: .get) else {
@@ -53,40 +57,6 @@ class MovieController {
             self.updateMovies(with: movieReps)
             complete(nil)
         }.resume()
-        
-    }
-    
-    func updateEntry(movie: Movie, movieRep: MovieRepresentation) {
-        guard let hasWatched = movieRep.hasWatched else {return}
-        movie.title = movieRep.title
-        movie.hasWatched = hasWatched
-    }
-    
-    func updateMovies(with reps: [MovieRepresentation]) {
-        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        let identifiers = reps.compactMap { $0.identifier }
-        
-        var repDict = Dictionary(uniqueKeysWithValues: zip(identifiers, reps))
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiers)
-        let context = mainContext
-        context.perform {
-            do {
-                let movies = try context.fetch(fetchRequest)
-                for movie in movies {
-                    guard let id = movie.identifier,
-                        let representation = repDict[id]
-                    else {continue}
-                    self.updateEntry(movie: movie, movieRep: representation)
-                    repDict.removeValue(forKey: id)
-                }
-                for rep in repDict.values {
-                    Movie(movieRepresentation: rep)
-                }
-            } catch {
-                print(error)
-            }
-        }
-        CoreDataStack.shared.save(context: context)
     }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
@@ -128,6 +98,42 @@ class MovieController {
         }.resume()
     }
     
+    //MARK: Create/Update
+    //PUT method does both in the case of Firebase when we want a custom identifier
+    
+    func updateMovies(with reps: [MovieRepresentation]) {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let identifiers = reps.compactMap { $0.identifier }
+        
+        var repDict = Dictionary(uniqueKeysWithValues: zip(identifiers, reps))
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiers)
+        let context = mainContext
+        context.perform {
+            do {
+                let movies = try context.fetch(fetchRequest)
+                for movie in movies {
+                    guard let id = movie.identifier,
+                        let representation = repDict[id]
+                    else {continue}
+                    self.updateEntry(movie: movie, movieRep: representation)
+                    repDict.removeValue(forKey: id)
+                }
+                for rep in repDict.values {
+                    Movie(movieRepresentation: rep)
+                }
+            } catch {
+                print(error)
+            }
+        }
+        CoreDataStack.shared.save(context: context)
+    }
+    
+    func updateEntry(movie: Movie, movieRep: MovieRepresentation) {
+        let hasWatched = movieRep.hasWatched
+        movie.title = movieRep.title
+        movie.hasWatched = hasWatched ?? false
+    }
+    
     func put(movie: Movie, complete: @escaping CompletionHandler = {_ in }) {
         
         //construct representation of Movie for firebase server
@@ -167,18 +173,40 @@ class MovieController {
         }
     }
     
-    // MARK: - Properties
-    
-    var searchedMovies: [MovieRepresentation] = []
-    
-    
-    //compare
-    
-    
-    //MARK: TESTING
-    #warning("testing only")
-    
-    func saveMovie(movie: Movie) {
-        print("tapped")
+    //MARK: Delete
+    func deleteMovieFromServer(movie: Movie, complete: @escaping CompletionHandler = { _ in }) {
+        
+        let url = baseURL.appendingPathComponent(movie.identifier!.uuidString).appendingPathExtension("json")
+        guard let request = NetworkService.createRequest(url: url, method: .delete) else {
+            complete(NSError(domain: "badRequest", code: 400, userInfo: nil))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { _,response,error in
+            if let error = error {
+                print("error deleting movie: \(error)")
+                complete(error)
+                return
+            }
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                   print("Bad response code")
+                   complete(NSError(domain: "APIStatusNotOK", code: response.statusCode, userInfo: nil))
+                   return
+            } else {
+                complete(nil)
+            }
+        }.resume()
     }
+    
+    func deleteMovie(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        deleteMovieFromServer(movie: movie)
+        context.perform {
+            context.delete(movie)
+            CoreDataStack.shared.save(context: context)
+        }
+    }
+    
+    
+    
 }

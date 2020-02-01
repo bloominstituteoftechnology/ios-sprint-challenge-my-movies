@@ -37,6 +37,7 @@ class CoreDataStack {
             do {
                 try context.save()
             } catch let saveError {
+                context.reset()
                 error = saveError
                 print("error saving: \(error)")
             }
