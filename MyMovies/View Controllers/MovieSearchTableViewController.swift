@@ -25,6 +25,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                print("searched for: \(searchTerm)")
             }
         }
     }
@@ -37,11 +38,32 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.accessoryType = .detailButton
+        cell.detailTextLabel?.text = "Add Movie->" // "Add Movie"
+        // change title of button later?
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        let tappedMovie = tableView.cellForRow(at: indexPath)
+        guard let movieTitle = tappedMovie?.textLabel?.text else {return}
+        print(movieTitle)
+        
+        let createdMovie = Movie(title: movieTitle)
+        movieController.sendMovieToServer(movie: createdMovie)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
     
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+
 }
+
