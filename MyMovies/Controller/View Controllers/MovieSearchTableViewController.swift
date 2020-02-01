@@ -9,7 +9,13 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    //MARK: IBOutlets
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    //MARK: Properties
+    var movieController = MovieController()
+    
+    //MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +35,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    //MARK: TableView Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -41,7 +48,4 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }

@@ -10,8 +10,10 @@ import Foundation
 import CoreData
 
 class CoreDataStack {
+    //MARK: Properties
     static let shared = CoreDataStack()
     let modelname = "MyMovies"
+    
     lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: modelname)
         container.loadPersistentStores { _, error in
@@ -30,7 +32,7 @@ class CoreDataStack {
     var backgroundContext: NSManagedObjectContext {
         return container.newBackgroundContext()
     }
-    
+    //MARK: Update
     func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         var error: Error?
         context.performAndWait {
@@ -39,7 +41,7 @@ class CoreDataStack {
             } catch let saveError {
                 context.reset()
                 error = saveError
-                print("error saving: \(error)")
+                print("error saving: \(String(describing: error))")
             }
         }
         //if let error = error {throw error}

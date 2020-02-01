@@ -10,6 +10,7 @@ import Foundation
 
 class NetworkService {
     
+    //MARK: Members
     enum HttpMethod: String {
         case get = "GET"
         case post = "POST"
@@ -38,6 +39,8 @@ class NetworkService {
         let request: URLRequest?
         let error: Error?
     }
+    
+    //MARK: Methods
     
     /**
      Create a request given a URL and HTTP Request Method

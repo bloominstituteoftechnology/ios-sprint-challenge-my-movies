@@ -116,7 +116,7 @@ class MovieController {
         }.resume()
     }
     
-    //MARK: Create/Update
+    //MARK: Update/Create
     //PUT method does both in the case of Firebase when we want a custom identifier
     
     func updateMovies(with reps: [MovieRepresentation]) {

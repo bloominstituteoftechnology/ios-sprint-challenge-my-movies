@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
-    
+    //MARK: Properties
     let movieController = MovieController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
@@ -24,24 +24,6 @@ class MyMoviesTableViewController: UITableViewController {
         try! frc.performFetch() //TODO: catch errors
         return frc
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -82,6 +64,7 @@ class MyMoviesTableViewController: UITableViewController {
 
 }
 
+//MARK: NSFetchedResultsControllerDelegate Methods
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

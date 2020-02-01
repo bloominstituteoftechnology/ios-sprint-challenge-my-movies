@@ -9,9 +9,11 @@
 import UIKit
 
 class APIMovieTableViewCell: UITableViewCell {
+    //MARK: IBOutlets
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
+    //MARK: IBActions
     @IBAction func movieWatchedButtonWasTapped(_ sender: Any) {        
         guard let movieRep = movie,
             let movie = Movie(movieRepresentation: movieRep)
@@ -38,9 +40,10 @@ class APIMovieTableViewCell: UITableViewCell {
         }
         
     }
-    
+    //MARK: Properties
     private let addedText = "Added!"
     private let addMovieText = "Add To My List"
+    var movieController: MovieController?
     
     var movie: MovieRepresentation? {
         didSet {
@@ -48,8 +51,7 @@ class APIMovieTableViewCell: UITableViewCell {
         }
     }
     
-    var movieController: MovieController?
-    
+    //MARK: Methods
     func updateViews() {
         guard let movie = movie else {return}
         if movie.hasWatched ?? false {
