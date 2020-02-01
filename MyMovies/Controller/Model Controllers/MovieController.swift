@@ -21,7 +21,7 @@ class MovieController {
     }
     
     func fetchEntriesFromServer(complete: @escaping CompletionHandler = {_ in}) {
-        let url = baseURL.appendingPathExtension("json")
+        let url = fireBaseURL.appendingPathExtension("json")
         guard let request = NetworkService.createRequest(url: url, method: .get) else {
             complete(NSError(domain: "bad request", code: 400, userInfo: nil))
             return
@@ -99,19 +99,19 @@ class MovieController {
     }
     
     func put(movie: Movie, complete: @escaping CompletionHandler = {_ in }) {
-        let postURL = baseURL.appendingPathComponent(movie.identifier?.uuidString ?? UUID().uuidString).appendingPathExtension("json")
+        
+        //construct representation of Movie for firebase server
+        guard let rep = movie.movieRepresentation else {
+            complete(NSError(domain: "MovieRepresentationConversion", code: 1))
+            return
+        }
+        
+        let id = movie.identifier ?? UUID()
+        let postURL = fireBaseURL.appendingPathComponent(id.uuidString).appendingPathExtension("json")
         guard let request = NetworkService.createRequest(url: postURL, method: .put, headerType: .contentType, headerValue: .json) else {
             complete(NSError(domain: "PutRequestError", code: 400, userInfo: nil))
             return
         }
-        //construct representation of Movie for firebase server
-        guard var rep = movie.movieRepresentation,
-            let id = movie.identifier else {
-            complete(NSError(domain: "MovieRepresentationConversion", code: 1))
-            return
-        }
-        //this is rep elsewhere but rep is a let here
-        movie.identifier = id
         
         //encode
         let encodingStatus = NetworkService.encode(from: rep, request: request)
@@ -124,7 +124,7 @@ class MovieController {
             URLSession.shared.dataTask(with: encodingRequest) { (data, response, error) in
                 if let response = response as? HTTPURLResponse,
                 response.statusCode != 200 {
-                    print("Bad response code")
+                    print("Bad response code \(response.statusCode)")
                     complete(NSError(domain: "APIStatusNotOK", code: response.statusCode, userInfo: nil))
                     return
                 }

@@ -16,7 +16,6 @@ class APIMovieTableViewCell: UITableViewCell {
         guard let movieRep = movie,
             let movie = Movie(movieRepresentation: movieRep)
         else {return}
-        let wasWatched = movie.hasWatched
         //setup button UI, gracefully inform user of change
         if movieWatchedButton.titleLabel?.text != addedText {
             movieWatchedButton.alpha = 0
@@ -28,6 +27,8 @@ class APIMovieTableViewCell: UITableViewCell {
             movie.hasWatched = true
             CoreDataStack.shared.save()
             movieController?.saveMovie(movie: movie)
+            //put to Firebase
+            movieController?.put(movie: movie)
         } else {
             //TODO: Alert
         }
