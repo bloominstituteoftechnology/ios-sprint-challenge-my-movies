@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -55,8 +56,37 @@ class MovieController {
         
     }
     
+    func updateEntry(movie: Movie, movieRep: MovieRepresentation) {
+        guard let hasWatched = movieRep.hasWatched else {return}
+        movie.title = movieRep.title
+        movie.hasWatched = hasWatched
+    }
+    
     func updateMovies(with reps: [MovieRepresentation]) {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let identifiers = reps.compactMap { $0.identifier }
         
+        var repDict = Dictionary(uniqueKeysWithValues: zip(identifiers, reps))
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiers)
+        let context = mainContext
+        context.perform {
+            do {
+                let movies = try context.fetch(fetchRequest)
+                for movie in movies {
+                    guard let id = movie.identifier,
+                        let representation = repDict[id]
+                    else {continue}
+                    self.updateEntry(movie: movie, movieRep: representation)
+                    repDict.removeValue(forKey: id)
+                }
+                for rep in repDict.values {
+                    Movie(movieRepresentation: rep)
+                }
+            } catch {
+                print(error)
+            }
+        }
+        CoreDataStack.shared.save(context: context)
     }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {

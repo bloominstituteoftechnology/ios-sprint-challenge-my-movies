@@ -18,6 +18,7 @@ class CoreDataStack {
             if let error = error {
                 fatalError("Failed to load persistent stores \(error)")
             }
+            container.viewContext.automaticallyMergesChangesFromParent = true
         }
         return container
     }()
@@ -37,6 +38,7 @@ class CoreDataStack {
                 try context.save()
             } catch let saveError {
                 error = saveError
+                print("error saving: \(error)")
             }
         }
         //if let error = error {throw error}
