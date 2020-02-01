@@ -9,13 +9,20 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    //MARK: IBOutlets
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    //MARK: Properties
+    var movieController = MovieController()
+    
+    //MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
     
+    //MARK: Searchbar delegate methods
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
@@ -29,19 +36,23 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    //MARK: APIMovieTableViewCell Delegate Method
+    func alert() {
+        Alert.show(title: "Oops!", message: "That movie was recently added to your list. Please tap \"My Movies\" at the bottom of your screen to see it.", vc: self)
+    }
+    
+    //MARK: TableView Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? APIMovieTableViewCell else {return UITableViewCell()}
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
+        cell.movieRepresentation = movieController.searchedMovies[indexPath.row]
+        cell.movieController = movieController
+        cell.delegate = self
         return cell
     }
     
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }
