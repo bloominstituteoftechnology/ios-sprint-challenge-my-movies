@@ -11,6 +11,8 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
+    let movieController = MovieController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
@@ -45,9 +47,12 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
         guard let sectionData = fetchedResultsController.sections?[section] else {return nil}
-
-        return sectionData.name.capitalized
-
+        //0 false, 1 true
+        if sectionData.name == "0" {
+            return "Movies I haven't watched"
+        } else {
+            return "Movies I have watched"
+        }
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -63,6 +68,7 @@ class MyMoviesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else {return UITableViewCell()}
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
+        cell.movieController = movieController
         return cell
     }
     
@@ -70,7 +76,7 @@ class MyMoviesTableViewController: UITableViewController {
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
            if editingStyle == .delete {
                let movie = fetchedResultsController.object(at: indexPath)
-               //movieController.deleteMovie(movie: Movie)
+               movieController.deleteMovie(movie: movie)
            }
        }
 

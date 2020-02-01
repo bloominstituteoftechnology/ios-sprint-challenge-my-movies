@@ -51,8 +51,10 @@ class MovieController {
                 return
             }
             var movieReps = [MovieRepresentation]()
-            for (_, representation) in optionalMovieReps {
-                movieReps.append(representation)
+            for (id, representation) in optionalMovieReps {
+                var rep = representation
+                rep.identifier = UUID(uuidString: id)
+                movieReps.append(rep)
             }
             self.updateMovies(with: movieReps)
             complete(nil)
@@ -115,7 +117,7 @@ class MovieController {
                     guard let id = movie.identifier,
                         let representation = repDict[id]
                     else {continue}
-                    self.updateEntry(movie: movie, movieRep: representation)
+                    self.updateMovie(movie: movie, movieRep: representation)
                     repDict.removeValue(forKey: id)
                 }
                 for rep in repDict.values {
@@ -128,10 +130,11 @@ class MovieController {
         CoreDataStack.shared.save(context: context)
     }
     
-    func updateEntry(movie: Movie, movieRep: MovieRepresentation) {
+    func updateMovie(movie: Movie, movieRep: MovieRepresentation) {
         let hasWatched = movieRep.hasWatched
         movie.title = movieRep.title
         movie.hasWatched = hasWatched ?? false
+        put(movie: movie)
     }
     
     func put(movie: Movie, complete: @escaping CompletionHandler = {_ in }) {
@@ -176,7 +179,8 @@ class MovieController {
     //MARK: Delete
     func deleteMovieFromServer(movie: Movie, complete: @escaping CompletionHandler = { _ in }) {
         
-        let url = baseURL.appendingPathComponent(movie.identifier!.uuidString).appendingPathExtension("json")
+        let url = fireBaseURL.appendingPathComponent(movie.identifier!.uuidString).appendingPathExtension("json")
+        print(url)
         guard let request = NetworkService.createRequest(url: url, method: .delete) else {
             complete(NSError(domain: "badRequest", code: 400, userInfo: nil))
             return
@@ -188,19 +192,28 @@ class MovieController {
                 complete(error)
                 return
             }
-            if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 {
+            if let response = response as? HTTPURLResponse {
+                if response.statusCode != 200 {
                    print("Bad response code")
                    complete(NSError(domain: "APIStatusNotOK", code: response.statusCode, userInfo: nil))
                    return
+                } else {
+                    complete(nil)
+                }
             } else {
-                complete(nil)
+                let error = NSError(domain: "no response from endpoint in MovieController.deleteMovieFromServer", code: 000, userInfo: nil)
+                print(error)
+                complete(error)
             }
         }.resume()
     }
     
     func deleteMovie(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        deleteMovieFromServer(movie: movie)
+        deleteMovieFromServer(movie: movie) { error in
+            if error != nil {
+                print(error as Any)
+            }
+        }
         context.perform {
             context.delete(movie)
             CoreDataStack.shared.save(context: context)

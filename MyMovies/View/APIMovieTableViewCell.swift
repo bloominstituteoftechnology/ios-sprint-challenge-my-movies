@@ -20,7 +20,7 @@ class APIMovieTableViewCell: UITableViewCell {
         CoreDataStack.shared.save()
         
         //setup button UI, gracefully inform user of change
-        #warning("There are better ways to avoid duplication. This check only does it in the case of the movie having just been added. There's no check to prevent movies in CoreData from being added on subsequent search iterations, and there should be in the final product")
+        #warning("There are better ways to avoid duplication. This check only does it in the case of the movie having just been added. There's no check to prevent movies in CoreData from being added to CoreData again on subsequent search iterations, and there should be in the final product")
         if addMovieButton.titleLabel?.text != addedText {
             addMovieButton.alpha = 0
             addMovieButton.setTitle("Added!", for: .normal) //TODO: compare to CoreData object hasWatched
@@ -28,7 +28,11 @@ class APIMovieTableViewCell: UITableViewCell {
                 self.addMovieButton.alpha = 1
             }
             //put to Firebase
-            movieController?.put(movie: movie)
+            movieController?.put(movie: movie) { error in
+                if error != nil {
+                    print(error as Any)
+                }
+            }
         } else {
             //TODO: Alert
         }
