@@ -141,7 +141,7 @@ class APIController {
          request.httpMethod = "DELETE"
          
          URLSession.shared.dataTask(with: request) { (_, _, error) in
-          +++++++   
+          
              completion(nil)
          }.resume()
      }

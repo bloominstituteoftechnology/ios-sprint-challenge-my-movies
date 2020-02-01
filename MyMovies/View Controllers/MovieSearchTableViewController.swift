@@ -31,12 +31,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             }
         }
     }
-//    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-//                DispatchQueue.main.async {
-//            self.movieController.clearSearchForMovies()
-//            self.tableView.reloadData()
-//        }
-//    }
 
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

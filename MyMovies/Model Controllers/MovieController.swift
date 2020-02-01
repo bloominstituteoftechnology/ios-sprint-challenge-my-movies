@@ -96,10 +96,11 @@ class MovieController {
         }
     }
     
-    func update(movieStatus: String) {
+    func update(movie: Movies) {
         let moc = CoreDataStack.shared.mainContext
         do {
             try moc.save()
+            apiController.putMovies(movie: movie)
         } catch {
             print("there was a problem Updating Core Data: \(error)")
         }

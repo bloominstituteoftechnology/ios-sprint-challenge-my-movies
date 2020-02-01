@@ -36,14 +36,19 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
         self.editButtonItem
         // Uncomment the following line to preserve selection between presentations
-         self.clearsSelectionOnViewWillAppear = false
+        
+        // self.clearsSelectionOnViewWillAppear = true
+        
+        
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
          self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func viewWillAppear(_ animated: Bool) {
-//        myMoviesTableViewCell.updateWatchStatus()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -84,44 +89,40 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
         let movie = fetchedResultsController.object(at: indexPath)
-        let label = UILabel()
-        let button = UIButton()
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(stackView)
-        stackView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -10).isActive = true
-        stackView.topAnchor.constraint(equalTo: cell.contentView.topAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor).isActive = true
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        stackView.spacing = 5
-        stackView.addArrangedSubview(label)
-        stackView.addArrangedSubview(button)
-    
-        label.text = movie.title
-        label.autoresizesSubviews = true
         
-        button.setTitleColor(UIColor.black, for: .normal)
+        cell.textLabel?.text = movie.title
+        
         if movie.hasWatched == true {
-            button.setTitle("Watched", for: .normal)
+            cell.detailTextLabel?.text = "Watched"
         } else if movie.hasWatched == false {
-            button.setTitle("Not Watched", for: .normal)
+            cell.detailTextLabel?.text = "Not Watched"
         }
-        button.addTarget(self, action: #selector(updateWatchStatus(button:)), for: .touchUpInside)
-
-       
-        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+
         if sectionInfo.name == "0" {
             return "Not Watched"
         } else {
             return "Watched"
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        let movie = fetchedResultsController.object(at: indexPath)
+        
+          if movie.hasWatched == true {
+            cell.detailTextLabel?.text = "Watched"
+            movie.hasWatched = false
+            movieController.update(movie: movie)
+        } else if movie.hasWatched == false {
+            cell.detailTextLabel?.text = "Not Watched"
+            movie.hasWatched = true
+            movieController.update(movie: movie)
+            
         }
     }
     
@@ -136,6 +137,7 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
 }
+
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
