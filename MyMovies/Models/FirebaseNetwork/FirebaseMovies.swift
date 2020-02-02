@@ -17,12 +17,12 @@ enum HTTPMethod: String {
 }
 
 class FirebaseMovies {
-    let baseURL = URL(string: "https://fir-movies-65ade.firebaseio.com/")!
+    let firebaseURL = URL(string: "https://fir-movies-65ade.firebaseio.com/")!
     
 //    typealias completionWithError = (Error?) -> ()
     
     func fetchFirebaseMovieFromServer(completion: @escaping (Error?) -> Void) {
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathExtension("json")
         let request = URLRequest(url: requestURL)
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
@@ -49,19 +49,19 @@ class FirebaseMovies {
     }
     
     func sendFirebaseMovieToServer(movie: Movie, completion: @escaping () -> Void = {}) {
-        let identifier = movie.identifier ?? UUID()
-        movie.identifier = identifier
-        
-        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathComponent("json")
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString)
+                                    .appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
+        
         guard let movieRepresentation = movie.movieRepresentation else {
             print("Movie representation is not found")
             completion()
             return
         }
-        
+
         do {
             try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
             request.httpBody = try JSONEncoder().encode(movieRepresentation)
@@ -70,7 +70,7 @@ class FirebaseMovies {
             completion()
             return
         }
-        
+
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 print("error putting data:\(error)")
@@ -114,21 +114,20 @@ class FirebaseMovies {
     }
     
     func deleteFirebaseMovie(movie: Movie, completion: @escaping () -> Void = {}) {
-        let identifier = movie.identifier ?? UUID()
-        movie.identifier = identifier
         
-        let requestURL = baseURL.appendingPathExtension("json").appendingPathComponent(identifier.uuidString)
-        
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = HTTPMethod.delete.rawValue
-        
-        guard let movieRepresentation = movie.movieRepresentation else {
-            print("Movie representation is nil")
+        guard let identifier = movie.identifier,
+            let movieRepresentation = movie.movieRepresentation else {
             completion()
             return
         }
         
+        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString)
+                                    .appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
         let context = CoreDataStack.shared.mainContext
+        
         do {
             context.delete(movie)
             try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
@@ -136,7 +135,7 @@ class FirebaseMovies {
             context.reset()
             print("Error deleting object: \(error)")
         }
-        
+
         do {
             request.httpBody = try JSONEncoder().encode(movieRepresentation)
         } catch {
@@ -145,13 +144,52 @@ class FirebaseMovies {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
-            if let error = error {
-                print("Error putting data: \(error)")
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            print(response!)
+            DispatchQueue.main.async {
                 completion()
-                return
             }
-            completion()
         }.resume()
+        
+//        let identifier = movie.identifier ?? UUID()
+//        movie.identifier = identifier
+//
+//        let requestURL = firebaseURL.appendingPathExtension("json")
+//                                    .appendingPathComponent(identifier.uuidString)
+//
+//        var request = URLRequest(url: requestURL)
+//        request.httpMethod = HTTPMethod.delete.rawValue
+//
+//        guard let movieRepresentation = movie.movieRepresentation else {
+//            print("Movie representation is nil")
+//            completion()
+//            return
+//        }
+//
+//        let context = CoreDataStack.shared.mainContext
+//        do {
+//            context.delete(movie)
+//            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+//        } catch {
+//            context.reset()
+//            print("Error deleting object: \(error)")
+//        }
+//
+//        do {
+//            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+//        } catch {
+//            print("Error encoding movie rep: \(error)")
+//            completion()
+//            return
+//        }
+//
+//        URLSession.shared.dataTask(with: request) { (_, _, error) in
+//            if let error = error {
+//                print("Error putting data: \(error)")
+//                completion()
+//                return
+//            }
+//            completion()
+//        }.resume()
     }
 }

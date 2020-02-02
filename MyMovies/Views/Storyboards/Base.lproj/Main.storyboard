@@ -47,8 +47,8 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n70-zS-TTc">
-                                            <rect key="frame" x="348" y="8" width="46" height="30.5"/>
-                                            <state key="normal" title="Button"/>
+                                            <rect key="frame" x="360" y="8" width="34" height="30.5"/>
+                                            <state key="normal" title="Save"/>
                                             <connections>
                                                 <action selector="isWatchedButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="l00-mr-xV4"/>
                                             </connections>

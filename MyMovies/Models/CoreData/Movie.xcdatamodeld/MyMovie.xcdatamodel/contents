@@ -3,7 +3,7 @@
     <entity name="Movie" representedClassName="Movie" syncable="YES" codeGenerationType="class">
         <attribute name="hasWatched" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="identifier" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
         <element name="Movie" positionX="-63" positionY="-18" width="128" height="88"/>
