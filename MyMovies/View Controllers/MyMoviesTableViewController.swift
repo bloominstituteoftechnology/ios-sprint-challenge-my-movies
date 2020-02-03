@@ -9,6 +9,8 @@
 import UIKit
 
 class MyMoviesTableViewController: UITableViewController {
+    
+    var myMovies: [MovieRepresentation] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()

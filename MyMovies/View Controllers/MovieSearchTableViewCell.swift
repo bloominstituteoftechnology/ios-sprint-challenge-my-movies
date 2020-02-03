@@ -8,12 +8,14 @@
 
 import UIKit
 
+
 class MovieSearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
 
-    var movie: Movie? {
+    var movieController: MovieController?
+    var movie: MovieRepresentation? {
         didSet {
             updateViews()
         }
@@ -27,6 +29,11 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
     
     @IBAction func addMovieTapped(_ sender: Any) {
+        guard let movie = movie else { return }
         
+        addMovieButton.setTitle("Added", for: .normal)
+        
+        let movieToBeAdded = Movie(title: movie.title, context: CoreDataStack.shared.mainContext)
+        movieController?.put(movie: movieToBeAdded)
     }
 }

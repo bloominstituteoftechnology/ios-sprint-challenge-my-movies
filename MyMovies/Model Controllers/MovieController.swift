@@ -129,7 +129,7 @@ class MovieController {
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         var moviesToCreate = representationsByID
         
-        let context = CoreDataStack.shared.container.newBackgroundContext()
+            let context = CoreDataStack.shared.container.newBackgroundContext()
         context.performAndWait {
             do {
                 let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
