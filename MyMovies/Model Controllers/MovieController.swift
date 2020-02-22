@@ -144,13 +144,75 @@ class MovieController {
     
     // Send Movies to Firebase Database ( PUT )
     
-    
-    
-    // Save Movies to Firebase Database
+    func sendMoviesToServer(movie: Movie, completion: @escaping CompletionHandler = {_ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard var representation = movie.movieRepresentation else { completion(NSError())
+            return }
+            representation.identifier = uuid
+            movie.identifier = uuid
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+            request.httpBody = try JSONEncoder().encode(representation)
+            
+        } catch {
+            print("Error encoding Movie \(movie): \(error)")
+            completion(error)
+            return
+        }
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            guard error == nil else {
+            print("Error PUTing tasks to server: \(error!)")
+            DispatchQueue.main.async {
+                completion(error)
+            }
+            return
+        }
+        DispatchQueue.main.async {
+            completion(nil)
+        }
+        }.resume()
+    }
     
     
     //delete movies from FireBase Database
+
+    func deleteMoviesFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            completion(NSError())
+            return
+        }
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error ) in
+            guard error == nil else {
+                print("Error deleting movie: \(error!)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }.resume()
+    }
     
+    // has watched or not watched
+    func hasWatchedMovie(for movie: Movie) {
+        movie.hasWatched.toggle()
+        sendMoviesToServer(movie: movie)
+        do {
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+        } catch {
+            print("error saving selection of movie \(error)")
+        }
+    }
     
     
 }

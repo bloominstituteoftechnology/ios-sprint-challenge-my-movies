@@ -45,7 +45,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     // Add Movie Button ( using label ) 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        <#code#>
+        
     }
   
     
