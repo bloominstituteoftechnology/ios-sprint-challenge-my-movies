@@ -17,6 +17,7 @@
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 		E04E801D2400C75300CFA841 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E801C2400C75300CFA841 /* CoreDataStack.swift */; };
 		E04E80212400C83500CFA841 /* Movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E04E801E2400C83500CFA841 /* Movies.xcdatamodeld */; };
+		E04E80232400CA6900CFA841 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E80222400CA6900CFA841 /* Movie+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		E04E801C2400C75300CFA841 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E04E801F2400C83500CFA841 /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
 		E04E80202400C83500CFA841 /* Movies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movies.xcdatamodel; sourceTree = "<group>"; };
+		E04E80222400CA6900CFA841 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				E04E801C2400C75300CFA841 /* CoreDataStack.swift */,
 				E04E801E2400C83500CFA841 /* Movies.xcdatamodeld */,
+				E04E80222400CA6900CFA841 /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 			files = (
 				E04E801D2400C75300CFA841 /* CoreDataStack.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				E04E80232400CA6900CFA841 /* Movie+Convenience.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
