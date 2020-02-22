@@ -9,6 +9,8 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+   var movieController = MovieController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +43,11 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-    var movieController = MovieController()
+    // Add Movie Button ( using label ) 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        <#code#>
+    }
+  
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
