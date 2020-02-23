@@ -26,7 +26,6 @@ class MyMovieTableViewCell: UITableViewCell {
     
     private func updateViews() {
         guard let movie = movie else { return }
-//        movieNameLbl.text = movie.title
         titleLabel.text = movie.title
         
         let buttonTitle = movie.hasWatched ? "Watched" : "Unwatched"

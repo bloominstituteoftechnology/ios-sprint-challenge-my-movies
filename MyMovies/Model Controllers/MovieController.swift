@@ -15,7 +15,7 @@ class MovieController {
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     let firebaseURL = URL(string: "https://newmovies-4f3f2.firebaseio.com/")!
-//    let myMovieController = MyMovieController()
+
     
     static let sharedInstance = MovieController() // shared isntance of controller
     

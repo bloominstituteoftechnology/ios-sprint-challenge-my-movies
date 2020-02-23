@@ -37,6 +37,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
            MovieController.sharedInstance.createSavedMovie(title: MovieController.sharedInstance.searchedMovies[indexPath.row].title)
            
            let title = MovieController.sharedInstance.searchedMovies[indexPath.row].title
+        
+        
            // ADD an Alert to let user know?
            let alert = UIAlertController(title: "\(title)", message: "Added to Movie list", preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "Return", style: .cancel, handler: nil)
