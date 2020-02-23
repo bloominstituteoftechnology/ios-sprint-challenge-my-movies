@@ -17,7 +17,7 @@ extension Movie {
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
     
-    convenience init(title: String, identifier: UUID = UUID(), hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+   @discardableResult convenience init(title: String, identifier: UUID = UUID(), hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.identifier = identifier
@@ -26,7 +26,7 @@ extension Movie {
     }
     
     // convinence init for Firebase
-    convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 //         let title = movieRepresentation.title else { return nil }
 //           guard let identifierString = movieRepresentation.identifier,
 //            let identifier = UUID(uuidString: "identifierString"),

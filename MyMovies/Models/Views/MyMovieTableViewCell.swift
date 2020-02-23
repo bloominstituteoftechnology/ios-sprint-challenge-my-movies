@@ -10,10 +10,11 @@ import UIKit
 
 class MyMovieTableViewCell: UITableViewCell {
 
-    
+    let movieController = MovieController()
     // IB Outlets
-    @IBOutlet weak var movieNameLbl: UILabel!
-    @IBOutlet weak var watchNotWatchedBtnLbl: UIButton!
+
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var hasWatchedButton: UIButton!
     
     
     var movie: Movie? {
@@ -22,27 +23,14 @@ class MyMovieTableViewCell: UITableViewCell {
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    //IB Action
-    @IBAction func watchedBtnWasPressed(_ sender: UIButton) {
-    }
-    
     
     private func updateViews() {
         guard let movie = movie else { return }
-        movieNameLbl.text = movie.title
+//        movieNameLbl.text = movie.title
+        titleLabel.text = movie.title
+        
         let buttonTitle = movie.hasWatched ? "Watched" : "Unwatched"
-        watchNotWatchedBtnLbl.setTitle(buttonTitle, for: .normal)
+        hasWatchedButton.setTitle(buttonTitle, for: .normal)
     }
 
 }

@@ -30,19 +30,20 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        tableView.reloadData()
+        MovieController.sharedInstance.fetchMoviesFromServer()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        movieController.fetchMoviesFromServer { error in
-            if let error = error {
-                print("error fetching movies: \(error)")
-            }
-        }
+//        movieController.fetchMoviesFromServer { error in
+//            if let error = error {
+//                print("error fetching movies: \(error)")
+//            }
+//        }
 
         // Uncomment the following line to preserve selection between presentations
          self.clearsSelectionOnViewWillAppear = false
@@ -98,23 +99,37 @@ class MyMoviesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let movie = fetchedResultsController.object(at: indexPath)
-            movieController.deleteMoviesFromServer(movie) { (error) in
+            MovieController.sharedInstance.deleteMoviesFromServer(movie) { (error) in
                 guard error == nil else {
                     print("Error deleting task from server: \(error!)")
                     return
                 }
-                let moc = CoreDataStack.shared.mainContext
-                moc.delete(movie)
                 
-                do {
-                    try moc.save()
-                } catch {
-                    moc.reset()
-                    print("Error Saving deleted task: \(error)")
+                DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(movie)
+                    
+                    do {
+                        try moc.save()
+                    } catch {
+                        moc.reset()
+                        print("Error Saving deleted task: \(error)")
+                    }
                 }
+                
             }
         }
     }
+    
+    // IB Action Button
+    @IBAction func watchButtonPressed(_ sender: UIButton) {
+        guard let cell = sender.superview?.superview?.superview as? MyMovieTableViewCell else { return }
+        if let indexPath = tableView.indexPath(for: cell) {
+            MovieController.sharedInstance.hasWatchedMovie(for: fetchedResultsController.object(at: indexPath))
+            tableView.reloadData()
+        }
+    }
+    
     
 
     /*
