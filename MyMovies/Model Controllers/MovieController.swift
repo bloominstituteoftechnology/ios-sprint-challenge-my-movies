@@ -52,6 +52,31 @@ class MovieController {
         }.resume()
     }
     
+    // MARK: - CRUD Methods
+    
+    // Create Movie
+    func createMovie(_ movie: Movie) {
+        
+    }
+
+    func createMovie(from movieRepresentation: MovieRepresentation) {
+        
+    }
+    
+    // Update Movie
+//    func updateMovie(_ movie: Movie, hasWatched: Bool) {
+//
+//    }
+    
+    func toggleHasWatched(for movie: Movie) {
+        
+    }
+    
+    // Delete Movie
+    func deleteMovie(_ movie: Movie) {
+        
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
