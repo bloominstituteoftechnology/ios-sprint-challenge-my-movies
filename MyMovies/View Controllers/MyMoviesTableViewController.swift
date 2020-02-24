@@ -17,7 +17,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        //        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "title", ascending: false) ]
+        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "title", ascending: false) ]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
