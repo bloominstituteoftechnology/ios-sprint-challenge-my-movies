@@ -1,18 +1,20 @@
-//
-//  MovieController.swift
-//  MyMovies
-//
-//  Created by Spencer Curtis on 8/17/18.
-//  Copyright © 2018 Lambda School. All rights reserved.
-//
-
 import Foundation
+import CoreData
 
 class MovieController {
+    
+    
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
+    
+    // MARK: - Functions
+    
+    /// Fetches Movie Search Results & Sets "searchedMovies" object^
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -52,7 +54,29 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
+    /// Saves Movie to Persistent Store
+    func saveMovie(movie: MovieRepresentation) {
+        let moc = CoreDataStack.shared.mainContext
+        let newMovie = Movie(hasWatched: false, identifier: nil, title: movie.title, context: moc)
+        
+        do {
+            try moc.save()
+            print("Movie saved \(newMovie)")
+        } catch {
+            print("Error saving \(newMovie)")
+        }
+    }
     
-    var searchedMovies: [MovieRepresentation] = []
+    /// Update Movie Watched Bool
+    func updateWatched(movie: Movie) {
+        let moc = CoreDataStack.shared.mainContext
+        movie.hasWatched.toggle()
+        
+        do {
+            try moc.save()
+            print("Movie watched bool updated \(movie.title ?? "No Movie Title Found")")
+        } catch {
+            print("Error updating watched bool \(error)")
+        }
+    }
 }
