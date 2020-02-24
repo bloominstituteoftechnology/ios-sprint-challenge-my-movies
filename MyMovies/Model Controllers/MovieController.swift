@@ -161,7 +161,7 @@ class MovieController {
         
         var uuidString = ""
         
-        moc.perform {
+        moc.performAndWait {
             uuidString = movie.identifier?.uuidString ?? UUID().uuidString
         }
         
@@ -169,16 +169,16 @@ class MovieController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
                 
-        moc.perform {
+        moc.performAndWait {
             do {
-                guard let representation = movie.movieRepresentation else {
+                guard var representation = movie.movieRepresentation else {
                     completion(NSError())
                     return
                 }
                 
-                //let identifier = UUID(uuidString: uuidString)
-                //representation.identifier = identifier
-                //movie.identifier = identifier
+                let identifier = UUID(uuidString: uuidString)
+                representation.identifier = identifier
+                movie.identifier = identifier
                 try CoreDataStack.shared.save()
                 request.httpBody = try JSONEncoder().encode(representation)
             } catch {
