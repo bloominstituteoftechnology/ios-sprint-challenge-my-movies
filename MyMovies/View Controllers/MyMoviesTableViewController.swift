@@ -46,14 +46,17 @@ class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - Table View Data Source
     
+    // Number of Sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
     
+    // Number of Rows
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
+    // Section Titles
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = fetchedResultsController.sections?[section]
         var sectionString = "Unknown"
@@ -65,7 +68,7 @@ class MyMoviesTableViewController: UITableViewController {
         return sectionString
     }
     
-    
+    // Cell Content Setup
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell()}
         
@@ -74,28 +77,22 @@ class MyMoviesTableViewController: UITableViewController {
         return cell
     }
     
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    
+    // Deleting Movie from Cell (Swipe)
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = fetchedResultsController.object(at: indexPath)
+            
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(movie)
+            
+            do {
+                try moc.save()
+            } catch {
+                moc.reset()
+                print("Error saving deleted movie: \(error)")
+            }
+        }
+    }
 }
 
 // MARK: - Extentions
