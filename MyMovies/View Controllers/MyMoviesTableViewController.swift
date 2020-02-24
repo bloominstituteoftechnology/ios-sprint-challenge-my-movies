@@ -130,6 +130,12 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
     
+    // Pull to Refresh
+    @IBAction func pullToRefresh(_ sender: UIRefreshControl) {
+        movieController.fetchMoviesFromServer { (_) in
+            self.refreshControl?.endRefreshing()
+        }
+    }
     
 
     /*
