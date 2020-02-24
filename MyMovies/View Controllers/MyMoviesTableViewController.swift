@@ -22,7 +22,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "title", ascending: false) ]
+        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "title", ascending: true) ]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
@@ -69,6 +69,14 @@ class MyMoviesTableViewController: UITableViewController {
             movieController.deleteMovie(movie)
         }
     }
+    
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if let cell = tableView.cellForRow(at: indexPath) as? MyMoviesTableViewCell {
+//            let titleLabelHeight = cell.titleLabel.bounds.height
+//            return titleLabelHeight + 8
+//        }
+//        return 44
+//    }
 }
 
 // MARK: - MyMoviesTableViewCell Delegate
