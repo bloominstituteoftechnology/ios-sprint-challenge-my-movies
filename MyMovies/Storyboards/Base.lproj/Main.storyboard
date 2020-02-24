@@ -46,13 +46,13 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8NB-N9-BgF">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8NB-N9-BgF">
                                             <rect key="frame" x="15.999999999999996" y="11.666666666666666" width="36.666666666666657" height="20.333333333333336"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MeM-bd-ZBV">
+                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MeM-bd-ZBV">
                                             <rect key="frame" x="286" y="7" width="73" height="30"/>
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
@@ -103,33 +103,28 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
-                                            <rect key="frame" x="16" y="12.666666666666664" width="343" height="30"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="249" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="265" y="0.0" width="78" height="30"/>
-                                                    <state key="normal" title="Unwatched"/>
-                                                    <connections>
-                                                        <action selector="hasWatchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="Hpr-T9-Bxi"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                        </stackView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
+                                            <rect key="frame" x="15.999999999999996" y="17.333333333333336" width="36.666666666666657" height="20.333333333333336"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
+                                            <rect key="frame" x="281" y="12.666666666666664" width="78" height="30"/>
+                                            <state key="normal" title="Unwatched"/>
+                                            <connections>
+                                                <action selector="hasWatchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="Hpr-T9-Bxi"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="O4P-Iq-3DJ" secondAttribute="trailing" constant="16" id="Nmh-VJ-Xbu"/>
-                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leading" constant="16" id="kzH-Xg-p5Y"/>
+                                        <constraint firstItem="a6O-zS-fmH" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="LR5-fA-gIy"/>
+                                        <constraint firstItem="3Ay-OW-Mt0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a6O-zS-fmH" secondAttribute="trailing" constant="8" symbolic="YES" id="UBs-o4-edA"/>
+                                        <constraint firstItem="a6O-zS-fmH" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leadingMargin" id="YVQ-Gj-h9P"/>
+                                        <constraint firstItem="3Ay-OW-Mt0" firstAttribute="trailing" secondItem="F0q-Pd-Woa" secondAttribute="trailingMargin" id="a4N-OD-x4U"/>
+                                        <constraint firstItem="3Ay-OW-Mt0" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="n5P-rh-oaT"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <constraints>
-                                    <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
-                                </constraints>
                                 <connections>
                                     <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="b73-hl-twZ"/>
                                     <outlet property="titleLabel" destination="a6O-zS-fmH" id="M4Q-ZP-4Se"/>

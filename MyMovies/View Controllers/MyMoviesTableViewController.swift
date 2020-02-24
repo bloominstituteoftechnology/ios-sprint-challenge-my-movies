@@ -11,6 +11,11 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
 
+    enum SectionName: String, CaseIterable {
+        case unwatched = "Unwatched"
+        case watched = "Watched"
+    }
+    
     // MARK: - Properties
 
     let movieController = MovieController()
@@ -27,18 +32,6 @@ class MyMoviesTableViewController: UITableViewController {
         try! frc.performFetch()
         return frc
     }()
-    
-    // MARK: - Lifecycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
 
     // MARK: - Table view data source
 
@@ -61,7 +54,13 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = fetchedResultsController.sections?[section]
-        return sectionInfo?.name
+        
+        if let sectionInfo = sectionInfo,
+            let sectionNameIndex = Int(sectionInfo.name) {
+            return SectionName.allCases[sectionNameIndex].rawValue
+        } else {
+            return sectionInfo?.name
+        }
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -76,7 +75,6 @@ class MyMoviesTableViewController: UITableViewController {
 
 extension MyMoviesTableViewController: MyMoviesTableViewCellDelegate {
     func hasWatchedButtonWasTapped(for movie: Movie) {
-        //movieController.updateMovie(movie, hasWatched: movie.hasWatched.toggle())
         movieController.toggleHasWatched(for: movie)
     }
 }
