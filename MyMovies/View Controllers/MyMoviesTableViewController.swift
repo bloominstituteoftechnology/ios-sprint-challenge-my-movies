@@ -6,6 +6,9 @@ class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - Properties
     
+    private let movieController = MovieController()
+    
+    /// Returns movies from Core Data to Table View
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [
@@ -68,7 +71,7 @@ class MyMoviesTableViewController: UITableViewController {
         return sectionString
     }
     
-    // Cell Content Setup
+    // Cell Setup
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell()}
         
@@ -82,6 +85,8 @@ class MyMoviesTableViewController: UITableViewController {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
             
+            movieController.deleteMovieFromServer(movie)
+            
             let moc = CoreDataStack.shared.mainContext
             moc.delete(movie)
             
@@ -93,10 +98,23 @@ class MyMoviesTableViewController: UITableViewController {
             }
         }
     }
+
+// MARK: - IBActions
+    @IBAction func refreshControl(_ sender: Any) {
+        movieController.fetchMovieFromServer() { (_) in
+            self.refreshControl?.endRefreshing()
+        }
+    }
 }
+
+
+
+
+
 
 // MARK: - Extentions
 
+/// Delegate Code for TableView & Persistent Store
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     
     // Tell Tableview we're about to make updates

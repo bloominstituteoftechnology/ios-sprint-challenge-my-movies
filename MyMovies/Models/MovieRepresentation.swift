@@ -1,9 +1,9 @@
 import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
-    let title: String
-    let identifier: String?
-    let hasWatched: Bool?
+    var title: String
+    var identifier: String?
+    var hasWatched: Bool?
 }
 
 /*
