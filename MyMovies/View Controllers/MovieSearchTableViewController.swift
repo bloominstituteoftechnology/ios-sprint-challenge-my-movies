@@ -15,9 +15,8 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     @IBOutlet weak var searchBar: UISearchBar!
     
-
     
-  
+    
     //MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +46,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     // MARK: - Table View
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -60,7 +59,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         return cell
     }
-    
 }
 
 extension MovieSearchTableViewController: MovieSearchCellDelegate {
@@ -71,6 +69,4 @@ extension MovieSearchTableViewController: MovieSearchCellDelegate {
         
         movieController.createMovie(from: movieRepresentation)
     }
-    
-    
 }

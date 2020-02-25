@@ -46,18 +46,18 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="HWZ-C5-3IP">
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="QDu-Z1-XZz">
                                             <rect key="frame" x="16" y="7" width="343" height="30"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Jff-uo-phU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Jff-uo-phU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="254" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MQc-JR-eFs">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MQc-JR-eFs">
+                                                    <rect key="frame" x="270" y="0.0" width="73" height="30"/>
+                                                    <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="wgK-Hc-Pub"/>
                                                     </connections>
@@ -66,11 +66,13 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="HWZ-C5-3IP" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="MCu-db-c3R"/>
-                                        <constraint firstAttribute="trailing" secondItem="HWZ-C5-3IP" secondAttribute="trailing" constant="16" id="mZp-tc-zaL"/>
-                                        <constraint firstItem="HWZ-C5-3IP" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="uCT-LP-fJ9"/>
+                                        <constraint firstAttribute="trailing" secondItem="QDu-Z1-XZz" secondAttribute="trailing" constant="16" id="1uX-PD-ZT3"/>
+                                        <constraint firstItem="QDu-Z1-XZz" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="Xaa-CL-JkU"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <constraints>
+                                    <constraint firstItem="QDu-Z1-XZz" firstAttribute="centerY" secondItem="d7W-qE-xfL" secondAttribute="centerY" id="uzm-Ij-F0h"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="movieTitleLable" destination="Jff-uo-phU" id="8Cb-cr-O6p"/>
                                 </connections>
@@ -88,7 +90,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
@@ -110,14 +112,14 @@
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="237" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="253" y="0.0" width="90" height="30"/>
+                                                    <state key="normal" title="Not Watched"/>
                                                     <connections>
                                                         <action selector="hasWatchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="R3n-7F-Foh"/>
                                                     </connections>
@@ -145,10 +147,16 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="2F0-C5-YP3">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="resfresh:" destination="1Gb-tL-YFt" eventType="valueChanged" id="dHd-3R-Xdw"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1496.8" y="699.40029985007504"/>
+            <point key="canvasLocation" x="2260" y="-27"/>
         </scene>
     </scenes>
 </document>

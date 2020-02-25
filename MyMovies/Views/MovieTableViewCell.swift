@@ -21,7 +21,7 @@ class MovieTableViewCell: UITableViewCell {
             movieTitleLable.text = title
         }
     }
-    var delegate: MovieSearchCellDelegate?
+   weak var delegate: MovieSearchCellDelegate?
     
     // MARK: - IBOutlets
     @IBOutlet weak var movieTitleLable: UILabel!
@@ -30,7 +30,6 @@ class MovieTableViewCell: UITableViewCell {
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
         delegate?.addMovieButtonTapped(sender: self)
     }
-    
     
 
 }

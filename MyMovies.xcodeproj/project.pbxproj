@@ -70,12 +70,12 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				635C74192404825500C3931A /* Views */,
-				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
-				46E20A082126AFAC00E7FF73 /* View Controllers */,
-				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A092126AFC200E7FF73 /* Resources */,
+				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				46E20A082126AFAC00E7FF73 /* View Controllers */,
+				635C74192404825500C3931A /* Views */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";

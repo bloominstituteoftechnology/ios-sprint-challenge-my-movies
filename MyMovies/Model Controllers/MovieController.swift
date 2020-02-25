@@ -13,7 +13,7 @@ class MovieController {
     
     typealias completionHandler = (Error?) -> Void
     
-
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
@@ -23,9 +23,9 @@ class MovieController {
     private let serverBaseURL = URL(string: "https://mymovies-8d6be.firebaseio.com/")!
     
     
-init() {
-     fetchMoviesFromServer()
- }
+    init() {
+        fetchMoviesFromServer()
+    }
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -66,91 +66,97 @@ init() {
     }
     
     func fetchMoviesFromServer(completion: @escaping completionHandler = { _ in }) {
-           let requestURL = serverBaseURL.appendingPathExtension("json")
-           var request = URLRequest(url: requestURL)
-           request.httpMethod = "GET"
-           
-           URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-               //if you want it to not to continue. if let, else continues in the code.
-               guard error == nil else {
-                   print("Error fetching tasks: \(error!)")
-                   DispatchQueue.main.async {
-                       completion(error)
-                   }
-                   return
-               }
-               
-               guard let data = data else {
-                   print("No data returned by data task")
-                   DispatchQueue.main.async {
-                       completion(NSError())
-                   }
-                   
-                   return
-               }
+        let requestURL = serverBaseURL.appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            //if you want it to not to continue. if let, else continues in the code.
+            guard error == nil else {
+                print("Error fetching tasks: \(error!)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
             
-               do {
-                   //we want the values of the dictionary
-                   let movieRepresentation = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
-                   // Update tasks
-                   try self.updateMovies(with: movieRepresentation)
-                   DispatchQueue.main.async {
-                       completion(nil)
-                   }
-               } catch {
-                   print("Error decoding task representations: \(error)")
-                   DispatchQueue.main.async {
-                       completion(error)
-                   }
-               }
-           }.resume()
-       }
+            guard let data = data else {
+                print("No data returned by data task")
+                DispatchQueue.main.async {
+                    completion(NSError())
+                }
+                
+                return
+            }
+            
+            do {
+                //we want the values of the dictionary
+                let movieRepresentation = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                // Update tasks
+                try self.updateMovies(with: movieRepresentation)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            } catch {
+                print("Error decoding task representations: \(error)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+            }
+        }.resume()
+    }
     
     func updateMovies(with representations: [MovieRepresentation]) throws {
-           let moviesWithID = representations.filter { $0.identifier != nil }
-           //array of UUIDs. Removes any value that is nil
-        let identifiersToFetch = representations.compactMap { $0.identifier }
-           //creates a dictionary where key is UUID and the value is the task object
-           let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesWithID))
-           var moviesToCreate = representationsByID
-           
-           let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-           fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-           
-           let context = CoreDataStack.shared.container.newBackgroundContext()
-           
-           context.perform {
-                    do {
-                      let existingMovies = try context.fetch(fetchRequest)
-                      
-                      for movie in existingMovies {
-                          guard let id = movie.identifier,
-                              let representation = representationsByID[id] else { continue }
-                          //from line 88. private func to keep code cleaner. Could have set values here
-                          self.update(movie: movie, with: representation)
-                          moviesToCreate.removeValue(forKey: id)
-                      }
-                      for representation in moviesToCreate.values {
-                        Movie(movieRepresentation: representation, context: context)
-                      }
-                  } catch {
-                      print("Error fetching task for UUIDs: \(error)")
-                      
-                  }
-           }
+        let moviesWithID = representations.filter { $0.identifier != nil }
+        //array of UUIDs. Removes any value that is nil
+        let identifiersToFetch = moviesWithID.compactMap { $0.identifier }
+        //creates a dictionary where key is UUID and the value is the task object
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesWithID))
+        var moviesToCreate = representationsByID
         
-        context.performAndWait {
-           do {
-               try CoreDataStack.shared.save(context: context)
-           } catch {
-               print("Error savind to database")
-           }
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.perform {
+            do {
+                let allMovies = try context.fetch(Movie.fetchRequest()) as? [Movie]
+                let moviesToDelete = allMovies!.filter { !identifiersToFetch.contains($0.identifier!) }
+                
+                for movie in moviesToDelete {
+                    context.delete(movie)
+                }
+                
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(movie: movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching task for UUIDs: \(error)")
+                
+            }
+        }
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            print("Error saving to database")
+        }
     }
-       }
     
     func sendMovieToServer(movie: Movie, completion: @escaping completionHandler = { _ in }) {
         let uuid = movie.identifier ?? UUID()
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        
+        let requestURL = serverBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -207,39 +213,37 @@ init() {
     }
     
     func deleteMovieFromServer(_ movie: Movie, completion: @escaping completionHandler = { _ in }) {
-          
-           CoreDataStack.shared.mainContext.perform {
-            guard let uuid = movie.identifier else {
-                       completion(NSError())
-                       return
-                   }
-                   
-            let requestURL = self.serverBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-                   var request = URLRequest(url: requestURL)
-                   request.httpMethod = "DELETE"
-                   
-                   URLSession.shared.dataTask(with: request) { (_, _, error) in
-                       guard error == nil else {
-                           print("Error deleting task: \(error!)")
-                           DispatchQueue.main.async {
-                               completion(error)
-                           }
-                           return
-                       }
-                       
-                       DispatchQueue.main.async {
-                           completion(nil)
-                       }
-                   }.resume()
-               }
-           }
+        
+        CoreDataStack.shared.mainContext.perform {
+            guard let uuidString = movie.identifier?.uuidString else {
+                completion(NSError())
+                return
+            }
+            
+            let requestURL = self.serverBaseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = "DELETE"
+            
+            URLSession.shared.dataTask(with: request) { (_, _, error) in
+                guard error == nil else {
+                    print("Error deleting task: \(error!)")
+                    DispatchQueue.main.async {
+                        completion(error)
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }.resume()
+        }
+    }
     
-       func toggleHasWatched(for movie: Movie) {
+    func toggleHasWatched(for movie: Movie) {
         movie.hasWatched.toggle()
         sendMovieToServer(movie: movie)
         
-         }
+    }
     
-    
-
 }

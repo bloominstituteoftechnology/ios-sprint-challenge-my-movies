@@ -22,7 +22,7 @@ class MyMoviesTableViewCell: UITableViewCell {
         }
     }
     
-    var delegate: MyMoviesCellDelegate?
+    weak var delegate: MyMoviesCellDelegate?
     
     @IBOutlet weak var movieLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
@@ -38,6 +38,7 @@ class MyMoviesTableViewCell: UITableViewCell {
             hasWatchedButton.setTitle("watched", for: .normal)
         }
         delegate?.hasWatchedButtonTapped(for: movie)
+        
     }
     
     private func updateViews() {
@@ -47,6 +48,7 @@ class MyMoviesTableViewCell: UITableViewCell {
             self.movieLabel.text = movie.title
             let buttonTitle = movie.hasWatched ? "Watched" : "Unwatched"
             self.hasWatchedButton.setTitle(buttonTitle, for: .normal)
+            
         }
     }
         
