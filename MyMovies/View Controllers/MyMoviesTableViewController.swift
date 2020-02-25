@@ -99,6 +99,7 @@ class MyMoviesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let movie = fetchedResultsController.object(at: indexPath)
+            
             movieController.deleteMovieFromServer(movie)
             
             let moc = CoreDataStack.shared.mainContext

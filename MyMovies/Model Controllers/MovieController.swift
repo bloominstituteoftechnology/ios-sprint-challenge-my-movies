@@ -66,7 +66,7 @@ class MovieController {
     }
     
     func fetchMoviesFromServer(completion: @escaping completionHandler = { _ in }) {
-        let requestURL = serverBaseURL.appendingPathExtension("json")
+        let requestURL = serverBaseURL.appendingPathComponent("Movie").appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "GET"
         
@@ -91,9 +91,10 @@ class MovieController {
             
             do {
                 //we want the values of the dictionary
-                let movieRepresentation = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                
+                let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
                 // Update tasks
-                try self.updateMovies(with: movieRepresentation)
+                try self.updateMovies(with: movieRepresentations)
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -156,7 +157,7 @@ class MovieController {
     func sendMovieToServer(movie: Movie, completion: @escaping completionHandler = { _ in }) {
         let uuid = movie.identifier ?? UUID()
         
-        let requestURL = serverBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = serverBaseURL.appendingPathComponent("Movie").appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -215,12 +216,12 @@ class MovieController {
     func deleteMovieFromServer(_ movie: Movie, completion: @escaping completionHandler = { _ in }) {
         
         CoreDataStack.shared.mainContext.perform {
-            guard let uuidString = movie.identifier?.uuidString else {
+            guard let uuid = movie.identifier else {
                 completion(NSError())
                 return
             }
             
-            let requestURL = self.serverBaseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
+            let requestURL = self.serverBaseURL.appendingPathComponent("Movie").appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
             var request = URLRequest(url: requestURL)
             request.httpMethod = "DELETE"
             
