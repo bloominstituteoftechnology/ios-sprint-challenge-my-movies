@@ -55,4 +55,77 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
-}
+    var movieRepresentation: MovieRepresentation?
+    let moc = CoreDataStack.shared.mainContext
+    
+    // Core data
+    var firebaseURL = URL(string: "https://my-movies-2e66b.firebaseio.com/")
+    typealias CompletionHandler = (Error?) -> Void
+
+    init() {
+        ()
+    }
+    
+    func saveToPersistentStore() {
+        do {
+            try moc.save()
+        } catch {
+            moc.reset()
+            print("Error saving to persistent store: \(error)")
+        }
+    }
+    
+    func addMovie(withTitle title: String) {
+        let movie = Movie(title: title, hasWatched: false)
+        
+        put(movie: movie)
+        saveToPersistentStore()
+    }
+    
+    func deleteMovie(movie: Movie) {
+        moc.delete(movie)
+        saveToPersistentStore()
+    }
+    
+    
+    //PUTting the entry onto firebase
+       private func put(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+           let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseURL!.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+           var request = URLRequest(url: requestURL)
+           request.httpMethod = "PUT"
+           
+           do {
+            guard var representation =  movie.movieRepresentation else {
+                   completion(NSError())
+                   return
+               }
+            
+               movie.identifier = uuid
+               try saveToPersistentStore()
+               request.httpBody = try JSONEncoder().encode(representation)
+               } catch {
+                   print("Error encoding entry \(movie): \(error)")
+                   completion(error)
+                   return
+           }
+           
+          URLSession.shared.dataTask(with: request) { (data, _, error) in
+               guard error == nil else {
+                   print("Error PUTting task to server: \(error!)")
+                   DispatchQueue.main.async {
+                       completion(error)
+                   }
+                   return
+               }
+               DispatchQueue.main.async {
+                   completion(nil)
+               }
+           }.resume()
+       }
+
+    }
+    
+    
+    
+
