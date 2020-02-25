@@ -8,10 +8,7 @@
 
 import UIKit
 import CoreData
-enum hasWatched: String {
-    case notWatched = "Not Watched"
-    case watched = "Watched"
-}
+
 
 class MyMoviesTableViewController: UITableViewController {
 
@@ -25,12 +22,9 @@ private let movieController = MovieController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
           let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-//          fetchRequest.sortDescriptors = [
-//              //key is a name of an attribute we are fetching
-//              //starting to a-z = true.. z-a = false
-//              NSSortDescriptor(key: "title", ascending: true),
-//              NSSortDescriptor(key: "identifier", ascending: true)
-//          ]
+          fetchRequest.sortDescriptors = [
+              NSSortDescriptor(key: "title", ascending: true)
+          ]
           let moc = CoreDataStack.shared.mainContext
           let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                managedObjectContext: moc,
@@ -78,21 +72,20 @@ private let movieController = MovieController()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell()}
         
-        let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
-       
-
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.delegate = self
+    
         return cell
     }
     
-
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.deleteMovieFromServer(movie)
         
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -100,20 +93,18 @@ private let movieController = MovieController()
     }
 
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
-//MARK: = Fetch Controller Extension
+//MARK: - Cell Delegate
+extension MyMoviesTableViewController: MyMoviesCellDelegate {
+    func hasWatchedButtonTapped(for movie: Movie) {
+        movieController.toggleHasWatched(for: movie)
+    }
+    
+    
+}
 
+//MARK: - Fetch Controller Delegate
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

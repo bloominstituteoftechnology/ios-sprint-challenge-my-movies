@@ -20,6 +20,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let serverBaseURL = URL(string: "https://mymovies-8d6be.firebaseio.com/")!
     
     
 init() {
@@ -65,7 +66,7 @@ init() {
     }
     
     func fetchMoviesFromServer(completion: @escaping completionHandler = { _ in }) {
-           let requestURL = baseURL.appendingPathExtension("json")
+           let requestURL = serverBaseURL.appendingPathExtension("json")
            var request = URLRequest(url: requestURL)
            request.httpMethod = "GET"
            
@@ -87,12 +88,12 @@ init() {
                    
                    return
                }
-               
+            
                do {
                    //we want the values of the dictionary
-                   let taskRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                   let movieRepresentation = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
                    // Update tasks
-                   try self.updateMovies(with: taskRepresentations)
+                   try self.updateMovies(with: movieRepresentation)
                    DispatchQueue.main.async {
                        completion(nil)
                    }
@@ -137,21 +138,75 @@ init() {
                       
                   }
            }
+        
+        context.performAndWait {
            do {
                try CoreDataStack.shared.save(context: context)
            } catch {
                print("Error savind to database")
            }
-          
+    }
        }
+    
+    func sendMovieToServer(movie: Movie, completion: @escaping completionHandler = { _ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard var representation = movie.movieRepresentation else {
+                completion(NSError())
+                return
+            }
+            representation.identifier = uuid
+            movie.identifier = uuid
+            //update the main context bc we are on theUI
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding task \(movie): \(error)")
+            completion(error)
+            return
+        }
+        //background thread
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            guard error == nil else {
+                print("Error PUTting task to server: \(error!)")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }.resume()
+        
+    }
+    
     
     private func update(movie: Movie, with representation: MovieRepresentation) {
         movie.title =  representation.title
         movie.hasWatched = representation.hasWatched ?? false
+        movie.identifier = representation.identifier
     }
     // MARK: -  CRUD
     
-    func deleteTaskFromServer(_ movie: Movie, completion: @escaping completionHandler = { _ in }) {
+    func createMovie(title: String, identifier: UUID, hasWatched: Bool) {
+        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
+        sendMovieToServer(movie: movie)
+    }
+    
+    func createMovie(from movieRepresentation: MovieRepresentation) {
+        let title = movieRepresentation.title
+        let identifier = movieRepresentation.identifier ?? UUID()
+        let hasWatched = movieRepresentation.hasWatched ?? false
+        createMovie(title: title, identifier: identifier, hasWatched: hasWatched)
+    }
+    
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping completionHandler = { _ in }) {
           
            CoreDataStack.shared.mainContext.perform {
             guard let uuid = movie.identifier else {
@@ -159,7 +214,7 @@ init() {
                        return
                    }
                    
-            let requestURL = self.baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+            let requestURL = self.serverBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
                    var request = URLRequest(url: requestURL)
                    request.httpMethod = "DELETE"
                    
@@ -178,7 +233,12 @@ init() {
                    }.resume()
                }
            }
-       
+    
+       func toggleHasWatched(for movie: Movie) {
+        movie.hasWatched.toggle()
+        sendMovieToServer(movie: movie)
+        
+         }
     
     
 

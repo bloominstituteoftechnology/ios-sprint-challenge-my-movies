@@ -11,12 +11,11 @@ import CoreData
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
     
-    
-    //MARK: - IBOutlets
+    //MARK: - Properties
+    var movieController = MovieController()
     @IBOutlet weak var searchBar: UISearchBar!
     
-    //MARK: - Properties
-    private let movieController = MovieController()
+
     
   
     //MARK: - View Lifecycle
@@ -54,24 +53,24 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell()}
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.title = movieController.searchedMovies[indexPath.row].title
+        cell.delegate = self
         
         return cell
     }
     
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//            if segue.identifier == "ShowTaskDetailSegue" {
-//                guard let detailVC = segue.destination as? TaskDetailViewController  else { return }
-//                guard let indexPath = tableView.indexPathForSelectedRow else { return }
-//                detailVC.task = fetchedResultsController.object(at: indexPath)
-//            }
-//
-//            if let detailVC = segue.destination as? TaskDetailViewController {
-//                detailVC.taskController = taskController
-//            }
-//        }
-    }
 }
 
+extension MovieSearchTableViewController: MovieSearchCellDelegate {
+    func addMovieButtonTapped(sender: MovieTableViewCell) {
+        guard let index = tableView.indexPath(for: sender)?.row else { return }
+        
+        let movieRepresentation = movieController.searchedMovies[index]
+        
+        movieController.createMovie(from: movieRepresentation)
+    }
+    
+    
+}

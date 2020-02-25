@@ -8,6 +8,9 @@
 
 import UIKit
 
+protocol MovieSearchCellDelegate: class {
+    func addMovieButtonTapped(sender: MovieTableViewCell)
+}
 class MovieTableViewCell: UITableViewCell {
 
     
@@ -18,24 +21,16 @@ class MovieTableViewCell: UITableViewCell {
             movieTitleLable.text = title
         }
     }
+    var delegate: MovieSearchCellDelegate?
+    
     // MARK: - IBOutlets
     @IBOutlet weak var movieTitleLable: UILabel!
     
     //MARK: - IBActions
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
+        delegate?.addMovieButtonTapped(sender: self)
     }
     
     
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 
 }
