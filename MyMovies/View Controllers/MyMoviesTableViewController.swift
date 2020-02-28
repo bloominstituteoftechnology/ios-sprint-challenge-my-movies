@@ -56,7 +56,7 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
 
     override func numberOfSections(in tableView: UITableView) -> Int {
        
-        return 2
+        return fetchedResultsController.sections?.count ?? 1
         
     }
 
@@ -73,7 +73,7 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//     guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+
      
         return section == 0 ? "Watched" : "Unwatched"
         
