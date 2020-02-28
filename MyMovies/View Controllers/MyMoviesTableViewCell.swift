@@ -10,7 +10,12 @@ import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
     
-    // MARK: - 
+    // MARK: - Properties
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
     
     // MARK: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
@@ -22,6 +27,19 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     @IBAction func hasWatchedButtonTapped(_ sender: UIButton) {
         
+        guard let movie = movie else { return }
+        
+        MovieController.shared.toggle(movie: movie)
+        
+    }
+    
+    // MARK: - Methods
+    
+    func updateViews() {
+        guard let movie = movie else { return }
+        titleLabel.text = movie.title
+        let hasWatchedButtonTitle = movie.hasWatched ? "Watched" : "Not Watched"
+        hasWatchedButton.setTitle(hasWatchedButtonTitle, for: .normal)
     }
     
     override func awakeFromNib() {
