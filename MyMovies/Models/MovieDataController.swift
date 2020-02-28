@@ -13,6 +13,11 @@ class MovieDataController {
       
     typealias  CompletionHandler = (Error?) -> Void
     let baseURL = URL(string: "https://coredatasprintchallenge-8e04a.firebaseio.com/")!
+    static let shared = MovieDataController()
+    
+    init() {
+           fetchMoviesFromServer()
+       }
     
     // MARK: - Core Data Functions (CRUD)
     
@@ -41,7 +46,6 @@ class MovieDataController {
     //Update
     func updateMovie(movie: Movie, hasWatched: Bool) {
         movie.hasWatched = hasWatched
-        
         
         saveToPersistentStore()
         put(movie: movie)
@@ -151,10 +155,7 @@ class MovieDataController {
         }
     }.resume()
 }
-       
-    // Delete from server
-    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-    }
+    
 //    func loadFromPersistentStore() -> [Movie] {
 //
 //        var movie: [Movie] {
@@ -169,4 +170,31 @@ class MovieDataController {
 //        }
 //        return movie
 //    }
+
+    // Delete from server
+       func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        do {
+            guard let representation = movie.movieRepresentation else { throw NSError() }
+                   
+            let uuid = representation.identifier?.uuidString
+                   
+                   // Append identifier of the entry parameter to the baseURL
+            let requestURL = baseURL.appendingPathComponent(uuid!).appendingPathExtension("json")
+                   
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = "DELETE"
+                
+            URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                    NSLog("Error deleting movie: \(error)")
+            }
+                completion(error)
+            }.resume()
+                   
+        } catch {
+            NSLog("Error encoding task: \(error)")
+            completion(error)
+            return
+    }
   }
+}

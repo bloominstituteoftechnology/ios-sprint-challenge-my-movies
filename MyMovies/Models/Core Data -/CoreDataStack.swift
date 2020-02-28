@@ -26,7 +26,19 @@ class CoreDataStack {
         }
     }
         mainContext = container.viewContext
+        mainContext.automaticallyMergesChangesFromParent = true
   }
+    func makeNewFetchedResultsController() -> NSFetchedResultsController<Movie> {
+         
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+         fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "hasWatched", ascending: true) ]
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                managedObjectContext: mainContext,
+                sectionNameKeyPath: "hasWatched", cacheName: nil)
+         
+         return frc
+    }
     // Helper Method
     func saveTo(context: NSManagedObjectContext) throws {
         var saveError: Error?
