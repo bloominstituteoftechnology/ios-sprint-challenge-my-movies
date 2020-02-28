@@ -10,6 +10,9 @@ import UIKit
 
 class MovieCell: UITableViewCell {
     
+    
+    
+    
     var movie: MovieRepresentation? {
         didSet {
             updateViews()
@@ -23,6 +26,7 @@ class MovieCell: UITableViewCell {
     }
     
     
+    // MARK : - IBOutlets
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var movieTitle: UILabel!
     
