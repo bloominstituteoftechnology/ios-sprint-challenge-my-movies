@@ -2,7 +2,7 @@
 //  CoreDataStack.swift
 //  MyMovies
 //
-//  Created by Tobi Kuyoro on 31/01/2020.
+//  Created by Tobi Kuyoro on 28/02/2020.
 //  Copyright © 2020 Lambda School. All rights reserved.
 //
 
@@ -12,16 +12,16 @@ import CoreData
 class CoreDataStack {
     
     static let shared = CoreDataStack()
-    private init() {}
     
     lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Movies")
+       let container = NSPersistentContainer(name: "Movies")
         container.loadPersistentStores { (_, error) in
             if let error = error {
-                fatalError("Failed to load movies from persistent stores: \(error)")
+                fatalError("Error loading persistent stores: \(error)")
             }
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
+        
         return container
     }()
     
@@ -29,14 +29,20 @@ class CoreDataStack {
         return container.viewContext
     }
     
-    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        var error: Error?
+        
         context.performAndWait {
             do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch {
-                NSLog("Error saving context: \(error)")
-                CoreDataStack.shared.mainContext.reset()
+                try context.save()
+            } catch let saveError {
+                NSLog("Error saving to persistent stores: \(saveError)")
+                error = saveError
             }
+        }
+        
+        if let error = error {
+            throw error
         }
     }
 }
