@@ -14,8 +14,9 @@ protocol ClouldMovieCellDelegate: AnyObject {
 
 class CloudMovieCell: UITableViewCell {
     
-    
     weak var delegate: ClouldMovieCellDelegate?
+    
+    // MARK: - Properties
     
     var movie: MovieRepresentation? {
         didSet {
