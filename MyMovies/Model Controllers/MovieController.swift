@@ -76,6 +76,7 @@ class MovieController {
     
     // MARK: - PUT
     func put(movie: MovieRepresentation,completion: @escaping CompletionHandler = {_ in } ) {
+        
         var newMovie = movie
           let identifier = movie.identifier ?? UUID()
           
@@ -90,7 +91,7 @@ class MovieController {
           do {
            
        
-            newMovie.identifier = identifier
+               newMovie.identifier = identifier
               requestURL.httpBody = try jsonEncoder.encode(newMovie)
               
           } catch let error as NSError {
@@ -140,7 +141,7 @@ class MovieController {
     
     func fetchMoviesFromSever(completion: @escaping CompletionHandler = { _ in }) {
              let requestURL = firebaseBaseURL.appendingPathExtension("json")
-          print(requestURL)
+         
              
              URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
                  if let error = error {
@@ -183,7 +184,7 @@ class MovieController {
             
          
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title IN %@",identifiersToFetch)
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@",identifiersToFetch)
         
         let context = CoreDataStack.shared.container.newBackgroundContext()
         
@@ -231,7 +232,7 @@ class MovieController {
         newMoview.hasWatched = newStatus
             
             put(movie: newMoview)
-    //        saveToPersistentStore()
+    
             
         }
     

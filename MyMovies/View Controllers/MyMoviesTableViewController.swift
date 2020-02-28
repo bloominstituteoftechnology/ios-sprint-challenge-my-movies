@@ -37,7 +37,7 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       
+    
     }
     override func viewWillAppear(_ animated: Bool) {
           super.viewWillAppear(animated)
