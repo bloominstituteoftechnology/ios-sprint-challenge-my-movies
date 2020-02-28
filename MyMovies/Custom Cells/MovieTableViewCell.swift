@@ -10,7 +10,6 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
 
-    @IBOutlet var movieLabel: UILabel!
     @IBOutlet var watchedButton: UIButton!
     
     @IBAction func watchedToggled(_ sender: UIButton){

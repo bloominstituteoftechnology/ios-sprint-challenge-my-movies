@@ -17,9 +17,9 @@ class MovieController {
     
     // MARK: -CRUD Methods
     
-    private func createMovie(with hasWatched: Bool,
-                             identifier: UUID,
-                             title: String) {
+    func createMovie(hasWatched: Bool = false,
+                     identifier: UUID = UUID(),
+                     title: String) {
         let movie = Movie(hasWatched: hasWatched,
                           identifier: identifier,
                           title: title)
@@ -47,7 +47,7 @@ class MovieController {
         deleteFromFireBase(movie: movie)
         CoreDataStack.shared.save()
     }
-        
+    
     // MARK: API Methods
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
@@ -110,7 +110,7 @@ class MovieController {
         }.resume()
     }
     
-
+    
     // MARK: - CoreData Methods
     
     func put(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {

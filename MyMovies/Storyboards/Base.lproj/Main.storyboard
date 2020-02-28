@@ -46,34 +46,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Fnl-bZ-81W">
-                                            <rect key="frame" x="8" y="7" width="359" height="30"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qLP-Mx-Nng">
-                                                    <rect key="frame" x="0.0" y="0.0" width="305" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3x5-yN-ytv">
-                                                    <rect key="frame" x="313" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <connections>
-                                                        <action selector="addToggled:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Gnc-G0-abL"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                        </stackView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vGq-Si-oiN">
+                                            <rect key="frame" x="329" y="7" width="30" height="30"/>
+                                            <state key="normal" title="add"/>
+                                            <connections>
+                                                <action selector="addToggled:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Fbh-OK-jyd"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Fnl-bZ-81W" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="SoQ-o7-pZP"/>
-                                        <constraint firstAttribute="trailing" secondItem="Fnl-bZ-81W" secondAttribute="trailing" constant="8" id="Yff-uT-ks5"/>
-                                        <constraint firstItem="Fnl-bZ-81W" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="8" id="pUm-8l-LOp"/>
+                                        <constraint firstAttribute="trailing" secondItem="vGq-Si-oiN" secondAttribute="trailing" constant="16" id="Bb4-Ih-ZUL"/>
+                                        <constraint firstItem="vGq-Si-oiN" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="ibz-rk-0bh"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addButton" destination="3x5-yN-ytv" id="B1s-19-tZu"/>
-                                    <outlet property="movieLabel" destination="qLP-Mx-Nng" id="dQm-Td-rQf"/>
                                     <outlet property="seachBar" destination="dkD-cf-Lg3" id="YeD-PC-8Qc"/>
                                 </connections>
                             </tableViewCell>
