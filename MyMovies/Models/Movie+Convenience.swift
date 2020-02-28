@@ -33,7 +33,7 @@ extension Movie {
         title: movieRepresentation.title)
     }
     
-    var entryRepresentation: MovieRepresentation? {
+    var movieRepresentation: MovieRepresentation? {
         guard let title = title else { return nil }
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }

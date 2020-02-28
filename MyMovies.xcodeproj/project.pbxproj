@@ -72,7 +72,6 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				726CA37C2409752700AFBD22 /* Networking */,
 				726CA37B2409752100AFBD22 /* Keys */,
 				726CA3762409750100AFBD22 /* Custom Cells */,
 				46E20A052126AF5900E7FF73 /* Models */,
@@ -154,13 +153,6 @@
 				726CA38724097BB500AFBD22 /* Keys.swift */,
 			);
 			path = Keys;
-			sourceTree = "<group>";
-		};
-		726CA37C2409752700AFBD22 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

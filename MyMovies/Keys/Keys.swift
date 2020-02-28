@@ -9,7 +9,9 @@
 import Foundation
 
 struct Keys {
-    static let persistenceContainer = "MyMoviesCoreData"
+    static let persistenceContainer = "MyMovies"
+    static let movieCellString = "MovieCell"
+    static let movieListCellString = "MovieTableViewCell"
 }
 
 enum HTTPMethods: String {

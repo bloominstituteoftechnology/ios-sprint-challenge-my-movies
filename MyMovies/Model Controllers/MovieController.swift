@@ -121,12 +121,20 @@ class MovieController {
         request.httpMethod = HTTPMethods.put.rawValue
         
         do{
-            request.httpBody = try JSONEncoder().encode(movie.entryRepresentation)
+            request.httpBody = try JSONEncoder().encode(movie.movieRepresentation)
         } catch {
             NSLog("Error encoding Movie: \(error)")
             completion(error)
             return
         }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTting entry: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
         
     }
     

@@ -28,24 +28,28 @@ class SearchTableViewCell: UITableViewCell {
     // MARK: - Actions
     @IBAction func addToggled(_ sender: UIButton){
         guard let title = textLabel?.text else { return }
-        if let movie = movie {
-            movieController?.update(movie: movie,
-                                    hasWatched: movie.hasWatched,
-                                    identifier: movie.identifier!,
-                                    title: title)
-            updateViews()
-        } else {
+//        if let movie = movie {
+//            movieController?.update(movie: movie,
+//                                    hasWatched: movie.hasWatched,
+//                                    identifier: movie.identifier!,
+//                                    title: title)
+//            updateViews()
+//        } else {
+        
             movieController?.createMovie(title: title)
-        }
+//        }
     }
     
     // MARK:  - View Lifecycle
     
     private func updateViews(){
+        
+        
         guard let movie = movie else { return }
         
         movieLabel.text = movie.title
         addButton.titleLabel?.text = watchedStatus(for: movie)
+        
         
     }
     
