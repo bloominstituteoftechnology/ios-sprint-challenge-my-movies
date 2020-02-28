@@ -15,12 +15,12 @@ extension Movie {
         self.init(context: context)
         self.title = title
         self.identifier = identifier
-           
     }
-//convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-//     self.init(title: movieRepresentation.title, identifier: movieRepresentation.identifier!, hasWatched: movieRepresentation.hasWatched!, context: context)
-//     
-// }
+    
+   convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+      self.init(title: movieRepresentation.title, identifier: movieRepresentation.identifier!, hasWatched: movieRepresentation.hasWatched!, context: context)
+    }
+    
     var movieRepresentation: MovieRepresentation? {
         guard let title = title else { return nil }
         
