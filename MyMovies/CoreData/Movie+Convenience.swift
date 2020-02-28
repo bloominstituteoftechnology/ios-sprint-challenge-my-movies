@@ -11,10 +11,11 @@ import CoreData
 
  extension Movie {
     
-    var entryRepresentation : MovieRepresentation? {
+    var movieRepresentation : MovieRepresentation? {
      
         return MovieRepresentation(title: title ?? "", identifier: identifier, hasWatched: hasWatched)
     }
+    
     convenience init(title: String,identifier:UUID = UUID(),hasWatched:Bool,context: NSManagedObjectContext) {
         self.init(context:context)
         self.title = title

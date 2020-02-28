@@ -8,10 +8,14 @@
 
 import UIKit
 
+protocol MovieCellDelegate: AnyObject {
+    func didAddMovie(movie:MovieRepresentation)
+}
+
 class MovieCell: UITableViewCell {
     
     
-    
+    weak var delegate: MovieCellDelegate?
     
     var movie: MovieRepresentation? {
         didSet {
@@ -22,6 +26,7 @@ class MovieCell: UITableViewCell {
     private func updateViews() {
         if let movie = movie {
             movieTitle.text = movie.title
+            
         }
     }
     
@@ -32,11 +37,12 @@ class MovieCell: UITableViewCell {
     
     
     
-    
-    
-    
     @IBAction func addButtonTapped(_ sender: UIButton) {
-        print("Hello")
+        if let movie = movie {
+            let newMovie =  MovieRepresentation(title: movie.title, identifier: movie.identifier ?? UUID(), hasWatched: true)
+               delegate?.didAddMovie(movie: newMovie)
+        }
+     
     }
     
     

@@ -38,11 +38,25 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         
         cell.movie = movieController.searchedMovies[indexPath.row]
-        
+        cell.delegate = self
         return cell
     }
     
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+}
+extension MovieSearchTableViewController : MovieCellDelegate {
+    
+    func didAddMovie(movie: MovieRepresentation) {
+     
+              movieController.put(movie: movie)
+        
+      
+    }
+    
+   
+   
+    
+    
 }

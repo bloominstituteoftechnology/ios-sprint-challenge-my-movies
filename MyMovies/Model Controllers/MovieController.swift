@@ -7,8 +7,18 @@
 //
 
 import Foundation
+import CoreData
 
+enum HTTPMethod : String {
+    case PUT
+    case GET
+    case POST
+    case DELETE
+}
 class MovieController {
+    
+    private let firebaseBaseURL =  URL(string: "https://movie-64f5c.firebaseio.com/")!
+    typealias CompletionHandler = (Error?) -> Void
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -55,4 +65,91 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    
+    // MARK: - PUT
+    func put(movie: MovieRepresentation,completion: @escaping CompletionHandler = {_ in } ) {
+        var newMovie = movie
+          let identifier = movie.identifier ?? UUID()
+          
+        let  putURL = firebaseBaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+              
+          var requestURL = URLRequest(url:putURL )
+          requestURL.httpMethod = HTTPMethod.PUT.rawValue
+         
+         
+          let jsonEncoder = JSONEncoder()
+      
+          do {
+           
+       
+            newMovie.identifier = identifier
+              requestURL.httpBody = try jsonEncoder.encode(newMovie)
+              
+          } catch let error as NSError {
+              print(error.localizedDescription)
+              completion(nil)
+              return
+          }
+    
+          URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
+              if let error = error {
+                  NSLog("Error sending data to sever: \(error)")
+                  completion(error)
+                  return
+              }
+                  completion(nil)
+              
+          }.resume()
+          
+      }
+    
+    
+    
+   // MARK: - DELETE
+    
+    
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = {_ in  }) {
+          guard let uuid = movie.identifier else {
+              completion(NSError())
+              return
+          }
+          let requestURL = firebaseBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+          var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.DELETE.rawValue
+          
+          URLSession.shared.dataTask(with: request) { (data, response, error) in
+              print(response!)
+              completion(error)
+          }.resume()
+          
+      
+      }
+    
+    
+    
+    // MARK: - Fetch movies from Sever
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
