@@ -17,7 +17,6 @@ extension Movie {
         if identifier == nil {
             identifier = UUID()
         }
-        
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
     
