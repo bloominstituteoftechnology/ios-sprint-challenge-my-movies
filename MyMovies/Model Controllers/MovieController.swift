@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -55,4 +56,14 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    func saveMovie(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let _ = Movie(movieRepresentation: movieRepresentation)
+        do {
+            try context.save()
+        } catch {
+            NSLog("Error saving movie: \(error)")
+        }
+    }
+    
 }
