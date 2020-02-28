@@ -174,11 +174,11 @@ class MovieController {
     
       private func updateMovies(with representations: [MovieRepresentation]) throws {
         
-            let entriesWithID = representations.filter { $0.identifier != nil }
+            let moviesWithID = representations.filter { $0.identifier != nil }
         
-        let identifiersToFetch = entriesWithID.compactMap { $0.identifier ?? UUID() }
+        let identifiersToFetch = moviesWithID.compactMap { $0.identifier ?? UUID() }
         
-            let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+            let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesWithID))
         
             var entriesToCreate = representationsByID
             

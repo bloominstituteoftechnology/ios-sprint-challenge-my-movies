@@ -46,20 +46,17 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="5eZ-RP-0Lb">
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="5eZ-RP-0Lb">
                                             <rect key="frame" x="16" y="20" width="343" height="30"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ViK-tU-bbH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="203" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ViK-tU-bbH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="254" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1a4-R4-okC">
-                                                    <rect key="frame" x="243" y="0.0" width="100" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="100" id="dpv-FM-zuf"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="270" y="0.0" width="73" height="30"/>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
                                                         <action selector="addButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="4fx-gY-N1n"/>

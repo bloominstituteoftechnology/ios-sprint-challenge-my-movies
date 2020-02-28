@@ -36,16 +36,17 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    
+        self.tableView.reloadData()
+        
     }
     override func viewWillAppear(_ animated: Bool) {
           super.viewWillAppear(animated)
-          DispatchQueue.main.async {
+          
               self.tableView.reloadData()
-          }
+          
         
       }
+   
   
 
     // MARK: - Table view data source
@@ -70,15 +71,15 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var title = ""
-        for name in fetchedResultsController.fetchedObjects! {
-            switch name.hasWatched {
-                case true:
+       guard let _ = fetchedResultsController.sections?[section] else { return nil }
+        for item in fetchedResultsController.fetchedObjects! {
+            if item.hasWatched {
                 title = "Watched"
-                case false :
+            }else {
                 title = "Unwatched"
             }
         }
-        return title
+            return title
         
       }
     
