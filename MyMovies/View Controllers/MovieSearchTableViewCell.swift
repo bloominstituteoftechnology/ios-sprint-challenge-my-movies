@@ -51,7 +51,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
         guard let title = movie?.title else { return }
-        MovieController.shared.create(title: title)
+        MovieController.shared.createMovie(title: title, hasWatched: false)
         
         movieTitleLabel.text = movie?.title
     }

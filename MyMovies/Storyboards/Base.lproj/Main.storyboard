@@ -40,14 +40,14 @@
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="375" height="43"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="movieTitleLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dXF-Di-iRH">
-                                            <rect key="frame" x="16" y="11" width="119" height="21"/>
+                                            <rect key="frame" x="16" y="11" width="119" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -63,14 +63,13 @@
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="OEi-0m-P2I"/>
-                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="R67-V6-zXG"/>
-                                        <constraint firstItem="B08-JM-p0l" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="-7" id="Tv1-T8-dnB"/>
-                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="firstBaseline" secondItem="B08-JM-p0l" secondAttribute="firstBaseline" id="f69-7B-M0Q"/>
-                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="centerY" secondItem="B08-JM-p0l" secondAttribute="centerY" id="gDD-eg-g2S"/>
-                                        <constraint firstItem="B08-JM-p0l" firstAttribute="trailing" secondItem="8Bc-u1-IMl" secondAttribute="trailingMargin" id="iNt-aw-vqA"/>
-                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" id="r6l-LL-2FH"/>
-                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="baseline" secondItem="B08-JM-p0l" secondAttribute="baseline" id="uKH-3G-PKa"/>
+                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" id="HG6-ii-7uz"/>
+                                        <constraint firstItem="B08-JM-p0l" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="-7" id="Ngn-aC-FFC"/>
+                                        <constraint firstItem="B08-JM-p0l" firstAttribute="trailing" secondItem="8Bc-u1-IMl" secondAttribute="trailingMargin" id="RB3-si-8WC"/>
+                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="firstBaseline" secondItem="B08-JM-p0l" secondAttribute="firstBaseline" id="bhP-ly-bPQ"/>
+                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="centerY" secondItem="B08-JM-p0l" secondAttribute="centerY" id="ci3-q8-YRu"/>
+                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="bottom" secondItem="8Bc-u1-IMl" secondAttribute="bottomMargin" id="fdd-WF-dYp"/>
+                                        <constraint firstItem="dXF-Di-iRH" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="nJL-iG-QN4"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>

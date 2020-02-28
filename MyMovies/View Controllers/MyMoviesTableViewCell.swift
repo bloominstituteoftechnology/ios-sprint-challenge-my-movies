@@ -29,6 +29,7 @@ class MyMoviesTableViewCell: UITableViewCell {
         
         guard let movie = movie else { return }
         
+        
         MovieController.shared.toggle(movie: movie)
         
     }
