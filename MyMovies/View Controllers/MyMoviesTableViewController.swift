@@ -36,7 +36,10 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+                self.tableView.reloadData()
+        }
+    
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +56,7 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
 
     override func numberOfSections(in tableView: UITableView) -> Int {
        
-        return fetchedResultsController.sections?.count ?? 1
+        return 2
         
     }
 
@@ -70,16 +73,9 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        var title = ""
-       guard let _ = fetchedResultsController.sections?[section] else { return nil }
-        for item in fetchedResultsController.fetchedObjects! {
-            if item.hasWatched {
-                title = "Watched"
-            }else {
-                title = "Unwatched"
-            }
-        }
-            return title
+//     guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+     
+        return section == 0 ? "Watched" : "Unwatched"
         
       }
     
