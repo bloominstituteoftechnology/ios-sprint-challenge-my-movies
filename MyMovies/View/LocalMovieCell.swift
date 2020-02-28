@@ -14,9 +14,6 @@ protocol LocalMovieCellDelegate: AnyObject {
 
 class LocalMovieCell: UITableViewCell {
 
-    
-  
-    
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var movieTitle: UILabel!
     
@@ -27,12 +24,10 @@ class LocalMovieCell: UITableViewCell {
         }
     }
     
-    
-    
     weak var delegateTwo: LocalMovieCellDelegate?
     
     
-    
+    // MARK: - Methods
     
     private func updateViews() {
         if let movie = movie {

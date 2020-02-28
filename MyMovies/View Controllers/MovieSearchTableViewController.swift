@@ -46,6 +46,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
+
+
+
 extension MovieSearchTableViewController : ClouldMovieCellDelegate {
     
     func didAddMovie(movie: MovieRepresentation) {

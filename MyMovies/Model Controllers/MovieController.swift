@@ -181,7 +181,7 @@ class MovieController {
         
             var entriesToCreate = representationsByID
             
-            // fetch all? tasks from Core Data
+         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "title IN %@",identifiersToFetch)
         
@@ -191,7 +191,7 @@ class MovieController {
             do {
                 let existingMovies = try context.fetch(fetchRequest)
                 
-                // Match the managed tasks with the Firebase tasks
+               
                 for movie in existingMovies{
                     
                     guard let id = movie.identifier,
@@ -199,14 +199,13 @@ class MovieController {
                     
                     self.update(movie: movie, with: representation)
                     entriesToCreate.removeValue(forKey: id)
-                    //                saveToPersistentStore()
+                  
                 }
                 
-                // For nonmatched (new tasks from Firebase), create managed objects
                 for representation in entriesToCreate.values {
                   
                     Movie(movieRepresentation: representation, context: context)
-                    //                saveToPersistentStore()
+                  
                 }
             } catch {
                 NSLog("Error fetching tasks for UUIDs: \(error)")
@@ -214,9 +213,9 @@ class MovieController {
             
         }
                     
-            // Save all this in CD
+           
         try CoreDataStack.shared.save(context: context)
-    //     saveToPersistentStore()
+  
         }
         
         private func update(movie: Movie, with representation: MovieRepresentation) {
@@ -225,7 +224,7 @@ class MovieController {
         }
     
     
-    // MARK: -
+    // MARK: - Toggle Watch/ Unwatch
     
     func updateMovieStatus(with newStatus: Bool, movie: MovieRepresentation) {
         var newMoview = movie

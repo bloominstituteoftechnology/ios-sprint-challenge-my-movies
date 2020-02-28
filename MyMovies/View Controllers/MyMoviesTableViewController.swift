@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegate {
+    
     func didUpdateStatusForMovie(movie: Movie) {
         let newMovie = MovieRepresentation(title: movie.title!, identifier: movie.identifier, hasWatched: movie.hasWatched)
         movieController.put(movie: newMovie)
@@ -36,7 +37,9 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-    
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
           super.viewWillAppear(animated)
@@ -62,15 +65,23 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           guard let cell = tableView.dequeueReusableCell(withIdentifier:"MyMovieCell", for: indexPath) as? LocalMovieCell else { return UITableViewCell()}
               cell.movie = fetchedResultsController.object(at: indexPath)
-        cell.delegateTwo = self
+              cell.delegateTwo = self
               return cell
     }
     
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-          guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-          
-          return "Watched"
+        var title = ""
+        for name in fetchedResultsController.fetchedObjects! {
+            switch name.hasWatched {
+                case true:
+                title = "Watched"
+                case false :
+                title = "Unwatched"
+            }
+        }
+        return title
+        
       }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
