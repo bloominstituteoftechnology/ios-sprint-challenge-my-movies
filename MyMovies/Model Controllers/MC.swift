@@ -12,7 +12,7 @@ import CoreData
 class MyMoviesController {
     static let shared = MyMoviesController()
     
-    let baseURL = URL(string: "https://lambda-my-movies.firebaseio.com/")!
+    let baseURL = URL(string: "https://sprint-e46ef.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
     
     
