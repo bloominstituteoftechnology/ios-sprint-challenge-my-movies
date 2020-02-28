@@ -9,7 +9,12 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegate {
+    func didUpdateStatusForMovie(movie: Movie) {
+        let newMovie = MovieRepresentation(title: movie.title!, identifier: movie.identifier, hasWatched: movie.hasWatched)
+        movieController.put(movie: newMovie)
+    }
+    
     
     private let movieController = MovieController()
        
@@ -17,7 +22,6 @@ class MyMoviesTableViewController: UITableViewController {
            let fetchRequest : NSFetchRequest<Movie> = Movie.fetchRequest()
            fetchRequest.sortDescriptors = [
                NSSortDescriptor(key: #keyPath(Movie.title), ascending: true)
-
            ]
            
            let context = CoreDataStack.shared.mainContext
@@ -27,31 +31,74 @@ class MyMoviesTableViewController: UITableViewController {
            return frc
            
        }()
+// MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
     
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-     
-    }
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          DispatchQueue.main.async {
+              self.tableView.reloadData()
+          }
+        
+      }
+  
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+       
+        return fetchedResultsController.sections?.count ?? 1
+        
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+       return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-   
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+          guard let cell = tableView.dequeueReusableCell(withIdentifier:"MyMovieCell", for: indexPath) as? LocalMovieCell else { return UITableViewCell()}
+              cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.delegateTwo = self
+              return cell
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+          guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+          
+          return "Watched"
+      }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.deleteMovieFromServer(movie: movie) { error in
+                if let error = error {
+                    NSLog("Error deleting entry from Firebase : \(error)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    CoreDataStack.shared.mainContext.delete(movie)
+                    do {
+                        try CoreDataStack.shared.save()
+                    } catch {
+                        CoreDataStack.shared.mainContext.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
+                
+                
+            }
+        
+          
+        }
+    }
+    
 
 }
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {

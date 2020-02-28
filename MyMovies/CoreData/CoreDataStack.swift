@@ -16,7 +16,7 @@ class CoreDataStack
     static let shared = CoreDataStack()
     
     lazy var container : NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "My Journal - Core Data")
+        let container = NSPersistentContainer(name: "Model")
         container.loadPersistentStores { (_, error) in
             if let error = error {
                 fatalError("Failed to load container : \(error)")

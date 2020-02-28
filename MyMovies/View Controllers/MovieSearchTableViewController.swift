@@ -34,7 +34,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! CloudMovieCell
         
         
         cell.movie = movieController.searchedMovies[indexPath.row]
@@ -46,7 +46,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
-extension MovieSearchTableViewController : MovieCellDelegate {
+extension MovieSearchTableViewController : ClouldMovieCellDelegate {
     
     func didAddMovie(movie: MovieRepresentation) {
      

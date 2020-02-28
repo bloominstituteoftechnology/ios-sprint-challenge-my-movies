@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol MovieCellDelegate: AnyObject {
+protocol ClouldMovieCellDelegate: AnyObject {
     func didAddMovie(movie:MovieRepresentation)
 }
 
-class MovieCell: UITableViewCell {
+class CloudMovieCell: UITableViewCell {
     
     
-    weak var delegate: MovieCellDelegate?
+    weak var delegate: ClouldMovieCellDelegate?
     
     var movie: MovieRepresentation? {
         didSet {

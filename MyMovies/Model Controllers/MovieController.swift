@@ -15,7 +15,14 @@ enum HTTPMethod : String {
     case POST
     case DELETE
 }
+
+
 class MovieController {
+    
+    
+    init() {
+        fetchMoviesFromSever()
+    }
     
     private let firebaseBaseURL =  URL(string: "https://movie-64f5c.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
@@ -131,18 +138,103 @@ class MovieController {
     
     // MARK: - Fetch movies from Sever
     
+    func fetchMoviesFromSever(completion: @escaping CompletionHandler = { _ in }) {
+             let requestURL = firebaseBaseURL.appendingPathExtension("json")
+          print(requestURL)
+             
+             URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+                 if let error = error {
+                     NSLog("Error fetching entries from Firebase: \(error)")
+                     completion(error)
+                     return
+                 }
+                 
+                 guard let data = data else {
+                     NSLog("No data returned from Firebase")
+                     completion(NSError())
+                     return
+                 }
+                 
+                 do {
+                  let jsonDecoder = JSONDecoder()
+                     let moviesRepresentation = Array(try jsonDecoder.decode([String : MovieRepresentation].self, from: data).values)
+                     try self.updateMovies(with: moviesRepresentation)
+                     completion(nil)
+                 } catch {
+                     NSLog("Error decoding entries representations from Firebase: \(error)")
+                     completion(error)
+                 }
+             }.resume()
+         }
     
     
     
+    //MARK: - Update movies
+    
+      private func updateMovies(with representations: [MovieRepresentation]) throws {
+        
+            let entriesWithID = representations.filter { $0.identifier != nil }
+        
+        let identifiersToFetch = entriesWithID.compactMap { $0.identifier ?? UUID() }
+        
+            let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+            var entriesToCreate = representationsByID
+            
+            // fetch all? tasks from Core Data
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title IN %@",identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.performAndWait {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                // Match the managed tasks with the Firebase tasks
+                for movie in existingMovies{
+                    
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(movie: movie, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                    //                saveToPersistentStore()
+                }
+                
+                // For nonmatched (new tasks from Firebase), create managed objects
+                for representation in entriesToCreate.values {
+                  
+                    Movie(movieRepresentation: representation, context: context)
+                    //                saveToPersistentStore()
+                }
+            } catch {
+                NSLog("Error fetching tasks for UUIDs: \(error)")
+            }
+            
+        }
+                    
+            // Save all this in CD
+        try CoreDataStack.shared.save(context: context)
+    //     saveToPersistentStore()
+        }
+        
+        private func update(movie: Movie, with representation: MovieRepresentation) {
+        
+            movie.title = representation.title
+        }
     
     
+    // MARK: -
     
-    
-    
-    
-    
-    
-    
+    func updateMovieStatus(with newStatus: Bool, movie: MovieRepresentation) {
+        var newMoview = movie
+        newMoview.hasWatched = newStatus
+            
+            put(movie: newMoview)
+    //        saveToPersistentStore()
+            
+        }
     
     
     
