@@ -29,13 +29,14 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return movieController.searchedMovies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! CloudMovieCell
-        
         
         cell.movie = movieController.searchedMovies[indexPath.row]
         cell.delegate = self

@@ -128,7 +128,7 @@ class MovieController {
         request.httpMethod = HTTPMethod.DELETE.rawValue
           
           URLSession.shared.dataTask(with: request) { (data, response, error) in
-              print(response!)
+             
               completion(error)
           }.resume()
           
@@ -180,7 +180,7 @@ class MovieController {
         
             let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesWithID))
         
-            var entriesToCreate = representationsByID
+            var movieToCreate = representationsByID
             
          
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -199,11 +199,12 @@ class MovieController {
                         let representation = representationsByID[id] else { continue }
                     
                     self.update(movie: movie, with: representation)
-                    entriesToCreate.removeValue(forKey: id)
+
+                    movieToCreate.removeValue(forKey: id)
                   
                 }
                 
-                for representation in entriesToCreate.values {
+                for representation in movieToCreate.values {
                   
                     Movie(movieRepresentation: representation, context: context)
                   
@@ -222,26 +223,11 @@ class MovieController {
         private func update(movie: Movie, with representation: MovieRepresentation) {
         
             movie.title = representation.title
+          
         }
     
     
-    // MARK: - Toggle Watch/ Unwatch
-    
-    func updateMovieStatus(with newStatus: Bool, movie: MovieRepresentation) {
-        var newMoview = movie
-        newMoview.hasWatched = newStatus
-            
-            put(movie: newMoview)
-    
-            
-        }
-    
-    
-    
-    
-    
-    
-    
+  
     
     
 }

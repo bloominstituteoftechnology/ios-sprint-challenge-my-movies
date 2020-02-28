@@ -9,7 +9,8 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegate {
+class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegate  {
+   
     
     func didUpdateStatusForMovie(movie: Movie) {
         let newMovie = MovieRepresentation(title: movie.title!, identifier: movie.identifier, hasWatched: movie.hasWatched)
@@ -19,36 +20,40 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     
     private let movieController = MovieController()
        
-       lazy var fetchedResultsController : NSFetchedResultsController<Movie> = {
-           let fetchRequest : NSFetchRequest<Movie> = Movie.fetchRequest()
-           fetchRequest.sortDescriptors = [
-               NSSortDescriptor(key: #keyPath(Movie.title), ascending: true)
-           ]
-           
-           let context = CoreDataStack.shared.mainContext
-           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: #keyPath(Movie.title), cacheName: nil)
-           frc.delegate = self
-           try? frc.performFetch()
-           return frc
-           
-       }()
+    lazy var fetchedResultsController : NSFetchedResultsController<Movie> = {
+        let fetchRequest : NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: #keyPath(Movie.title), ascending: true)
+          
+        ]
+        
+        let context = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: #keyPath(Movie.title), cacheName: nil)
+        frc.delegate = self
+        try? frc.performFetch()
+        return frc
+        
+    }()
+    
+    
+    
+    
 // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.main.async {
-                self.tableView.reloadData()
-        }
-    
-        
+     
+   
     }
+    
     override func viewWillAppear(_ animated: Bool) {
-          super.viewWillAppear(animated)
-          
-              self.tableView.reloadData()
-          
+        super.viewWillAppear(animated)
         
-      }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+      
+    }
    
   
 
@@ -61,16 +66,21 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
           guard let cell = tableView.dequeueReusableCell(withIdentifier:"MyMovieCell", for: indexPath) as? LocalMovieCell else { return UITableViewCell()}
-              cell.movie = fetchedResultsController.object(at: indexPath)
-              cell.delegateTwo = self
+            cell.movie = fetchedResultsController.object(at: indexPath)
+            cell.delegateTwo = self
+       
               return cell
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
