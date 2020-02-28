@@ -26,6 +26,11 @@ class MovieController {
     
     typealias CompletionHandler = (Error?) -> Void
     
+    //MARK: - Initializers
+    init() {
+        fetchMovieFromServer()
+    }
+    
     //MARK: - Functions
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
