@@ -56,9 +56,9 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieCell else { return UITableViewCell() }
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.titleLabel.text = movie.title
-
-        // Configure the cell...
+        
+        cell.movie = movie
+        cell.delegate = self
 
         return cell
     }
@@ -148,5 +148,15 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
                 break
             
         }
+    }
+}
+
+extension MyMoviesTableViewController: MyMovieCellDelegate {
+    func updateHasWatched(for cell: MyMovieCell) {
+        if let movie = cell.movie {
+            movie.hasWatched.toggle()
+            movieController.saveMovieToServer(movie: movie)
+        }
+            
     }
 }
