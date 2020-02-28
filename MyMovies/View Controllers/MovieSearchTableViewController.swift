@@ -9,39 +9,55 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    // MARK: - Properties
+    
+    var movieController = MovieController()
+    
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchTerm = searchBar.text else { return }
-        
-        movieController.searchForMovie(with: searchTerm) { (error) in
-            
-            guard error == nil else { return }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else { return UITableViewCell() }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        let movie = movieController.searchedMovies[indexPath.row]
+        cell.delegate = self
+        cell.movieRepresentation = movie
         
         return cell
     }
     
-    var movieController = MovieController()
+    // MARK: - Actions
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchTerm = searchBar.text else { return }
+        
+        movieController.searchForMovie(with: searchTerm) { (error) in
+            guard error == nil else { return }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+}
+
+extension MovieSearchTableViewController: AddMovieDelegate {
+    func add(movieRepresentation: MovieRepresentation) {
+        movieController.saveMovie(movieRepresentation: movieRepresentation)
+    }
 }

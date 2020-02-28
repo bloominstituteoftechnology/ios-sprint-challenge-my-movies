@@ -218,4 +218,21 @@ class MovieController {
         deleteMovieFromServer(movie: movie)
         CoreDataStack.shared.save()
     }
+    
+    // MARK: - Movie State Methods
+    
+    func saveMovie(movieRepresentation: MovieRepresentation) {
+        guard let movie = Movie(movieRepresentation: movieRepresentation) else { return }
+        put(movie: movie)
+        CoreDataStack.shared.save()
+    }
+    
+    func watchedMovie(_ movie: Movie) {
+        movie.hasWatched.toggle()
+        
+        guard let title = movie.title,
+            let identifier = movie.identifier else { return }
+        
+        updateMovie(movie: movie, called: title, hasWatched: movie.hasWatched, identifier: identifier)
+    }
 }
