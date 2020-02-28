@@ -105,7 +105,6 @@ class MovieDataController {
            
            var movie: Movie?
            context.performAndWait {
-               
                movie = (try? context.fetch(request))?.first
            }
            return movie
@@ -154,22 +153,6 @@ class MovieDataController {
         }
     }.resume()
 }
-    
-//    func loadFromPersistentStore() -> [Movie] {
-//
-//        var movie: [Movie] {
-//            do {
-//                let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-//                let result = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-//                return result
-//            } catch {
-//                fatalError("Can't fetch Data \(error)")
-//            }
-//
-//        }
-//        return movie
-//    }
-
     // Delete from server
        func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         do {

@@ -18,11 +18,7 @@ protocol MovieSearchTableViewCellDelegate: class {
 
 class MovieSearchTableViewCell: UITableViewCell {
     static let reuseIdentifier = "MovieCell"
-    var movieRepresentation: MovieRepresentation? {
-          didSet {
-              updateViews()
-          }
-      }
+ 
     weak var delegate: MovieSearchTableViewCellDelegate?
     
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -31,16 +27,20 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBAction func addMovieButton(_ sender: Any) {
      guard let movieRepresentation = movieRepresentation else { return }
          delegate?.addMovie(cell: self, movie: movieRepresentation)
-         movieButtonOutlet.setTitle("Saved", for: .normal)
-         movieButtonOutlet.isEnabled = false
+         //movieButtonOutlet.setTitle("Saved", for: .normal)
+         //movieButtonOutlet.isEnabled = false
         
         NotificationCenter.default.post(name: .shouldShowMovieAdded, object: self)
     }
+    var movieRepresentation: MovieRepresentation? {
+           didSet {
+               updateViews()
+           }
+       }
+       
     func updateViews() {
-         movieTitleLabel.text = movieRepresentation?.title
-         
-         movieButtonOutlet.isEnabled = true
-         movieButtonOutlet.setTitle("Add Movie", for: .normal)
-         
-     }
+           movieTitleLabel.text = movieRepresentation?.title
+          // movieButtonOutlet.isEnabled = true
+          // movieButtonOutlet.setTitle("Add Movie", for: .normal)
+    }
 }
