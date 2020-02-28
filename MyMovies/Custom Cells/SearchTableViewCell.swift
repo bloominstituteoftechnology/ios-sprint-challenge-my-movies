@@ -9,16 +9,13 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    @IBOutlet var movieLabel: UILabel!
+    @IBOutlet var addButton: UIButton!
+    @IBOutlet var seachBar: UISearchBar!
+    
+    @IBAction func addToggled(_ sender: UIButton){
+        
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+    
 }

@@ -58,6 +58,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3x5-yN-ytv">
                                                     <rect key="frame" x="313" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="addToggled:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Gnc-G0-abL"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
@@ -68,6 +71,11 @@
                                         <constraint firstItem="Fnl-bZ-81W" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="8" id="pUm-8l-LOp"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addButton" destination="3x5-yN-ytv" id="B1s-19-tZu"/>
+                                    <outlet property="movieLabel" destination="qLP-Mx-Nng" id="dQm-Td-rQf"/>
+                                    <outlet property="seachBar" destination="dkD-cf-Lg3" id="YeD-PC-8Qc"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -112,6 +120,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
                                                     <rect key="frame" x="297" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="watchedToggled:" destination="9cK-VO-zdo" eventType="touchUpInside" id="GN4-jT-Hho"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
@@ -124,6 +135,10 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="movieLabel" destination="a6O-zS-fmH" id="F5H-dK-pAk"/>
+                                    <outlet property="watchedButton" destination="3Ay-OW-Mt0" id="v6t-ts-j9s"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
