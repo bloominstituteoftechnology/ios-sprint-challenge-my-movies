@@ -43,5 +43,4 @@ class MovieSearchTableViewCell: UITableViewCell {
          movieButtonOutlet.setTitle("Add Movie", for: .normal)
          
      }
-
 }

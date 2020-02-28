@@ -18,7 +18,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
        NotificationCenter.default.addObserver(self, selector: #selector(shouldShowMovieAdded(_:)), name: .shouldShowMovieAdded, object: nil)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
+        tableView.reloadData()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         tableView.reloadData()
@@ -34,14 +38,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
           frc.delegate = self
           try? frc.performFetch()
           return frc
-          
-          
       }()
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 0
     }
 
@@ -54,7 +55,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
              fatalError("Could not dequeue cell")
         }
             cell.movie = fetchedResultsController.object(at: indexPath)
-
             return cell
     }
 
@@ -62,8 +62,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
                 
         let movie = fetchedResultsController.object(at: indexPath)
-                
-                // Delete the row from the data source
+        
         movieDataController.deleteMovie(movie: movie)
     }
 }
@@ -74,20 +73,16 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     } else {
         return "Watched"
     }
-    //        return fetchedResultsController.sections?[section].name
 }
         
         override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
             guard let header = view as? UITableViewHeaderFooterView else { return }
             header.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
             view.tintColor = #colorLiteral(red: 0.8808686818, green: 0.9638480253, blue: 1, alpha: 1)
-
         }
-
-        
+    
         // MARK: - NSFetchedResultsControllerDelegate Methods
         
-        // Controller tells us something is about to change
         func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
             tableView.beginUpdates()
         }
@@ -131,6 +126,4 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
             tableView.endUpdates()
         }
-
-
     }

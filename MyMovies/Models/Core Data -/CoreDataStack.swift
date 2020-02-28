@@ -6,7 +6,6 @@
 //  Copyright © 2020 Lambda School. All rights reserved.
 //
 
-import Foundation
 import CoreData
 import UIKit
 
@@ -51,5 +50,4 @@ class CoreDataStack {
         }
         if let error = saveError { throw error }
     }
-    
 }

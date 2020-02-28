@@ -18,13 +18,13 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     var movie: Movie?
     let movieDataController = MovieDataController.shared
+    var movieRepresentation: MovieRepresentation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
@@ -37,8 +37,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             }
         }
     }
-    
-    var movieRepresentation: MovieRepresentation?
 
     override func encodeRestorableState(with coder: NSCoder) {
         defer { super.encodeRestorableState(with: coder)}
@@ -61,13 +59,18 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieSearchTableViewCell.reuseIdentifier, for: indexPath) as? MovieSearchTableViewCell else {
+            fatalError("Could not dequeue cell")
+        }
         
+        cell.delegate = self
+
+        let tappedMovie = movieController.searchedMovies[indexPath.row]
+        
+        cell.movieRepresentation = tappedMovie
         return cell
     }
-    
+
     @IBOutlet weak var searchBar: UISearchBar!
-    
 }

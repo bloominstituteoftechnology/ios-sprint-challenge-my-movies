@@ -108,7 +108,6 @@ class MovieDataController {
                
                movie = (try? context.fetch(request))?.first
            }
-           
            return movie
        }
        
@@ -177,8 +176,7 @@ class MovieDataController {
             guard let representation = movie.movieRepresentation else { throw NSError() }
                    
             let uuid = representation.identifier?.uuidString
-                   
-                   // Append identifier of the entry parameter to the baseURL
+    
             let requestURL = baseURL.appendingPathComponent(uuid!).appendingPathExtension("json")
                    
             var request = URLRequest(url: requestURL)
