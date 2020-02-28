@@ -37,9 +37,7 @@ class MyMoviesTableViewController: UITableViewController , LocalMovieCellDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+       
     }
     override func viewWillAppear(_ animated: Bool) {
           super.viewWillAppear(animated)
