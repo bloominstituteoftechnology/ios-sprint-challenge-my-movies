@@ -37,7 +37,7 @@ class MyMoviesTableViewController: UITableViewController {
         return 0
     }
 
-    /*
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
@@ -45,7 +45,7 @@ class MyMoviesTableViewController: UITableViewController {
 
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
@@ -55,9 +55,9 @@ class MyMoviesTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -65,7 +65,7 @@ class MyMoviesTableViewController: UITableViewController {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+
 
     /*
     // Override to support rearranging the table view.
@@ -82,7 +82,7 @@ class MyMoviesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -90,6 +90,6 @@ class MyMoviesTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
 }

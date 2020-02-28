@@ -42,7 +42,7 @@ class MovieController {
             }
             
             do {
-                let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data).results
+                let movieRepresentations = try JSONDecoder().decode(MovieListRepresentations.self, from: data).results
                 self.searchedMovies = movieRepresentations
                 completion(nil)
             } catch {
