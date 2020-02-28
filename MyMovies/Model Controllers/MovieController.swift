@@ -12,6 +12,43 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let fireBaseURL = URL(string: "https://lambdasprintchallenge.firebaseio.com/")!
+    private let fireBasePathExtension: String = "json"
+    
+    // MARK: -CRUD Methods
+    
+    private func createMovie(with hasWatched: Bool,
+                             identifier: UUID,
+                             title: String) {
+        let movie = Movie(hasWatched: hasWatched,
+                          identifier: identifier,
+                          title: title)
+        
+        put(movie: movie)
+        
+        CoreDataStack.shared.save()
+    }
+    
+    func update(movie: Movie,
+                hasWatched: Bool,
+                identifier: UUID,
+                title: String) {
+        movie.hasWatched = hasWatched
+        movie.identifier = identifier
+        movie.title = title
+        
+        put(movie: movie)
+        
+        CoreDataStack.shared.save()
+    }
+    
+    func delete(movie: Movie) {
+        CoreDataStack.shared.mainContext.delete(movie)
+        deleteFromFireBase(movie: movie)
+        CoreDataStack.shared.save()
+    }
+        
+    // MARK: API Methods
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -51,6 +88,48 @@ class MovieController {
             }
         }.resume()
     }
+    
+    func deleteFromFireBase(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        guard let identifier = movie.identifier else {
+            NSLog("Movie identifier is nil")
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = fireBaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension(fireBasePathExtension)
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethods.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error deleting movie from server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+
+    // MARK: - CoreData Methods
+    
+    func put(movie: Movie, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        
+        let identifier = movie.identifier ?? UUID()
+        let requestURL = fireBaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension(fireBasePathExtension)
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethods.put.rawValue
+        
+        do{
+            request.httpBody = try JSONEncoder().encode(movie.entryRepresentation)
+        } catch {
+            NSLog("Error encoding Movie: \(error)")
+            completion(error)
+            return
+        }
+        
+    }
+    
     
     // MARK: - Properties
     

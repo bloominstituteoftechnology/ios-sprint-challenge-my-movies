@@ -11,3 +11,8 @@ import Foundation
 struct Keys {
     static let persistenceContainer = "MyMoviesCoreData"
 }
+
+enum HTTPMethods: String {
+    case put = "PUT"
+    case delete = "DELETE"
+}
