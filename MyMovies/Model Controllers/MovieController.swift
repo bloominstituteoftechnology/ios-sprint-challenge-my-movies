@@ -203,7 +203,6 @@ class MovieController {
         }.resume()
     }
     
-    
     // MARK: - Core Data Methods
     
     func updateMovie(movie: Movie, called title: String, hasWatched: Bool, identifier: UUID) {
