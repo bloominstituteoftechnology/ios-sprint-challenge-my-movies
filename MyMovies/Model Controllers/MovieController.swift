@@ -24,6 +24,8 @@ class MovieController {
         fetchMoviesFromSever()
     }
     
+   
+    
     private let firebaseBaseURL =  URL(string: "https://movie-64f5c.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
     
@@ -72,8 +74,8 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
-    
-    
+ 
+   
     // MARK: - PUT
     func put(movie: MovieRepresentation,completion: @escaping CompletionHandler = {_ in } ) {
         
@@ -110,6 +112,7 @@ class MovieController {
               
           }.resume()
           
+        
       }
     
     
@@ -141,7 +144,7 @@ class MovieController {
     
     func fetchMoviesFromSever(completion: @escaping CompletionHandler = { _ in }) {
              let requestURL = firebaseBaseURL.appendingPathExtension("json")
-         
+  
              
              URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
                  if let error = error {
@@ -166,6 +169,7 @@ class MovieController {
                      completion(error)
                  }
              }.resume()
+        
          }
     
     
@@ -223,11 +227,20 @@ class MovieController {
         private func update(movie: Movie, with representation: MovieRepresentation) {
         
             movie.title = representation.title
-          
+            movie.hasWatched = representation.hasWatched ?? false
         }
     
     
-  
+  func saveMovie(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+     
+       do {
+           try context.save()
+          
+       } catch {
+           NSLog("Error saving movie: \(error)")
+       }
+   }
+   
     
     
 }

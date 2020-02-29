@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="470" y="278"/>
         </scene>
-        <!--Movie Search-->
+        <!--Search-->
         <scene sceneID="BjU-p7-zCe">
             <objects>
                 <tableViewController id="YE2-Zi-kUT" customClass="MovieSearchTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,7 +82,7 @@
                             <outlet property="delegate" destination="YE2-Zi-kUT" id="lIt-L5-G4h"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Movie Search" id="sdT-54-ch4"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="sdT-54-ch4"/>
                     <connections>
                         <outlet property="searchBar" destination="dkD-cf-Lg3" id="GWC-CQ-FFh"/>
                     </connections>
@@ -91,7 +91,7 @@
             </objects>
             <point key="canvasLocation" x="1497" y="-27"/>
         </scene>
-        <!--My Movies-->
+        <!--My Movies Table View Controller-->
         <scene sceneID="COr-3j-4xq">
             <objects>
                 <tableViewController id="1Gb-tL-YFt" customClass="MyMoviesTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
@@ -145,11 +145,14 @@
                             <outlet property="delegate" destination="1Gb-tL-YFt" id="4Hh-DX-Gi9"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="y85-fk-XTV"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1496.8" y="699.40029985007504"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
+    </resources>
 </document>

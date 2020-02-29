@@ -55,7 +55,7 @@ extension MovieSearchTableViewController : ClouldMovieCellDelegate {
     func didAddMovie(movie: MovieRepresentation) {
      
               movieController.put(movie: movie)
-        
+        movieController.saveMovie(movieRepresentation: movie)
       
     }
     

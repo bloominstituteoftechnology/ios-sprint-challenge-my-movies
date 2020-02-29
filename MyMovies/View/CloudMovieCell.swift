@@ -42,6 +42,7 @@ class CloudMovieCell: UITableViewCell {
         
         if let movie = movie {
             let newMovie =  MovieRepresentation(title: movie.title, identifier: movie.identifier ?? UUID(), hasWatched: true)
+         
                delegate?.didAddMovie(movie: newMovie)
         }
      
