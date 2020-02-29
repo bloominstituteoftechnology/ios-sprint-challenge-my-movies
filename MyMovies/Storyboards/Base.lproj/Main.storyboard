@@ -98,19 +98,23 @@
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="249" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="265" y="0.0" width="78" height="30"/>
+                                                    <state key="normal" title="Unwatched"/>
                                                     <connections>
                                                         <action selector="watchedToggled:" destination="9cK-VO-zdo" eventType="touchUpInside" id="GN4-jT-Hho"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="3Ay-OW-Mt0" firstAttribute="centerY" secondItem="O4P-Iq-3DJ" secondAttribute="centerY" id="X2d-fx-qse"/>
+                                                <constraint firstAttribute="trailing" secondItem="3Ay-OW-Mt0" secondAttribute="trailing" constant="16" id="zfG-eD-9cn"/>
+                                            </constraints>
                                         </stackView>
                                     </subviews>
                                     <constraints>

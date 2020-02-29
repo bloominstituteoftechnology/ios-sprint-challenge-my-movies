@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieTableViewCell: UITableViewCell {
 
@@ -20,7 +21,15 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet var watchedButton: UIButton!
     
     @IBAction func watchedToggled(_ sender: UIButton){
-        
+        guard let movie = movie else { return }
+        do{
+            movie.hasWatched.toggle()
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            CoreDataStack.shared.mainContext.reset()
+            return
+        }
+        updateViews()
     }
     
     private func updateViews(){
