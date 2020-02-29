@@ -37,8 +37,15 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    // MARK: - Actions
+    
+    @IBAction func refresh(_ sender: Any) {
+        movieController.fetchMovies { _ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+                
+            }
+        }
     }
     
     // MARK: - Table view data source

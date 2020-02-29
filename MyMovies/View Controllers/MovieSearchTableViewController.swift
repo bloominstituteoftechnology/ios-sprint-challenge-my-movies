@@ -61,3 +61,4 @@ extension MovieSearchTableViewController: AddMovieDelegate {
         movieController.saveMovie(movieRepresentation: movieRepresentation)
     }
 }
+
