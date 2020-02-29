@@ -29,19 +29,38 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return movieController.searchedMovies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! CloudMovieCell
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
+        cell.movie = movieController.searchedMovies[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+}
+
+
+
+extension MovieSearchTableViewController : ClouldMovieCellDelegate {
+    
+    func didAddMovie(movie: MovieRepresentation) {
+     
+              movieController.put(movie: movie)
+        movieController.saveMovie(movieRepresentation: movie)
+      
+    }
+    
+   
+   
+    
+    
 }

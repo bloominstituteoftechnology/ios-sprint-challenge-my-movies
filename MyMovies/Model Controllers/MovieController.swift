@@ -7,8 +7,27 @@
 //
 
 import Foundation
+import CoreData
+
+enum HTTPMethod : String {
+    case PUT
+    case GET
+    case POST
+    case DELETE
+}
+
 
 class MovieController {
+    
+    
+    init() {
+        fetchMoviesFromSever()
+    }
+    
+   
+    
+    private let firebaseBaseURL =  URL(string: "https://movie-64f5c.firebaseio.com/")!
+    typealias CompletionHandler = (Error?) -> Void
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -55,4 +74,173 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+ 
+   
+    // MARK: - PUT
+    func put(movie: MovieRepresentation,completion: @escaping CompletionHandler = {_ in } ) {
+        
+        var newMovie = movie
+          let identifier = movie.identifier ?? UUID()
+          
+        let  putURL = firebaseBaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+              
+          var requestURL = URLRequest(url:putURL )
+          requestURL.httpMethod = HTTPMethod.PUT.rawValue
+         
+         
+          let jsonEncoder = JSONEncoder()
+      
+          do {
+           
+       
+               newMovie.identifier = identifier
+              requestURL.httpBody = try jsonEncoder.encode(newMovie)
+              
+          } catch let error as NSError {
+              print(error.localizedDescription)
+              completion(nil)
+              return
+          }
+    
+          URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
+              if let error = error {
+                  NSLog("Error sending data to sever: \(error)")
+                  completion(error)
+                  return
+              }
+                  completion(nil)
+              
+          }.resume()
+          
+        
+      }
+    
+    
+    
+   // MARK: - DELETE
+    
+    
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = {_ in  }) {
+          guard let uuid = movie.identifier else {
+              completion(NSError())
+              return
+          }
+          let requestURL = firebaseBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+          var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.DELETE.rawValue
+          
+          URLSession.shared.dataTask(with: request) { (data, response, error) in
+             
+              completion(error)
+          }.resume()
+          
+      
+      }
+    
+    
+    
+    // MARK: - Fetch movies from Sever
+    
+    func fetchMoviesFromSever(completion: @escaping CompletionHandler = { _ in }) {
+             let requestURL = firebaseBaseURL.appendingPathExtension("json")
+  
+             
+             URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+                 if let error = error {
+                     NSLog("Error fetching entries from Firebase: \(error)")
+                     completion(error)
+                     return
+                 }
+                 
+                 guard let data = data else {
+                     NSLog("No data returned from Firebase")
+                     completion(NSError())
+                     return
+                 }
+                 
+                 do {
+                  let jsonDecoder = JSONDecoder()
+                     let moviesRepresentation = Array(try jsonDecoder.decode([String : MovieRepresentation].self, from: data).values)
+                     try self.updateMovies(with: moviesRepresentation)
+                     completion(nil)
+                 } catch {
+                     NSLog("Error decoding entries representations from Firebase: \(error)")
+                     completion(error)
+                 }
+             }.resume()
+        
+         }
+    
+    
+    
+    //MARK: - Update movies
+    
+      private func updateMovies(with representations: [MovieRepresentation]) throws {
+        
+            let moviesWithID = representations.filter { $0.identifier != nil }
+        
+        let identifiersToFetch = moviesWithID.compactMap { $0.identifier ?? UUID() }
+        
+            let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesWithID))
+        
+            var movieToCreate = representationsByID
+            
+         
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@",identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.performAndWait {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                
+               
+                for movie in existingMovies{
+                    
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(movie: movie, with: representation)
+
+                    movieToCreate.removeValue(forKey: id)
+                  
+                }
+                
+                for representation in movieToCreate.values {
+                  
+                    Movie(movieRepresentation: representation, context: context)
+                  
+                }
+            } catch {
+                NSLog("Error fetching tasks for UUIDs: \(error)")
+            }
+            
+        }
+                    
+           
+        try CoreDataStack.shared.save(context: context)
+  
+        }
+        
+        private func update(movie: Movie, with representation: MovieRepresentation) {
+        
+            movie.title = representation.title
+            movie.hasWatched = representation.hasWatched ?? false
+        }
+    
+    
+  func saveMovie(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+     
+       do {
+           try context.save()
+          
+       } catch {
+           NSLog("Error saving movie: \(error)")
+       }
+   }
+   
+    
+    
 }
