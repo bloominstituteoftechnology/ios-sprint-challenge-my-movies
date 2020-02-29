@@ -77,7 +77,6 @@ class MovieController {
     
     func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         let identifier = movie.identifier ?? UUID()
-        movie.identifier = identifier
         
         let requestURL = fireBaseURL
             .appendingPathComponent(identifier.uuidString)
@@ -116,7 +115,7 @@ class MovieController {
         let identifier = movie.identifier ?? UUID()
         movie.identifier = identifier
         
-        let requestURL = baseURL
+        let requestURL = fireBaseURL
             .appendingPathComponent(identifier.uuidString)
             .appendingPathExtension("json")
         
@@ -136,7 +135,7 @@ class MovieController {
     
     func update(movie: Movie, with representation: MovieRepresentation) {
         guard let hasWatched = representation.hasWatched else { return }
-        
+
         movie.title = representation.title
         movie.hasWatched = hasWatched
         movie.identifier = representation.identifier
@@ -146,50 +145,50 @@ class MovieController {
         let identifiersToFetch = representations.compactMap { $0.identifier }
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         var moviesToCreate = representationsByID
-        
+
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        
+
         let context = CoreDataStack.shared.container.newBackgroundContext()
         context.performAndWait {
             do {
                 let existingMovies = try context.fetch(fetchRequest)
-                
+
                 for movie in existingMovies {
                     guard let identifier = movie.identifier,
                         let represesentation = representationsByID[identifier] else { continue }
-                    
+
                     update(movie: movie, with: represesentation)
                     moviesToCreate.removeValue(forKey: identifier)
                 }
-                
+
                 for representation in moviesToCreate.values {
                     Movie(movieRepresentation: representation, context: context)
                 }
-                
+
                 CoreDataStack.shared.save(context: context)
             } catch {
                 NSLog("Error fetching movies from Firebase: \(error)")
             }
         }
     }
-    
+
     func fetchMovies(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = fireBaseURL.appendingPathExtension("json")
-        
+
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
             if let error = error {
                 NSLog("Error fetching movies from Firebase: \(error)")
                 completion(error)
                 return
             }
-            
+
             guard let data = data else {
                 NSLog("Error getting data from Firebase")
                 completion(NSError())
                 return
             }
-            
+
             do {
                 let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
                 self.updateMovies(with: movieRepresentations)
@@ -198,7 +197,7 @@ class MovieController {
                 completion(error)
                 return
             }
-            
+
             completion(nil)
         }.resume()
     }
@@ -230,9 +229,7 @@ class MovieController {
     func watchedMovie(_ movie: Movie) {
         movie.hasWatched.toggle()
         
-        guard let title = movie.title,
-            let identifier = movie.identifier else { return }
-        
-        updateMovie(movie: movie, called: title, hasWatched: movie.hasWatched, identifier: identifier)
+        put(movie: movie)
+        CoreDataStack.shared.save()
     }
 }

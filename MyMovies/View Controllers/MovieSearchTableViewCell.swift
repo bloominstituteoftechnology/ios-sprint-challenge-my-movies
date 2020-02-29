@@ -21,7 +21,6 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
-    var added: Bool = false
     var delegate: AddMovieDelegate?
     var movieRepresentation: MovieRepresentation? {
         didSet {
@@ -33,11 +32,14 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     @IBAction func addToListTapped(_ sender: Any) {
         guard let movieRepresentation = movieRepresentation else { return }
+        
         delegate?.add(movieRepresentation: movieRepresentation)
+
     }
     
     private func updateViews() {
         guard let movieRepresentation = movieRepresentation else { return }
+        
         movieTitleLabel.text = movieRepresentation.title
     }
 }

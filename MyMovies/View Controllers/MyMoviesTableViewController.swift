@@ -14,55 +14,55 @@ class MyMoviesTableViewController: UITableViewController {
     // MARK: - Properties
     
     let movieController = MovieController()
-       
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
-           let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-           fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
-                                           NSSortDescriptor(key: "title", ascending: true)]
-           
-           let context = CoreDataStack.shared.mainContext
-           let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                managedObjectContext: context,
-                                                sectionNameKeyPath: "hasWatched",
-                                                cacheName: nil)
-           
-           frc.delegate = self
-           
-           do {
-               try frc.performFetch()
-           } catch {
-               NSLog("Error fetching moview from server: \(error)")
-           }
-           
-           return frc
-       }()
-
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
+                                        NSSortDescriptor(key: "title", ascending: true)]
+        
+        let context = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: context,
+                                             sectionNameKeyPath: "hasWatched",
+                                             cacheName: nil)
+        
+        frc.delegate = self
+        
+        do {
+            try frc.performFetch()
+        } catch {
+            NSLog("Error fetching moview from server: \(error)")
+        }
+        
+        return frc
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-}
-
+    }
+    
     // MARK: - Table view data source
-
-   override func numberOfSections(in tableView: UITableView) -> Int {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell() }
+        
         cell.delegate = self
         cell.movie = fetchedResultsController.object(at: indexPath)
-
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var sectionName = fetchedResultsController.sections?[section].name
-  
+        
         if sectionName == "0" {
             sectionName = "Not Watched"
         } else {
@@ -75,7 +75,16 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
-            movieController.deleteMovie(movie: movie)
+            movieController.deleteMovieFromServer(movie: movie) { error in
+                if let error = error {
+                    NSLog("Error deleting movie from Firebase: \(error)")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.movieController.deleteMovie(movie: movie)
+                }
+            }
         }
     }
 }
