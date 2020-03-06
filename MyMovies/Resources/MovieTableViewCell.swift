@@ -8,32 +8,42 @@
 
 import UIKit
 
+extension NSNotification.Name {
+    static let shouldShowMovieAdded = NSNotification.Name("ShouldShowMovieAdded")
+}
+
+protocol MovieSearchTableViewCellDelegate: class {
+    func addMovie(cell: MovieTableViewCell, movie: MovieRepresentation)
+}
+
 class MovieTableViewCell: UITableViewCell {
 
   //MARK: Outlets
     
     @IBOutlet weak var movieTitleLabel: UILabel!
-
+    
  //MARK: Properties
+    static let reuseIdentifier = "MovieCell"
     var myMoviesController: MyMoviesController?
-    var movie: MovieRepresentation? {
+    weak var delegate: MovieSearchTableViewCellDelegate?
+    var movieRepresentation: MovieRepresentation? {
         didSet {
             updateViews()
         }
     }
 
-    private func updateViews() {
-        movieTitleLabel.text = movie?.title
+     func updateViews() {
+        movieTitleLabel.text = movieRepresentation?.title
     }
     
     
 //MARK: Actions
     
     @IBAction func saveMovieTapped(_ sender: Any) {
-        guard let movie = movie else { return }
-        
-        let newMovie = Movie(title: movie.title)
-        myMoviesController?.sendMyMoviesToServer(movie: newMovie)
+        guard let movieRepresentation = movieRepresentation else { return }
+        delegate?.addMovie(cell: self, movie: movieRepresentation)
+         
+        NotificationCenter.default.post(name: .shouldShowMovieAdded, object: self)
     }
     
 

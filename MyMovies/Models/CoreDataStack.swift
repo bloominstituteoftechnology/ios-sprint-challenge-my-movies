@@ -11,36 +11,45 @@ import CoreData
 
 class CoreDataStack {
     
-    func save(context: NSManagedObjectContext) throws {
-        var error: Error?
-        
-        context.performAndWait {
-            do {
-                try context.save()
-            } catch let saveError {
-                error = saveError
-            }
-        }
-        
-        if let error = error { throw error}
-    }
-    
-    static let shared = CoreDataStack()
-    
-    let container: NSPersistentContainer = {
-        
-        let container = NSPersistentContainer(name: "MyMovies")
-        container.loadPersistentStores{ (_, error) in
-            if let error = error {
-                fatalError("Failed to load persistent stores: \(error)")
-            }
-        }
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        return container
-    }()
-    
-    var mainContext: NSManagedObjectContext { return container.viewContext}
-    
-    
+
+     static let shared = CoreDataStack()
+       let container: NSPersistentContainer
+       
+       let mainContext: NSManagedObjectContext
+       
+       init() {
+         container = NSPersistentContainer(name: "MyMovies")
+           
+         container.loadPersistentStores { (description, error) in
+           if let e = error {
+             fatalError("Couldn't load the data store: \(e)")
+         }
+     }
+         mainContext = container.viewContext
+         mainContext.automaticallyMergesChangesFromParent = true
+   }
+     func makeNewFetchedResultsController() -> NSFetchedResultsController<Movie> {
+          
+         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+          fetchRequest.sortDescriptors = [
+             NSSortDescriptor(key: "hasWatched", ascending: true) ]
+         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                 managedObjectContext: mainContext,
+                 sectionNameKeyPath: "hasWatched", cacheName: nil)
+          
+          return frc
+     }
+     // Helper Method
+     func saveTo(context: NSManagedObjectContext) throws {
+         var saveError: Error?
+         context.performAndWait {
+             do {
+                 try context.save()
+             } catch {
+                 saveError = error
+             }
+         }
+         if let error = saveError { throw error }
+     }
     
 }

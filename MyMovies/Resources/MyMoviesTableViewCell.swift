@@ -16,7 +16,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var movieButton: UIButton!
    
     //MARK: Properties
-    
+    static let reuseIdentifier = "MyMovieCell"
     var myMoviesController: MyMoviesController?
     var movie: Movie? {
         didSet {
@@ -24,14 +24,12 @@ class MyMoviesTableViewCell: UITableViewCell {
         }
     }
     
-    private func updateViews() {
+    func updateViews() {
         movieTitleLabel.text = movie?.title
-        guard let watched = movie?.hasWatched else { return }
-        switch watched {
-            case true:
+        if movie?.hasWatched == false {
+            movieButton.setTitle("Unwatched", for: .normal)
+        } else {
             movieButton.setTitle("Watched", for: .normal)
-            case false:
-            movieButton.setTitle("Not watched", for: .normal)
         }
     }
     
@@ -39,16 +37,18 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     
     @IBAction func movieWatchedTapped(_ sender: Any) {
-        movie?.hasWatched.toggle()
-        if let movie = movie {
-            myMoviesController?.sendMyMoviesToServer(movie: movie)
+       guard let movie = movie else { return }
+            
             switch movie.hasWatched {
             case true:
-                movieButton.setTitle("Watched", for: .normal)
+                movie.hasWatched = false
+                movieButton.setTitle("Unwatched", for: .normal)
+                MyMoviesController.shared.updateMovie(movie: movie, hasWatched: false)
             case false:
+                movie.hasWatched = true
                 movieButton.setTitle("Watched", for: .normal)
+                MyMoviesController.shared.updateMovie(movie: movie, hasWatched: true)
             }
-        }
     }
     
 }
