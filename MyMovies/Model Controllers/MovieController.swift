@@ -189,9 +189,10 @@ class MovieController {
     }
     
     func deleteMovies(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        guard let identifier = movie.identifier else {return}
+        let identifier = movie.identifier ?? UUID()
+        movie.identifier = identifier
         
-        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = myURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.delete.rawValue
         
