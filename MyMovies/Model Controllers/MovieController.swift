@@ -144,6 +144,12 @@ class MovieController {
         saveToPersistentStore()
     }
     
+    func update(for movie: Movie) {
+        movie.hasWatched.toggle()
+        sendMovieToServer(movie: movie)
+        saveToPersistentStore()
+    }
+    
     // Persistence
     func saveToPersistentStore(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         do {

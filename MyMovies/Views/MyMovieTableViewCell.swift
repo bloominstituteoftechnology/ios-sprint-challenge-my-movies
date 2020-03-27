@@ -40,8 +40,7 @@ class MyMovieTableViewCell: UITableViewCell {
     @IBAction func hasWatchedTapped(_ sender: UIButton) {
         guard let controller = movieController,
         let movie = movie else { return }
-        movie.hasWatched.toggle()
-        controller.saveToPersistentStore()
+        controller.update(for: movie)
     }
     
     // MARK: - Private
