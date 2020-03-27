@@ -22,6 +22,7 @@ class MyMovieTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    var movieController: MovieController?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,6 +38,10 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: - Action
 
     @IBAction func hasWatchedTapped(_ sender: UIButton) {
+        guard let controller = movieController,
+        let movie = movie else { return }
+        movie.hasWatched.toggle()
+        controller.saveToPersistentStore()
     }
     
     // MARK: - Private

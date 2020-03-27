@@ -55,6 +55,7 @@ class MyMoviesTableViewController: UITableViewController {
 
         // Configure the cell...
         cell.movie = fetchResultController.object(at: indexPath)
+        cell.movieController = movieController
 
         return cell
     }
