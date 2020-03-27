@@ -98,7 +98,7 @@ class MovieController {
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         print("IT IS FETCHING")
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = firebaseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
             if let error = error {
@@ -122,6 +122,24 @@ class MovieController {
             }
         }.resume()
         
+    }
+    
+    func deleteEntryFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        print("IT SHOULD BE DELETING")
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
     }
     
     private func updateEntries(with representations: [MovieRepresentation]) throws {
