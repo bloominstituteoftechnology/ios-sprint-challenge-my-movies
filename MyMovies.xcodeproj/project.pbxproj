@@ -19,6 +19,7 @@
 		9C8900C4242E4FC700404FFD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8900C3242E4FC700404FFD /* CoreDataStack.swift */; };
 		9C8900C6242E4FD400404FFD /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8900C5242E4FD400404FFD /* Movie+Convenience.swift */; };
 		9C8900CB242E567E00404FFD /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8900CA242E567E00404FFD /* ResultsTableViewCell.swift */; };
+		9C8900CD242E5F0200404FFD /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8900CC242E5F0200404FFD /* MyMovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		9C8900C3242E4FC700404FFD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9C8900C5242E4FD400404FFD /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		9C8900CA242E567E00404FFD /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
+		9C8900CC242E5F0200404FFD /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				9C8900CA242E567E00404FFD /* ResultsTableViewCell.swift */,
+				9C8900CC242E5F0200404FFD /* MyMovieTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				9C8900C2242E4F1E00404FFD /* Movies.xcdatamodeld in Sources */,
+				9C8900CD242E5F0200404FFD /* MyMovieTableViewCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
