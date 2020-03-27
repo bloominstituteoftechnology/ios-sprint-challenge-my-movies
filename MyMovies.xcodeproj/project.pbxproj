@@ -15,6 +15,11 @@
 		46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */; };
 		46E20A002126A91300E7FF73 /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FF2126A91300E7FF73 /* MovieController.swift */; };
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
+		92CE3844242E4E49002BF2DA /* Movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 92CE3842242E4E49002BF2DA /* Movies.xcdatamodeld */; };
+		92CE3846242E4EE2002BF2DA /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE3845242E4EE2002BF2DA /* Movie+Convenience.swift */; };
+		92CE3848242E565B002BF2DA /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE3847242E565B002BF2DA /* CoreDataStack.swift */; };
+		92CE384A242E5FE4002BF2DA /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE3849242E5FE4002BF2DA /* MyMoviesTableViewCell.swift */; };
+		92CE384C242E5FFA002BF2DA /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE384B242E5FFA002BF2DA /* MovieSearchTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +33,11 @@
 		46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewController.swift; sourceTree = "<group>"; };
 		46E209FF2126A91300E7FF73 /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
+		92CE3843242E4E49002BF2DA /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
+		92CE3845242E4EE2002BF2DA /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		92CE3847242E565B002BF2DA /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		92CE3849242E5FE4002BF2DA /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
+		92CE384B242E5FFA002BF2DA /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,11 +70,12 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
-				46E20A082126AFAC00E7FF73 /* View Controllers */,
-				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A092126AFC200E7FF73 /* Resources */,
+				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				92CE384D242E6056002BF2DA /* Table View Cells */,
+				46E20A082126AFAC00E7FF73 /* View Controllers */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";
@@ -72,7 +83,10 @@
 		46E20A052126AF5900E7FF73 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				92CE3847242E565B002BF2DA /* CoreDataStack.swift */,
+				92CE3845242E4EE2002BF2DA /* Movie+Convenience.swift */,
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+				92CE3842242E4E49002BF2DA /* Movies.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -107,10 +121,19 @@
 		46E20A0A2126AFCB00E7FF73 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				46E209E82126A63600E7FF73 /* Main.storyboard */,
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
+				46E209E82126A63600E7FF73 /* Main.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		92CE384D242E6056002BF2DA /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				92CE384B242E5FFA002BF2DA /* MovieSearchTableViewCell.swift */,
+				92CE3849242E5FE4002BF2DA /* MyMoviesTableViewCell.swift */,
+			);
+			path = "Table View Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,11 +208,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92CE384C242E5FFA002BF2DA /* MovieSearchTableViewCell.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
+				92CE3846242E4EE2002BF2DA /* Movie+Convenience.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				92CE384A242E5FE4002BF2DA /* MyMoviesTableViewCell.swift in Sources */,
+				92CE3844242E4E49002BF2DA /* Movies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				92CE3848242E565B002BF2DA /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +415,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		92CE3842242E4E49002BF2DA /* Movies.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				92CE3843242E4E49002BF2DA /* Movie.xcdatamodel */,
+			);
+			currentVersion = 92CE3843242E4E49002BF2DA /* Movie.xcdatamodel */;
+			path = Movies.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 46E209D92126A63600E7FF73 /* Project object */;
 }
