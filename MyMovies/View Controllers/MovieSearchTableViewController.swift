@@ -49,7 +49,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-    var movieController = MovieController()
+    var movieController = APIClient()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
