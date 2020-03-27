@@ -34,9 +34,17 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else {
+            fatalError("Unable to cast cell as MovieSearchTableViewCell")
+        }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        let movieRepresentation = movieController.searchedMovies[indexPath.row]
+        
+        cell.movieRepresentation = movieRepresentation
+        cell.addMovieCallback = { [weak self] representation in
+            // Tell movie controller to add movie
+            print("Adding movie: \(representation)")
+        }
         
         return cell
     }
