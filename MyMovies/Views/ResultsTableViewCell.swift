@@ -12,6 +12,12 @@ class ResultsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     
+    var movie: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,5 +30,12 @@ class ResultsTableViewCell: UITableViewCell {
     }
 
     @IBAction func addMoveTapped(_ sender: UIButton) {
+    }
+    
+    // MARK: - Private
+    
+    private func updateViews() {
+        guard let movie = movie else { return }
+        titleLabel.text = movie.title
     }
 }
