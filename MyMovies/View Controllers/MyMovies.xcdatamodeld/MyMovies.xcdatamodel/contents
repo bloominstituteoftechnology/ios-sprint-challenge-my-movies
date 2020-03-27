@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Movie" representedClassName="Movie" syncable="YES" codeGenerationType="class">
         <attribute name="hasWatched" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="identifier" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
