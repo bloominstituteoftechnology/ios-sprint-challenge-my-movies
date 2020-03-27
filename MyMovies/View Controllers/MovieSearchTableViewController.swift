@@ -9,17 +9,32 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    
+    // MARK: - Properties
+    
+    var apiClient = APIClient()
+    
+    
+    // MARK: - IBOutlets
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
     
+    
+    // MARK: - Search Bar Delegate
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
-        movieController.searchForMovie(with: searchTerm) { (error) in
+        apiClient.searchForMovie(with: searchTerm) { (error) in
             
             guard error == nil else { return }
             
@@ -29,8 +44,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    
+    // MARK: - Table View Data Source
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieController.searchedMovies.count
+        return apiClient.searchedMovies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -38,20 +57,15 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             fatalError("Unable to cast cell as MovieSearchTableViewCell")
         }
         
-        let movieRepresentation = movieController.searchedMovies[indexPath.row]
+        let movieRepresentation = apiClient.searchedMovies[indexPath.row]
         
         cell.movieRepresentation = movieRepresentation
-        cell.addMovieCallback = { [weak self] representation in
-            // Tell movie controller to add movie
-            print("Adding movie: \(representation)")
+        cell.addMovieCallback = { representation in
+            MovieController.shared.addMovie(with: representation)
         }
         
         return cell
     }
-    
-    var movieController = APIClient()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }
 
 

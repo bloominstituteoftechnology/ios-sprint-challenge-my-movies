@@ -10,22 +10,32 @@ import Foundation
 import CoreData
 
 extension Movie {
-    convenience init(title: String, hasWatched: Bool = false, identifier: UUID = UUID(), context: NSManagedObjectContext) {
-        self.init()
+    @discardableResult
+    convenience init(title: String,
+                     hasWatched: Bool = false,
+                     identifier: UUID = UUID(),
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(context: context)
         self.title = title
         self.hasWatched = hasWatched
         self.identifier = identifier.uuidString
     }
     
-    convenience init?(_ movieRepresentation: MovieRepresentation, context: NSManagedObjectContext) {
-        guard let idString = movieRepresentation.identifier,
-        let id = UUID(uuidString: idString) else {
-            return nil
+    @discardableResult
+    convenience init?(_ movieRepresentation: MovieRepresentation,
+                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let uuid: UUID
+        
+        if let idString = movieRepresentation.identifier,
+            let id = UUID(uuidString: idString) {
+            uuid = id
+        } else {
+            uuid = UUID()
         }
         
         self.init(title: movieRepresentation.title,
                   hasWatched: movieRepresentation.hasWatched ?? false,
-                  identifier: id,
+                  identifier: uuid,
                   context: context)
     }
     

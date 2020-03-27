@@ -10,6 +10,8 @@
 		045A5D60242E52FF0047AF93 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */; };
 		045A5D65242E56700047AF93 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D64242E56700047AF93 /* MyMoviesTableViewCell.swift */; };
 		045A5D67242E59480047AF93 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D66242E59480047AF93 /* MovieSearchTableViewCell.swift */; };
+		045A5D69242E5E5C0047AF93 /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D68242E5E5C0047AF93 /* MovieController.swift */; };
+		045A5D6B242E65E80047AF93 /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D6A242E65E80047AF93 /* FirebaseClient.swift */; };
 		04B3CAF9242E4DF100519F20 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CAF7242E4DF000519F20 /* MyMovies.xcdatamodeld */; };
 		04B3CAFF242E4EE500519F20 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CAFE242E4EE500519F20 /* Movie+Convenience.swift */; };
 		04B3CB03242E4FDA00519F20 /* Movie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CB01242E4FDA00519F20 /* Movie+CoreDataClass.swift */; };
@@ -28,6 +30,8 @@
 		045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = SOURCE_ROOT; };
 		045A5D64242E56700047AF93 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
 		045A5D66242E59480047AF93 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
+		045A5D68242E5E5C0047AF93 /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
+		045A5D6A242E65E80047AF93 /* FirebaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseClient.swift; sourceTree = "<group>"; };
 		04B3CAF8242E4DF100519F20 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		04B3CAFE242E4EE500519F20 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		04B3CB01242E4FDA00519F20 /* Movie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
@@ -118,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* APIClient.swift */,
+				045A5D68242E5E5C0047AF93 /* MovieController.swift */,
+				045A5D6A242E65E80047AF93 /* FirebaseClient.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -232,6 +238,8 @@
 				04B3CAF9242E4DF100519F20 /* MyMovies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 				04B3CB03242E4FDA00519F20 /* Movie+CoreDataClass.swift in Sources */,
+				045A5D69242E5E5C0047AF93 /* MovieController.swift in Sources */,
+				045A5D6B242E65E80047AF93 /* FirebaseClient.swift in Sources */,
 				045A5D65242E56700047AF93 /* MyMoviesTableViewCell.swift in Sources */,
 				04B3CAFF242E4EE500519F20 /* Movie+Convenience.swift in Sources */,
 			);
