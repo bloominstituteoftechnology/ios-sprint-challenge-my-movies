@@ -1,7 +1,5 @@
-//
 //  MovieController.swift
 //  MyMovies
-//
 //  Created by Spencer Curtis on 8/17/18.
 //  Copyright © 2018 Lambda School. All rights reserved.
 //
@@ -10,6 +8,10 @@ import Foundation
 import CoreData
 
 class MovieController {
+    
+    init() {
+        fetchMoviesFromServer()
+    }
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -110,6 +112,33 @@ class MovieController {
         }.resume()
     }
     
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = firebaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, _, error in
+            if let error = error {
+                NSLog("Error fetching movies: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                try self.updateMovies(with: movieRepresentations)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding or saving data from Firebase: \(error)")
+                completion(error)
+            }
+        }.resume()
+    }
+    
     // MARK: - Core Data methods
     
     func createMovie(title: String,
@@ -131,12 +160,50 @@ class MovieController {
     func deleteMovie(movie: Movie,
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         context.delete(movie)
+        deleteMovieFromServer(movie)
         do {
             try CoreDataStack.shared.save()
-            deleteMovieFromServer(movie)
         } catch {
             NSLog("Error deleting movie from core data")
         }
+    }
+    
+    private func updateMovies(with representations: [MovieRepresentation]) throws {
+        let moviesByID = representations.filter { $0.identifier != nil }
+        let identifiersToFetch = moviesByID.compactMap { $0.identifier }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, moviesByID))
+        var moviesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.performAndWait {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    self.update(movie: movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+            } catch {
+                NSLog("Error fetching movies for UUIDs: \(error)")
+            }
+        }
+        
+        try CoreDataStack.shared.save(context: context)
+    }
+    
+    private func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.hasWatched = representation.hasWatched ?? false
     }
     
 }
