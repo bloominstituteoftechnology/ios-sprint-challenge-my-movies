@@ -45,6 +45,7 @@ class AddedMoviesTableViewCell: UITableViewCell {
         } else {
             movieWatchedButton.setTitle("Unwatched", for: .normal)
         }
+        delegate?.itHasWatched(to: self)
 
     }
     
