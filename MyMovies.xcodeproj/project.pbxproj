@@ -70,13 +70,12 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A072126AFA300E7FF73 /* Model Controllers */,
-				46E20A082126AFAC00E7FF73 /* View Controllers */,
-				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				46E20A052126AF5900E7FF73 /* Models */,
 				46E20A092126AFC200E7FF73 /* Resources */,
-				92CE3849242E5FE4002BF2DA /* MyMoviesTableViewCell.swift */,
-				92CE384B242E5FFA002BF2DA /* MovieSearchTableViewCell.swift */,
+				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				92CE384D242E6056002BF2DA /* Table View Cells */,
+				46E20A082126AFAC00E7FF73 /* View Controllers */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";
@@ -122,10 +121,19 @@
 		46E20A0A2126AFCB00E7FF73 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				46E209E82126A63600E7FF73 /* Main.storyboard */,
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
+				46E209E82126A63600E7FF73 /* Main.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		92CE384D242E6056002BF2DA /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				92CE384B242E5FFA002BF2DA /* MovieSearchTableViewCell.swift */,
+				92CE3849242E5FE4002BF2DA /* MyMoviesTableViewCell.swift */,
+			);
+			path = "Table View Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
