@@ -61,13 +61,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		045A5D63242E56540047AF93 /* Views */ = {
+		045A5D6E242E6FC70047AF93 /* MovieSearch */ = {
 			isa = PBXGroup;
 			children = (
-				045A5D64242E56700047AF93 /* MyMoviesTableViewCell.swift */,
+				46E209FF2126A91300E7FF73 /* APIClient.swift */,
+				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				045A5D66242E59480047AF93 /* MovieSearchTableViewCell.swift */,
 			);
-			path = Views;
+			path = MovieSearch;
+			sourceTree = "<group>";
+		};
+		045A5D6F242E701C0047AF93 /* MyMovies */ = {
+			isa = PBXGroup;
+			children = (
+				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				045A5D64242E56700047AF93 /* MyMoviesTableViewCell.swift */,
+			);
+			path = MyMovies;
 			sourceTree = "<group>";
 		};
 		04B3CB00242E4EEF00519F20 /* Movie */ = {
@@ -99,64 +109,38 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				045A5D63242E56540047AF93 /* Views */,
-				46E20A052126AF5900E7FF73 /* Models */,
-				46E20A072126AFA300E7FF73 /* Model Controllers */,
-				46E20A082126AFAC00E7FF73 /* View Controllers */,
-				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				46E20A052126AF5900E7FF73 /* Model */,
+				46E209E82126A63600E7FF73 /* Main.storyboard */,
+				045A5D6C242E6DAB0047AF93 /* MainTabBarController.swift */,
+				045A5D6E242E6FC70047AF93 /* MovieSearch */,
+				045A5D6F242E701C0047AF93 /* MyMovies */,
 				46E20A092126AFC200E7FF73 /* Resources */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";
 		};
-		46E20A052126AF5900E7FF73 /* Models */ = {
+		46E20A052126AF5900E7FF73 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				045A5D68242E5E5C0047AF93 /* MovieController.swift */,
+				045A5D6A242E65E80047AF93 /* FirebaseClient.swift */,
 				045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */,
 				04B3CB00242E4EEF00519F20 /* Movie */,
 				04B3CAF7242E4DF000519F20 /* MyMovies.xcdatamodeld */,
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		46E20A072126AFA300E7FF73 /* Model Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				46E209FF2126A91300E7FF73 /* APIClient.swift */,
-				045A5D68242E5E5C0047AF93 /* MovieController.swift */,
-				045A5D6A242E65E80047AF93 /* FirebaseClient.swift */,
-			);
-			path = "Model Controllers";
-			sourceTree = "<group>";
-		};
-		46E20A082126AFAC00E7FF73 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				045A5D6C242E6DAB0047AF93 /* MainTabBarController.swift */,
-				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
-				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
-			);
-			path = "View Controllers";
+			path = Model;
 			sourceTree = "<group>";
 		};
 		46E20A092126AFC200E7FF73 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 				46E209E42126A63600E7FF73 /* AppDelegate.swift */,
 				46E209EB2126A63700E7FF73 /* Assets.xcassets */,
 				46E209F02126A63700E7FF73 /* Info.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		46E20A0A2126AFCB00E7FF73 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				46E209E82126A63600E7FF73 /* Main.storyboard */,
-				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
