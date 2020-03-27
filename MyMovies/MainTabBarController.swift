@@ -15,19 +15,10 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        guard let movieSearchTVC = children[0] as? MovieSearchTableViewController else { return }
+        guard let myMoviesTVC = children[1] as? MyMoviesTableViewController else { return }
+        
+        movieSearchTVC.movieController = movieController
+        myMoviesTVC.movieController = movieController
     }
-    
-
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let movieSearchTVC = segue.destination as? MovieSearchTableViewController {
-            movieSearchTVC.movieController = movieController
-        } else if let myMoviesTVC = segue.destination as? MyMoviesTableViewController {
-            myMoviesTVC.movieController = movieController
-        }
-    }
-
-
 }

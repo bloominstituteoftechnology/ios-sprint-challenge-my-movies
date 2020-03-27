@@ -17,8 +17,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="YE2-Zi-kUT" kind="relationship" relationship="viewControllers" id="hiq-zR-DOx"/>
-                        <segue destination="1Gb-tL-YFt" kind="relationship" relationship="viewControllers" id="cR2-oj-XlK"/>
+                        <segue destination="YE2-Zi-kUT" kind="relationship" relationship="viewControllers" destinationCreationSelector="MovieSearch" id="hiq-zR-DOx"/>
+                        <segue destination="1Gb-tL-YFt" kind="relationship" relationship="viewControllers" destinationCreationSelector="MyMovies" id="cR2-oj-XlK"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qHm-Hp-Yx5" userLabel="First Responder" sceneMemberID="firstResponder"/>

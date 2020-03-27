@@ -82,8 +82,8 @@ class FirebaseClient {
         }.resume()
     }
     
-    func deleteMovieWithID(_ uuid: String, completion: @escaping ErrorCompletion = { _ in }) {
-        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+    func deleteMovieWithID(_ uuidString: String, completion: @escaping ErrorCompletion = { _ in }) {
+        let requestURL = baseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
 

@@ -32,9 +32,15 @@ class MovieController {
         firebaseClient.sendMovieToServer(movie)
     }
     
-    func update(movie: Movie) {
+    func save(_ movie: Movie) {
         try? CoreDataStack.shared.save()
         firebaseClient.sendMovieToServer(movie)
+    }
+    
+    func delete(_ movie: Movie) {
+        firebaseClient.deleteMovieWithID(movie.identifier)
+        CoreDataStack.shared.mainContext.delete(movie)
+        try? CoreDataStack.shared.save()
     }
     
     

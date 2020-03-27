@@ -39,6 +39,6 @@ class MyMoviesTableViewCell: UITableViewCell {
     private func updateHasWatchedButton() {
         guard let movie = movie else { return }
         hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
-        movieController?.update(movie: movie)
+        movieController?.save(movie)
     }
 }
