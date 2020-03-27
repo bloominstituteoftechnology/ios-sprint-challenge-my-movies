@@ -135,7 +135,7 @@ class MovieController {
         movie.title = title
         movie.hasWatched = hasWatched
         
-// FIXME: Firebase        put(entry: entry)
+        put(movie: movie)
 
         do {
             try CoreDataStack.shared.save()
