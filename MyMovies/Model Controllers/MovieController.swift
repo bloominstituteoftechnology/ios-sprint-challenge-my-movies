@@ -55,4 +55,59 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    typealias CompletionHandler = (Error?) -> Void
+    let firebaseURL = URL(string: "https://mymovies-f687a.firebaseio.com/")!
+    
+    
+    // MARK: - Firebase methods
+    
+    func sendMovieToFirebase(movie: MovieRepresentation, completion: @escaping CompletionHandler = { _ in }) {
+        let identifier = movie.identifier ?? UUID()
+        let fetchRequest = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: fetchRequest)
+        urlRequest.httpMethod = "PUT"
+        
+        do {
+            guard var representation = movie.movieRepresentation else {
+                completion(NSError())
+                return
+            }
+            representation.identifier = identifier.uuidString
+            entry.identifier = identifier
+            try CoreDataStack.shared.save()
+            urlRequest.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error saving context or encoding entry representation: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: urlRequest) { _, _, error in
+            if let error = error {
+                NSLog("Error sending (PUT) entry to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    func delete(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let identifier = entry.identifier ?? UUID()
+        let fetchRequest = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: fetchRequest)
+        urlRequest.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: urlRequest) { _, _, error in
+            if let error = error {
+                NSLog("Error deleting (DELETE) entry from server: \(error)")
+                completion(error)
+                return
+            }
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+            
+        }.resume()
+    }
 }
