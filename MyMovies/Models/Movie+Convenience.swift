@@ -12,7 +12,7 @@ import CoreData
 /// Because we choose class define in Movies.xcdaatamodeld, Movie gets generated behind the scenes
 extension Movie {
     
-    // TODO: ? Coming in from Firebase. Do not like this much magic.
+    // TODO: ? Object to send to Firebase. Do not like this much magic.
     // FIXME: Is this right? And what do I need to unwrap? Or will I get errors to let me know?
     var movieRepresentation: MovieRepresentation? {
         guard let identifier = identifier,

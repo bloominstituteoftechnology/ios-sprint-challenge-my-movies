@@ -102,11 +102,12 @@ class MovieController {
         request.httpMethod = HTTPMethod.put.rawValue
         
         do {
+            /// Convert our movie object into something we can send to Firebase.
             guard var representation = movie.movieRepresentation else {
                 completion(NSError())
                 return
             }
-// FIXME: Necessary?            representation.identifier = uuid
+// FIXME: Can't set due to identifier being let            representation.identifier = uuid
             movie.identifier = uuid // TODO: ? What if it didn't change?
             request.httpBody = try JSONEncoder().encode(representation)
             
