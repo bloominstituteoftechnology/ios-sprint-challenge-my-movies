@@ -53,8 +53,8 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4B-9f-vWa">
-                                            <rect key="frame" x="341" y="7" width="34" height="30"/>
-                                            <state key="normal" title="Save"/>
+                                            <rect key="frame" x="282" y="7" width="73" height="30"/>
+                                            <state key="normal" title="Add Movie"/>
                                             <connections>
                                                 <action selector="saveButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="RGP-U6-Vxv"/>
                                             </connections>
@@ -63,7 +63,7 @@
                                     <constraints>
                                         <constraint firstItem="jhN-jg-iic" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="20" symbolic="YES" id="X8A-Cq-L8z"/>
                                         <constraint firstItem="jhN-jg-iic" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="gqS-Be-l6t"/>
-                                        <constraint firstAttribute="trailing" secondItem="o4B-9f-vWa" secondAttribute="trailing" id="k6e-Sl-5U7"/>
+                                        <constraint firstAttribute="trailing" secondItem="o4B-9f-vWa" secondAttribute="trailing" constant="20" id="k6e-Sl-5U7"/>
                                         <constraint firstItem="o4B-9f-vWa" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="n7U-Wg-e55"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -105,29 +105,25 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
-                                            <rect key="frame" x="16" y="16.5" width="343" height="22"/>
+                                            <rect key="frame" x="16" y="10.5" width="343" height="34"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="305" height="22"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="255" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
-                                                    <rect key="frame" x="321" y="0.0" width="22" height="22"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="3Ay-OW-Mt0" secondAttribute="height" multiplier="1:1" id="Ky6-iU-q4h"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="271" y="0.0" width="72" height="34"/>
                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <state key="normal" image="square" catalog="system"/>
+                                                    <state key="normal" title="Watched">
+                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="hasWatchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="j5M-ec-WCF"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="3Ay-OW-Mt0" firstAttribute="height" secondItem="O4P-Iq-3DJ" secondAttribute="height" id="6nE-uz-nac"/>
-                                            </constraints>
                                         </stackView>
                                     </subviews>
                                     <constraints>
@@ -156,7 +152,4 @@
             <point key="canvasLocation" x="1496.8" y="699.40029985007504"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="square" catalog="system" width="64" height="56"/>
-    </resources>
 </document>

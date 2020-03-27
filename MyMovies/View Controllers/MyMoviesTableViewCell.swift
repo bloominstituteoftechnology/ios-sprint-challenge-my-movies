@@ -25,6 +25,12 @@ class MyMoviesTableViewCell: UITableViewCell {
     // MARK: - Actions
     @IBAction func hasWatchedButtonTapped(_ sender: Any) {
         movie?.hasWatched.toggle()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving hasWatched info")
+        }
+        
     }
     
     
@@ -34,9 +40,9 @@ class MyMoviesTableViewCell: UITableViewCell {
         guard let movie = movie else { return }
         movieTitleLabel.text = movie.title
         if movie.hasWatched {
-            hasWatchedButton.setImage(UIImage(named: "square.fill"), for: .normal)
+            hasWatchedButton.setTitle("Watched", for: .normal)
         } else {
-            hasWatchedButton.setImage(UIImage(named: "square"), for: .normal)
+            hasWatchedButton.setTitle("Not Watched", for: .normal)
         }
     }
 
