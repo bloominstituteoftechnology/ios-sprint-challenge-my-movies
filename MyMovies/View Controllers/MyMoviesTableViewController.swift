@@ -13,6 +13,8 @@ class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - Properties
     
+    let myMovieController = MyMovieController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
@@ -68,17 +70,23 @@ class MyMoviesTableViewController: UITableViewController {
 
             let movie = fetchedResultsController.object(at: indexPath)
             let context = CoreDataStack.shared.mainContext
-            context.delete(movie)
-            
-            do {
-                try context.save()
-                #warning("migrate to other save function")
-            } catch {
-                context.reset()
-                NSLog("Error saving managed object context (deletion): \(error)")
+            myMovieController.deleteMovieFromServer(movie) { (error) in
+                
+                if let error = error {
+                    NSLog("Movie could not be deleted form Firebase: \(error)")
+                    return
+                }
+                
+                context.delete(movie)
+                do {
+                    try context.save()
+                    #warning("migrate to other save function")
+                } catch {
+                    context.reset()
+                    NSLog("Error saving managed object context (deletion): \(error)")
+                }
+                
             }
-            
-            
         }
     }
 
