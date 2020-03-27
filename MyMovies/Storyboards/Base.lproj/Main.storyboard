@@ -53,8 +53,8 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fsg-01-1uE">
-                                            <rect key="frame" x="313" y="6.5" width="46" height="30.5"/>
-                                            <state key="normal" title="Button"/>
+                                            <rect key="frame" x="286" y="6.5" width="73" height="30.5"/>
+                                            <state key="normal" title="Add Movie"/>
                                             <connections>
                                                 <action selector="buttonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="7In-yJ-F1f"/>
                                             </connections>
@@ -71,6 +71,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addButton" destination="fsg-01-1uE" id="NKQ-lZ-ZCi"/>
                                     <outlet property="titleLabel" destination="SpS-Ui-T8l" id="CEC-Wu-mom"/>
                                 </connections>
                             </tableViewCell>

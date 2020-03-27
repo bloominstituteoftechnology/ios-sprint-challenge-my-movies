@@ -17,6 +17,7 @@ class MoviesSearchTableViewCell: UITableViewCell {
     var delegate: MoviesSearchTableViewCellDelegate?
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var addButton: UIButton!
     var title: String? {
         didSet {
             titleLabel.text = title
@@ -35,6 +36,23 @@ class MoviesSearchTableViewCell: UITableViewCell {
     }
     @IBAction func buttonTapped(_ sender: UIButton) {
          delegate?.addMovie(for: self)
+        if addButton.isSelected {
+            animateButton()
+        }
+    }
+    
+    func animateButton() {
+        let animationOn = {
+            self.addButton.transform = CGAffineTransform(scaleX: 2.0, y: 1.5)
+               }
+        let animationOff = {
+            self.addButton.transform = .identity
+        }
+        UIView.animate(withDuration: 0.40, animations: {
+            animationOn()
+        }) { (_) in
+            animationOff()
+        }
     }
     
 }
