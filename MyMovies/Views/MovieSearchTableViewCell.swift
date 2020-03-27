@@ -24,12 +24,12 @@ class MovieSearchTableViewCell: UITableViewCell {
         guard let movieRepresentation = movieRepresentation else { return }
         let movie = Movie(title: movieRepresentation.title)
         
+        myMovieController?.sendMovieToServer(movie: movie)
         do {
             try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving: \(error)")
         }
-        myMovieController?.sendMovieToServer(movie: movie)
     }
     
     private func updateViews() {

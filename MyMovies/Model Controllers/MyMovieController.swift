@@ -23,9 +23,7 @@ class MyMovieController {
         let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
-        
-        #warning("done on background?")
-        
+                
         do {
             guard let representation = movie.movieRepresentation else {
                 completeion(NSError())
