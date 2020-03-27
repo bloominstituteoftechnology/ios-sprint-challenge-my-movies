@@ -9,8 +9,14 @@
 import UIKit
 
 class ResultsTableViewCell: UITableViewCell {
+    
+    // MARK: - Outlets
 
     @IBOutlet weak var titleLabel: UILabel!
+    
+    // MARK: - Properties
+    
+    var movieController: MovieController?
     
     var movie: MovieRepresentation? {
         didSet {
@@ -30,6 +36,9 @@ class ResultsTableViewCell: UITableViewCell {
     }
 
     @IBAction func addMoveTapped(_ sender: UIButton) {
+        guard let controller = movieController,
+        let movie = movie else { return }
+        controller.updateSingleRep(representation: movie)
     }
     
     // MARK: - Private

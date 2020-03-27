@@ -49,9 +49,10 @@ class MyMoviesTableViewController: UITableViewController {
         return fetchResultController.sections?[section].numberOfObjects ?? 0    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
 
         // Configure the cell...
+        cell.textLabel?.text = fetchResultController.object(at: indexPath).title
 
         return cell
     }
