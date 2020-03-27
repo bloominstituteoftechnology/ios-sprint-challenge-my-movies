@@ -13,6 +13,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     
+    var myMovieController: MyMovieController?
     var movie: Movie? {
         didSet {
             updateViews()
@@ -25,12 +26,12 @@ class MyMoviesTableViewCell: UITableViewCell {
         
         hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
 
+        myMovieController?.sendMovieToServer(movie: movie)
         do {
             try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving: \(error)")
         }
-        
     }
     
     private func updateViews() {

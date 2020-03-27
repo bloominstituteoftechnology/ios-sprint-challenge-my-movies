@@ -59,11 +59,11 @@ class MyMoviesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
 
         cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.myMovieController = myMovieController
 
         return cell
     }
 
-    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
