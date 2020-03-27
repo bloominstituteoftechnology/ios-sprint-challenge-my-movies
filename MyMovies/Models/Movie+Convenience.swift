@@ -33,10 +33,10 @@ extension Movie {
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        guard let theIdentifier = movieRepresentation.identifier
-        else {return nil}
+      //  let theIdentifier = movieRepresentation.identifier ?? UUID()
+    //    else {return nil}
         
-        self.init(identifier: theIdentifier,
+        self.init(identifier: movieRepresentation.identifier ?? UUID(),
                   title: movieRepresentation.title,
                   hasWatched: movieRepresentation.hasWatched ?? false,
                   context: context)
