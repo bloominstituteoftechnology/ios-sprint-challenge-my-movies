@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
+    
+    // MARK: - Movie API
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -50,6 +53,22 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    // MARK: - Firebase
+    
+    private let fireURL = URL(string: "https://mymovies-77687.firebaseio.com/")
+    
+    // MARK: - Core Data
+    
+    // Persistence
+    func saveToPersistentStore(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+            context.reset()
+        }
     }
     
     // MARK: - Properties
