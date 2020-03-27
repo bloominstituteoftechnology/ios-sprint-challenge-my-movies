@@ -79,8 +79,7 @@ class MyMoviesTableViewController: UITableViewController {
                 
                 context.delete(movie)
                 do {
-                    try context.save()
-                    #warning("migrate to other save function")
+                    try CoreDataStack.shared.save()
                 } catch {
                     context.reset()
                     NSLog("Error saving managed object context (deletion): \(error)")

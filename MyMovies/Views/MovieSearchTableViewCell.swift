@@ -25,8 +25,7 @@ class MovieSearchTableViewCell: UITableViewCell {
         let movie = Movie(title: movieRepresentation.title)
         
         do {
-            try CoreDataStack.shared.mainContext.save()
-            #warning("migrate to other save function")
+            try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving: \(error)")
         }

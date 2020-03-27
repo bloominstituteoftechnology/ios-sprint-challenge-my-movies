@@ -26,8 +26,7 @@ class MyMoviesTableViewCell: UITableViewCell {
         hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
 
         do {
-            try CoreDataStack.shared.mainContext.save()
-            #warning("migrate to other save function")
+            try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving: \(error)")
         }

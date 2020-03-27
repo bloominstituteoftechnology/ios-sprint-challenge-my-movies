@@ -23,6 +23,12 @@ extension Movie {
         self.identifier = identifier
         self.hasWatched = hasWatched
     }
+    
+    @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let identifer = movieRepresentation.identifier else { return nil }
+        
+        self.init(title: movieRepresentation.title, identifier: identifer, hasWatched: movieRepresentation.hasWatched ?? false, context: context)
+    }
 }
 
 
