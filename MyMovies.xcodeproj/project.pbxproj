@@ -28,7 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = SOURCE_ROOT; };
+		045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = MyMovies/Model/CoreDataStack.swift; sourceTree = SOURCE_ROOT; };
 		045A5D64242E56700047AF93 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
 		045A5D66242E59480047AF93 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 		045A5D68242E5E5C0047AF93 /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
@@ -86,6 +86,7 @@
 				04B3CB01242E4FDA00519F20 /* Movie+CoreDataClass.swift */,
 				04B3CB02242E4FDA00519F20 /* Movie+CoreDataProperties.swift */,
 				04B3CAFE242E4EE500519F20 /* Movie+Convenience.swift */,
+				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 			);
 			path = Movie;
 			sourceTree = "<group>";
@@ -109,9 +110,9 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A052126AF5900E7FF73 /* Model */,
 				46E209E82126A63600E7FF73 /* Main.storyboard */,
 				045A5D6C242E6DAB0047AF93 /* MainTabBarController.swift */,
+				46E20A052126AF5900E7FF73 /* Model */,
 				045A5D6E242E6FC70047AF93 /* MovieSearch */,
 				045A5D6F242E701C0047AF93 /* MyMovies */,
 				46E20A092126AFC200E7FF73 /* Resources */,
@@ -124,10 +125,9 @@
 			children = (
 				045A5D68242E5E5C0047AF93 /* MovieController.swift */,
 				045A5D6A242E65E80047AF93 /* FirebaseClient.swift */,
-				045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */,
 				04B3CB00242E4EEF00519F20 /* Movie */,
+				045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */,
 				04B3CAF7242E4DF000519F20 /* MyMovies.xcdatamodeld */,
-				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

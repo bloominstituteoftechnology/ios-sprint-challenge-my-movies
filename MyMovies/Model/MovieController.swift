@@ -15,6 +15,10 @@ class MovieController {
     private let firebaseClient = FirebaseClient()
     
     init() {
+        fetchMoviesFromServer()
+    }
+    
+    func fetchMoviesFromServer(completion: (() -> Void)? = nil) {
         firebaseClient.fetchMoviesFromServer { result in
             switch result {
             case .failure(let error):
@@ -22,6 +26,7 @@ class MovieController {
             case .success(let movieRepsByID):
                 self.syncMovies(with: movieRepsByID)
             }
+            completion?()
         }
     }
     

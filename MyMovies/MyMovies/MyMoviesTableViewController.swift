@@ -18,8 +18,12 @@ class MyMoviesTableViewController: UITableViewController {
     private lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let context = CoreDataStack.shared.mainContext
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [.init(key: "title", ascending: true)]
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetchRequest.sortDescriptors = [
+            .init(key: "hasWatched", ascending: true),
+            .init(key: "title", ascending: true)
+        ]
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
         try? frc.performFetch()
         
@@ -31,11 +35,16 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+      // MARK: - Actions
+    
+    @objc private func refresh() {
+        movieController?.fetchMoviesFromServer {
+            self.refreshControl?.endRefreshing()
+        }
     }
 
     
@@ -45,6 +54,9 @@ class MyMoviesTableViewController: UITableViewController {
         return fetchedResultsController.sections?.count ?? 1
     }
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 1 ? "Watched" : "Unwatched"
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
