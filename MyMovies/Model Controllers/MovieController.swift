@@ -61,6 +61,12 @@ class MovieController {
     
     // MARK: - Core Data
     
+    // Create
+    func create(title: String) {
+        let movie = Movie(identifier: UUID(), title: title, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        saveToPersistentStore()
+    }
+    
     // Persistence
     func saveToPersistentStore(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         do {
@@ -70,6 +76,30 @@ class MovieController {
             context.reset()
         }
     }
+    
+    // Convert a single movie representation into coreData. From movieDB -> CoreData
+    
+    func updateSingleRep(representation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        context.performAndWait {
+            do {
+                // Get all movies in core data
+                let existingMovies = try context.fetch(fetchRequest)
+                // Try to find a matching title
+                if let foundIndex = existingMovies.firstIndex(where: {$0.title == representation.title}) {
+                    print("Movie already exists")
+                } else {
+                    create(title: representation.title)
+                }
+            } catch {
+                NSLog("Error Creating a goodie")
+            }
+        }
+        
+    }
+    
     
     // MARK: - Properties
     
