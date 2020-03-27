@@ -82,7 +82,7 @@
                             <outlet property="delegate" destination="YE2-Zi-kUT" id="lIt-L5-G4h"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Movie Search" id="sdT-54-ch4"/>
+                    <tabBarItem key="tabBarItem" title="Movie Search" image="magnifyingglass" catalog="system" id="sdT-54-ch4"/>
                     <connections>
                         <outlet property="searchBar" destination="dkD-cf-Lg3" id="GWC-CQ-FFh"/>
                     </connections>
@@ -145,11 +145,21 @@
                             <outlet property="delegate" destination="1Gb-tL-YFt" id="4Hh-DX-Gi9"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
+                    <tabBarItem key="tabBarItem" title="My Movies" image="film" catalog="system" id="y85-fk-XTV"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Kzz-I9-sYx">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="1Gb-tL-YFt" eventType="valueChanged" id="hUn-Lg-5Ja"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1496.8" y="699.40029985007504"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="film" catalog="system" width="64" height="46"/>
+        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
+    </resources>
 </document>

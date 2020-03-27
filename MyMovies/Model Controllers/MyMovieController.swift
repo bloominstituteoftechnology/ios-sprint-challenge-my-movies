@@ -24,6 +24,8 @@ class MyMovieController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
+        #warning("done on background?")
+        
         do {
             guard let representation = movie.movieRepresentation else {
                 completeion(NSError())

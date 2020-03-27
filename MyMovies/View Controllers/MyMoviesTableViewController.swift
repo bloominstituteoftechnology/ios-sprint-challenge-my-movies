@@ -29,6 +29,14 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    @IBAction func refresh(_ sender: Any) {
+        myMovieController.fetchMoviesFromServer() { _ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
