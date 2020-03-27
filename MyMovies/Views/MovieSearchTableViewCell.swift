@@ -13,6 +13,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
+    var myMovieController: MyMovieController?
     var movieRepresentation: MovieRepresentation? {
         didSet {
             updateViews()
@@ -29,10 +30,14 @@ class MovieSearchTableViewCell: UITableViewCell {
         } catch {
             NSLog("Error saving: \(error)")
         }
+        
+        myMovieController?.sendMovieToServer(movie: movie)
+        
+        
     }
     
     
-    func updateViews() {
+    private func updateViews() {
         guard let movieRepresentation = movieRepresentation else { return }
         
         titleLabel.text = movieRepresentation.title
