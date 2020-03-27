@@ -10,8 +10,19 @@ import UIKit
 
 class MyMovieTableViewCell: UITableViewCell {
 
+    // MARK: - Outlets
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var watchedButton: UIButton!
+    
+    // MARK: - Properties
+    
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -22,7 +33,18 @@ class MyMovieTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    // MARK: - Action
 
     @IBAction func hasWatchedTapped(_ sender: UIButton) {
+    }
+    
+    // MARK: - Private
+    
+    private func updateViews() {
+        guard let movie = movie else { return }
+        
+        titleLabel.text = movie.title
+        watchedButton.setTitle(movie.hasWatched ? "Watched" : "Not watched", for: .normal)
     }
 }
