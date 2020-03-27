@@ -13,7 +13,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     var movie: Movie? { didSet { updateViews() }}
-    
+    var movieController: MovieController?
     
     // MARK: - IBOutlets
     
@@ -39,6 +39,6 @@ class MyMoviesTableViewCell: UITableViewCell {
     private func updateHasWatchedButton() {
         guard let movie = movie else { return }
         hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
-        try? CoreDataStack.shared.save()
+        movieController?.update(movie: movie)
     }
 }

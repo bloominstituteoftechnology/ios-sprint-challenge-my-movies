@@ -13,6 +13,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     // MARK: - Properties
     
     var apiClient = APIClient()
+    var movieController: MovieController?
     
     
     // MARK: - IBOutlets
@@ -60,9 +61,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         let movieRepresentation = apiClient.searchedMovies[indexPath.row]
         
         cell.movieRepresentation = movieRepresentation
-        cell.addMovieCallback = { representation in
-            MovieController.shared.addMovie(with: representation)
-        }
+        cell.movieController = movieController
         
         return cell
     }

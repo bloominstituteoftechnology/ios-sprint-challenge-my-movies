@@ -13,6 +13,8 @@ class MyMoviesTableViewController: UITableViewController {
 
     // MARK: - Properties
     
+    var movieController: MovieController?
+    
     private lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let context = CoreDataStack.shared.mainContext
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -54,7 +56,8 @@ class MyMoviesTableViewController: UITableViewController {
         }
 
         cell.movie = fetchedResultsController.object(at: indexPath)
-
+        cell.movieController = movieController
+        
         return cell
     }
     

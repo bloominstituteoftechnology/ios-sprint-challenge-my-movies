@@ -39,7 +39,7 @@ extension Movie {
                   context: context)
     }
     
-    var movieRepresentation: MovieRepresentation {
+    var representation: MovieRepresentation {
         MovieRepresentation(title: self.title, identifier: self.identifier, hasWatched: self.hasWatched)
     }
 }

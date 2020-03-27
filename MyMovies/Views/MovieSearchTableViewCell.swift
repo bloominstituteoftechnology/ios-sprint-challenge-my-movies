@@ -13,7 +13,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     var movieRepresentation: MovieRepresentation? { didSet { updateTitleLabel() }}
-    var addMovieCallback: ((MovieRepresentation) -> ())?
+    var movieController: MovieController?
     
     
     // MARK: - IBOutlets
@@ -24,10 +24,9 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - IBActions
     
     @IBAction func addMovieTapped(_ sender: UIButton) {
-        guard let movieRepresentation = movieRepresentation,
-        let addMovieCallback = addMovieCallback else { return }
+        guard let representation = movieRepresentation else { return }
         
-        addMovieCallback(movieRepresentation)
+        movieController?.addMovie(with: representation)
     }
     
     

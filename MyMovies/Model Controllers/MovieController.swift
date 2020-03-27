@@ -9,14 +9,67 @@
 import Foundation
 import CoreData
 
+typealias MovieRepsByID = [String: MovieRepresentation]
+
 class MovieController {
-    static let shared = MovieController()
-    private init() {}
+    private let firebaseClient = FirebaseClient()
+    
+    init() {
+        firebaseClient.fetchMoviesFromServer { result in
+            switch result {
+            case .failure(let error):
+                NSLog("Error fetching movies from server: \(error)")
+            case .success(let movieRepsByID):
+                self.syncMovies(with: movieRepsByID)
+            }
+        }
+    }
     
     func addMovie(with representation: MovieRepresentation) {
         // Could add functionality to avoid duplication
-        Movie(representation)
+        guard let movie = Movie(representation) else { return }
         try? CoreDataStack.shared.save()
+        firebaseClient.sendMovieToServer(movie)
+    }
+    
+    func update(movie: Movie) {
+        try? CoreDataStack.shared.save()
+        firebaseClient.sendMovieToServer(movie)
+    }
+    
+    
+    // MARK: - Syncing
+    
+    private func syncMovies(with movieRepsByID: MovieRepsByID) {
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        let moviesOnServerRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        moviesOnServerRequest.predicate = NSPredicate(format: "identifier IN %@", Array(movieRepsByID.keys))
+        
+        var moviesToCreate = movieRepsByID
+        
+        context.perform {
+            if let existingMovies = try? context.fetch(moviesOnServerRequest) {
+                for movie in existingMovies {
+                    let id = movie.identifier
+                    guard let representation = movieRepsByID[id] else { continue }
+                    self.update(movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
+                }
+            }
+            
+            for representation in moviesToCreate.values {
+                Movie(representation, context: context)
+            }
+            
+            try? context.save()
+        }
+    }
+    
+    private func update(_ movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        if let hasWatched = representation.hasWatched {
+            movie.hasWatched = hasWatched
+        }
     }
 }
 
