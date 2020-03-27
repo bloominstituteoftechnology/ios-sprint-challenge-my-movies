@@ -1,5 +1,5 @@
 //
-//  MovieTableViewCell.swift
+//  MyMoviesTableViewCell.swift
 //  MyMovies
 //
 //  Created by Shawn Gee on 3/27/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieTableViewCell: UITableViewCell {
+class MyMoviesTableViewCell: UITableViewCell {
 
     // MARK: - Properties
     
