@@ -50,7 +50,7 @@
                                             <rect key="frame" x="286" y="7" width="73" height="30"/>
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
-                                                <action selector="addMovie:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="X5n-KD-erb"/>
+                                                <action selector="addMovieButton:" destination="d7W-qE-xfL" eventType="touchUpInside" id="7VJ-3I-fMQ"/>
                                             </connections>
                                         </button>
                                     </subviews>

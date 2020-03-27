@@ -10,15 +10,16 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    // MARK: - Properities
+    var movieController: MovieController?
+    
+    // MARK: - Outlets
+    
+    // MARK: - Actions
+    
+    @IBAction func addMovieButton(_ sender: Any) {
+        guard let title = self.textLabel?.text else { return }
+
+        movieController?.create(title: title)
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

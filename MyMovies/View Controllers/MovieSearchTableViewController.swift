@@ -20,14 +20,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
     // MARK: - Actions
 
-    @IBAction func addMovie(_ sender: UIButton) {
-        print("Add Moview pressed")
-        
-        // FIXME: WTF!!!!
-        
-        movieController.create(title: "Star Wars")
-    }
-
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
@@ -54,8 +46,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else { return UITableViewCell() }
         
+        cell.movieController = movieController
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
         return cell

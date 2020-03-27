@@ -23,7 +23,7 @@ class MyMoviesTableViewController: UITableViewController {
                                         NSSortDescriptor(key: "title", ascending: true)]
         
         let context = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         
         frc.delegate = self
         try! frc.performFetch() // try! = Perform this and if the app crashes, so be it.
