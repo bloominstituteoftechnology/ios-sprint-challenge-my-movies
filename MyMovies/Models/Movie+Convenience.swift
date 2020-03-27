@@ -7,3 +7,15 @@
 //
 
 import Foundation
+import CoreData
+
+extension Movie {
+    
+    // Convenience initializer for creating a movie directly into coreData. May never be used, but gotta get those reps in you feel me.
+    @discardableResult convenience init (identifier: UUID = UUID(), title: String, hasWatched: Bool = false, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(context: context)
+        self.identifier = identifier
+        self.title = title
+        self.hasWatched = hasWatched
+    }
+}
