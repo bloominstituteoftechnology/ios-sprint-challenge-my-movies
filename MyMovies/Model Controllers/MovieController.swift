@@ -67,6 +67,11 @@ class MovieController {
         saveToPersistentStore()
     }
     
+    func delete(at movie: Movie) {
+        CoreDataStack.shared.mainContext.delete(movie)
+        saveToPersistentStore()
+    }
+    
     // Persistence
     func saveToPersistentStore(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         do {
