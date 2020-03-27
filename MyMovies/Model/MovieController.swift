@@ -26,9 +26,14 @@ class MovieController {
             case .success(let movieRepsByID):
                 self.syncMovies(with: movieRepsByID)
             }
-            completion?()
+            DispatchQueue.main.async {
+                completion?()
+            }
         }
     }
+    
+    
+    // MARK: - CRUD
     
     func addMovie(with representation: MovieRepresentation) {
         // Could add functionality to avoid duplication
