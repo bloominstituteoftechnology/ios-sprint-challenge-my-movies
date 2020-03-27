@@ -111,6 +111,24 @@ class MovieController {
         
     }
     
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = fireURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error ideleteing movie from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+        
+    }
+    
     // MARK: - Core Data
     
     // Create
@@ -122,6 +140,7 @@ class MovieController {
     
     func delete(at movie: Movie) {
         CoreDataStack.shared.mainContext.delete(movie)
+        deleteMovieFromServer(movie: movie)
         saveToPersistentStore()
     }
     
