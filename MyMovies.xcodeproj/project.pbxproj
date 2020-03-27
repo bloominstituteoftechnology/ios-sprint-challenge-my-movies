@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045A5D60242E52FF0047AF93 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */; };
 		04B3CAF9242E4DF100519F20 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CAF7242E4DF000519F20 /* MyMovies.xcdatamodeld */; };
 		04B3CAFF242E4EE500519F20 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CAFE242E4EE500519F20 /* Movie+Convenience.swift */; };
 		04B3CB03242E4FDA00519F20 /* Movie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CB01242E4FDA00519F20 /* Movie+CoreDataClass.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = SOURCE_ROOT; };
 		04B3CAF8242E4DF100519F20 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		04B3CAFE242E4EE500519F20 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		04B3CB01242E4FDA00519F20 /* Movie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
@@ -90,6 +92,7 @@
 		46E20A052126AF5900E7FF73 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */,
 				04B3CB00242E4EEF00519F20 /* Movie */,
 				04B3CAF7242E4DF000519F20 /* MyMovies.xcdatamodeld */,
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
@@ -210,6 +213,7 @@
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				04B3CB04242E4FDA00519F20 /* Movie+CoreDataProperties.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				045A5D60242E52FF0047AF93 /* CoreDataStack.swift in Sources */,
 				04B3CAF9242E4DF100519F20 /* MyMovies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 				04B3CB03242E4FDA00519F20 /* Movie+CoreDataClass.swift in Sources */,
