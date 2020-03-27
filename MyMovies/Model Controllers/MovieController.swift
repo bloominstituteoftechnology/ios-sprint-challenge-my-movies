@@ -92,6 +92,24 @@ class MovieController {
         }.resume()
     }
     
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = movie.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            DispatchQueue.main.async {
+                completion(error)
+            }
+        }.resume()
+    }
+    
     // MARK: - Core Data methods
     
     func createMovie(title: String,
@@ -102,10 +120,22 @@ class MovieController {
                              identifier: identifier,
                              hasWatched: hasWatched)
         context.insert(newMovie)
+        sendMovieToFirebase(movie: newMovie)
         do {
             try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving movie to core data")
+        }
+    }
+    
+    func deleteMovie(movie: Movie,
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.delete(movie)
+        do {
+            try CoreDataStack.shared.save()
+            deleteMovieFromServer(movie)
+        } catch {
+            NSLog("Error deleting movie from core data")
         }
     }
     

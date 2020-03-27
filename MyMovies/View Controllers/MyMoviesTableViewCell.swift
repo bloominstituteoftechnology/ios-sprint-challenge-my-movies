@@ -16,6 +16,7 @@ class MyMoviesTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    var movieContoller: MovieController?
     
     // MARK: - Outlets
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -27,6 +28,9 @@ class MyMoviesTableViewCell: UITableViewCell {
         movie?.hasWatched.toggle()
         do {
             try CoreDataStack.shared.save()
+            if let movie = movie {
+                movieContoller?.sendMovieToFirebase(movie: movie)
+            }
         } catch {
             NSLog("Error saving hasWatched info")
         }

@@ -59,19 +59,19 @@ class MyMoviesTableViewController: UITableViewController {
 
         let movie = fetchedResultsController.object(at: indexPath)
         cell.movie = movie
+        cell.movieContoller = movieController
 
         return cell
     }
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.deleteMovie(movie: movie)
+            
+            //tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    */
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
