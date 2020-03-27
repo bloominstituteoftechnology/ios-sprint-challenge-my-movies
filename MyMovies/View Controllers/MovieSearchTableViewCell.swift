@@ -12,16 +12,24 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     var movieController: MovieController?
+    var movie: MovieRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
     
     // MARK: - Outlets
     @IBOutlet weak var movieTitleLabel: UILabel!
     
+    func updateViews() {
+        movieTitleLabel.text = movie?.title
+    }
+    
     // MARK: - Actions
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let movieTitle = movieTitleLabel.text,
-            movieTitle.isEmpty else { return }
-        let movie = MovieRepresentation(title: movieTitle, identifier: UUID(), hasWatched: false)
-        
+            !movieTitle.isEmpty else { return }
+        movieController?.createMovie(title: movieTitle, identifier: UUID(), hasWatched: false)
     }
 
 

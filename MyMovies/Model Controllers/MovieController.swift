@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -61,30 +62,29 @@ class MovieController {
     
     // MARK: - Firebase methods
     
-    func sendMovieToFirebase(movie: MovieRepresentation, completion: @escaping CompletionHandler = { _ in }) {
+    func sendMovieToFirebase(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         let identifier = movie.identifier ?? UUID()
         let fetchRequest = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var urlRequest = URLRequest(url: fetchRequest)
         urlRequest.httpMethod = "PUT"
         
         do {
-            guard var representation = movie.movieRepresentation else {
+            guard let representation = movie.movieRepresentation else {
                 completion(NSError())
                 return
             }
-            representation.identifier = identifier.uuidString
-            entry.identifier = identifier
+            
             try CoreDataStack.shared.save()
             urlRequest.httpBody = try JSONEncoder().encode(representation)
         } catch {
-            NSLog("Error saving context or encoding entry representation: \(error)")
+            NSLog("Error saving context or encoding movie representation: \(error)")
             completion(error)
             return
         }
         
         URLSession.shared.dataTask(with: urlRequest) { _, _, error in
             if let error = error {
-                NSLog("Error sending (PUT) entry to server: \(error)")
+                NSLog("Error sending (PUT) movie to server: \(error)")
                 completion(error)
                 return
             }
@@ -92,22 +92,21 @@ class MovieController {
         }.resume()
     }
     
-    func delete(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        let identifier = entry.identifier ?? UUID()
-        let fetchRequest = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
-        var urlRequest = URLRequest(url: fetchRequest)
-        urlRequest.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: urlRequest) { _, _, error in
-            if let error = error {
-                NSLog("Error deleting (DELETE) entry from server: \(error)")
-                completion(error)
-                return
-            }
-            DispatchQueue.main.async {
-                completion(nil)
-            }
-            
-        }.resume()
+    // MARK: - Core Data methods
+    
+    func createMovie(title: String,
+                     identifier: UUID,
+                     hasWatched: Bool,
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let newMovie = Movie(title: title,
+                             identifier: identifier,
+                             hasWatched: hasWatched)
+        context.insert(newMovie)
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving movie to core data")
+        }
     }
+    
 }
