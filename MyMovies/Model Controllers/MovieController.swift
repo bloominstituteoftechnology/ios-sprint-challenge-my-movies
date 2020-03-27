@@ -8,13 +8,31 @@
 
 import Foundation
 
+enum HTTPMethod: String {
+    case post   = "POST"   // Create
+    case get    = "GET"    // Read
+    case put    = "PUT"    // Update/Replace
+    case patch  = "PATCH"  // Update/Replace
+    case delete = "DELETE" // Delete
+}
+
 class MovieController {
     
     // MARK: - Properties
-    
+
+    typealias CompletionHandler = (Error?) -> Void
+
+    // Firebase
+    let firebaseBaseURL = URL(string: "https://mymovies-lambda-gerrior.firebaseio.com/")!
+
+    // The Movie DB
     var searchedMovies: [MovieRepresentation] = []
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
+    init() {
+// FIXME: Add        fetchEntriesFromServer()
+    }
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -62,18 +80,49 @@ class MovieController {
                 title: String,
                 hasWatched: Bool = false) {
         
-        /* let movie = */ Movie(identifier: identifier,
+        let movie = Movie(identifier: identifier,
                           title: title,
                           hasWatched: hasWatched,
                           context: CoreDataStack.shared.mainContext)
         
-// FIXME: Firebase        put(entry: entry)
+        put(movie: movie)
 
         do {
             try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving managed object context (after create) to Core Data: \(error)")
         }
+    }
+
+    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            guard var representation = movie.movieRepresentation else {
+                completion(NSError())
+                return
+            }
+// FIXME: Necessary?            representation.identifier = uuid
+            movie.identifier = uuid // TODO: ? What if it didn't change?
+            request.httpBody = try JSONEncoder().encode(representation)
+            
+        } catch {
+            NSLog("Error encoding/saving movie: \(error)")
+            completion(error)
+        }
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error PUTing movie to server \(error)")
+                completion(error)
+                return
+            }
+
+            completion(nil)
+        }.resume()
     }
 
     // Read

@@ -24,6 +24,7 @@ struct MovieRepresentation: Equatable, Codable {
  Represents the full JSON returned from searching for a movie.
  The actual movies are in the "results" dictionary of the JSON.
  */
+// TODO: ? What is this?
 struct MovieRepresentations: Codable {
     let results: [MovieRepresentation]
 }
