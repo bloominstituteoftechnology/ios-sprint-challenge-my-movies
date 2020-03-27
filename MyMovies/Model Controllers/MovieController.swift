@@ -10,6 +10,9 @@ import Foundation
 
 class MovieController {
     
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -52,7 +55,24 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
-    
-    var searchedMovies: [MovieRepresentation] = []
+    // Delete
+    func delete(movie: Movie) {
+
+        // TODO: ? Was this one necessary to wrap?
+        let context = CoreDataStack.shared.mainContext
+
+        context.performAndWait {
+            context.delete(movie)
+        }
+
+        // Delete from Firebase (copy of record)
+ // FIXME:       delete(entry: entry) { _ in print("Deleted") }
+
+        // Delete from Core Data
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving managed object context (after delete) to Core Data: \(error)")
+        }
+    }
 }

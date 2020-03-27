@@ -9,6 +9,22 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    // MARK: - Properties
+
+    var movieController = MovieController()
+    
+    // MARK: - Outlets
+
+    @IBOutlet weak var searchBar: UISearchBar!
+
+    // MARK: - Actions
+
+    @IBAction func addMovie(_ sender: UIButton) {
+        print("Add Moview pressed")
+    }
+
+    // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +57,4 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }

@@ -17,6 +17,7 @@
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 		92CE3844242E4E49002BF2DA /* Movies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 92CE3842242E4E49002BF2DA /* Movies.xcdatamodeld */; };
 		92CE3846242E4EE2002BF2DA /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE3845242E4EE2002BF2DA /* Movie+Convenience.swift */; };
+		92CE3848242E565B002BF2DA /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE3847242E565B002BF2DA /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		92CE3843242E4E49002BF2DA /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
 		92CE3845242E4EE2002BF2DA /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		92CE3847242E565B002BF2DA /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,9 +78,10 @@
 		46E20A052126AF5900E7FF73 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				92CE3847242E565B002BF2DA /* CoreDataStack.swift */,
+				92CE3845242E4EE2002BF2DA /* Movie+Convenience.swift */,
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				92CE3842242E4E49002BF2DA /* Movies.xcdatamodeld */,
-				92CE3845242E4EE2002BF2DA /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				92CE3844242E4E49002BF2DA /* Movies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				92CE3848242E565B002BF2DA /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
