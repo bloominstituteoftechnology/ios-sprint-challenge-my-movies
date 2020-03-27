@@ -46,10 +46,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-       
-        
-       
+    
         return cell
         
         
@@ -60,5 +57,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
+
 
 
