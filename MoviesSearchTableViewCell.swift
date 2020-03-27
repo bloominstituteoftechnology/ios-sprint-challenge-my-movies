@@ -8,8 +8,13 @@
 
 import UIKit
 
+protocol MoviesSearchTableViewCellDelegate {
+    func addMovie(for cell: MoviesSearchTableViewCell)
+}
 class MoviesSearchTableViewCell: UITableViewCell {
 
+    var movie: Movie?
+    var delegate: MoviesSearchTableViewCellDelegate?
     @IBOutlet weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
@@ -23,7 +28,7 @@ class MoviesSearchTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     @IBAction func buttonTapped(_ sender: UIButton) {
-        
+         delegate?.addMovie(for: self)
     }
     
 }
