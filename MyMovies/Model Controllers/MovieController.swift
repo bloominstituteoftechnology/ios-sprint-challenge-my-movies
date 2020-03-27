@@ -83,16 +83,21 @@ class MovieController {
 //    Core Data CRUD
     func createMovie(title: String, hasWatched: Bool, identifier: UUID) {
         let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
-        
+         putMovie(movie)
     }
       func updateMovie(for movie: Movie) {
         movie.hasWatched.toggle()
-        
+         putMovie(movie)
     }
-    
+    func createMovie(movieRepresentation: MovieRepresentation) {
+        let title = movieRepresentation.title
+        let identifier = movieRepresentation.identifier ?? UUID()
+        let hasWatched = movieRepresentation.hasWatched ?? false
+        createMovie(title: title, hasWatched: hasWatched, identifier: identifier)
+    }
     func delete(movie: Movie) {
         CoreDataStack.shared.mainContext.delete(movie)
-        
+         putMovie(movie)
         saveToPersistentStore()
         
     }
