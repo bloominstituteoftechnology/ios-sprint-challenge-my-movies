@@ -11,6 +11,8 @@ import UIKit
 class MyMoviesTableViewCell: UITableViewCell {
 
     // MARK: - Properities
+    var movieController: MovieController?
+    
     var movie: Movie? {
         didSet {
             updateViews()
@@ -25,7 +27,13 @@ class MyMoviesTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func watchedButton(_ sender: Any) {
-        // FIXME: 
+        guard let movie = movie else { return }
+
+        movieController?.update(movie: movie,
+                                title: movie.title ?? "",
+                                hasWatched: !movie.hasWatched)
+        
+        updateViews()
     }
     
     // MARK: - Private

@@ -60,18 +60,23 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        // guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         
-        let name = sectionInfo.name == "true" ? "Watched" : "Not Watched"
+        // FIXME: 
+        // TODO: ? Right way to do this?
+        let movie = fetchedResultsController.object(at: IndexPath(item: 0, section: section))
+
+        let name = movie.hasWatched == true ? "Watched" : "Not Watched"
         return name
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
 
         // Configure the cell...
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = movie.title
+        cell.movie = movie
+        cell.movieController = movieController
 
         return cell
     }

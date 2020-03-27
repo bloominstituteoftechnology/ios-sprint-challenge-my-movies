@@ -77,7 +77,24 @@ class MovieController {
     }
 
     // Read
-    
+
+    // Update
+    func update(movie: Movie,
+                title: String,
+                hasWatched: Bool = true) {
+
+        movie.title = title
+        movie.hasWatched = hasWatched
+        
+// FIXME: Firebase        put(entry: entry)
+
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving managed object context (after update) to Core Data: \(error)")
+        }
+    }
+
     // Delete
     func delete(movie: Movie) {
 
