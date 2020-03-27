@@ -96,7 +96,7 @@ class MovieController {
         }.resume()
     }
     
-    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         print("IT IS FETCHING")
         let requestURL = firebaseURL.appendingPathExtension("json")
         
@@ -175,10 +175,8 @@ class MovieController {
         try CoreDataStack.shared.save(context: context)
      }
     
-    func updater(movie: Movie, title: String, hasWatched: Bool, identifier: UUID) {
-        movie.title = title
-        movie.hasWatched = hasWatched
-        movie.identifier = identifier
+    func updater(movie: Movie) {
+        movie.hasWatched.toggle()
         put(movie: movie)
         do {
             try CoreDataStack.shared.save()
@@ -196,6 +194,17 @@ class MovieController {
     func create(title: String) {
         let movie = Movie(identifier: UUID(), title: title, hasWatched: false, context: CoreDataStack.shared.mainContext)
         put(movie: movie)
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
+    
+    func delete(movie: Movie) {
+        
+        CoreDataStack.shared.mainContext.delete(movie)
+        deleteEntryFromServer(movie: movie)
         do {
             try CoreDataStack.shared.save()
         } catch {
