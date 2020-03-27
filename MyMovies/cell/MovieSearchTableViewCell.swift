@@ -28,6 +28,8 @@ class MovieSearchTableViewCell: UITableViewCell {
         guard let movieRepresentation = movieRepresentation,
             let movie = Movie(movieRepresentation: movieRepresentation) else {return}
         movieController?.put(movie: movie)
+        try! CoreDataStack.shared.save()
+        
     }
 
 }

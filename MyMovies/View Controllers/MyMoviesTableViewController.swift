@@ -52,8 +52,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     lazy var fetchedResultController: NSFetchedResultsController<Movie> = {
         let moc = CoreDataStack.shared.mainContext
-        let fetchRequest = NSFetchRequest<Movie>(entityName: "Movie")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        let fetchRequest : NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true), NSSortDescriptor(key: "hasWatched", ascending: true)]
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
         try! frc.performFetch()
@@ -108,7 +108,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
             let movie = fetchedResultController.object(at: indexPath)
             movieController.delete(movie: movie, context: CoreDataStack.shared.mainContext)
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     

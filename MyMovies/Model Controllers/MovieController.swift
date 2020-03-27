@@ -18,6 +18,9 @@ enum HTTPMethod: String {
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     //private let myURL =
@@ -63,7 +66,6 @@ class MovieController {
     }
     
     // myMovie
-    let context = CoreDataStack.shared.container.newBackgroundContext()
     
     private let myURL = URL(string: "https://mymovie-49b06.firebaseio.com/")!
     func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
@@ -74,9 +76,11 @@ class MovieController {
         
         let jsonEncoder = JSONEncoder()
         do {
-            guard var representation = movie.movieRepresentation else {return}
+            guard var representation = movie.movieRepresentation else {
+                NSLog("No rep.")
+                return
+            }
             representation.identifier = identifier
-            movie.identifier = identifier
             try CoreDataStack.shared.mainContext.save()
             request.httpBody = try jsonEncoder.encode(representation)
         } catch {
@@ -85,13 +89,17 @@ class MovieController {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (data, _ , error ) in
+        URLSession.shared.dataTask(with: request) { (data, response , error ) in
+            
             guard error == nil else {
                 NSLog("put error")
                 DispatchQueue.main.async {
                     completion(error)
                 }
                 return
+            }
+            if let response = response {
+                NSLog("\(response)")
             }
             DispatchQueue.main.async {
                 completion(nil)
@@ -137,33 +145,48 @@ class MovieController {
     }
     
     func updateMovies(with representation: [MovieRepresentation]) {
-        let fetchRequest = NSFetchRequest<Movie>(entityName: "Movie")
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         let hasID = representation.map { $0.identifier }
         var sortedByID = Dictionary(uniqueKeysWithValues: zip(hasID, representation))
         
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", sortedByID)
         
-        context.perform {
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.performAndWait {
             do {
-                let exist = try self.context.fetch(fetchRequest)
+                let exist = try context.fetch(fetchRequest)
                 for movie in exist {
                     guard let identifier = movie.identifier,
                         let representation = sortedByID[identifier] else {return}
-                    movie.title = representation.title
-                    movie.hasWatched = representation.hasWatched ?? false
+                    update(movie: movie, with: representation)
                     sortedByID.removeValue(forKey: identifier)
                 }
+                
                 for notExist in sortedByID.values {
-                    Movie(movieRepresentation: notExist, context: self.context)
+                    Movie(movieRepresentation: notExist, context: context)
                 }
-                try CoreDataStack.shared.save(context: self.context)
+                try CoreDataStack.shared.save(context: context)
             } catch {
                 NSLog("sync error")
-                return
             }
         }
     }
     
+    func update(movie: Movie, with representation: MovieRepresentation) {
+        guard let hasWatched = representation.hasWatched else { return }
+        movie.title = representation.title
+        movie.hasWatched = hasWatched
+        movie.identifier = representation.identifier
+    }
+    
+    
+    func updateMovies(movie: Movie, title: String, hasWatched: Bool, identifier: UUID) {
+        movie.title = title
+        movie.hasWatched = hasWatched
+        movie.identifier = identifier
+        put(movie: movie)
+        try! CoreDataStack.shared.save()
+    }
     
     func deleteMovies(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = movie.identifier else {return}

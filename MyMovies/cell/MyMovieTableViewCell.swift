@@ -14,12 +14,13 @@ class MyMovieTableViewCell: UITableViewCell {
     var movieController: MovieController?
     @IBOutlet weak var myMovieTitle: UILabel!
     @IBOutlet weak var hasWatched: UIButton!
-    
+
     var movie: Movie? {
-        didSet {
+        didSet{
             updateView()
         }
     }
+    
     func updateView() {
         guard let movie = movie else {return}
         myMovieTitle.text = movie.title
@@ -33,6 +34,7 @@ class MyMovieTableViewCell: UITableViewCell {
         guard let movie = movie else {return}
         movie.hasWatched.toggle()
         movieController?.put(movie: movie)
+        try! CoreDataStack.shared.save()
         if movie.hasWatched == false {
             hasWatched.setTitle("Not Watched", for: .normal)
         } else {
