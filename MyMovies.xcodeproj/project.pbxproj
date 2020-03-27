@@ -18,6 +18,8 @@
 		C4CA24D1242E586500028AF3 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C4CA24CF242E586500028AF3 /* MyMovies.xcdatamodeld */; };
 		C4CA24D4242E58B600028AF3 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CA24D3242E58B600028AF3 /* MovieTableViewCell.swift */; };
 		C4CA24D6242E58CE00028AF3 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CA24D5242E58CE00028AF3 /* MyMoviesTableViewCell.swift */; };
+		C4CA24D8242E5DD900028AF3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CA24D7242E5DD900028AF3 /* CoreDataStack.swift */; };
+		C4CA24DA242E5E1400028AF3 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CA24D9242E5E1400028AF3 /* Movie+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		C4CA24D0242E586500028AF3 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		C4CA24D3242E58B600028AF3 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		C4CA24D5242E58CE00028AF3 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
+		C4CA24D7242E5DD900028AF3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		C4CA24D9242E5E1400028AF3 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 			children = (
 				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
 				C4CA24CF242E586500028AF3 /* MyMovies.xcdatamodeld */,
+				C4CA24D7242E5DD900028AF3 /* CoreDataStack.swift */,
+				C4CA24D9242E5E1400028AF3 /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,9 +208,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4CA24DA242E5E1400028AF3 /* Movie+Convenience.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				C4CA24D6242E58CE00028AF3 /* MyMoviesTableViewCell.swift in Sources */,
+				C4CA24D8242E5DD900028AF3 /* CoreDataStack.swift in Sources */,
 				C4CA24D4242E58B600028AF3 /* MovieTableViewCell.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,

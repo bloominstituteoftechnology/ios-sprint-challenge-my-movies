@@ -8,8 +8,17 @@
 
 import Foundation
 
+
+
 class MovieController {
     
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
+    
+    typealias CompletionHandler = (Error?) -> Void
+    
+    let firebaseURL = URL(string: "https://week7-eca3c.firebaseio.com/")!
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -52,7 +61,48 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
+    func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        print("OK IT SHOULD BUT PUTTING")
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard var representation = movie.movieRepresentation else {
+                completion(NSError())
+                return
+            }
+//   //         representation.identifier = uuid
+            movie.identifier = uuid
+            try CoreDataStack.shared.save()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error encoding/saving entry: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            print("something should happen")
+            if let error = error {
+                NSLog("Error PUTting entry to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
     
-    var searchedMovies: [MovieRepresentation] = []
+    func create(title: String) {
+        let movie = Movie(identifier: UUID(), title: title, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        put(movie: movie)
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
+    
 }
