@@ -22,6 +22,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
     @IBAction func addMovie(_ sender: UIButton) {
         print("Add Moview pressed")
+        
+        // FIXME: WTF!!!!
+        
+        movieController.create(title: "Star Wars")
     }
 
     // MARK: - View Lifecycle

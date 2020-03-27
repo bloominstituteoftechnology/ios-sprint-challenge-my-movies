@@ -55,6 +55,29 @@ class MovieController {
         }.resume()
     }
     
+    // MARK: - CRUD
+    
+    // Create
+    func create(identifier: UUID = UUID(),
+                title: String,
+                hasWatched: Bool = false) {
+        
+        /* let movie = */ Movie(identifier: identifier,
+                          title: title,
+                          hasWatched: hasWatched,
+                          context: CoreDataStack.shared.mainContext)
+        
+// FIXME: Firebase        put(entry: entry)
+
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving managed object context (after create) to Core Data: \(error)")
+        }
+    }
+
+    // Read
+    
     // Delete
     func delete(movie: Movie) {
 
