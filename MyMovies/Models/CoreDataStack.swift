@@ -22,7 +22,7 @@ class CoreDataStack {
         }
         
         /// This is required for the viewContext (ie. the main context) to be updated with changes saved in a background context. In this case, the viewContext's parent is the persistent store coordinator, not another context. This will ensure that the viewContext gets the changes you made on a background context so the fetched results controller can see those changes and update the table view automatically.
-// FIXME:        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     

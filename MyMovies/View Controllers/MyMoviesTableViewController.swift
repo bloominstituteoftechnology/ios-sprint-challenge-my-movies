@@ -60,13 +60,10 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        // guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         
-        // FIXME: 
-        // TODO: ? Right way to do this?
-        let movie = fetchedResultsController.object(at: IndexPath(item: 0, section: section))
-
-        let name = movie.hasWatched == true ? "Watched" : "Not Watched"
+        /// Since our sections are based on Bool, sectionInfo.name will be "1" or "0"
+        let name = sectionInfo.name == "1" ? "Watched" : "Not Watched"
         return name
     }
     
