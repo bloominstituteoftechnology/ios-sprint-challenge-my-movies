@@ -57,13 +57,66 @@ class MovieController {
     
     // MARK: - Firebase
     
-    private let fireURL = URL(string: "https://mymovies-77687.firebaseio.com/")
+    private let fireURL = URL(string: "https://mymovies-77687.firebaseio.com/")!
+    typealias CompletionHandler = (Error?) -> Void
+    
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = {_ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, _, error in
+            if let error = error {
+                NSLog("Error fetching tasks : \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No Data returned by data task")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let movieRepresentations = try JSONDecoder().decode(MovieRepresentations.self, from: data)
+            } catch {
+                
+            }
+        }
+        
+    }
+    
+    func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = fireURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movie.movieRepresentation)
+        } catch {
+            NSLog("Error encoding data and assigning it to httpBody")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error initiating request after encoding data : \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+        
+    }
     
     // MARK: - Core Data
     
     // Create
     func create(title: String) {
         let movie = Movie(identifier: UUID(), title: title, hasWatched: false, context: CoreDataStack.shared.mainContext)
+        sendMovieToServer(movie: movie)
         saveToPersistentStore()
     }
     
@@ -93,7 +146,7 @@ class MovieController {
                 // Get all movies in core data
                 let existingMovies = try context.fetch(fetchRequest)
                 // Try to find a matching title
-                if let foundIndex = existingMovies.firstIndex(where: {$0.title == representation.title}) {
+                if let _ = existingMovies.firstIndex(where: {$0.title == representation.title}) {
                     print("Movie already exists")
                 } else {
                     create(title: representation.title)
