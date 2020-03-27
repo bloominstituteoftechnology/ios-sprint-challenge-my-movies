@@ -155,7 +155,7 @@ class MovieController {
         }
 
         // Delete from Firebase (copy of record)
- // FIXME:       delete(entry: entry) { _ in print("Deleted") }
+        delete(movie: movie) { _ in print("Deleted") }
 
         // Delete from Core Data
         do {
@@ -163,5 +163,24 @@ class MovieController {
         } catch {
             NSLog("Error saving managed object context (after delete) to Core Data: \(error)")
         }
+    }
+
+    func delete(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = firebaseBaseURL
+            .appendingPathComponent(movie.identifier!.uuidString)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error DELETEing entry from server \(error)")
+                completion(error)
+                return
+            }
+
+            completion(nil)
+        }.resume()
     }
 }
