@@ -25,10 +25,14 @@ class MyMoviesTableViewCell: UITableViewCell {
         
         hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
 
-        //Save
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            #warning("migrate to other save function")
+        } catch {
+            NSLog("Error saving: \(error)")
+        }
         
     }
-    
     
     private func updateViews() {
         guard let movie = movie else { return }
@@ -36,5 +40,4 @@ class MyMoviesTableViewCell: UITableViewCell {
         titleLabel.text = movie.title
         hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
     }
-    
 }

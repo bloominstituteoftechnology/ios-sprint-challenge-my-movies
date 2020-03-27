@@ -66,9 +66,9 @@
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="cMG-Lr-sJS" secondAttribute="trailing" id="3lS-R7-nsC"/>
-                                        <constraint firstItem="cMG-Lr-sJS" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="4Nu-dq-26c"/>
-                                        <constraint firstItem="cMG-Lr-sJS" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="yJT-lN-PqA"/>
+                                        <constraint firstItem="cMG-Lr-sJS" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="KAU-en-ke6"/>
+                                        <constraint firstAttribute="trailing" secondItem="cMG-Lr-sJS" secondAttribute="trailing" constant="16" id="QPp-R3-zpa"/>
+                                        <constraint firstItem="cMG-Lr-sJS" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="bxe-GN-rc0"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
