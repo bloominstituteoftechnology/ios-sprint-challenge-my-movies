@@ -17,6 +17,12 @@ class MoviesSearchTableViewCell: UITableViewCell {
     var delegate: MoviesSearchTableViewCellDelegate?
     @IBOutlet weak var titleLabel: UILabel!
     
+    var title: String? {
+        didSet {
+            titleLabel.text = title
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
