@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BeQ-Kf-2fy">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BeQ-Kf-2fy">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -41,22 +39,40 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" textLabel="EgU-i6-cdC" style="IBUITableViewCellStyleDefault" id="d7W-qE-xfL">
-                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="375" height="52.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="52.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EgU-i6-cdC">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W7i-4B-rP9">
+                                            <rect key="frame" x="286" y="11" width="73" height="30.5"/>
+                                            <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="createMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Dhe-o2-7zQ"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emU-Tm-I4B">
+                                            <rect key="frame" x="16" y="11" width="262" height="31"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="W7i-4B-rP9" secondAttribute="bottom" id="9Vv-3a-KGd"/>
+                                        <constraint firstItem="W7i-4B-rP9" firstAttribute="trailing" secondItem="8Bc-u1-IMl" secondAttribute="trailingMargin" id="S1z-2l-CBA"/>
+                                        <constraint firstItem="W7i-4B-rP9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="emU-Tm-I4B" secondAttribute="trailing" id="Yid-LX-L5p"/>
+                                        <constraint firstItem="emU-Tm-I4B" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" id="gGY-qo-kif"/>
+                                        <constraint firstItem="W7i-4B-rP9" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" id="iqV-Xl-f9N"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="emU-Tm-I4B" secondAttribute="bottom" id="vCy-Kz-SF4"/>
+                                        <constraint firstItem="emU-Tm-I4B" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="xuM-4J-vPi"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="label" destination="emU-Tm-I4B" id="ppb-eH-Igd"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -71,7 +87,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
@@ -86,7 +102,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cK-VO-zdo" id="F0q-Pd-Woa">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
