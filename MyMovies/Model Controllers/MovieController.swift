@@ -67,7 +67,7 @@ class MovieController {
     typealias CompletionHandler = (Error?) -> Void
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = {_ in }) {
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = fireURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
             if let error = error {
@@ -82,10 +82,10 @@ class MovieController {
                 return
             }
             
-            var represent: [MovieRepresentation] = []
+//            var represent: [MovieRepresentation] = []
             
             do {
-                represent = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                let represent = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
                 try self.updateMovies(with: represent)
                 completion(nil)
             } catch {
