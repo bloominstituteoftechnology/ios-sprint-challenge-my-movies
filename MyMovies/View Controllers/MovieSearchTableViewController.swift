@@ -10,10 +10,18 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
+    
+    }
+    
+ 
+    
+    @objc func buttonTarget(){
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -27,6 +35,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
                 self.tableView.reloadData()
             }
         }
+      
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
