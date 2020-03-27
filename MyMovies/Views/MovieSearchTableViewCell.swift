@@ -20,6 +20,15 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
+        guard let movieRepresentation = movieRepresentation else { return }
+        let movie = Movie(title: movieRepresentation.title)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            #warning("migrate to other save function")
+        } catch {
+            NSLog("Error saving: \(error)")
+        }
     }
     
     

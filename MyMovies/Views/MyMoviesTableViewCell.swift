@@ -10,14 +10,31 @@ import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
 
-   
     @IBOutlet weak var titleLabel: UILabel!
-    
     @IBOutlet weak var hasWatchedButton: UIButton!
     
-    
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
     
     @IBAction func hasWatchedButtonTapped(_ sender: Any) {
+        guard let movie = movie else { return }
+        movie.hasWatched.toggle()
+        
+        hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
+
+        //Save
+        
+    }
+    
+    
+    private func updateViews() {
+        guard let movie = movie else { return }
+        
+        titleLabel.text = movie.title
+        hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
     }
     
 }
