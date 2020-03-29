@@ -70,7 +70,7 @@ class MovieController {
             insertRequest.resultType = NSBatchInsertRequestResultType.objectIDs
             let result = try? bgContext.execute(insertRequest) as? NSBatchInsertResult
             
-            if let objectIDs = result?.result as? [NSManagedObjectID] {
+            if let objectIDs = result?.result as? [NSManagedObjectID], !objectIDs.isEmpty {
                 insertedObjectIDs = objectIDs
             }
         }
