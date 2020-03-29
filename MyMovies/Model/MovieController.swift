@@ -63,22 +63,17 @@ class MovieController {
         bgContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         let mainContext = CoreDataStack.shared.mainContext
         
-        var insertedObjectIDs: [NSManagedObjectID]?
-        
         bgContext.performAndWait {
             let insertRequest = NSBatchInsertRequest(entity: Movie.entity(), objects: movieDicts)
             insertRequest.resultType = NSBatchInsertRequestResultType.objectIDs
             let result = try? bgContext.execute(insertRequest) as? NSBatchInsertResult
             
             if let objectIDs = result?.result as? [NSManagedObjectID], !objectIDs.isEmpty {
-                insertedObjectIDs = objectIDs
+                let save = [NSInsertedObjectsKey: objectIDs]
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: save, into: [mainContext])
             }
-        }
-        
-        if let insertedObjectIDs = insertedObjectIDs {
-            let save = [NSInsertedObjectsKey: insertedObjectIDs]
-            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: save, into: [mainContext])
         }
     }
 }
+
 

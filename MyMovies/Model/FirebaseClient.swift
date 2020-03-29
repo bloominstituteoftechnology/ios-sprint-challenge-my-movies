@@ -40,12 +40,13 @@ class FirebaseClient {
             }
             
             do {
-                guard let movieDictsByID = try JSONSerialization.jsonObject(with: data) as? [String: MovieDict] else { throw NSError()
+                guard let movieDictsByID = try JSONSerialization.jsonObject(with: data) as? [String: MovieDict] else {
+                    throw NSError(domain: "Unable to cast JSON object to [String: MovieDict}", code: 2)
                 }
                 let movieDicts: [MovieDict] = Array(movieDictsByID.values)
                 completion(.success(movieDicts))
             } catch {
-                NSLog("Couldn't update entries \(error)")
+                NSLog("Couldn't decode movie dictionaries \(error)")
                 completion(.failure(error))
             }
         }.resume()
@@ -106,3 +107,4 @@ class FirebaseClient {
         }.resume()
     }
 }
+
