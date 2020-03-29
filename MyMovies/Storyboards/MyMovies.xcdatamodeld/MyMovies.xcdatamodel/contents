@@ -4,6 +4,11 @@
         <attribute name="hasWatched" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="identifier" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="identifier"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
         <element name="Movie" positionX="-54" positionY="-9" width="128" height="88"/>

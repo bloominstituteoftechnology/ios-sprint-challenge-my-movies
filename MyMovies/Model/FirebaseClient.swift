@@ -1,3 +1,4 @@
+
 //
 //  FirebaseClient.swift
 //  MyMovies
@@ -11,7 +12,7 @@ import Foundation
 class FirebaseClient {
     
     typealias ErrorCompletion = (Error?) -> Void
-    typealias ResultCompletion = (Result<MovieRepsByID, Error>) -> Void
+    typealias ResultCompletion = (Result<[MovieDict], Error>) -> Void
     
     private let baseURL = URL(string: "https://mymovies-shawngee.firebaseio.com/")!
     
@@ -38,11 +39,19 @@ class FirebaseClient {
                 return
             }
             
-            let decoder = JSONDecoder()
+            //            do {
+            //                let movieRepresentations = try JSONDecoder().decode(MovieRepsByID.self, from: data)
+            //                completion(.success(movieRepresentations))
+            //            } catch {
+            //                NSLog("Couldn't update entries \(error)")
+            //                completion(.failure(error))
+            //            }
             
             do {
-                let movieRepresentations = try decoder.decode(MovieRepsByID.self, from: data)
-                completion(.success(movieRepresentations))
+                guard let movieDictsByID = try JSONSerialization.jsonObject(with: data) as? [String: MovieDict] else { throw NSError()
+                }
+                let movieDicts: [MovieDict] = Array(movieDictsByID.values)
+                completion(.success(movieDicts))
             } catch {
                 NSLog("Couldn't update entries \(error)")
                 completion(.failure(error))
@@ -63,7 +72,7 @@ class FirebaseClient {
             completion(error)
             return
         }
-
+        
         URLSession.shared.dataTask(with: request) { (_, response, error) in
             if let error = error {
                 NSLog("Error PUTing movie to server: \(error)")
@@ -86,7 +95,7 @@ class FirebaseClient {
         let requestURL = baseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
-
+        
         URLSession.shared.dataTask(with: request) { (_, response, error) in
             if let error = error {
                 NSLog("Error deleting movie from server: \(error)")
@@ -100,7 +109,7 @@ class FirebaseClient {
                 completion(NSError(domain: "Invalid Response", code: response.statusCode))
                 return
             }
-
+            
             completion(nil)
         }.resume()
     }

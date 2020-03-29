@@ -43,6 +43,8 @@ class MyMoviesTableViewController: UITableViewController {
     
     @objc private func refresh() {
         movieController?.fetchMoviesFromServer {
+            try? self.fetchedResultsController.performFetch()
+            self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         }
     }
@@ -55,7 +57,8 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 1 ? "Watched" : "Unwatched"
+        guard let section = fetchedResultsController.sections?[section] else { return nil}
+        return section.name == "1" ? "Watched" : "Unwatched"
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
