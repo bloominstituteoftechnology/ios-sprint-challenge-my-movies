@@ -39,14 +39,6 @@ class FirebaseClient {
                 return
             }
             
-            //            do {
-            //                let movieRepresentations = try JSONDecoder().decode(MovieRepsByID.self, from: data)
-            //                completion(.success(movieRepresentations))
-            //            } catch {
-            //                NSLog("Couldn't update entries \(error)")
-            //                completion(.failure(error))
-            //            }
-            
             do {
                 guard let movieDictsByID = try JSONSerialization.jsonObject(with: data) as? [String: MovieDict] else { throw NSError()
                 }

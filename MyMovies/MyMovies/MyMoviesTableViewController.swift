@@ -61,7 +61,6 @@ class MyMoviesTableViewController: UITableViewController {
         return section.name == "1" ? "Watched" : "Unwatched"
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
