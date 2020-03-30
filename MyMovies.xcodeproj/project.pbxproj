@@ -7,17 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045A5D60242E52FF0047AF93 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */; };
+		045A5D65242E56700047AF93 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D64242E56700047AF93 /* MyMoviesTableViewCell.swift */; };
+		045A5D67242E59480047AF93 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D66242E59480047AF93 /* MovieSearchTableViewCell.swift */; };
+		045A5D69242E5E5C0047AF93 /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D68242E5E5C0047AF93 /* MovieController.swift */; };
+		045A5D6B242E65E80047AF93 /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D6A242E65E80047AF93 /* FirebaseClient.swift */; };
+		045A5D6D242E6DAB0047AF93 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A5D6C242E6DAB0047AF93 /* MainTabBarController.swift */; };
+		04B3CAF9242E4DF100519F20 /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CAF7242E4DF000519F20 /* MyMovies.xcdatamodeld */; };
+		04B3CAFF242E4EE500519F20 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CAFE242E4EE500519F20 /* Movie+Convenience.swift */; };
+		04B3CB03242E4FDA00519F20 /* Movie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CB01242E4FDA00519F20 /* Movie+CoreDataClass.swift */; };
+		04B3CB04242E4FDA00519F20 /* Movie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B3CB02242E4FDA00519F20 /* Movie+CoreDataProperties.swift */; };
 		46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209E42126A63600E7FF73 /* AppDelegate.swift */; };
 		46E209EA2126A63600E7FF73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E209E82126A63600E7FF73 /* Main.storyboard */; };
 		46E209EC2126A63700E7FF73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E209EB2126A63700E7FF73 /* Assets.xcassets */; };
 		46E209EF2126A63700E7FF73 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */; };
 		46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */; };
 		46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */; };
-		46E20A002126A91300E7FF73 /* MovieController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FF2126A91300E7FF73 /* MovieController.swift */; };
+		46E20A002126A91300E7FF73 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209FF2126A91300E7FF73 /* APIClient.swift */; };
 		46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = MyMovies/Model/CoreDataStack.swift; sourceTree = SOURCE_ROOT; };
+		045A5D64242E56700047AF93 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
+		045A5D66242E59480047AF93 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
+		045A5D68242E5E5C0047AF93 /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
+		045A5D6A242E65E80047AF93 /* FirebaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseClient.swift; sourceTree = "<group>"; };
+		045A5D6C242E6DAB0047AF93 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		04B3CAF8242E4DF100519F20 /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
+		04B3CAFE242E4EE500519F20 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		04B3CB01242E4FDA00519F20 /* Movie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		04B3CB02242E4FDA00519F20 /* Movie+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		46E209E12126A63600E7FF73 /* MyMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E209E42126A63600E7FF73 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46E209E92126A63600E7FF73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -26,7 +46,7 @@
 		46E209F02126A63700E7FF73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewController.swift; sourceTree = "<group>"; };
 		46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewController.swift; sourceTree = "<group>"; };
-		46E209FF2126A91300E7FF73 /* MovieController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieController.swift; sourceTree = "<group>"; };
+		46E209FF2126A91300E7FF73 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		46E20A012126A91800E7FF73 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,6 +61,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045A5D6E242E6FC70047AF93 /* MovieSearch */ = {
+			isa = PBXGroup;
+			children = (
+				46E209FF2126A91300E7FF73 /* APIClient.swift */,
+				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
+				045A5D66242E59480047AF93 /* MovieSearchTableViewCell.swift */,
+			);
+			path = MovieSearch;
+			sourceTree = "<group>";
+		};
+		045A5D6F242E701C0047AF93 /* MyMovies */ = {
+			isa = PBXGroup;
+			children = (
+				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				045A5D64242E56700047AF93 /* MyMoviesTableViewCell.swift */,
+			);
+			path = MyMovies;
+			sourceTree = "<group>";
+		};
+		04B3CB00242E4EEF00519F20 /* Movie */ = {
+			isa = PBXGroup;
+			children = (
+				04B3CB01242E4FDA00519F20 /* Movie+CoreDataClass.swift */,
+				04B3CB02242E4FDA00519F20 /* Movie+CoreDataProperties.swift */,
+				04B3CAFE242E4EE500519F20 /* Movie+Convenience.swift */,
+				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+			);
+			path = Movie;
+			sourceTree = "<group>";
+		};
 		46E209D82126A63600E7FF73 = {
 			isa = PBXGroup;
 			children = (
@@ -60,57 +110,37 @@
 		46E209E32126A63600E7FF73 /* MyMovies */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A052126AF5900E7FF73 /* Models */,
-				46E20A072126AFA300E7FF73 /* Model Controllers */,
-				46E20A082126AFAC00E7FF73 /* View Controllers */,
-				46E20A0A2126AFCB00E7FF73 /* Storyboards */,
+				46E209E82126A63600E7FF73 /* Main.storyboard */,
+				045A5D6C242E6DAB0047AF93 /* MainTabBarController.swift */,
+				46E20A052126AF5900E7FF73 /* Model */,
+				045A5D6E242E6FC70047AF93 /* MovieSearch */,
+				045A5D6F242E701C0047AF93 /* MyMovies */,
 				46E20A092126AFC200E7FF73 /* Resources */,
 			);
 			path = MyMovies;
 			sourceTree = "<group>";
 		};
-		46E20A052126AF5900E7FF73 /* Models */ = {
+		46E20A052126AF5900E7FF73 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				46E20A012126A91800E7FF73 /* MovieRepresentation.swift */,
+				045A5D68242E5E5C0047AF93 /* MovieController.swift */,
+				045A5D6A242E65E80047AF93 /* FirebaseClient.swift */,
+				04B3CB00242E4EEF00519F20 /* Movie */,
+				045A5D5F242E52FF0047AF93 /* CoreDataStack.swift */,
+				04B3CAF7242E4DF000519F20 /* MyMovies.xcdatamodeld */,
 			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		46E20A072126AFA300E7FF73 /* Model Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				46E209FF2126A91300E7FF73 /* MovieController.swift */,
-			);
-			path = "Model Controllers";
-			sourceTree = "<group>";
-		};
-		46E20A082126AFAC00E7FF73 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
-				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
-			);
-			path = "View Controllers";
+			path = Model;
 			sourceTree = "<group>";
 		};
 		46E20A092126AFC200E7FF73 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 				46E209E42126A63600E7FF73 /* AppDelegate.swift */,
 				46E209EB2126A63700E7FF73 /* Assets.xcassets */,
 				46E209F02126A63700E7FF73 /* Info.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		46E20A0A2126AFCB00E7FF73 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				46E209E82126A63600E7FF73 /* Main.storyboard */,
-				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,9 +217,19 @@
 			files = (
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
-				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
+				045A5D6D242E6DAB0047AF93 /* MainTabBarController.swift in Sources */,
+				045A5D67242E59480047AF93 /* MovieSearchTableViewCell.swift in Sources */,
+				46E20A002126A91300E7FF73 /* APIClient.swift in Sources */,
+				04B3CB04242E4FDA00519F20 /* Movie+CoreDataProperties.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
+				045A5D60242E52FF0047AF93 /* CoreDataStack.swift in Sources */,
+				04B3CAF9242E4DF100519F20 /* MyMovies.xcdatamodeld in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
+				04B3CB03242E4FDA00519F20 /* Movie+CoreDataClass.swift in Sources */,
+				045A5D69242E5E5C0047AF93 /* MovieController.swift in Sources */,
+				045A5D6B242E65E80047AF93 /* FirebaseClient.swift in Sources */,
+				045A5D65242E56700047AF93 /* MyMoviesTableViewCell.swift in Sources */,
+				04B3CAFF242E4EE500519F20 /* Movie+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +376,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
 				INFOPLIST_FILE = "$(SRCROOT)/MyMovies/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -354,6 +395,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VXUQXR6S56;
 				INFOPLIST_FILE = "$(SRCROOT)/MyMovies/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -387,6 +429,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		04B3CAF7242E4DF000519F20 /* MyMovies.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				04B3CAF8242E4DF100519F20 /* MyMovies.xcdatamodel */,
+			);
+			currentVersion = 04B3CAF8242E4DF100519F20 /* MyMovies.xcdatamodel */;
+			name = MyMovies.xcdatamodeld;
+			path = ../Storyboards/MyMovies.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 46E209D92126A63600E7FF73 /* Project object */;
 }
