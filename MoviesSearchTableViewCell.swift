@@ -12,7 +12,7 @@ protocol MoviesSearchTableViewCellDelegate {
     func addMovie(for cell: MoviesSearchTableViewCell)
 }
 class MoviesSearchTableViewCell: UITableViewCell {
-
+    
     var movie: Movie?
     var delegate: MoviesSearchTableViewCellDelegate?
     @IBOutlet weak var titleLabel: UILabel!
@@ -28,14 +28,14 @@ class MoviesSearchTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     @IBAction func buttonTapped(_ sender: UIButton) {
-         delegate?.addMovie(for: self)
+        delegate?.addMovie(for: self)
         if addButton.isSelected {
             animateButton()
         }
@@ -44,7 +44,7 @@ class MoviesSearchTableViewCell: UITableViewCell {
     func animateButton() {
         let animationOn = {
             self.addButton.transform = CGAffineTransform(scaleX: 2.0, y: 1.5)
-               }
+        }
         let animationOff = {
             self.addButton.transform = .identity
         }

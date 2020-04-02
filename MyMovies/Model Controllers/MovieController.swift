@@ -24,18 +24,20 @@ class MovieController {
     }
     
     func saveToPersistentStore() {
-          
-          do {
-              try CoreDataStack.shared.mainContext.save() // has to see with books array.
-              
-          } catch {
-              NSLog("error saving managed obejct context: \(error)")
-          }
-      }
+        
+        do {
+            try CoreDataStack.shared.mainContext.save() // has to see with books array.
+            
+        } catch {
+            NSLog("error saving managed obejct context: \(error)")
+        }
+    }
     
+    var searchMovies: [MovieRepresentation] = []
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let myBaseURL = URL(string: "https://mymovies-d9b8a.firebaseio.com/")!
+    
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -80,14 +82,14 @@ class MovieController {
     
     var searchedMovies: [MovieRepresentation] = []
     
-//    Core Data CRUD
+    //    Core Data CRUD
     func createMovie(title: String, hasWatched: Bool, identifier: UUID) {
         let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched)
-         putMovie(movie)
+        putMovie(movie)
     }
-      func updateMovie(for movie: Movie) {
+    func updateMovie(for movie: Movie) {
         movie.hasWatched.toggle()
-         putMovie(movie)
+        putMovie(movie)
     }
     func createMovie(movieRepresentation: MovieRepresentation) {
         let title = movieRepresentation.title
@@ -96,13 +98,30 @@ class MovieController {
         createMovie(title: title, hasWatched: hasWatched, identifier: identifier)
     }
     func delete(movie: Movie) {
-        CoreDataStack.shared.mainContext.delete(movie)
-         putMovie(movie)
-        saveToPersistentStore()
-        
+        deleteMovieFromServer(movie) { error in
+            guard error == nil else {
+                NSLog("Error deleting movie: \(error!)")
+                return
+            }
+            guard let movieContext = movie.managedObjectContext else { return }
+            
+            movieContext.perform {
+                do {
+                    movieContext.delete(movie)
+                    try CoreDataStack.shared.save(context: movieContext)
+                } catch {
+                    movieContext.reset()
+                    print("Error deleting movie: \(error)")
+                    
+                }
+            }
+        }
     }
     
-//    CRUD From Server
+    
+    
+    
+    //    CRUD From Server
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in  }) {
         let requestURL = myBaseURL.appendingPathExtension("json")
@@ -140,7 +159,7 @@ class MovieController {
     }
     
     
-     func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = movie.identifier else {
             completion(NSError())
             return
@@ -158,11 +177,11 @@ class MovieController {
     
     private func putMovie(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let movieContext = movie.managedObjectContext else { return }
-          let uuid = movie.identifier ?? UUID()
+        let uuid = movie.identifier ?? UUID()
         let requestURL = myBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
-                
+        
         movieContext.performAndWait {
             do {
                 guard let representation = movie.movieRepresentation else {
@@ -192,7 +211,7 @@ class MovieController {
             }
         }.resume()
     }
-
+    
     
     
     private func updateMovies(with representations: [MovieRepresentation]) throws {
@@ -239,10 +258,10 @@ class MovieController {
         try CoreDataStack.shared.save(context: context)
     }
     private func update(movie: Movie, with movieRepresentation: MovieRepresentation) {
-           movie.title = movieRepresentation.title
-           movie.hasWatched = movieRepresentation.hasWatched ?? false
-           movie.identifier = movieRepresentation.identifier
-       }
+        movie.title = movieRepresentation.title
+        movie.hasWatched = movieRepresentation.hasWatched ?? false
+        movie.identifier = movieRepresentation.identifier
+    }
     
     
 }

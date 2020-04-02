@@ -8,113 +8,116 @@
 
 import UIKit
 import CoreData
+
+enum SectionName: String, CaseIterable {
+    case unwatched = "Unwatched"
+    case watched = "Watched"
+}
 class MyMoviesTableViewController: UITableViewController{
     
-let movieController = MovieController()
+    let movieController = MovieController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
-           let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-           let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-           fetchRequest.sortDescriptors = [sortDescriptor]
-           let context = CoreDataStack.shared.mainContext
-           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
-           frc.delegate = self
-           try? frc.performFetch()
-           return frc
-           
-       }()
-
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        let context = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
+        frc.delegate = self
+        try! frc.performFetch()
+        return frc
+        
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-       return fetchedResultsController.sections?.count ?? 1
+        return fetchedResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
-
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? AddedMoviesTableViewCell else { return UITableViewCell() }
-               let movie = fetchedResultsController.object(at: indexPath)
-               
-               cell.movie = movie
-               cell.delegate = self
-
-               return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? AddedMoviesTableViewCell else { return UITableViewCell() }
+        let movie = fetchedResultsController.object(at: indexPath)
+        
+        cell.movie = movie
+        cell.delegate = self
+        
+        return cell
     }
-
-
+    
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
             movieController.delete(movie: movie)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-         guard let newSection = fetchedResultsController.sections?[section] else { return nil }
-               switch newSection.name {
-                   case "1":
-                       return "Watched"
-                   case "0":
-                       return "Not Watched"
-                   default:
-                    return nil
-               }
+        
+        let sectionInfo = fetchedResultsController.sections?[section]
+        
+        if let sectionInfo = sectionInfo,
+            let sectionNameIndex = Int(sectionInfo.name) {
+            return SectionName.allCases[sectionNameIndex].rawValue
+        } else {
+            return sectionInfo?.name
+        }
     }
     
-
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     //     this is the warning the tableview that the fetch controller is goijng to makechanges in the tableview.
@@ -166,13 +169,10 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     }
 }
 extension MyMoviesTableViewController: AddedMoviesTableViewCellDelegate {
-    func itHasWatched(to cell: AddedMoviesTableViewCell) {
-        if let movie = cell.movie {
-            movie.hasWatched.toggle()
-            movieController.updateMovie(for: movie)
-        }
-            
+    func itHasWatched(to movie: Movie) {
+        movieController.updateMovie(for: movie)
     }
+    
 }
 
 

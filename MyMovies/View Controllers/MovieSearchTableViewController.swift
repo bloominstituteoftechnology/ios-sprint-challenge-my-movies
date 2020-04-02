@@ -9,16 +9,18 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    
+    var movieController = MovieController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
-    
+        
     }
     
- 
+    
+    
     
     @objc func buttonTarget(){
         
@@ -35,7 +37,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
                 self.tableView.reloadData()
             }
         }
-      
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,19 +45,18 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MoviesSearchTableViewCell else { return UITableViewCell()}
         
         cell.title = movieController.searchedMovies[indexPath.row].title
-         cell.delegate = self
-         
+        cell.delegate = self
+        
         return cell
         
         
         
     }
     
-    var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
