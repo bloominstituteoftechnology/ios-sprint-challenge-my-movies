@@ -57,4 +57,15 @@ class MovieController {
         }.resume()
     }
 
+    func saveMovie() {
+        
+    }
+    
+    func updateMovies() {
+        
+    }
+    
+    func deleteMovie() {
+        
+    }
 }
