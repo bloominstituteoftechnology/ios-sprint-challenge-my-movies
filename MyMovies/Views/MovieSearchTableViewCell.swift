@@ -19,8 +19,20 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
 
     @IBAction func addMovie() {
+        guard let title = movieSearchTitle.text else { return }
+//        let movie =
+        Movie(title: title, hasWatched: false)
+        // TODO: - send movie to MyMoviesTableVC (and server?)
         
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+            return
+        }
     }
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

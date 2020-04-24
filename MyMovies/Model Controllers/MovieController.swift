@@ -7,11 +7,30 @@
 //
 
 import Foundation
+import CoreData
+
+enum NetworkError: Error {
+    case noIdentifier
+    case otherError
+    case noData
+    case noDecode
+    case noEncode
+    case noRep
+}
 
 class MovieController {
     
+    typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let fireBaseURL = URL(string: "https://mymovies-d5ac1.firebaseio.com/")!
+    
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
+    
+    
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -52,7 +71,38 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
+       func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+         let requestURL = fireBaseURL.appendingPathExtension("json")
+         
+         URLSession.shared.dataTask(with: requestURL) { data, response, error in
+             if let error = error {
+                 NSLog("Error fetching tasks: \(error)")
+                 completion(.failure(.otherError))
+                 return
+             }
+             
+             guard let data = data else {
+                 NSLog("No data returned from fetch")
+                 completion(.failure(.noData))
+                 return
+             }
+             
+             do {
+                 let movieRepresentations = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
+                 try self.updateMovies(with: movieRepresentations)
+                 completion(.success(true))
+             } catch {
+                 NSLog("Error decoding tasks from server: \(error)")
+                 completion(.failure(.noDecode))
+                 return
+             }
+         }.resume()
+     }
     
-    var searchedMovies: [MovieRepresentation] = []
+    private func updateMovies(with representations: [MovieRepresentation]) { // do I need to add "Throws" before the curly bracket?
+        
+        
+        
+    }
+    
 }
