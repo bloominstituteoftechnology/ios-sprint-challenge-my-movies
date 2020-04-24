@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 
 extension Movie {
-    
     var movieRepresentation: MovieRepresentation? {
         guard let identifier = identifier, let title = title else { return nil }
         
