@@ -69,14 +69,14 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - CRUD
+    // MARK: - Core Data 
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { data, response, error in
             if let error = error {
-                NSLog("Error fetching tasks: \(error)")
+                NSLog("Error fetching movies: \(error)")
                 completion(.failure(.otherError))
                 return
             }
@@ -91,12 +91,44 @@ class MovieController {
                 try self.updateTasks(with: movieRepresentations)
                 completion(.success(true))
             } catch {
-                NSLog("Error decoding tasks from server: \(error)")
+                NSLog("Error decoding movies from server: \(error)")
                 completion(.failure(.noDecode))
             }
         }
     }
     
+    func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard let representation = movie.movieRepresentation else {
+                completion(.failure(.noRep))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error encoding movie \(movie): \(error)")
+            completion(.failure(.noEncode))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error sending movie to server: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            completion(.success(true))
+        }.resume()
+    }
     
     func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifer = movie.identifier else {
