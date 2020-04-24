@@ -174,12 +174,9 @@ class MovieController {
                 }
                 try context.save()
             } catch {
-                
+                NSLog("error fetching movies with UUIDs: \(identifiersToFetch), with error: \(error)")
             }
         }
-        
-        
-        
     }
     
     private func update(movie: Movie, with representation: MovieRepresentation) {
