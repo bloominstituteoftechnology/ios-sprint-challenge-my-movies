@@ -33,8 +33,6 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        movieController.fetchMoviesFromServer()
     }
 
     @IBAction func refresh(_ sender: UIRefreshControl){

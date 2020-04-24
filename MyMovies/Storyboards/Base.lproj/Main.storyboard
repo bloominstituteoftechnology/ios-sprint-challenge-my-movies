@@ -73,6 +73,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addMovieButton" destination="lSm-sg-BRM" id="4ST-TE-WCD"/>
                                     <outlet property="movieTitleLabel" destination="Xww-b6-IG0" id="wFF-Cw-H75"/>
                                 </connections>
                             </tableViewCell>

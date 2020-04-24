@@ -32,6 +32,10 @@ class MovieController {
     
     private let firebaseURL = URL(string: "https://mymovies-b24be.firebaseio.com/")!
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
