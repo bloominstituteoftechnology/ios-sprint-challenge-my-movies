@@ -16,6 +16,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         searchBar.delegate = self
     }
     
+    var movieController = MovieController()
+    
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
@@ -41,7 +44,15 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-    var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+}
+
+extension MovieSearchTableViewController: MoviesSearchTableViewCellDelegate {
+    func addMovie(for cell: MoviesSearchTableViewCell) {
+        if let indexPath = tableView.indexPath(for: cell) {
+            let movieRepresentation = movieController.searchedMovies[indexPath.row]
+            movieController.createMovie(movieRepresentation: movieRepresentation)
+        }
+    }
 }

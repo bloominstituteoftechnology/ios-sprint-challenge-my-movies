@@ -125,7 +125,7 @@ class MovieController {
         movie.identifier = representation.identifier
        }
     
-    private func updateEntries(with representations: [MovieRepresentation]) throws {
+    private func updateMovies(with representations: [MovieRepresentation]) throws {
            let representationsByID = representations.filter {  $0.identifier != nil }
         let identifiersToFetch = representationsByID.compactMap { $0.identifier! }
            let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
@@ -157,6 +157,22 @@ class MovieController {
            }
        }
     
+    
+    func createMovie(title: String, hasWatched: Bool, identifier: UUID) {
+          let movie = Movie(title: title, identifer: identifier, hasWatched: hasWatched)
+          sendMovieToServer(movie: movie)
+      }
+    func createMovie(movieRepresentation: MovieRepresentation) {
+          let title = movieRepresentation.title
+          let identifier = movieRepresentation.identifier ?? UUID()
+          let hasWatched = movieRepresentation.hasWatched ?? false
+          createMovie(title: title, hasWatched: hasWatched, identifier: identifier)
+      }
+    
+    func updateMovie(for movie: Movie) {
+           movie.hasWatched.toggle()
+           sendMovieToServer(movie: movie)
+       }
     
     // MARK: - Properties
     

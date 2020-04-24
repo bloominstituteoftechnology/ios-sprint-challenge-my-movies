@@ -16,7 +16,7 @@ enum SectionName: String, CaseIterable {
 
 class MyMoviesTableViewController: UITableViewController {
 
-    
+    var movieController = MovieController()
 
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
            let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -63,7 +63,6 @@ class MyMoviesTableViewController: UITableViewController {
         cell.movie = movie
         cell.delegate = self
         
-        // Configure the cell...
 
         return cell
     }
@@ -175,5 +174,11 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             break
         }
     }
+}
+extension MyMoviesTableViewController: AddedMoviesTableViewCellDelegate {
+    func itHasWatched(to movie: Movie) {
+        movieController.updateMovie(for: movie)
+    }
+    
 }
 
