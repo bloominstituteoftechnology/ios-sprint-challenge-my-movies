@@ -12,6 +12,8 @@ class MovieTableViewCell: UITableViewCell {
 
   static let reuseIdentifier = "MyMovieCell"
         
+    var movieController = MovieController()
+
     
     @IBOutlet weak var myMoviesLabel: UILabel!
     @IBOutlet weak var watchedButton: UIButton!
@@ -26,9 +28,9 @@ class MovieTableViewCell: UITableViewCell {
             guard let movie = movie else { return }
             
             movie.hasWatched.toggle()
-            
+            movieController.sendMovieToServer(movie: movie)
             sender.setTitle(movie.hasWatched ? ("Watched") : ("NotWatched"), for: .normal)
-            
+    
             do {
                 try CoreDataStack.shared.mainContext.save()
             } catch {

@@ -159,8 +159,6 @@ class MovieController {
     }
 
     private func updateMovies(with representations: [MovieRepresentation]) throws {
-
-
         let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier ?? "xx")}
 
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
