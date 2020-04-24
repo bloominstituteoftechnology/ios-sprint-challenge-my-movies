@@ -12,7 +12,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         searchBar.delegate = self
     }
     
@@ -33,12 +32,17 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return movieController.searchedMovies.count
     }
     
+    //Updated Table View to have Add Movie Button
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        guard let myCell = cell as? MovieTableViewCell else {
+            return cell
+        }
         
-        return cell
+        myCell.movieNameLabel?.text = movieController.searchedMovies[indexPath.row].title
+        myCell.movieController = movieController
+        return myCell
     }
     
     var movieController = MovieController()

@@ -7,12 +7,29 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
-    
+
+    //MARK: - Variables
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string: "https://moviesprintchallenge.firebaseio.com/")
     
+    //MARK: - Computed Properties
+    //Fetching All Movies
+    var movies: [Movie] {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let context = CoreDataStack.shared.mainContext
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+            return []
+        }
+    }
+    
+    //Searching For Movies
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -52,7 +69,192 @@ class MovieController {
         }.resume()
     }
     
-    // MARK: - Properties
+    //Send Movie Data in json format to the Firebase Server using the firbaseURL
+    func sendToServer(movie: Movie, completion: @escaping () -> Void) {
+        
+        //UnWrapping
+        guard let identifier = movie.identifier, let title = movie.title else {
+            completion()
+            return
+        }
+        
+        //Creating Representation
+        let movieRepresentation = MovieRepresentation(title: title, identifier: identifier, hasWatched: movie.hasWatched)
+        
+        //Request URL
+        let requestURL = firebaseURL?.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        guard let tempRequestURL = requestURL else {
+            completion()
+            return
+        }
+        
+        var request = URLRequest(url: tempRequestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            print("Error encoding in SendToServer: \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                NSLog("Error sending task to server: \(error)")
+                completion()
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Bad Response when fetching")
+                completion()
+                return
+            }
+            completion()
+        }.resume()
+    }
     
+    //Deletes a movie from the Firebase Server
+    func deleteMovieFromServer(movie: Movie, completion: @escaping () -> Void) {
+        
+        //Unwrapping
+        guard let identifier = movie.identifier else {
+            print("Bad ID in delete function")
+            completion()
+            return
+        }
+        
+        //Extending the URL
+        guard let tempFirebaseURL = firebaseURL else {
+            print("Bad URL in delete function")
+            completion()
+            return
+        }
+        let requestURL = tempFirebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        print("Deleting Item From Server")
+        
+        //Sending Data to URLSession
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+           
+            //Error Checking
+            if let error = error {
+                print("Error deleting entity: \(error)")
+                completion()
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Bad Response when fetching")
+                completion()
+                return
+            }
+            
+            completion()
+        }.resume()
+        
+    }
+    
+    //Fetch movies from the Firebase Server
+    func fetchMoviesFromServer(completion: @escaping () -> Void) {
+        
+        //Create Request URL
+        let requestURL = firebaseURL?.appendingPathExtension("json")
+        
+        //Unwrapping
+        guard let tempRequestURL = requestURL else {
+            print("Bad URL in FetchFromServer")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: tempRequestURL) { data, response, error in
+            //Error Checking
+            if let error = error {
+                print("Error fetching: \(error)")
+                completion()
+                return
+            }
+            
+            guard let data = data else {
+                print("Bad Data when fetching")
+                completion()
+                return
+            }
+            
+            do {
+                //Getting back Data and returning it as an array of MovieRepresentation Objects
+                let movieRepresentation = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
+                try self.updateMovie(representations: movieRepresentation)
+                completion()
+            } catch {
+                print("Error decoding entity when fetching: \(error)")
+                completion()
+            }
+        }.resume()
+    }
+    
+    //Updating Movies
+    func updateMovie(representations: [MovieRepresentation]) throws {
+        
+        //This gets all of the identifiers at the beginning
+        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier!.uuidString) }
+        
+        //This pairs the Identifiers to the representation Object
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        //Mutable Version of representationsBYID
+        var moviesToCreate = representationsByID
+        
+        //Get Current Movies From Core Data
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        //Constrains how many objects we fetch
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            do {
+                //Fetching Movies
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                //Looping through Existing Movies
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(movie: movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                
+                print("Inside Do Catch Block")
+                //Adds Movies to the CoreDataStack
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+                try context.save()
+            } catch {
+                print("Error fetching movies with UUIDs: \(identifiersToFetch), with error: \(error)")
+            }
+        }
+    }
+    
+    //Updates the Movie Object to conform to the
+    private func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.identifier = representation.identifier
+        
+        guard let movieWatched = representation.hasWatched else {
+            movie.hasWatched = false
+            return
+        }
+        
+        movie.hasWatched = movieWatched
+    }
+    
+    // MARK: - Properties
     var searchedMovies: [MovieRepresentation] = []
 }

@@ -12,60 +12,134 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        updateViews()
+        
+        movieController.fetchMoviesFromServer {
+            DispatchQueue.main.async {
+            self.updateViews()
+            }
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateViews()
+    }
+    
+    
+    //MARK: - Variables
+    var movieController = MovieController()
+    lazy var movies: [Movie] = []
+    var seen: [Movie] = []
+    var notSeen: [Movie] = []
+    
+    //MARK: - Functions
+    func updateViews() {
+        seen.removeAll()
+        notSeen.removeAll()
+        movies = movieController.movies
+        tableView.reloadData()
+        print("Movies: \(movies.count)")
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        
+        //Section 0 = Has Seen and Section 1 = Not Seen
+        var hasSeen = 0
+        var tempNotSeen = 0
+        
+        for i in movies {
+            if i.hasWatched == true {
+                seen.append(i)
+                hasSeen += 1
+            } else if i.hasWatched == false {
+                notSeen.append(i)
+                tempNotSeen += 1
+            }
+        }
+        
+        if section == 0 {
+            return hasSeen
+        } else {
+            return tempNotSeen
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Has Seen"
+        } else {
+            return "Not Seen"
+        }
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
 
-        // Configure the cell...
-
-        return cell
+        guard let myCell = cell as? MyMovieTableViewCell else {
+            return cell
+        }
+        
+        if indexPath.section == 0 {
+            myCell.movie = seen[indexPath.row]
+            myCell.movieController = movieController
+        } else if indexPath.section == 1 {
+            myCell.movie = notSeen[indexPath.row]
+            myCell.movieController = movieController
+        }
+        
+        myCell.previousController = self
+    
+        return myCell
     }
-    */
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
-
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            var movie: Movie?
+            
+            if indexPath.section == 0 {
+                movie = seen[indexPath.row]
+            } else if indexPath.section == 1 {
+                movie = notSeen[indexPath.row]
+            }
+            
+            guard let tempMovie = movie else {
+                return
+            }
+            
+            movieController.deleteMovieFromServer(movie: tempMovie) {
+                //Do Nothing
+            }
+            
+            CoreDataStack.shared.mainContext.delete(tempMovie)
+            do {
+                try CoreDataStack.shared.mainContext.save()
+                print("Delete Saved")
+            } catch {
+                CoreDataStack.shared.mainContext.reset()
+                print("Error saving delete in MyMoviesTableViewController: \(error)")
+            }
+            
+            if indexPath.section == 0 {
+                seen.remove(at: indexPath.row)
+            } else if indexPath.section == 1 {
+                notSeen.remove(at: indexPath.row)
+            }
+            updateViews()
+        }
     }
-    */
 
     /*
     // Override to support rearranging the table view.
