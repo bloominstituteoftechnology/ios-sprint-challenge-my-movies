@@ -72,10 +72,8 @@ class MovieController {
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     init() {
-        fetchMoviesFromServer()  // pulls data when tableview is set up.  We call this in the TableViewController.
+        fetchMoviesFromServer()
     }
-    
-    // below creates a new method to get every entry/task sent to firebase.  Need to check for duplicates on device.
     
      func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
           let requestURL = firebaseURL.appendingPathExtension("json")
@@ -93,7 +91,6 @@ class MovieController {
                 return
             }
             
-            // { = dictionary, [ = array
             do {
                 let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)  // converts a dictionary to an array
                 try self.updateMovies(with: movieRepresentations)
@@ -134,11 +131,6 @@ class MovieController {
                 return
             }
             
-            //            if let response = response as? HTTPURLResponse,
-            //                response.statusCode != 200 {
-            //
-            //            }
-            
             completion(.success(true))
         }.resume()
     }
@@ -167,37 +159,37 @@ class MovieController {
     
     private func updateMovies(with representations: [MovieRepresentation]) throws {
         
-        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier) }
         
-        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
-        var moviesToCreate = representationsByID
-        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+//        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier ?? "xx")}
         
-        let context = CoreDataStack.shared.container.newBackgroundContext()
-        
-        context.perform {
-            do {
-                let existingMovies = try context.fetch(fetchRequest)
-                
-                for movie in existingMovies {
-                    guard let id = movie.identifier,
-                        let representation = representationsByID[id] else { continue }
-                    self.update(movie: movie, with: representation)
-                    moviesToCreate.removeValue(forKey: id)
-                }
-                
-                for representation in moviesToCreate.values {
-                    Movie(movieRepresentation: representation, context: context)
-                }
-                try context.save()
-            } catch {
-                NSLog("error fetching movies with UUIDs: \(identifiersToFetch), with error: \(error)")
-            }
-        }
+//        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+//        var moviesToCreate = representationsByID
+//        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+//        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+//        
+//        let context = CoreDataStack.shared.container.newBackgroundContext()
+//        
+//        context.perform {
+//            do {
+//                let existingMovies = try context.fetch(fetchRequest)
+//                
+//                for movie in existingMovies {
+//                    guard let id = movie.identifier,
+//                        let representation = representationsByID[id] else { continue }
+//                    self.update(movie: movie, with: representation)
+//                    moviesToCreate.removeValue(forKey: id)
+//                }
+//                
+//                for representation in moviesToCreate.values {
+//                    Movie(movieRepresentation: representation, context: context)
+//                }
+//                try context.save()
+//            } catch {
+//                NSLog("error fetching movies with UUIDs: \(identifiersToFetch), with error: \(error)")
+//            }
+//        }
     }
     
-    // this func assumes that the remote version is ALWAYS correct.  This is a limitation of this design.  You can use versioning and other methods that are more complex to determine which object is the "truth".
     private func update(movie: Movie, with representation: MovieRepresentation) {
         movie.title = representation.title
         movie.hasWatched  = representation.hasWatched ?? false

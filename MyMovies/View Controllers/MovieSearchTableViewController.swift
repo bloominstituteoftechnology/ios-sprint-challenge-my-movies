@@ -44,4 +44,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+
 }

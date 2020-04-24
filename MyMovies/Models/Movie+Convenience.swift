@@ -26,7 +26,6 @@ extension Movie {
                      hasWatched: Bool = false,
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        // Standard init, does usual init stuff
         self.init(context: context)
         self.identifier = identifier
         self.title = title
