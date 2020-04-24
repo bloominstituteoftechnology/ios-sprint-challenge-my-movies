@@ -158,6 +158,56 @@ class MovieController {
         
     }
     
+    //Fetch movies from the Firebase Server
+    func fetchMoviesFromServer(completion: @escaping () -> Void) {
+        
+        //Create Request URL
+        let requestURL = firebaseURL?.appendingPathExtension("json")
+        
+        //Unwrapping
+        guard let tempRequestURL = requestURL else {
+            print("Bad URL in FetchFromServer")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: tempRequestURL) { (data, response, error) in
+            //Error Checking
+            if let error = error {
+                print("Error fetching: \(error)")
+                completion()
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Bad Response when fetching")
+                completion()
+                return
+            }
+            
+            guard let data = data else {
+                print("Bad Data when fetching")
+                completion()
+                return
+            }
+            
+            do {
+                //Getting back Data and returning it as an array of MovieRepresentation Objects
+                let movieRepresentation = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
+                try self.updateMovie(representation: movieRepresentation)
+                completion()
+            } catch {
+                print("Error decoding entity when fetching: \(error)")
+                completion()
+            }
+        }
+    }
+    
+    //Updating Movies
+    func updateMovie(representation: [MovieRepresentation]) {
+        
+    }
+    
     // MARK: - Properties
     var searchedMovies: [MovieRepresentation] = []
 }
