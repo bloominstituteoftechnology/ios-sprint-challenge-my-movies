@@ -1,5 +1,5 @@
 //
-//  MovieSearchTableViewCell.swift
+//  MyMoviesTableViewCell.swift
 //  MyMovies
 //
 //  Created by Shawn James on 4/24/20.
@@ -8,16 +8,17 @@
 
 import UIKit
 
-class MovieSearchTableViewCell: UITableViewCell {
+class MyMoviesTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var movieNameLabel: UILabel!
+    @IBOutlet weak var isWatchedButton: UIButton!
     
-//    override func awakeFromNib() {
+    //    override func awakeFromNib() {
 //        super.awakeFromNib()
 //        // Initialization code
 //    }
 
-    @IBAction func addButtonTapped(_ sender: Any) {
+    @IBAction func isWatchedButtonTapped(_ sender: UIButton) {
     }
     
 //    override func setSelected(_ selected: Bool, animated: Bool) {
