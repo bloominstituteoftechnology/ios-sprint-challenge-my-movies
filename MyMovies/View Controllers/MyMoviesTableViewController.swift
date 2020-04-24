@@ -79,7 +79,7 @@ class MyMoviesTableViewController: UITableViewController {
         }
         
         myCell.movie = movies[indexPath.row]
-
+        myCell.movieController = movieController
         return myCell
     }
 

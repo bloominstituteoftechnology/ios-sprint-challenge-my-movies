@@ -21,6 +21,8 @@ class MyMovieTableViewCell: UITableViewCell {
     
     
     //MARK: - Variables
+    var movieController: MovieController?
+    
     var movie: Movie? {
         didSet {
             titleLabel.text = movie?.title
@@ -55,6 +57,9 @@ class MyMovieTableViewCell: UITableViewCell {
             sender.setTitle("NotSeen", for: .normal)
         }
         
+        movieController?.sendToServer(movie: movie, completion: {
+            //Do Nothing
+        })
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {

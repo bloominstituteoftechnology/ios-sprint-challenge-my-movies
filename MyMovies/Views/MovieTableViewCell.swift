@@ -10,6 +10,9 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
 
+    //MARK: - Variables
+    var movieController: MovieController?
+    
     //MARK: - Outlets
     @IBOutlet weak var movieNameLabel: UILabel!
     
@@ -22,7 +25,10 @@ class MovieTableViewCell: UITableViewCell {
         }
         
         //Add Movie to the CoreDataStack and save it
-        Movie(title: text, hasWatched: false)
+        let movie = Movie(title: text, hasWatched: false)
+        movieController?.sendToServer(movie: movie, completion: {
+            //Do Nothing
+        })
         
         do {
             try CoreDataStack.shared.mainContext.save()
