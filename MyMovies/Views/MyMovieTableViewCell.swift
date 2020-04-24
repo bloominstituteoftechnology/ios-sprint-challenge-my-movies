@@ -26,7 +26,13 @@ class MyMovieTableViewCell: UITableViewCell {
         
         movie.hasWatched.toggle()
         
-        sender.setTitle(movie.hasWatched ? "Unwatched" : "Watched", for: .normal)
+        if movie.hasWatched == true {
+            sender.setTitle("Watched", for: .normal)
+        } else {
+            sender.setTitle("Unwatched", for: .normal)
+        }
+        
+//        sender.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
         
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -39,7 +45,7 @@ class MyMovieTableViewCell: UITableViewCell {
         guard let movie = movie else { return }
         
         movieTitleLabel.text = movie.title
-        hasWatchedButton.setTitle(movie.hasWatched ? "Unwatched" : "Watched", for: .normal)
+        hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
     }
 
 }

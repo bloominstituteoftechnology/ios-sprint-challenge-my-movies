@@ -12,10 +12,12 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController {
     
     let movieController = MovieController()
+    var movie: Movie?
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
+        NSSortDescriptor(key: "title", ascending: true)]
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
@@ -27,10 +29,10 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
         
         // Uncomment the following line to preserve selection between presentations
-        self.clearsSelectionOnViewWillAppear = false
+//        self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+//        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,7 +53,11 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         
-        return sectionInfo.name.capitalized
+        if sectionInfo.name == "1" {
+            return "Watched"
+        } else {
+            return "Unwatched"
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,6 +65,7 @@ class MyMoviesTableViewController: UITableViewController {
         
         // Configure the cell...
         cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.movieTitleLabel.text = movie?.title
         return cell
     }
     
