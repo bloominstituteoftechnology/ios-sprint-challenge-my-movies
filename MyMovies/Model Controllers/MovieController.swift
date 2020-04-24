@@ -76,7 +76,7 @@ class MovieController {
         
         URLSession.shared.dataTask(with: requestURL) { data, response, error in
             if let error = error {
-                NSLog("Error fetching tasks: \(error)")
+                NSLog("Error fetching movies: \(error)")
                 completion(.failure(.otherError))
                 return
             }
@@ -92,7 +92,7 @@ class MovieController {
                 try self.updateMovies(with: movieRepresentations)
                 completion(.success(true))
             } catch {
-                NSLog("Error decoding tasks from server: \(error)")
+                NSLog("Error decoding movies from server: \(error)")
                 completion(.failure(.noDecode))
                 return
             }
@@ -123,6 +123,26 @@ class MovieController {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 NSLog("Error sending movie to server: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            completion(.success(true))
+        }.resume()
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = fireBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error deleting movie from server: \(error)")
                 completion(.failure(.otherError))
                 return
             }
