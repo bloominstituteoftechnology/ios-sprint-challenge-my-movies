@@ -14,7 +14,7 @@ class MovieController {
     //MARK: - Variables
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let firbaseURL = URL(string: "https://moviesprintchallenge.firebaseio.com/")
+    private let firebaseURL = URL(string: "https://moviesprintchallenge.firebaseio.com/")
     
     //MARK: - Computed Properties
     //Fetching All Movies
@@ -69,6 +69,7 @@ class MovieController {
         }.resume()
     }
     
+    //Send Movie Data in json format to the Firebase Server using the firbaseURL
     func sendToServer(movie: Movie, completion: @escaping () -> Void) {
         
         //UnWrapping
@@ -81,7 +82,7 @@ class MovieController {
         let movieRepresentation = MovieRepresentation(title: title, identifier: identifier, hasWatched: movie.hasWatched)
         
         //Request URL
-        let requestURL = firbaseURL?.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseURL?.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         guard let tempRequestURL = requestURL else {
             completion()
             return
@@ -112,6 +113,49 @@ class MovieController {
             }
             completion()
         }.resume()
+    }
+    
+    //Deletes a movie from the Firebase Server
+    func deleteMovieFromServer(movie: Movie, completion: @escaping () -> Void) {
+        
+        //Unwrapping
+        guard let identifier = movie.identifier else {
+            print("Bad ID in delete function")
+            completion()
+            return
+        }
+        
+        //Extending the URL
+        guard let tempFirebaseURL = firebaseURL else {
+            print("Bad URL in delete function")
+            completion()
+            return
+        }
+        let requestURL = tempFirebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        print("Deleting Item From Server")
+        
+        //Sending Data to URLSession
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+           
+            //Error Checking
+            if let error = error {
+                print("Error deleting entity: \(error)")
+                completion()
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Bad Response when fetching")
+                completion()
+                return
+            }
+            
+            completion()
+        }.resume()
+        
     }
     
     // MARK: - Properties

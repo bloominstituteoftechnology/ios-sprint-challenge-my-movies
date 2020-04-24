@@ -94,6 +94,11 @@ class MyMoviesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let movie = movies[indexPath.row]
+            
+            movieController.deleteMovieFromServer(movie: movie) {
+                //Do Nothing
+            }
+            
             CoreDataStack.shared.mainContext.delete(movie)
             do {
                 try CoreDataStack.shared.mainContext.save()
@@ -102,6 +107,7 @@ class MyMoviesTableViewController: UITableViewController {
                 CoreDataStack.shared.mainContext.reset()
                 print("Error saving delete in MyMoviesTableViewController: \(error)")
             }
+            
             movies.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
