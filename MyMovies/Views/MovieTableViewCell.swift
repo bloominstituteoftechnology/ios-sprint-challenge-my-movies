@@ -12,7 +12,10 @@ class MovieTableViewCell: UITableViewCell {
 
   static let reuseIdentifier = "MyMovieCell"
         
-        @IBOutlet weak var movieTitleLabel: UILabel!
+       
+    
+    
+    
         @IBOutlet weak var watchedButton: UIButton!
 
         var movie: Movie? {
@@ -40,7 +43,7 @@ class MovieTableViewCell: UITableViewCell {
         private func updateViews() {
             guard let movie = movie else { return }
             
-            movieTitleLabel.text = movie.title
+//            movieTitleLabel.text = movie.title
             watchedButton.setTitle(movie.hasWatched ? ("Watched") : ("NotWatched"), for: .normal)
         }
     }

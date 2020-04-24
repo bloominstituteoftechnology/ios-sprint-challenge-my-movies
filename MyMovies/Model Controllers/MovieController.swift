@@ -68,7 +68,6 @@ class MovieController {
     
     var searchedMovies: [MovieRepresentation] = []
     
-    
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     init() {

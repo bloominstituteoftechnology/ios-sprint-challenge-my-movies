@@ -11,7 +11,6 @@ import CoreData
 
 class CoreDataStack {
     
-    // Singleton
     static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {
@@ -21,7 +20,7 @@ class CoreDataStack {
                 fatalError("Failed to load persistent stores: \(error)")
             }
         }
-        container.viewContext.automaticallyMergesChangesFromParent = true // connects main and background threads together so they can see each others changes.
+        container.viewContext.automaticallyMergesChangesFromParent = true 
         return container
     }()
     

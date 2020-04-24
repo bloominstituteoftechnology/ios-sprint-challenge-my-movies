@@ -9,33 +9,46 @@
 import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
-
-      
+    
+    // MARK: - Outlets
+    
     @IBOutlet weak var watchedMovieButton: UIButton!
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    
+    
+    // MARK: - Properties
+    
+    var movieController: MovieController?
+
     
     var movie: Movie? {
-           didSet {
-               updateViews()
-           }
-       }
+        didSet {
+            updateViews()
+        }
+    }
     
-
+    
+    private func updateViews() {
+           guard let movie = movie else { return }
+           
+       }
+       
+    
+    
     @IBAction func addMovie(_ sender: UIButton) {
-        sender.setTitle("Testing", for: .normal)
-        guard let movie = movie else { return }
+        guard let title = movieTitleLabel.text
+            else { return }
         
-        
-      
+        let movie = Movie(title: title, hasWatched: true)
+        movieController?.sendMovieToServer(movie: movie)
+               
         do {
             try CoreDataStack.shared.mainContext.save()
+             sender.setTitle("Added", for: .normal)
         } catch {
             NSLog("Error saving managed object context: \(error)")
         }
     }
-    private func updateViews() {
-        guard let movie = movie else { return }
- 
-    }
+   
     
-
 }
