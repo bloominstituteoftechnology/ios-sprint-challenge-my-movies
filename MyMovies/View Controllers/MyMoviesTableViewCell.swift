@@ -11,9 +11,27 @@ import UIKit
 class MyMoviesTableViewCell: UITableViewCell {
 
     
-    var movie: Movie?
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var watchedMovieButton: UIButton!
+    
+    @IBAction func toggleWatched(_ sender: Any) {
+        
+        guard let movie = movie else { return }
+        
+        movie.hasWatched.toggle()
+        
+        if movie.hasWatched {
+            watchedMovieButton.setTitle("Seen", for: .normal)
+        } else {
+            watchedMovieButton.setTitle("Not Seen", for: .normal)
+        }
+    }
+    
     
     
     override func awakeFromNib() {
@@ -31,7 +49,11 @@ class MyMoviesTableViewCell: UITableViewCell {
         guard let movie = movie else { return }
         
         movieTitleLabel.text = movie.title
-        watchedMovieButton.setTitle(<#T##title: String?##String?#>, for: <#T##UIControl.State#>)
+        
+        if movie.hasWatched {
+            watchedMovieButton.setTitle("Seen", for: .normal)
+        } else {
+            watchedMovieButton.setTitle("Not Seen", for: .normal)
+        }
     }
-
 }
