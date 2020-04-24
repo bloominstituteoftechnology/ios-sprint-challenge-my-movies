@@ -19,7 +19,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    
+   private let baseURL2 = URL(string: "https://mymovies-4d411.firebaseio.com/")!
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
@@ -63,13 +63,40 @@ class MovieController {
         
     }
     
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in  }) {
+           let requestURL = baseURL2.appendingPathExtension("json")
+           
+           URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+               guard error == nil else {
+                   print("Error fetching movies from server: \(error!)")
+                completion(.failure(.otherError))
+                   return
+               }
+               
+               guard let data = data else {
+                   print("No data returned by data task.")
+                completion(.failure(.noData))
+                   return
+               }
+               
+               do {
+                   let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                   try self.updateMovies(with: movieRepresentations)
+                completion(.success(true))
+               } catch {
+                   print("Error decoding movie representations: \(error)")
+                   
+               }
+           }.resume()
+       }
+    
     func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = movie.identifier else {
             completion(.failure(.noIdentifier))
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = baseURL2.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
@@ -103,7 +130,7 @@ class MovieController {
                return
            }
            
-           let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+           let requestURL = baseURL2.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
            var request = URLRequest(url: requestURL)
            request.httpMethod = HTTPMethod.delete.rawValue
            

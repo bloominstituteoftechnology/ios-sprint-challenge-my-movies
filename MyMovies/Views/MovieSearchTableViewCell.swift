@@ -18,6 +18,7 @@ class MoviesSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var addButton: UIButton!
+    
     var title: String? {
         didSet {
             titleLabel.text = title
@@ -38,7 +39,9 @@ class MoviesSearchTableViewCell: UITableViewCell {
         delegate?.addMovie(for: self)
         if addButton.isSelected {
             animateButton()
+            
         }
+        
     }
     
     func animateButton() {

@@ -30,11 +30,11 @@ class AddedMoviesTableViewCell: UITableViewCell {
         CoreDataStack.shared.mainContext.perform {
             guard let movie = self.movie else { return }
             
-            self.titleLabel.text = movie.title
+            self.titleLabel?.text = movie.title
             
             let buttonTitle = movie.hasWatched ? "Watched" : "Unwatched"
             
-            self.movieWatchedButton.setTitle(buttonTitle, for: .normal)
+            self.movieWatchedButton?.setTitle(buttonTitle, for: .normal)
             
         }
         
