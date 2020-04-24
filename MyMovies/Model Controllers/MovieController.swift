@@ -7,11 +7,27 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
+    //MARK: - Variables
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
+    //MARK: - Computed Properties
+    //Fetching All Movies
+    var movies: [Movie] {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        let context = CoreDataStack.shared.mainContext
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+            return []
+        }
+    }
+    
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -53,6 +69,5 @@ class MovieController {
     }
     
     // MARK: - Properties
-    
     var searchedMovies: [MovieRepresentation] = []
 }
