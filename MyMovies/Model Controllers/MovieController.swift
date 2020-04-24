@@ -179,11 +179,11 @@ class MovieController {
                 return
             }
             
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            /*guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 print("Bad Response when fetching")
                 completion()
                 return
-            }
+            }*/
             
             guard let data = data else {
                 print("Bad Data when fetching")
@@ -194,14 +194,13 @@ class MovieController {
             do {
                 //Getting back Data and returning it as an array of MovieRepresentation Objects
                 let movieRepresentation = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
-                print(movieRepresentation)
                 try self.updateMovie(representations: movieRepresentation)
                 completion()
             } catch {
                 print("Error decoding entity when fetching: \(error)")
                 completion()
             }
-        }
+        }.resume()
     }
     
     //Updating Movies

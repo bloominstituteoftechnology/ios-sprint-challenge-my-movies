@@ -13,12 +13,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-        
-        movieController.fetchMoviesFromServer {
-            DispatchQueue.main.async {
-                print("Complete")
-            }
-        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

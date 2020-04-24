@@ -13,13 +13,17 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
+        
+        movieController.fetchMoviesFromServer {
+            DispatchQueue.main.async {
+            self.updateViews()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         updateViews()
     }
-    
-    
     
     
     //MARK: - Variables
@@ -38,7 +42,6 @@ class MyMoviesTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -129,8 +132,12 @@ class MyMoviesTableViewController: UITableViewController {
                 print("Error saving delete in MyMoviesTableViewController: \(error)")
             }
             
-            movies.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            if indexPath.section == 0 {
+                seen.remove(at: indexPath.row)
+            } else if indexPath.section == 1 {
+                notSeen.remove(at: indexPath.row)
+            }
+            updateViews()
         }
     }
 
