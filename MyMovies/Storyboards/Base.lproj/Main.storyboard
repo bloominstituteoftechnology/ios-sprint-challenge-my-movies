@@ -119,6 +119,10 @@
                                 <constraints>
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="frg-hg-m4T"/>
+                                    <outlet property="watchedMovieButton" destination="3Ay-OW-Mt0" id="CqS-Xz-VPs"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

@@ -12,6 +12,8 @@ class MyMoviesTableViewCell: UITableViewCell {
 
     
     var movie: Movie?
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var watchedMovieButton: UIButton!
     
     
     override func awakeFromNib() {
@@ -23,6 +25,13 @@ class MyMoviesTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    private func updateViews() {
+        guard let movie = movie else { return }
+        
+        movieTitleLabel.text = movie.title
+        watchedMovieButton.setTitle(<#T##title: String?##String?#>, for: <#T##UIControl.State#>)
     }
 
 }
