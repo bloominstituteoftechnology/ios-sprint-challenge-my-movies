@@ -7,6 +7,16 @@
 //
 
 import Foundation
+import CoreData
+
+enum NetworkError: Error {
+    case noIdentifier
+    case otherError
+    case noData
+    case noDecode
+    case noEncode
+    case noRep
+}
 
 class MovieController {
     
@@ -51,6 +61,10 @@ class MovieController {
             }
         }.resume()
     }
+    
+    // MARK: - CRUD
+    
+    
     
     // MARK: - Properties
     
