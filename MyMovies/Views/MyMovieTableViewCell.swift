@@ -10,17 +10,36 @@ import UIKit
 
 class MyMovieTableViewCell: UITableViewCell {
     
-    var movie: Movie? 
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
     }
+    
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var hasWatchedButton: UIButton!
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+   
+    
+    @IBAction func hasWatched(_ sender: UIButton) {
+        guard let movie = movie else { return }
+        
+        movie.hasWatched.toggle()
+        
+        sender.setTitle(movie.hasWatched ? "Unwatched" : "Watched", for: .normal)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
+    
+    private func updateViews() {
+        guard let movie = movie else { return }
+        
+        movieTitleLabel.text = movie.title
+        hasWatchedButton.setTitle(movie.hasWatched ? "Unwatched" : "Watched", for: .normal)
     }
 
 }

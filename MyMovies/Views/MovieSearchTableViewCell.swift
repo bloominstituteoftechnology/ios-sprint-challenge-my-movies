@@ -45,12 +45,5 @@ class MovieSearchTableViewCell: UITableViewCell {
         movieSearchTitle.text = movie.title
         
     }
-    
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 
 }
