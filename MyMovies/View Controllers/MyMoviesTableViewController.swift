@@ -36,21 +36,21 @@ class MyMoviesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0 
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyMovieTableViewCell.reuseIdentifier, for: indexPath) as? MyMovieTableViewCell else {
+            fatalError("Can't dequeue cell of type \(MyMovieTableViewCell.reuseIdentifier)")
+        }
 
-        // Configure the cell...
-
+        
         return cell
     }
     

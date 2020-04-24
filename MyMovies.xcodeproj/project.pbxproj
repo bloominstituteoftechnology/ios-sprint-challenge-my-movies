@@ -19,6 +19,7 @@
 		FED235EA24533971004A7745 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED235E924533971004A7745 /* CoreDataStack.swift */; };
 		FED235EC24533A8A004A7745 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED235EB24533A8A004A7745 /* Movie+Convenience.swift */; };
 		FED235EF24534020004A7745 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED235EE24534020004A7745 /* MovieSearchTableViewCell.swift */; };
+		FED235F224537B2A004A7745 /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED235F124537B2A004A7745 /* MyMovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		FED235E924533971004A7745 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		FED235EB24533A8A004A7745 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		FED235EE24534020004A7745 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
+		FED235F124537B2A004A7745 /* MyMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				FED235EE24534020004A7745 /* MovieSearchTableViewCell.swift */,
+				FED235F124537B2A004A7745 /* MyMovieTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				FED235EF24534020004A7745 /* MovieSearchTableViewCell.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				FED235E8245337C7004A7745 /* Movie.xcdatamodeld in Sources */,
+				FED235F224537B2A004A7745 /* MyMovieTableViewCell.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieRepresentation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

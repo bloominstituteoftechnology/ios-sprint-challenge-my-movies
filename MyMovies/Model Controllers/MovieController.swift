@@ -69,6 +69,7 @@ class MovieController {
         }.resume()
     }
     
+    
     // MARK: - Core Data 
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
