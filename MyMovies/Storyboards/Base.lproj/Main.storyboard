@@ -57,6 +57,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="movieTitleLabel" destination="EgU-i6-cdC" id="ugy-NS-ay4"/>
+                                    <outlet property="searchBar" destination="dkD-cf-Lg3" id="sDV-yA-01x"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -118,6 +119,7 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="hasWatchedButtonTapped" destination="3Ay-OW-Mt0" id="dj3-CY-dAe"/>
                                     <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="gtW-nX-UFH"/>
                                 </connections>
                             </tableViewCell>

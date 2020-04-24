@@ -23,6 +23,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - Outlets
     
     @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     // MARK: - Actions
     
