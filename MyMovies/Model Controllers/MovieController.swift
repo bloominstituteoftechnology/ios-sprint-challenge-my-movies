@@ -97,6 +97,65 @@ class MovieController {
         
     }
     
+    func deleteEntryFromServe(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+           guard let uuid = movie.identifier else {
+               completion(.failure(.noIdentifier))
+               return
+           }
+           
+           let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+           var request = URLRequest(url: requestURL)
+           request.httpMethod = HTTPMethod.delete.rawValue
+           
+           URLSession.shared.dataTask(with: request) { data, response, error in
+               if let error = error {
+                   NSLog("Error in getting data: \(error)")
+                   completion(.failure(.noData))
+               }
+         
+               
+               completion(.success(true))
+           }.resume()
+       }
+    
+    
+    private func update(movie: Movie, with representation: MovieRepresentation) {
+           movie.title = representation.title
+        movie.hasWatched = representation.hasWatched ?? false
+        movie.identifier = representation.identifier
+       }
+    
+    private func updateEntries(with representations: [MovieRepresentation]) throws {
+           let representationsByID = representations.filter {  $0.identifier != nil }
+        let identifiersToFetch = representationsByID.compactMap { $0.identifier! }
+           let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+           var movieToCreate = representationByID
+           let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+           
+           fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+           
+           let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+           context.perform {
+               
+           do {
+               let existingEntries = try context.fetch(fetchRequest)
+                          
+                          for movie in existingEntries {
+                              guard let id = movie.identifier,
+                                  let representation = representationByID[id] else { continue }
+                            self.update(movie: movie, with: representation)
+                            movieToCreate.removeValue(forKey: id)
+                          }
+               for representation in movieToCreate.values {
+                 Movie(movieRepresentation: representation, context: context)
+               }
+              try context.save()
+           } catch {
+              NSLog("Error fetching entry with uUIDs: \(identifiersToFetch), with error: \(error)")
+           }
+           }
+       }
     
     
     // MARK: - Properties
