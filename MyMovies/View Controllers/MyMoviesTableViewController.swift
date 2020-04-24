@@ -88,6 +88,8 @@ class MyMoviesTableViewController: UITableViewController {
             myCell.movie = notSeen[indexPath.row]
             myCell.movieController = movieController
         }
+        
+        myCell.previousController = self
     
         return myCell
     }

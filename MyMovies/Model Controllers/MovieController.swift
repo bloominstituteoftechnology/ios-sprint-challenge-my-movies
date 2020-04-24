@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class MovieController {
-    
+
     //MARK: - Variables
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -171,7 +171,7 @@ class MovieController {
             return
         }
         
-        URLSession.shared.dataTask(with: tempRequestURL) { (data, response, error) in
+        URLSession.shared.dataTask(with: tempRequestURL) { data, response, error in
             //Error Checking
             if let error = error {
                 print("Error fetching: \(error)")
@@ -214,41 +214,39 @@ class MovieController {
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         
         //Mutable Version of representationsBYID
-        var tasksToCreate = representationsByID
+        var moviesToCreate = representationsByID
         
-        //Get Current Tasks From Core Data
+        //Get Current Movies From Core Data
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
         //Constrains how many objects we fetch
-        //Not sure what else this does or how this is used
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
-        
-        do {
-            //Fetching Tasks
-            let existingMovies = try context.fetch(fetchRequest)
-            
-            //Looping through Existing Tasks
-            //Weeding out Tasks we already have otherwise add task
-            for movie in existingMovies {
-                guard let id = movie.identifier,
-                    let representation = representationsByID[id] else { continue }
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            do {
+                //Fetching Movies
+                let existingMovies = try context.fetch(fetchRequest)
                 
-                self.update(movie: movie, with: representation)
-                tasksToCreate.removeValue(forKey: id)
+                //Looping through Existing Movies
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(movie: movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                
+                print("Inside Do Catch Block")
+                //Adds Movies to the CoreDataStack
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation)
+                }
+                try context.save()
+            } catch {
+                print("Error fetching movies with UUIDs: \(identifiersToFetch), with error: \(error)")
             }
-            
-            //Adds Tasks to CoreData
-            for representation in tasksToCreate.values {
-                Movie(movieRepresentation: representation)
-            }
-        } catch {
-            NSLog("Error fetching tasks with UUIDs: \(identifiersToFetch), with error: \(error)")
         }
-        
-        //Saving Changes to CoreData
-        try CoreDataStack.shared.mainContext.save()
     }
     
     //Updates the Movie Object to conform to the

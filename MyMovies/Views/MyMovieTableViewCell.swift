@@ -22,7 +22,7 @@ class MyMovieTableViewCell: UITableViewCell {
     
     //MARK: - Variables
     var movieController: MovieController?
-    
+    var previousController: MyMoviesTableViewController?
     var movie: Movie? {
         didSet {
             titleLabel.text = movie?.title
@@ -65,5 +65,6 @@ class MyMovieTableViewCell: UITableViewCell {
         } catch {
             print("Error saving to context: \(error)")
         }
+        previousController?.updateViews()
     }
 }
