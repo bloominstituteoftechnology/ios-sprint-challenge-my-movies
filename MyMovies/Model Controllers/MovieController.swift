@@ -22,6 +22,10 @@ class MovieController {
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     let myURL = URL(string: "")
@@ -82,16 +86,38 @@ class MovieController {
                 completion(.failure(.noData))
                 return
             }
-                do {
-                               let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
-                               try self.updateTasks(with: movieRepresentations)
-                               completion(.success(true))
-                           } catch {
-                               NSLog("Error decoding tasks from server: \(error)")
-                               completion(.failure(.noDecode))
-                           }
+            do {
+                let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                try self.updateTasks(with: movieRepresentations)
+                completion(.success(true))
+            } catch {
+                NSLog("Error decoding tasks from server: \(error)")
+                completion(.failure(.noDecode))
             }
         }
+    }
+    
+    
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifer = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(identifer.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error deleting task from server: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            completion(.success(true))
+        }.resume()
+    }
     
     private func updateTasks(with representations: [MovieRepresentation]) throws {
         let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier) }
