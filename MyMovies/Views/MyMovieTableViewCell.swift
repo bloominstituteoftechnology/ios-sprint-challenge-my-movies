@@ -32,7 +32,6 @@ class MyMovieTableViewCell: UITableViewCell {
             default:
                 seenMovieButton.setTitle("NotSeen", for: .normal)
             }
-            
         }
     }
     

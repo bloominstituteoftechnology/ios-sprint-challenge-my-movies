@@ -14,6 +14,7 @@ class MovieController {
     //MARK: - Variables
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firbaseURL = URL(string: "https://moviesprintchallenge.firebaseio.com/")
     
     //MARK: - Computed Properties
     //Fetching All Movies
@@ -28,7 +29,7 @@ class MovieController {
         }
     }
     
-    
+    //Searching For Movies
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -65,6 +66,51 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
             }
+        }.resume()
+    }
+    
+    func sendToServer(movie: Movie, completion: @escaping () -> Void) {
+        
+        //UnWrapping
+        guard let identifier = movie.identifier, let title = movie.title else {
+            completion()
+            return
+        }
+        
+        //Creating Representation
+        let movieRepresentation = MovieRepresentation(title: title, identifier: identifier, hasWatched: movie.hasWatched)
+        
+        //Request URL
+        let requestURL = firbaseURL?.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        guard let tempRequestURL = requestURL else {
+            completion()
+            return
+        }
+        
+        var request = URLRequest(url: tempRequestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            print("Error encoding in SendToServer: \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                NSLog("Error sending task to server: \(error)")
+                completion()
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Bad Response when fetching")
+                completion()
+                return
+            }
+            completion()
         }.resume()
     }
     
