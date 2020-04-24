@@ -104,13 +104,23 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            let movie = movies[indexPath.row]
+            var movie: Movie?
             
-            movieController.deleteMovieFromServer(movie: movie) {
+            if indexPath.section == 0 {
+                movie = seen[indexPath.row]
+            } else if indexPath.section == 1 {
+                movie = notSeen[indexPath.row]
+            }
+            
+            guard let tempMovie = movie else {
+                return
+            }
+            
+            movieController.deleteMovieFromServer(movie: tempMovie) {
                 //Do Nothing
             }
             
-            CoreDataStack.shared.mainContext.delete(movie)
+            CoreDataStack.shared.mainContext.delete(tempMovie)
             do {
                 try CoreDataStack.shared.mainContext.save()
                 print("Delete Saved")
