@@ -15,6 +15,10 @@ class MyMoviesTableViewController: UITableViewController {
         updateViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        updateViews()
+    }
+    
     
     
     
@@ -51,25 +55,29 @@ class MyMoviesTableViewController: UITableViewController {
         return myCell
     }
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
-
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            let movie = movies[indexPath.row]
+            CoreDataStack.shared.mainContext.delete(movie)
+            do {
+                try CoreDataStack.shared.mainContext.save()
+                print("Delete Saved")
+            } catch {
+                CoreDataStack.shared.mainContext.reset()
+                print("Error saving delete in MyMoviesTableViewController: \(error)")
+            }
+            movies.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-    */
 
     /*
     // Override to support rearranging the table view.
