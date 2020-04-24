@@ -9,6 +9,8 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    var movie: Movie?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,4 +46,19 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    @IBAction func addButtonTapped(_ sender: UIButton) {
+        guard let movie = movie else { return }
+        
+        sender.setTitle("Movie Added", for: .normal)
+        
+        
+        
+        
+        
+    }
+    
 }
+
+
+
