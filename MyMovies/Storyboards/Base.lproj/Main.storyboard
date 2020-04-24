@@ -55,7 +55,6 @@
                                         </label>
                                     </subviews>
                                     <connections>
-                                        <outlet property="searchBar" destination="dkD-cf-Lg3" id="VXJ-OB-2hT"/>
                                         <outlet property="titleLabel" destination="EgU-i6-cdC" id="pgr-bi-7U2"/>
                                     </connections>
                                 </tableViewCellContentView>
@@ -69,7 +68,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1570" y="-133"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
