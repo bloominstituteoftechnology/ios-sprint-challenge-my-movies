@@ -27,6 +27,8 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
+    
+    
     @IBAction func addMovieButtonTapped(_ sender: UIButton) {
         guard let movie = movieRepresentation else {
                    return
