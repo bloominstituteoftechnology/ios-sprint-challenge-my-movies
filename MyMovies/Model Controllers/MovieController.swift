@@ -71,33 +71,64 @@ class MovieController {
         }.resume()
     }
     
-       func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
-         let requestURL = fireBaseURL.appendingPathExtension("json")
-         
-         URLSession.shared.dataTask(with: requestURL) { data, response, error in
-             if let error = error {
-                 NSLog("Error fetching tasks: \(error)")
-                 completion(.failure(.otherError))
-                 return
-             }
-             
-             guard let data = data else {
-                 NSLog("No data returned from fetch")
-                 completion(.failure(.noData))
-                 return
-             }
-             
-             do {
-                 let movieRepresentations = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
-                 try self.updateMovies(with: movieRepresentations)
-                 completion(.success(true))
-             } catch {
-                 NSLog("Error decoding tasks from server: \(error)")
-                 completion(.failure(.noDecode))
-                 return
-             }
-         }.resume()
-     }
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = fireBaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, response, error in
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from fetch")
+                completion(.failure(.noData))
+                return
+            }
+            
+            do {
+                let movieRepresentations = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
+                try self.updateMovies(with: movieRepresentations)
+                completion(.success(true))
+            } catch {
+                NSLog("Error decoding tasks from server: \(error)")
+                completion(.failure(.noDecode))
+                return
+            }
+        }.resume()
+    }
+    
+    func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+        guard let uuid = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = fireBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard let representation = movie.movieRepresentation else {
+                completion(.failure(.noRep))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("error encoding movie \(movie): \(error)")
+            completion(.failure(.noEncode))
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error sending movie to server: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            completion(.success(true))
+        }.resume()
+    }
     
     private func updateMovies(with representations: [MovieRepresentation]) { // do I need to add "Throws" before the curly bracket?
         
