@@ -12,7 +12,11 @@ class MovieTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     
-    
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +28,11 @@ class MovieTableViewCell: UITableViewCell {
     
     
     @IBAction func addMovie(_ sender: Any) {
+        
+    }
+    
+    private func updateViews() {
+        titleLabel.text = movie?.title
     }
     
 }
