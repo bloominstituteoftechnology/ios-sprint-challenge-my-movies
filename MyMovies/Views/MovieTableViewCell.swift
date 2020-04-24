@@ -16,6 +16,19 @@ class MovieTableViewCell: UITableViewCell {
     //MARK: - Actions
     @IBAction func movieAddButtonPressed(_ sender: UIButton) {
         
+        //Unwrapping text
+        guard let text = movieNameLabel.text else {
+            return
+        }
+        
+        //Add Movie to the CoreDataStack and save it
+        Movie(title: text, hasWatched: false)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            print("Error saving Movie to CoreData in MovieTableViewCell: \(error)")
+        }
     }
     
     
