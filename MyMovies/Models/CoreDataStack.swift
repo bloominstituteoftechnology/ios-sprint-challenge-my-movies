@@ -19,13 +19,27 @@ class CoreDataStack {
                 fatalError("Failed to load the persistent stores: \(error)")
             }
         }
+  
     container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     
  
-    var mainContext: NSManagedObjectContext {
+   var mainContext: NSManagedObjectContext {
         return container.viewContext
+    }
+
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        var error: Error?
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        /// Code will not excute until performAndWait is done.
+        if let error = error { throw error }
     }
 }
 

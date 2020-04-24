@@ -20,8 +20,8 @@ class MyMoviesTableViewController: UITableViewController {
 
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
            let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-              fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
-                                                NSSortDescriptor(key: "title", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
+        NSSortDescriptor(key: "title", ascending: true)]
            let context = CoreDataStack.shared.mainContext
            let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
            frc.delegate = self
@@ -29,6 +29,13 @@ class MyMoviesTableViewController: UITableViewController {
            return frc
        }()
     
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+           movieController.fetchMovieFromServer { _ in
+               DispatchQueue.main.async {
+                   self.refreshControl?.endRefreshing()
+               }
+           }
+       }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -59,11 +66,8 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? AddedMoviesTableViewCell else { return UITableViewCell()}
-        let movie = fetchedResultsController.object(at: indexPath)
-        cell.movie = movie
-        cell.delegate = self
-        
-
+            cell.movie = fetchedResultsController.object(at: indexPath)
+          cell.movieController = movieController
         return cell
     }
 
@@ -87,17 +91,29 @@ class MyMoviesTableViewController: UITableViewController {
                    return sectionInfo?.name
                }
     }
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+             let movie = fetchedResultsController.object(at: indexPath)
+                        movieController.deleteEntryFromServe(movie: movie) { result  in
+                            guard let _ = try? result.get() else {
+                                return
+                            }
+                            DispatchQueue.main.async {
+                                CoreDataStack.shared.mainContext.delete(movie)
+                            
+                            do {
+                                try CoreDataStack.shared.mainContext.save()
+                            } catch {
+                                CoreDataStack.shared.mainContext.reset()
+                                NSLog("Error saving object : \(error)")
+                            }
+                            }
+                        }
+        }
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -174,11 +190,5 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             break
         }
     }
-}
-extension MyMoviesTableViewController: AddedMoviesTableViewCellDelegate {
-    func itHasWatched(to movie: Movie) {
-        movieController.updateMovie(for: movie)
-    }
-    
 }
 

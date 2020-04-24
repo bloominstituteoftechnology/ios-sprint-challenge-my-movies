@@ -39,22 +39,39 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MoviesSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="51" id="d7W-qE-xfL" customClass="MoviesSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="375" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="51"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Yc-EA-yFt">
-                                            <rect key="frame" x="286" y="6" width="73" height="30.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Yc-EA-yFt">
+                                            <rect key="frame" x="292" y="10.5" width="73" height="30"/>
                                             <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="buttonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="LFV-qw-MnM"/>
+                                            </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEb-yz-qMr">
+                                            <rect key="frame" x="21" y="16" width="42" height="19"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="7Yc-EA-yFt" firstAttribute="leading" relation="lessThanOrEqual" secondItem="AEb-yz-qMr" secondAttribute="trailing" constant="229" id="2s0-8P-h9j"/>
+                                        <constraint firstItem="AEb-yz-qMr" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="5" id="9be-Y5-xSX"/>
+                                        <constraint firstAttribute="trailing" secondItem="7Yc-EA-yFt" secondAttribute="trailing" constant="10" id="Ux7-Vb-Fzs"/>
+                                        <constraint firstAttribute="bottom" secondItem="7Yc-EA-yFt" secondAttribute="bottom" constant="10.5" id="WoM-3e-Tu3"/>
+                                        <constraint firstItem="AEb-yz-qMr" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" constant="5" id="sPn-WZ-mmL"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="AEb-yz-qMr" secondAttribute="bottom" constant="5" id="ztI-KT-52q"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addButton" destination="7Yc-EA-yFt" id="jWO-tf-yKf"/>
+                                    <outlet property="addButton" destination="7Yc-EA-yFt" id="suy-bE-daS"/>
+                                    <outlet property="titleLabel" destination="AEb-yz-qMr" id="Btj-cj-WMn"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -88,28 +105,35 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0N-xr-cb4">
-                                            <rect key="frame" x="16" y="17.5" width="42" height="20.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ITo-FG-r1N">
-                                            <rect key="frame" x="262" y="12" width="97" height="30"/>
-                                            <state key="normal" title="Unwatched"/>
-                                        </button>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
+                                            <rect key="frame" x="21" y="16" width="333" height="27.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="271" height="27.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
+                                                    <rect key="frame" x="287" y="0.0" width="46" height="27.5"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="watchedButtonAction:" destination="9cK-VO-zdo" eventType="touchUpInside" id="9Xj-6t-juV"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="R0N-xr-cb4" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leadingMargin" id="1go-wo-tb9"/>
-                                        <constraint firstItem="ITo-FG-r1N" firstAttribute="leading" secondItem="R0N-xr-cb4" secondAttribute="trailing" constant="204" id="3l8-Or-ZYG"/>
-                                        <constraint firstItem="ITo-FG-r1N" firstAttribute="centerY" secondItem="R0N-xr-cb4" secondAttribute="centerY" id="WLs-mF-tkh"/>
-                                        <constraint firstAttribute="trailing" secondItem="ITo-FG-r1N" secondAttribute="trailing" constant="16" id="ezT-2F-mx4"/>
-                                        <constraint firstItem="R0N-xr-cb4" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="tdc-4w-aeY"/>
+                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="top" secondItem="F0q-Pd-Woa" secondAttribute="topMargin" constant="5" id="1yn-k7-5N6"/>
+                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="height" secondItem="F0q-Pd-Woa" secondAttribute="height" multiplier="0.5" id="iE0-f5-nwJ"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="O4P-Iq-3DJ" secondAttribute="trailing" constant="5" id="urR-0R-KYU"/>
+                                        <constraint firstItem="O4P-Iq-3DJ" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leadingMargin" constant="5" id="vUZ-SC-S91"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="movieWatchedButton" destination="ITo-FG-r1N" id="TbM-dJ-C35"/>
-                                    <outlet property="titleLabel" destination="R0N-xr-cb4" id="ljb-Xw-G1j"/>
+                                    <outlet property="movieWatchedButton" destination="3Ay-OW-Mt0" id="oGw-sL-5UK"/>
+                                    <outlet property="titleLabel" destination="a6O-zS-fmH" id="Jsk-vl-qZB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -119,6 +143,13 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="SPq-0b-08i">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="1Gb-tL-YFt" eventType="valueChanged" id="cNd-jv-juR"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

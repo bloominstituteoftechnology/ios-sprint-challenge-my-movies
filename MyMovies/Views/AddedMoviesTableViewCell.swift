@@ -22,6 +22,7 @@ class AddedMoviesTableViewCell: UITableViewCell {
         }
     }
     
+    var movieController: MovieController?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -47,13 +48,16 @@ class AddedMoviesTableViewCell: UITableViewCell {
     }
     @IBAction func watchedButtonAction(_ sender: UIButton) {
         guard let movie = movie else { return }
-        
-        if movieWatchedButton.titleLabel?.text == "Watched" {
-            movieWatchedButton.setTitle("Unwatched", for: .normal)
-        } else {
-            movieWatchedButton.setTitle("Watched", for: .normal)
-        }
-        delegate?.itHasWatched(to: movie)
+              movie.hasWatched.toggle()
+              
+              movieWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
+
+              movieController?.sendMovieToServer(movie: movie)
+              do {
+                  try CoreDataStack.shared.save()
+              } catch {
+                  NSLog("Error saving: \(error)")
+              }
         
     }
     
