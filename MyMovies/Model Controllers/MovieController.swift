@@ -179,12 +179,6 @@ class MovieController {
                 return
             }
             
-            /*guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("Bad Response when fetching")
-                completion()
-                return
-            }*/
-            
             guard let data = data else {
                 print("Bad Data when fetching")
                 completion()
@@ -239,7 +233,7 @@ class MovieController {
                 print("Inside Do Catch Block")
                 //Adds Movies to the CoreDataStack
                 for representation in moviesToCreate.values {
-                    Movie(movieRepresentation: representation)
+                    Movie(movieRepresentation: representation, context: context)
                 }
                 try context.save()
             } catch {
