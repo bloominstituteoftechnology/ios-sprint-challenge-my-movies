@@ -19,6 +19,14 @@ class SearchMovieTableViewCell: UITableViewCell {
     }
     
     @IBAction func addMovie(_ sender: UIButton) {
+        guard let movie = movie else { return }
         
+        Movie(movieRepresentation: movie)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
 }
