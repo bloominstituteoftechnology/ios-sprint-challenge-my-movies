@@ -51,6 +51,7 @@
                                             <state key="normal" title="+ Add"/>
                                             <connections>
                                                 <action selector="addButton:" destination="D0b-8C-C2v" eventType="touchUpInside" id="0rq-Ak-jvO"/>
+                                                <action selector="addButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="MfU-wn-v3g"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -60,6 +61,9 @@
                                         <constraint firstAttribute="trailing" secondItem="t6U-US-QaK" secondAttribute="trailing" constant="8" id="ccB-Uj-efd"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addButton" destination="t6U-US-QaK" id="KU4-Oe-G8r"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

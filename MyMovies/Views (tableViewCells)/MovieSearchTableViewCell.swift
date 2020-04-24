@@ -10,11 +10,16 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var addButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
+    @IBAction func addButtonTapped(_ sender: Any) {
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
