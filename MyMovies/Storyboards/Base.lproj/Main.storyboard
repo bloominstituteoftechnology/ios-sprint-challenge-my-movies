@@ -126,7 +126,6 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="isWatchedButton" destination="3Ay-OW-Mt0" id="CuM-bo-Q8N"/>
-                                    <outlet property="isWatchedButtonWasTapped" destination="3Ay-OW-Mt0" id="dlV-ty-4l9"/>
                                     <outlet property="movieNameLabel" destination="a6O-zS-fmH" id="di0-MV-GwA"/>
                                 </connections>
                             </tableViewCell>
