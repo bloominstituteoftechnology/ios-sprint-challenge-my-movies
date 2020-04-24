@@ -8,10 +8,28 @@
 
 import Foundation
 
+enum NetworkError: Error {
+    case noDecode
+    case noEncode
+    case noData
+    case noIdentifier
+    case noRep
+    case otherError
+}
+
+enum HTTPMethod: String {
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
 class MovieController {
+    
+    typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
+    private let firebaseURL = URL(string: "https://mymovies-b24be.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -50,6 +68,61 @@ class MovieController {
                 completion(error)
             }
         }.resume()
+    }
+    
+    // MARK: - Firebase
+    
+    func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            return completion(.failure(.noIdentifier))
+        }
+        var request = apiHandler(uuid: uuid, method: .put)
+        
+        do {
+            guard let representation = movie.movieRepresentation else {
+                return completion(.failure(.noRep))
+            }
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Failed to encode movie \(movie) with error: \(error)")
+            return completion(.failure(.noEncode))
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Failed to send movie \(movie) to server with error: \(error)")
+                return completion(.failure(.otherError))
+            }
+            
+            completion(.success(true))
+        }
+        .resume()
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            return completion(.failure(.noIdentifier))
+        }
+        let request = apiHandler(uuid: uuid, method: .delete)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Failed to delete movie \(movie) from server with error: \(error)")
+                return completion(.failure(.otherError))
+            }
+            
+            completion(.success(true))
+        }
+        .resume()
+    }
+    
+    // MARK: - Helper Method
+    
+    private func apiHandler(uuid: UUID, method: HTTPMethod) -> URLRequest {
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = method.rawValue
+        return request
     }
     
     // MARK: - Properties

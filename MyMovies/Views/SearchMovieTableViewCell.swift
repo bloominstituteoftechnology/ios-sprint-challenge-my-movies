@@ -12,6 +12,8 @@ class SearchMovieTableViewCell: UITableViewCell {
     
     @IBOutlet weak var movieTitleLabel: UILabel!
     
+    var movieController: MovieController?
+    
     var movie: MovieRepresentation? {
         didSet {
             movieTitleLabel.text = movie?.title
@@ -19,10 +21,13 @@ class SearchMovieTableViewCell: UITableViewCell {
     }
     
     @IBAction func addMovie(_ sender: UIButton) {
-        guard let movie = movie else { return }
+        guard let movieRepresentation = movie,
+            let movie = Movie(movieRepresentation: movieRepresentation) else { return }
         
-        Movie(movieRepresentation: movie)
-        
+        // TODO: Remove this and make the movie check if it has been added or not
+        backgroundColor = .lightGray
+                
+        movieController?.sendMovieToServer(movie: movie)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
