@@ -10,36 +10,30 @@ import Foundation
 import CoreData
 
 extension Movie {
-
-    // MARK: - Properties
-    
     var movieRepresentation: MovieRepresentation? {
-        guard let title = title else { return nil }
-
-        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
+        guard let id = identifier,
+            let title = title else { return nil }
+        
+        return MovieRepresentation(title: title,
+                                   identifier: id,
+                                   hasWatched: hasWatched)
     }
-
-    // MARK: - Convenience inits
     
-    convenience init(title: String,
-                     identifier: UUID = UUID(),
-                     hasWatched: Bool = false,
-                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-
+    @discardableResult convenience init(identifier: UUID = UUID(),
+                                        title: String,
+                                        hasWatched: Bool = false,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
-        self.title = title
         self.identifier = identifier
+        self.title = title
         self.hasWatched = hasWatched
     }
-
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-
-        guard let identifier = movieRepresentation.identifier,
-            let hasWatched = movieRepresentation.hasWatched else { return nil }
-
-        self.init(title: movieRepresentation.title,
-                  identifier: identifier,
-                  hasWatched: hasWatched)
+        
+        self.init(identifier: movieRepresentation.identifier ?? UUID(),
+                  title: movieRepresentation.title,
+                  hasWatched: movieRepresentation.hasWatched ?? false,
+                  context: context)
     }
 }

@@ -11,21 +11,34 @@ import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
         
-        @IBOutlet weak var titleLabel: UILabel!
-        @IBOutlet weak var hasWatchedButton: UIButton!
-        
-        var movie: Movie? {
-            didSet{
-                updateViews()
-            }
-        }
-        
-        private func updateViews() {
-            guard let movie = movie else { return }
-            
-            titleLabel.text = movie.title
-            let buttonTitle = movie.hasWatched ? "Watched" : "Unwatched"
-            hasWatchedButton.setTitle(buttonTitle, for: .normal)
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var hasWatchedButton: UIButton!
+    
+    var movieController: MovieController?
+    
+    var movie: Movie? {
+        didSet {
+            updateViews()
         }
     }
+    
+    @IBAction func toggleWatched(_ sender: UIButton) {
+        guard let movie = movie else { return }
+        
+        movie.hasWatched.toggle()
+        hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Not Watched", for: .normal)
+        movieController?.sendMovieToServer(movie: movie)
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
+    
+    private func updateViews() {
+        movieTitleLabel.text = movie?.title
+        hasWatchedButton.setTitle(movie?.hasWatched ?? false ? "Watched" : "Not Watched", for: .normal)
+    }
+}
+
 

@@ -39,41 +39,41 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="250" translatesAutoresizingMaskIntoConstraints="NO" id="APW-oX-RYR">
-                                            <rect key="frame" x="20" y="-3.5" width="374" height="50.5"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="8iz-dd-Z2I">
+                                            <rect key="frame" x="16" y="7" width="382" height="30"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="57n-K2-qRf">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8xF-yD-XJr">
+                                                    <rect key="frame" x="0.0" y="0.0" width="293" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vt7-8c-RZ6">
-                                                    <rect key="frame" x="300" y="0.0" width="74" height="50.5"/>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GRn-Ek-xS0">
+                                                    <rect key="frame" x="309" y="0.0" width="73" height="30"/>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
-                                                        <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="HMi-aY-y3l"/>
+                                                        <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Izz-0x-Rmg"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="APW-oX-RYR" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="20" id="IUI-EG-y3e"/>
-                                        <constraint firstItem="APW-oX-RYR" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="Nzl-aU-Vao"/>
-                                        <constraint firstAttribute="trailing" secondItem="APW-oX-RYR" secondAttribute="trailing" constant="20" id="UuF-24-2cp"/>
+                                        <constraint firstItem="8iz-dd-Z2I" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="9rl-gX-kN9"/>
+                                        <constraint firstItem="8iz-dd-Z2I" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="BPK-lT-3yl"/>
+                                        <constraint firstAttribute="trailing" secondItem="8iz-dd-Z2I" secondAttribute="trailing" constant="16" id="D5t-bv-Clu"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addMovieButton" destination="vt7-8c-RZ6" id="epq-R9-RMB"/>
-                                    <outlet property="titleLabel" destination="57n-K2-qRf" id="4Xt-02-lsW"/>
+                                    <outlet property="addMovieButton" destination="GRn-Ek-xS0" id="H4o-Db-4hx"/>
+                                    <outlet property="movieTitleLabel" destination="8xF-yD-XJr" id="Wry-Yc-muS"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -85,7 +85,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1570" y="-133"/>
+            <point key="canvasLocation" x="1569.5652173913045" y="-133.25892857142856"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
@@ -115,6 +115,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
                                                     <rect key="frame" x="336" y="0.0" width="46" height="30"/>
                                                     <state key="normal" title="Button"/>
+                                                    <connections>
+                                                        <action selector="toggleWatched:" destination="9cK-VO-zdo" eventType="touchUpInside" id="eCR-BN-dq1"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
@@ -129,7 +132,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="lNa-ix-Lea"/>
-                                    <outlet property="titleLabel" destination="a6O-zS-fmH" id="PE7-B9-jit"/>
+                                    <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="P2i-jP-Ex8"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -139,6 +142,13 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="onK-DB-DCf">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="1Gb-tL-YFt" eventType="valueChanged" id="CQD-Kp-4M9"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

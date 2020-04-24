@@ -10,109 +10,93 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
-
     
-    //MARK: Properties
+    // MARK: - Properties
     
-    let movieController = MovieController()
+    var movieController = MovieController()
     
-       lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
-           let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-           fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
-                                           NSSortDescriptor(key: "timestamp", ascending: true)]
-           let context = CoreDataStack.shared.mainContext
-           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
-           frc.delegate = self
-           try! frc.performFetch()
-           return frc
-       }()
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
+                                        NSSortDescriptor(key: "title", ascending: true)]
+        let context = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: context,
+                                             sectionNameKeyPath: "hasWatched",
+                                             cacheName: nil)
+        frc.delegate = self
+        try! frc.performFetch()
+        return frc
+    }()
     
-    
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.clearsSelectionOnViewWillAppear = false
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        MovieController.movieController.fetchMoviesFromServer()
-    }
+    @IBAction func refresh(_ sender: UIRefreshControl){
+           movieController.fetchMoviesFromServer { _ in
+               DispatchQueue.main.async {
+                   self.refreshControl?.endRefreshing()
+               }
+           }
+       }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    
-    @IBAction func watchedTapped(_ sender: UIButton) {
-        guard let cell = sender.superview?.superview?.superview as? MyMoviesTableViewCell else { return }
-
-        if let indexPath = tableView.indexPath(for: cell) {
-            MovieController.movieController.hasWatchedMovie(for:
-                fetchedResultsController.object(at: indexPath))
-            tableView.reloadData()
-        }
-    }
-    
-
-    
-    // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell()}
-        cell.movie = fetchedResultsController.object(at: indexPath)
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         
-        return (sectionInfo.name == "0") ? "Not Watched" : "Watched"
+        if Int(sectionInfo.name) == 1 {
+            return "Watched"
+        } else {
+            return "Not Watched"
+        }
     }
     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else {
+            fatalError("Could not dequeue cell as MyMovieCell")
+        }
+        
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.movieController = movieController
+        
+        return cell
+    }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
-            
-            MovieController.movieController.deleteMovieFromServer(movie) { error in
-                if let error = error {
-                    print("Error deleting movie from server: \(error)")
-                    return
-                }
-                DispatchQueue.main.async {
-                    let moc = CoreDataStack.shared.mainContext
-                    moc.delete(movie)
-                    do {
-                        try moc.save()
-                        tableView.reloadData()
-                    } catch {
-                        moc.reset()
-                        print("Error saving object \(error)")
-                    }
+            CoreDataStack.shared.mainContext.delete(movie)
+            movieController.deleteMovieFromServer(movie: movie)
+            DispatchQueue.main.async {
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                } catch {
+                    CoreDataStack.shared.mainContext.reset()
+                    NSLog("Error saving managed object context: \(error)")
                 }
             }
         }
     }
 }
-
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
-    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
-    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
             tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
@@ -122,7 +106,11 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             break
         }
     }
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             guard let newIndexPath = newIndexPath else { return }
@@ -143,3 +131,4 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
+
