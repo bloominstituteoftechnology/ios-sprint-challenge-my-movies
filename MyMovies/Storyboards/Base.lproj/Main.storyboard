@@ -28,6 +28,7 @@
         <!--Movie Search-->
         <scene sceneID="BjU-p7-zCe">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="YE2-Zi-kUT" customClass="MovieSearchTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bfm-vz-lLP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -39,33 +40,38 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" textLabel="EgU-i6-cdC" style="IBUITableViewCellStyleDefault" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target" propertyAccessControl="none">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target" propertyAccessControl="none">
                                 <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EgU-i6-cdC">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWp-Iy-D7E">
+                                            <rect key="frame" x="282" y="7" width="73" height="30"/>
+                                            <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="addMovie" destination="d7W-qE-xfL" eventType="touchUpInside" id="c6l-Fx-9HH"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a4O-LU-o3E">
+                                            <rect key="frame" x="36" y="11.5" width="33.5" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3rf-s3-ZAz">
-                                            <rect key="frame" x="164" y="6" width="46" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button"/>
-                                            <connections>
-                                                <action selector="addMovie" destination="d7W-qE-xfL" eventType="touchUpInside" id="Z46-I9-znk"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="nWp-Iy-D7E" secondAttribute="trailing" constant="20" id="LZ0-Nb-wEt"/>
+                                        <constraint firstItem="a4O-LU-o3E" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="Vud-SB-HuG"/>
+                                        <constraint firstItem="a4O-LU-o3E" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" constant="20" id="ag3-gp-61N"/>
+                                        <constraint firstItem="nWp-Iy-D7E" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="dfl-tn-qpa"/>
+                                        <constraint firstItem="nWp-Iy-D7E" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a4O-LU-o3E" secondAttribute="trailing" constant="16" id="rt7-lQ-zuk"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addMovieButton" destination="3rf-s3-ZAz" id="ZyQ-ai-JCc"/>
-                                    <outlet property="movieSearchTitle" destination="EgU-i6-cdC" id="qeq-Z1-Oqa"/>
+                                    <outlet property="addMovieButton" destination="nWp-Iy-D7E" id="Ioa-dj-zVX"/>
+                                    <outlet property="movieSearchTitle" destination="a4O-LU-o3E" id="yK2-L4-qND"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -79,7 +85,6 @@
                         <outlet property="searchBar" destination="dkD-cf-Lg3" id="GWC-CQ-FFh"/>
                     </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1497" y="-27"/>
         </scene>
