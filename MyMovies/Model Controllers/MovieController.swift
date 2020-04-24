@@ -151,9 +151,40 @@ class MovieController {
     }
     
     private func updateMovies(with representations: [MovieRepresentation]) { // do I need to add "Throws" before the curly bracket?
+        let identifiersToFetch = representations.compactMap {  $0.identifier }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        var moviesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    self.update(movie: movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+                try context.save()
+            } catch {
+                
+            }
+        }
         
         
         
+    }
+    
+    private func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.hasWatched = representation.hasWatched ?? false
     }
     
 }
