@@ -12,10 +12,10 @@ import CoreData
 extension Movie {
     
     var movieRepresentation: MovieRepresentation? {
-        guard let id = identifier, let title = title else { return nil }
+        guard let identifier = identifier, let title = title else { return nil }
         
         return MovieRepresentation(title: title,
-                                   identifier: id,
+                                   identifier: identifier.uuidString,
                                    hasWatched: hasWatched)
     }
     
@@ -31,7 +31,8 @@ extension Movie {
     }
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        guard let identifier = movieRepresentation.identifier else { return nil }
+        guard let identifier = UUID(uuidString: movieRepresentation.identifier!) else { return nil }
+        
         
         self.init(identifier: identifier,
                   title: movieRepresentation.title,

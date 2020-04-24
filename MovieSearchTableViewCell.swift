@@ -18,7 +18,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
-    var movieController: MovieController?
+    var movieController = MovieController()
 
     
     var movie: Movie? {
@@ -40,8 +40,7 @@ class MovieSearchTableViewCell: UITableViewCell {
             else { return }
         
         let movie = Movie(title: title, hasWatched: true)
-        movieController?.sendMovieToServer(movie: movie)
-        print(movie)
+        movieController.sendMovieToServer(movie: movie)
                
         do {
             try CoreDataStack.shared.mainContext.save()
