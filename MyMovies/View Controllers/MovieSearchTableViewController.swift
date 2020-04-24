@@ -7,8 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    // MARK: -Properties
+    
+    var movieController = MovieController()
+
+    @IBOutlet weak var searchBar: UISearchBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +36,17 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        movieController.createSavedMovie(title: movieController.searchedMovies[indexPath.row].title)
+
+            let title = movieController.searchedMovies[indexPath.row].title
+
+            let alert = UIAlertController(title: "\(title)", message: "Added to the list", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "Return", style: .cancel, handler: nil)
+            alert.addAction(alertAction)
+            present(alert, animated: true, completion: nil)
+        }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -40,8 +58,5 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         return cell
     }
-    
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }
+

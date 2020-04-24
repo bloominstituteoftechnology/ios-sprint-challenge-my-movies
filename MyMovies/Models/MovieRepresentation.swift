@@ -10,8 +10,8 @@ import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
     let title: String
-    let identifier: UUID?
-    let hasWatched: Bool?
+    var identifier: UUID?
+    var hasWatched: Bool?
 }
 
 
