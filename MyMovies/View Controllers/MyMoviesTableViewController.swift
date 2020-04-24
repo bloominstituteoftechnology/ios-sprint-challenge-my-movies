@@ -34,10 +34,15 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        movieController.fetchMoviesFromServer()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    @IBAction func refresh(_ sender: UIRefreshControl){
+        movieController.fetchMoviesFromServer { _ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
 
     // MARK: - Table view data source
@@ -62,7 +67,7 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else {
-            fatalError("Could not dequeue cell as expected")
+            fatalError("Could not dequeue cell as MyMovieCell")
         }
         
         cell.movie = fetchedResultsController.object(at: indexPath)

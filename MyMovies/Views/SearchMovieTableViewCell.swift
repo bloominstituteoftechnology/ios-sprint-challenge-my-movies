@@ -25,7 +25,7 @@ class SearchMovieTableViewCell: UITableViewCell {
             let movie = Movie(movieRepresentation: movieRepresentation) else { return }
         
         // TODO: Remove this and make the movie check if it has been added or not
-        backgroundColor = .lightGray
+//        backgroundColor = .lightGray
                 
         movieController?.sendMovieToServer(movie: movie)
         do {

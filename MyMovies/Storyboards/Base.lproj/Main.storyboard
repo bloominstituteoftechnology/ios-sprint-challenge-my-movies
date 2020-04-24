@@ -146,6 +146,12 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="My Movies" image="film" catalog="system" id="y85-fk-XTV"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="6AK-jj-zzO">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="1Gb-tL-YFt" eventType="valueChanged" id="gck-Bj-48r"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
