@@ -12,9 +12,7 @@ import CoreData
 extension Movie {
     
     var movieRepresentation: MovieRepresentation? {
-        guard let id = identifier, let title = title else { return nil
-                
-        }
+        guard let id = identifier, let title = title else { return nil }
         
         return MovieRepresentation(title: title,
                                    identifier: id,

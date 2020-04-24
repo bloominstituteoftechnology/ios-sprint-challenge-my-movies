@@ -41,6 +41,7 @@ class MovieSearchTableViewCell: UITableViewCell {
         
         let movie = Movie(title: title, hasWatched: true)
         movieController?.sendMovieToServer(movie: movie)
+        print(movie)
                
         do {
             try CoreDataStack.shared.mainContext.save()
