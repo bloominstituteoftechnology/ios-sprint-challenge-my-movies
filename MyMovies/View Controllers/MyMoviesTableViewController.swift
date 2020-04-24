@@ -25,10 +25,13 @@ class MyMoviesTableViewController: UITableViewController {
     //MARK: - Variables
     var movieController = MovieController()
     lazy var movies: [Movie] = []
-
+    var seen: [Movie] = []
+    var notSeen: [Movie] = []
     
     //MARK: - Functions
     func updateViews() {
+        seen.removeAll()
+        notSeen.removeAll()
         movies = movieController.movies
         tableView.reloadData()
         print("Movies: \(movies.count)")
@@ -37,39 +40,39 @@ class MyMoviesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1 //2
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        /*
+        
         //Section 0 = Has Seen and Section 1 = Not Seen
         var hasSeen = 0
-        var notSeen = 0
+        var tempNotSeen = 0
         
         for i in movies {
             if i.hasWatched == true {
+                seen.append(i)
                 hasSeen += 1
             } else if i.hasWatched == false {
-                notSeen += 1
+                notSeen.append(i)
+                tempNotSeen += 1
             }
         }
         
         if section == 0 {
             return hasSeen
         } else {
-            return notSeen
+            return tempNotSeen
         }
-         */
-        return movies.count
     }
     
-    /*override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "Has Seen"
         } else {
             return "Not Seen"
         }
-    }*/
+    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
@@ -78,8 +81,14 @@ class MyMoviesTableViewController: UITableViewController {
             return cell
         }
         
-        myCell.movie = movies[indexPath.row]
-        myCell.movieController = movieController
+        if indexPath.section == 0 {
+            myCell.movie = seen[indexPath.row]
+            myCell.movieController = movieController
+        } else if indexPath.section == 1 {
+            myCell.movie = notSeen[indexPath.row]
+            myCell.movieController = movieController
+        }
+    
         return myCell
     }
 

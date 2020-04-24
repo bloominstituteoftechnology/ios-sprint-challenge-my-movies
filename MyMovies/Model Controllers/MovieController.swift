@@ -194,7 +194,8 @@ class MovieController {
             do {
                 //Getting back Data and returning it as an array of MovieRepresentation Objects
                 let movieRepresentation = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
-                try self.updateMovie(representation: movieRepresentation)
+                print(movieRepresentation)
+                try self.updateMovie(representations: movieRepresentation)
                 completion()
             } catch {
                 print("Error decoding entity when fetching: \(error)")
@@ -204,8 +205,63 @@ class MovieController {
     }
     
     //Updating Movies
-    func updateMovie(representation: [MovieRepresentation]) {
+    func updateMovie(representations: [MovieRepresentation]) throws {
         
+        //This gets all of the identifiers at the beginning
+        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier!.uuidString) }
+        
+        //This pairs the Identifiers to the representation Object
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        //Mutable Version of representationsBYID
+        var tasksToCreate = representationsByID
+        
+        //Get Current Tasks From Core Data
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        //Constrains how many objects we fetch
+        //Not sure what else this does or how this is used
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            //Fetching Tasks
+            let existingMovies = try context.fetch(fetchRequest)
+            
+            //Looping through Existing Tasks
+            //Weeding out Tasks we already have otherwise add task
+            for movie in existingMovies {
+                guard let id = movie.identifier,
+                    let representation = representationsByID[id] else { continue }
+                
+                self.update(movie: movie, with: representation)
+                tasksToCreate.removeValue(forKey: id)
+            }
+            
+            //Adds Tasks to CoreData
+            for representation in tasksToCreate.values {
+                Movie(movieRepresentation: representation)
+            }
+        } catch {
+            NSLog("Error fetching tasks with UUIDs: \(identifiersToFetch), with error: \(error)")
+        }
+        
+        //Saving Changes to CoreData
+        try CoreDataStack.shared.mainContext.save()
+    }
+    
+    //Updates the Movie Object to conform to the
+    private func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.identifier = representation.identifier
+        
+        guard let movieWatched = representation.hasWatched else {
+            movie.hasWatched = false
+            return
+        }
+        
+        movie.hasWatched = movieWatched
     }
     
     // MARK: - Properties
