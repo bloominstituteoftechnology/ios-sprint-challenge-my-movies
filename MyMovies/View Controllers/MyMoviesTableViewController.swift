@@ -18,7 +18,7 @@ class MyMoviesTableViewController: UITableViewController {
            let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
            let context = CoreDataStack.shared.mainContext
-           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "priority", cacheName: nil)
+           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
            frc.delegate = self
            try! frc.performFetch()
            return frc
@@ -50,7 +50,7 @@ class MyMoviesTableViewController: UITableViewController {
             fatalError("Can't dequeue cell of type \(MyMovieTableViewCell.reuseIdentifier)")
         }
 
-        
+        cell.movie = fetchedResultsController.object(at: indexPath)
         return cell
     }
     

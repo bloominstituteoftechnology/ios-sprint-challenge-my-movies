@@ -89,7 +89,7 @@ class MovieController {
             }
             do {
                 let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
-                try self.updateTasks(with: movieRepresentations)
+                try self.updateMovies(with: movieRepresentations)
                 completion(.success(true))
             } catch {
                 NSLog("Error decoding movies from server: \(error)")
@@ -152,7 +152,7 @@ class MovieController {
         }.resume()
     }
     
-    private func updateTasks(with representations: [MovieRepresentation]) throws {
+    private func updateMovies(with representations: [MovieRepresentation]) throws {
         let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier) }
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         var moviesToCreate = representationsByID
