@@ -22,22 +22,25 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var movieSearchTitle: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        // Initialization code
+//    }
 
     @IBAction func addMovie(_ sender: UIButton) {
         guard let title = movieSearchTitle.text else { return }
         let movie = Movie(title: title, hasWatched: false)
-        // TODO: - send movie to MyMoviesTableVC (and server?)
+        // TODO: - send movie to MyMoviesTableVC 
         movieController?.sendMovieToServer(movie: movie)
+        movieController?.myMovies.append(movie)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
             NSLog("Error saving managed object context: \(error)")
             return
         }
+        
+       
     }
     
     func updateViews() {
@@ -47,3 +50,4 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
 
 }
+

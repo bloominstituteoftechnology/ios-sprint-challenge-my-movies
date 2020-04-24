@@ -35,7 +35,8 @@ extension Movie {
             return nil
         }
 
-        self.init(identifier: identifier, title: movieRepresentation.title, hasWatched: movieRepresentation.hasWatched ?? false)
+        self.init(identifier: identifier, title: movieRepresentation.title, hasWatched: movieRepresentation.hasWatched ?? false, context: context)
     }
     
 }
+

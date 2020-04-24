@@ -51,7 +51,7 @@
                                             <rect key="frame" x="282" y="7" width="73" height="30"/>
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
-                                                <action selector="addMovie" destination="d7W-qE-xfL" eventType="touchUpInside" id="c6l-Fx-9HH"/>
+                                                <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="T6v-uw-oKu"/>
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a4O-LU-o3E">
