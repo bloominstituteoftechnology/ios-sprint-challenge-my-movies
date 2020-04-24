@@ -12,12 +12,15 @@ import CoreData
 extension Movie {
     
     var movieRepresentation: MovieRepresentation? {
-        guard let title = title,
-            let id = identifier else { return nil }
+        guard let id = identifier,
+            let title = title else {
+                return nil
+        }
+        
+        return MovieRepresentation(title: title,
+                                   identifier: id.uuidString,
+                                   hasWatched: hasWatched)
     }
-    
-    return MovieRepresentation(title: title, identifer: identifer, hasWatched: hasWatched)
-    
     
     @discardableResult convenience init(identifier: UUID = UUID(),
                                         title: String,
@@ -28,12 +31,4 @@ extension Movie {
         self.title = title
         self.hasWatched = hasWatched
     }
-    
-    
-    
-    
-    
-    
-    
-    
 }
