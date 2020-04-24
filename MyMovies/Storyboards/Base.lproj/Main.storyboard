@@ -28,7 +28,6 @@
         <!--Movie Search-->
         <scene sceneID="BjU-p7-zCe">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="YE2-Zi-kUT" customClass="MovieSearchTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bfm-vz-lLP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -47,31 +46,26 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWp-Iy-D7E">
-                                            <rect key="frame" x="282" y="7" width="73" height="30"/>
-                                            <state key="normal" title="Add Movie"/>
-                                            <connections>
-                                                <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="T6v-uw-oKu"/>
-                                            </connections>
-                                        </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a4O-LU-o3E">
-                                            <rect key="frame" x="36" y="11.5" width="33.5" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3p-ce-LDz">
+                                            <rect key="frame" x="41" y="11" width="0.0" height="0.0"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gN5-lM-ziH">
+                                            <rect key="frame" x="287" y="6" width="73" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="J7P-ah-WLg"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="nWp-Iy-D7E" secondAttribute="trailing" constant="20" id="LZ0-Nb-wEt"/>
-                                        <constraint firstItem="a4O-LU-o3E" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="Vud-SB-HuG"/>
-                                        <constraint firstItem="a4O-LU-o3E" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" constant="20" id="ag3-gp-61N"/>
-                                        <constraint firstItem="nWp-Iy-D7E" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="dfl-tn-qpa"/>
-                                        <constraint firstItem="nWp-Iy-D7E" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a4O-LU-o3E" secondAttribute="trailing" constant="16" id="rt7-lQ-zuk"/>
-                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addMovieButton" destination="nWp-Iy-D7E" id="Ioa-dj-zVX"/>
-                                    <outlet property="movieSearchTitle" destination="a4O-LU-o3E" id="yK2-L4-qND"/>
+                                    <outlet property="addMovieButton" destination="gN5-lM-ziH" id="cda-3h-L9S"/>
+                                    <outlet property="movieSearchTitle" destination="a3p-ce-LDz" id="UgS-ao-iJ8"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -85,6 +79,7 @@
                         <outlet property="searchBar" destination="dkD-cf-Lg3" id="GWC-CQ-FFh"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1497" y="-27"/>
         </scene>
@@ -107,9 +102,9 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="O4P-Iq-3DJ">
                                             <rect key="frame" x="16" y="12.5" width="343" height="30"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
                                                     <rect key="frame" x="0.0" y="0.0" width="281" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -132,7 +127,7 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="c0s-66-Sko"/>
+                                    <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="rfR-OW-B1p"/>
                                     <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="HkL-A1-8Ft"/>
                                 </connections>
                             </tableViewCell>

@@ -22,10 +22,10 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var movieSearchTitle: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//    }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
 
     @IBAction func addMovie(_ sender: UIButton) {
         guard let title = movieSearchTitle.text else { return }
@@ -39,8 +39,6 @@ class MovieSearchTableViewCell: UITableViewCell {
             NSLog("Error saving managed object context: \(error)")
             return
         }
-        
-       
     }
     
     func updateViews() {

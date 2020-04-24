@@ -27,6 +27,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.reloadData()
         
         // Uncomment the following line to preserve selection between presentations
 //        self.clearsSelectionOnViewWillAppear = false
@@ -66,6 +67,7 @@ class MyMoviesTableViewController: UITableViewController {
         // Configure the cell...
         cell.movie = fetchedResultsController.object(at: indexPath)
         cell.movieTitleLabel.text = movie?.title
+ 
         return cell
     }
     
