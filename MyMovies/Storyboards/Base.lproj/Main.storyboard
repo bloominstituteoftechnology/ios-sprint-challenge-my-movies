@@ -39,25 +39,40 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" textLabel="EgU-i6-cdC" style="IBUITableViewCellStyleDefault" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" id="Bjo-Z9-J6v" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Bjo-Z9-J6v" id="QJR-lf-PUm">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EgU-i6-cdC">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RF4-GZ-jpx">
+                                            <rect key="frame" x="24" y="11.5" width="0.0" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E77-iN-5g6">
+                                            <rect key="frame" x="274" y="6" width="93" height="30.5"/>
+                                            <state key="normal" title="Add Movie"/>
+                                            <connections>
+                                                <action selector="addMovieButtonTapped:" destination="Bjo-Z9-J6v" eventType="touchUpInside" id="3dU-gh-te3"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="E77-iN-5g6" secondAttribute="trailing" constant="8" id="5ui-DT-JO1"/>
+                                        <constraint firstAttribute="bottom" secondItem="E77-iN-5g6" secondAttribute="bottom" constant="7.5" id="8Hi-7m-TFC"/>
+                                        <constraint firstItem="RF4-GZ-jpx" firstAttribute="leading" secondItem="QJR-lf-PUm" secondAttribute="leadingMargin" constant="8" id="MeF-UJ-eFG"/>
+                                        <constraint firstItem="E77-iN-5g6" firstAttribute="leading" secondItem="RF4-GZ-jpx" secondAttribute="trailing" constant="250" id="OaE-oU-4Wp"/>
+                                        <constraint firstItem="E77-iN-5g6" firstAttribute="top" secondItem="QJR-lf-PUm" secondAttribute="top" constant="6" id="Z0v-3o-1CS"/>
+                                        <constraint firstItem="RF4-GZ-jpx" firstAttribute="top" secondItem="QJR-lf-PUm" secondAttribute="top" constant="11.5" id="d0O-Kv-ieC"/>
+                                        <constraint firstAttribute="bottom" secondItem="RF4-GZ-jpx" secondAttribute="bottom" constant="11.5" id="mSq-sz-r9Q"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="movieTitleLabel" destination="EgU-i6-cdC" id="ugy-NS-ay4"/>
-                                    <outlet property="searchBar" destination="dkD-cf-Lg3" id="sDV-yA-01x"/>
+                                    <outlet property="movieTitleLabel" destination="RF4-GZ-jpx" id="MUD-bY-2Bo"/>
+                                    <outlet property="searchBar" destination="dkD-cf-Lg3" id="9Gy-qs-BD0"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -73,7 +88,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">
