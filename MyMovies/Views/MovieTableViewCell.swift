@@ -9,10 +9,14 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
 
   static let reuseIdentifier = "MyMovieCell"
         
     var movieController = MovieController()
+
+    // MARK: - Outlets
 
     
     @IBOutlet weak var myMoviesLabel: UILabel!
@@ -37,9 +41,7 @@ class MovieTableViewCell: UITableViewCell {
                 NSLog("Error saving managed object context: \(error)")
             }
         }
-        
-        // TODO: Add action for toggling complete button
-        
+                
         private func updateViews() {
             guard let movie = movie else { return }
             

@@ -47,8 +47,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2SQ-Gm-fNf">
-                                            <rect key="frame" x="151" y="6" width="73" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <rect key="frame" x="251" y="6" width="73" height="31.5"/>
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
                                                 <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="xoT-BO-bQF"/>
@@ -62,6 +61,11 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="2SQ-Gm-fNf" firstAttribute="centerX" secondItem="EgU-i6-cdC" secondAttribute="centerX" constant="100" id="2jr-Wp-39R"/>
+                                        <constraint firstItem="2SQ-Gm-fNf" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="-5" id="FKb-wu-lcu"/>
+                                        <constraint firstItem="2SQ-Gm-fNf" firstAttribute="centerY" secondItem="EgU-i6-cdC" secondAttribute="centerY" id="X1D-xx-Sjo"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="movieTitleLabel" destination="EgU-i6-cdC" id="3Is-z7-NdO"/>

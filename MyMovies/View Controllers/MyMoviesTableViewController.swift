@@ -33,12 +33,8 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        movieController.fetchMoviesFromServer()
+       
     }
     
     
@@ -48,8 +44,11 @@ class MyMoviesTableViewController: UITableViewController {
         return fetchedResultsController.sections?.count ?? 1
     }
     
-        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return fetchedResultsController.fetchedObjects?.count ?? 1
+           
+
+//                fetchedResultsController.sections?[section].numberOfObjects ?? 1
         }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,25 +65,32 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
+
     
     
-    
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            guard let movie = fetchedResultsController.fetchedObjects?[indexPath.row] else { return }
-            let context = CoreDataStack.shared.mainContext
-            context.delete(movie)
-            do {
-                try context.save()
-            } catch {
-                context.reset()
-                NSLog("Error saving managed object context: \(error)")
-            }
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
+         if editingStyle == .delete {
+             // Delete the row from the data source
+             let movie = fetchedResultsController.object(at: indexPath)
+             movieController.deleteMovieFromServer(movie: movie) { result in
+                 guard let _ = try? result.get() else {
+                     return
+                 }
+                 
+                 DispatchQueue.main.async {
+                     CoreDataStack.shared.mainContext.delete(movie)
+                     do {
+                         try CoreDataStack.shared.mainContext.save()
+                     } catch {
+                         CoreDataStack.shared.mainContext.reset()
+                         NSLog("Error saving managed object context: \(error)")
+                     }
+                 }
+             }
+         }
+     }
 }
+
 /*
  // MARK: - Navigation
  
@@ -96,8 +102,10 @@ class MyMoviesTableViewController: UITableViewController {
  */
 
 
+// MARK: - Extensions
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -145,4 +153,5 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
+
 

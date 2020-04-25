@@ -34,7 +34,6 @@ class MovieSearchTableViewCell: UITableViewCell {
        }
        
     
-    
     @IBAction func addMovie(_ sender: UIButton) {
         guard let title = movieTitleLabel.text
             else { return }

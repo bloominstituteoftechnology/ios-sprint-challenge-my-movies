@@ -70,36 +70,38 @@ class MovieController {
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
-    init() {
-        fetchMoviesFromServer()
-    }
+//    init() {
+//        fetchMoviesFromServer()
+//    }
     
      func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
-          let requestURL = firebaseURL.appendingPathExtension("json")
+           let requestURL = firebaseURL.appendingPathExtension("json") // Comeback in json format.  XML also common could be plain text or html, too.
+         
+         URLSession.shared.dataTask(with: requestURL) { data, response, error in
+             if let error = error {
+                 NSLog("Error fetching movies: \(error)")
+                 completion(.failure(.otherError))
+                 return
+             }
+             
+             guard let data = data else {
+                 NSLog("No data returned from fetch")
+                 completion(.failure(.noData))
+                 return
+             }
+             
+             // { = dictionary, [ = array
+             do {
+                 let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)  // converts a dictionary to an array
+                 try self.updateMovies(with: movieRepresentations)
 
-        URLSession.shared.dataTask(with: requestURL) { data, response, error in
-            if let error = error {
-                NSLog("Error fetching movies: \(error)")
-                completion(.failure(.otherError))
-                return
-            }
-
-            guard let data = data else {
-                NSLog("No data returned from fetch")
-                completion(.failure(.noData))
-                return
-            }
-
-            do {
-                let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)  // converts a dictionary to an array
-                try self.updateMovies(with: movieRepresentations)
-                completion(.success(true))
-            } catch {
-                NSLog("Error decoding tasks from server: \(error)")
-                completion(.failure(.noDecode))
-            }
-        }.resume()
-    }
+                 completion(.success(true))
+             } catch {
+                 NSLog("Error decoding movie from server: \(error)")
+                 completion(.failure(.noDecode))
+             }
+         }.resume()
+     }
     
     func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
             
@@ -131,7 +133,6 @@ class MovieController {
                 completion(.failure(.otherError))
                 return
             }
-            print("success")
             completion(.success(true))
         }.resume()
     }
@@ -151,7 +152,6 @@ class MovieController {
                 NSLog("error deleting task from server: \(error)")
                 completion(.failure(.otherError))
                 return
-
             }
 
             completion(.success(true))
@@ -159,10 +159,11 @@ class MovieController {
     }
 
     private func updateMovies(with representations: [MovieRepresentation]) throws {
-        
-        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier!)}
-
+        print("hit")
+        let identifiersToFetch = representations.compactMap {UUID(uuidString: $0.identifier!) }
+      print(identifiersToFetch)
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+  
         var moviesToCreate = representationsByID
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
@@ -172,7 +173,6 @@ class MovieController {
         context.perform {
             do {
                 let existingMovies = try context.fetch(fetchRequest)
-
                 for movie in existingMovies {
                     guard let id = movie.identifier,
                         let representation = representationsByID[id] else { continue }
@@ -195,5 +195,4 @@ class MovieController {
         movie.hasWatched  = representation.hasWatched ?? false
         
     }
-    
 }
