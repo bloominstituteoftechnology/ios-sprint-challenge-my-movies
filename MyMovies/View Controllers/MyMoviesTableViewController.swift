@@ -36,6 +36,14 @@ class MyMoviesTableViewController: UITableViewController {
 //        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+//    @IBAction func refresh(_ sender: UIRefreshControl) {
+//           movieController.fetchMoviesFromServer { _ in
+//               DispatchQueue.main.async {
+//                   self.refreshControl?.endRefreshing()
+//               }
+//           }
+//       }
+    
 //    override func didReceiveMemoryWarning() {
 //        super.didReceiveMemoryWarning()
 //        // Dispose of any resources that can be recreated.

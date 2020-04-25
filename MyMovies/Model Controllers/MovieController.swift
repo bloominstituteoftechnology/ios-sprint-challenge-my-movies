@@ -155,7 +155,7 @@ class MovieController {
         }.resume()
     }
     
-    private func updateMovies(with representations: [MovieRepresentation]) { // do I need to add "Throws" before the curly bracket?
+    private func updateMovies(with representations: [MovieRepresentation]) throws {
         let identifiersToFetch = representations.compactMap {  $0.identifier }
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         

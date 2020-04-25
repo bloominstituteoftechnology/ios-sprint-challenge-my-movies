@@ -10,17 +10,15 @@ import UIKit
 
 class MyMovieTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var hasWatchedButton: UIButton!
+    
     var movieController: MovieController?
     var movie: Movie? {
         didSet {
             updateViews()
         }
     }
-    
-    @IBOutlet weak var movieTitleLabel: UILabel!
-    @IBOutlet weak var hasWatchedButton: UIButton!
-
-   
     
     @IBAction func hasWatched(_ sender: UIButton) {
         guard let movie = movie else { return }
@@ -32,7 +30,7 @@ class MyMovieTableViewCell: UITableViewCell {
         } else {
             sender.setTitle("Unwatched", for: .normal)
         }
-
+        
         
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -47,5 +45,5 @@ class MyMovieTableViewCell: UITableViewCell {
         movieTitleLabel.text = movie.title
         hasWatchedButton.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
     }
-
+    
 }
