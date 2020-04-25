@@ -57,8 +57,14 @@ class MovieController {
         }.resume()
     }
 
-    func saveMovie() {
+    func saveMovies() {
+        let moc = CoreDataStack.shared.mainContext
         
+        do {
+            try moc.save()
+        } catch {
+           NSLog("error saving managed object context. \(error)")
+        }
     }
     
     func updateMovies() {

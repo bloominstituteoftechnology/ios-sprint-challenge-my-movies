@@ -7,16 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     
-    var movie: Movie? {
-        didSet {
-            updateViews()
-        }
-    }
+    var delegate: MovieSearchTableViewController?
+    var movieRep: MovieRepresentation?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,11 +26,12 @@ class MovieTableViewCell: UITableViewCell {
     
     
     @IBAction func addMovie(_ sender: Any) {
+        guard let movieRep = movieRep else { return }
         
+        let movie = Movie(movieRepresentation: movieRep)
+        delegate?.movieController.saveMovies()
     }
     
-    private func updateViews() {
-        titleLabel.text = movie?.title
-    }
+    
     
 }

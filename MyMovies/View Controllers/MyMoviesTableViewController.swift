@@ -7,11 +7,23 @@
 //
 
 import UIKit
+import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
 
     //MARK: - Properties -
+    let movieController = MovieController()
     
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasSeen", ascending: false),
+                                        NSSortDescriptor(key:"name", ascending: true)]
+        
+        
+    }
+    
+    
+    //MARK: - Life Cycles -
     override func viewDidLoad() {
         super.viewDidLoad()
 
