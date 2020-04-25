@@ -11,7 +11,7 @@
 		1504727A24533F3A001BC62A /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504727924533F3A001BC62A /* CoreDataStack.swift */; };
 		1504727C24533FE2001BC62A /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1504727B24533FE2001BC62A /* Movie+Convenience.swift */; };
 		157317C82453595E00BE2A6B /* MyMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157317C72453595E00BE2A6B /* MyMovieTableViewCell.swift */; };
-		157317C92453778000BE2A6B /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1504727324533840001BC62A /* Movie.xcdatamodeld */; };
+		157317C92453778000BE2A6B /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1504727324533840001BC62A /* MyMovies.xcdatamodeld */; };
 		46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E209E42126A63600E7FF73 /* AppDelegate.swift */; };
 		46E209EA2126A63600E7FF73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46E209E82126A63600E7FF73 /* Main.storyboard */; };
 		46E209EC2126A63700E7FF73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E209EB2126A63700E7FF73 /* Assets.xcassets */; };
@@ -63,7 +63,7 @@
 		1504727D24533FF0001BC62A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				1504727324533840001BC62A /* Movie.xcdatamodeld */,
+				1504727324533840001BC62A /* MyMovies.xcdatamodeld */,
 				1504727924533F3A001BC62A /* CoreDataStack.swift */,
 			);
 			path = CoreData;
@@ -216,7 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				157317C92453778000BE2A6B /* Movie.xcdatamodeld in Sources */,
+				157317C92453778000BE2A6B /* MyMovies.xcdatamodeld in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
@@ -425,13 +425,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		1504727324533840001BC62A /* Movie.xcdatamodeld */ = {
+		1504727324533840001BC62A /* MyMovies.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				1504727424533840001BC62A /* Movie.xcdatamodel */,
 			);
 			currentVersion = 1504727424533840001BC62A /* Movie.xcdatamodel */;
-			path = Movie.xcdatamodeld;
+			path = MyMovies.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

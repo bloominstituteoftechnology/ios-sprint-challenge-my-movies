@@ -10,6 +10,7 @@ import UIKit
 
 class MyMovieTableViewCell: UITableViewCell {
     
+    var movieController: MovieController?
     var movie: Movie? {
         didSet {
             updateViews()
@@ -31,8 +32,7 @@ class MyMovieTableViewCell: UITableViewCell {
         } else {
             sender.setTitle("Unwatched", for: .normal)
         }
-        
-//        sender.setTitle(movie.hasWatched ? "Watched" : "Unwatched", for: .normal)
+
         
         do {
             try CoreDataStack.shared.mainContext.save()

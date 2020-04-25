@@ -163,6 +163,8 @@ class MovieController {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
         let context = CoreDataStack.shared.container.newBackgroundContext()
         context.perform {
             do {
