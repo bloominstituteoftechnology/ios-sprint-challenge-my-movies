@@ -75,6 +75,7 @@ class MovieController {
     }
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        
            let requestURL = firebaseURL.appendingPathExtension("json")
 
            URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
@@ -101,47 +102,63 @@ class MovieController {
        }
     
     func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        guard let uuid = movie.identifier else {
-            return completion(.failure(.noIdentifier))
+        // Unwrapping
+        guard let identifier = movie.identifier,
+            let title = movie.title else {
+                return
         }
-        var request = handler(uuid: uuid, method: .put)
-
+        // Creating Representation
+        let movieRepresentation = MovieRepresentation(title: title, identifier: identifier, hasWatched: movie.hasWatched)
+        
+        // RequestURL
+        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
         do {
-            guard let representation = movie.movieRepresentation else {
-                return completion(.failure(.noRep))
-            }
-            request.httpBody = try JSONEncoder().encode(representation)
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
         } catch {
-            NSLog("Failed to encode movie \(movie) with error: \(error)")
-            return completion(.failure(.noEncode))
+            print("Error encoding in SendToServer: \(error)")
+            return
         }
-
-        URLSession.shared.dataTask(with: request) { _, _, error in
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                NSLog("Failed to send movie \(movie) to server with error: \(error)")
-                return completion(.failure(.otherError))
+                NSLog("Error sending task to server: \(error)")
+                return
             }
-
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Bad response when fetching")
+                return
+            }
             completion(.success(true))
-        }
-        .resume()
+        }.resume()
     }
     
     func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        guard let uuid = movie.identifier else {
-            return completion(.failure(.noIdentifier))
+        guard let identifier = movie.identifier else {
+            print("Bad id in function")
+            return
         }
-        let request = handler(uuid: uuid, method: .delete)
-
-        URLSession.shared.dataTask(with: request) { _, _, error in
+        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathComponent("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        print("Deleting from server")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
-                NSLog("Failed to delete movie \(movie) from server with error: \(error)")
-                return completion(.failure(.otherError))
+                print("Error deleting: \(error)")
+                return
             }
-
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Bad response when fetching")
+                return
+            }
             completion(.success(true))
-        }
-        .resume()
+        }.resume()
     }
     
     private func updateMovies(with representations: [MovieRepresentation]){
@@ -181,14 +198,6 @@ class MovieController {
         movie.title = representation.title
         movie.hasWatched = representation.hasWatched ?? false
     }
-    
-    private func handler(uuid: UUID, method: HTTPMethod) -> URLRequest {
-        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = method.rawValue
-        return request
-    }
-    
     
 }
 
