@@ -29,7 +29,7 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let firebaseURL = URL(string: "https://mymovies-19d0a.firebaseio.com/")!
+    private let firebaseURL = URL(string: "https://mymovies-ca1d6.firebaseio.com/")!
     
     init() {
         fetchMoviesFromServer()

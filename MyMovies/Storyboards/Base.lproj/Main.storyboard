@@ -46,34 +46,31 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="8iz-dd-Z2I">
-                                            <rect key="frame" x="16" y="7" width="382" height="30"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="UHS-l6-N0e">
+                                            <rect key="frame" x="20" y="7" width="374" height="30"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8xF-yD-XJr">
-                                                    <rect key="frame" x="0.0" y="0.0" width="293" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xkO-w5-mel">
+                                                    <rect key="frame" x="0.0" y="0.0" width="179" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GRn-Ek-xS0">
-                                                    <rect key="frame" x="309" y="0.0" width="73" height="30"/>
-                                                    <state key="normal" title="Add Movie"/>
-                                                    <connections>
-                                                        <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Izz-0x-Rmg"/>
-                                                    </connections>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gb4-4U-vJu">
+                                                    <rect key="frame" x="328" y="0.0" width="46" height="30"/>
+                                                    <state key="normal" title="Button"/>
                                                 </button>
                                             </subviews>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="8iz-dd-Z2I" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="9rl-gX-kN9"/>
-                                        <constraint firstItem="8iz-dd-Z2I" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="BPK-lT-3yl"/>
-                                        <constraint firstAttribute="trailing" secondItem="8iz-dd-Z2I" secondAttribute="trailing" constant="16" id="D5t-bv-Clu"/>
+                                        <constraint firstItem="UHS-l6-N0e" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="FNV-to-mTO"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="UHS-l6-N0e" secondAttribute="trailing" id="qvF-0w-goC"/>
+                                        <constraint firstItem="UHS-l6-N0e" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="vCP-jf-sm4"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="addMovieButton" destination="GRn-Ek-xS0" id="H4o-Db-4hx"/>
-                                    <outlet property="movieTitleLabel" destination="8xF-yD-XJr" id="Wry-Yc-muS"/>
+                                    <outlet property="addMovieButton" destination="gb4-4U-vJu" id="AIS-AN-SE6"/>
+                                    <outlet property="movieTitleLabel" destination="xkO-w5-mel" id="62S-Ph-c6K"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -131,8 +128,8 @@
                                     <constraint firstItem="O4P-Iq-3DJ" firstAttribute="centerY" secondItem="9cK-VO-zdo" secondAttribute="centerY" id="HIg-WH-g9w"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="lNa-ix-Lea"/>
-                                    <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="P2i-jP-Ex8"/>
+                                    <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="301-gL-JVL"/>
+                                    <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="HdV-7V-cWj"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
