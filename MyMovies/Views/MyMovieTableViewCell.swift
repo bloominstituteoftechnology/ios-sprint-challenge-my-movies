@@ -13,7 +13,7 @@ class MyMovieTableViewCell: UITableViewCell {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var hasWatchedButton: UIButton!
     
-    var movieController: MovieController?
+//    var movieController: MovieController?
     var movie: Movie? {
         didSet {
             updateViews()

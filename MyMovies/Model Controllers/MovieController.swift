@@ -172,9 +172,9 @@ class MovieController {
                 
                 for movie in existingMovies {
                     guard let id = movie.identifier,
-                        let representation = representationsByID[id] else { continue }
+                        let representation = representationsByID[id.uuidString] else { continue }
                     self.update(movie: movie, with: representation)
-                    moviesToCreate.removeValue(forKey: id)
+                    moviesToCreate.removeValue(forKey: id.uuidString)
                 }
                 for representation in moviesToCreate.values {
                     Movie(movieRepresentation: representation, context: context)

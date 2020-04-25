@@ -25,16 +25,12 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.reloadData()
-        
-        // Uncomment the following line to preserve selection between presentations
-//        self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//        self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+////        movieController.fetchMoviesFromServer()
+////        tableView.reloadData()
+//
+//    }
     
 //    @IBAction func refresh(_ sender: UIRefreshControl) {
 //           movieController.fetchMoviesFromServer { _ in
@@ -43,11 +39,6 @@ class MyMoviesTableViewController: UITableViewController {
 //               }
 //           }
 //       }
-    
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
     
     // MARK: - Table view data source
     
@@ -74,7 +65,7 @@ class MyMoviesTableViewController: UITableViewController {
         
         // Configure the cell...
         cell.movie = fetchedResultsController.object(at: indexPath)
-        cell.movieTitleLabel.text = movie?.title
+//        cell.movieTitleLabel.text = movie?.title
  
         return cell
     }
