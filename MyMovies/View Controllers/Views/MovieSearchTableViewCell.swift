@@ -43,7 +43,8 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
     
     func updateViews() {
-        movieTitleLabel.text = movie?.title
+        guard let movie = movie else { return }
+        movieTitleLabel.text = movie.title
     }
     
     

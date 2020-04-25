@@ -11,7 +11,6 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
-    
     let movieController = MovieController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
@@ -70,9 +69,6 @@ class MyMoviesTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    
-    
-    
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
