@@ -7,23 +7,39 @@
 //
 
 import UIKit
+import CoreData
 
 class MyMoviesTableViewCell: UITableViewCell {
-
+    //MARK: - Properties -
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var seenButton: UIButton!
     
-    var movie: Movie?
+    var movie: Movie? {
+        didSet{
+            updateViews()
+        }
+    }
+    var delegate: MyMoviesTableViewController?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-
+    
+    //MARK: - Actions -
     @IBAction func toggleSeen(_ sender: Any) {
-        
+        guard let movie = movie else { return }
+        movie.hasWatched = !movie.hasWatched
+        delegate?.movieController.saveMovies()
     }
     
+    
+    //MARK: - Methods -
+    private func updateViews() {
+        self.titleLabel.text = movie?.title
+        switch movie?.hasWatched {
+        case true:
+            self.seenButton.setTitle("Seen", for: .normal)
+        case false:
+            self.seenButton.setTitle("Not Yet Seen", for: .normal)
+        default:
+            self.seenButton.setTitle("Seen?", for: .normal)
+        }
+    }
 }

@@ -17,7 +17,7 @@ class MyMoviesTableViewController: UITableViewController {
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: false),
-                                        NSSortDescriptor(key:"name", ascending: true)]
+                                        NSSortDescriptor(key:"title", ascending: true)]
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
@@ -58,7 +58,7 @@ class MyMoviesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { fatalError("can't deque cell of type MyMovieCell") }
 
         cell.movie = fetchedResultsController.object(at: indexPath)
-        // Configure the cell...
+        cell.delegate = self
 
         return cell
     }
