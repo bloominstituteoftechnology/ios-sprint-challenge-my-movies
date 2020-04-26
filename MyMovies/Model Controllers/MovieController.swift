@@ -156,7 +156,7 @@ class MovieController {
     }
     
     private func updateMovies(with representations: [MovieRepresentation]) throws {
-        let identifiersToFetch = representations.compactMap {  $0.identifier }
+        let identifiersToFetch = representations.compactMap {  UUID(uuidString: $0.identifier ?? "") } ///////
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         
         var moviesToCreate = representationsByID
@@ -172,9 +172,9 @@ class MovieController {
                 
                 for movie in existingMovies {
                     guard let id = movie.identifier,
-                        let representation = representationsByID[id.uuidString] else { continue }
+                        let representation = representationsByID[id] else { continue }
                     self.update(movie: movie, with: representation)
-                    moviesToCreate.removeValue(forKey: id.uuidString)
+                    moviesToCreate.removeValue(forKey: id)
                 }
                 for representation in moviesToCreate.values {
                     Movie(movieRepresentation: representation, context: context)

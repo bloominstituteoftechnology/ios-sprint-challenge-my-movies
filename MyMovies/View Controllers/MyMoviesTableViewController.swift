@@ -25,12 +25,12 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-////        movieController.fetchMoviesFromServer()
-////        tableView.reloadData()
-//
-//    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+//        movieController.fetchMoviesFromServer()
+        tableView.reloadData()
+
+    }
     
 //    @IBAction func refresh(_ sender: UIRefreshControl) {
 //           movieController.fetchMoviesFromServer { _ in
