@@ -19,6 +19,7 @@
 		5E5ADEFE24533DEC00B558BF /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5ADEFD24533DEC00B558BF /* MovieTableViewCell.swift */; };
 		5E5ADF0124534BC800B558BF /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5ADF0024534BC800B558BF /* CoreDataStack.swift */; };
 		5E5ADF0324534C5B00B558BF /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5ADF0224534C5A00B558BF /* Movie+Convenience.swift */; };
+		5E5ADF362455092600B558BF /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5ADF352455092600B558BF /* MyMoviesTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		5E5ADEFD24533DEC00B558BF /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		5E5ADF0024534BC800B558BF /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		5E5ADF0224534C5A00B558BF /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		5E5ADF352455092600B558BF /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				5E5ADEFD24533DEC00B558BF /* MovieTableViewCell.swift */,
+				5E5ADF352455092600B558BF /* MyMoviesTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E5ADF362455092600B558BF /* MyMoviesTableViewCell.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				5E5ADEFE24533DEC00B558BF /* MovieTableViewCell.swift in Sources */,
