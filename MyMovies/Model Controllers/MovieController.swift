@@ -9,19 +9,38 @@
 import Foundation
 
 class MovieController {
+    //MARK: - Enums and Type Aliases -
+    enum NetworkError: Error {
+        case noTitle
+        case otherError
+        case noData
+        case noDecode
+        case noEncode
+        case noRep
+    }
+
+    enum HTTPMethod: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case delete = "DELETE"
+    }
     
-    // MARK: - Properties
+    typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
+    
+    // MARK: - Properties -
     var searchedMovies: [MovieRepresentation] = []
-    var myMovies: [Movie] = []
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string: "https://mymovies-c63cc.firebaseio.com/")!
     
     
     //MARK: - Actions -
-        
+    ///HTTP Actions are listed before local actions
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
-        
+
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
         let queryParameters = ["query": searchTerm,
                                "api_key": apiKey]
@@ -57,6 +76,35 @@ class MovieController {
         }.resume()
     }
 
+    func saveToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let title = movie.title
+            else {
+                completion(.failure(.noTitle))
+                return
+        }
+        
+        let requestURL = firebaseURL.appendingPathComponent(title).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            guard let representation = movie.movieRepresentation
+                else {
+                    completion(.failure(.noRep))
+                    return
+            }
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("error encoding movie representation to server. \(error) \(error.localizedDescription)")
+            completion(.failure(.noEncode))
+            return
+        }
+        
+        URLSession.
+        
+    }
+    
+    
     func saveMovies() {
         let moc = CoreDataStack.shared.mainContext
         
