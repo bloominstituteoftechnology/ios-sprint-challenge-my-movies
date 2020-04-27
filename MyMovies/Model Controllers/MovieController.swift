@@ -104,8 +104,8 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
+        let requestURL = myURL?.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: myURL!)
         request.httpMethod = "PUT"
         
         do {

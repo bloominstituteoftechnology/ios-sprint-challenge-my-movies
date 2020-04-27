@@ -14,11 +14,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     var movieController: MovieController?
-    var movie: MovieRepresentation? {
-        didSet {
-            updateViews()
-        }
-    }
+    var movie: MovieRepresentation?
     
     // MARK: - Outlets
     
@@ -28,7 +24,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        guard let movieTitle = movieTitleLabel.text,
+        guard let movieTitle = textLabel?.text,
             !movieTitle.isEmpty else { return }
         
         let movie = Movie(title: movieTitle)
@@ -41,11 +37,4 @@ class MovieSearchTableViewCell: UITableViewCell {
             NSLog("Error saving managed object context: \(error)")
         }
     }
-    
-    func updateViews() {
-        guard let movie = movie else { return }
-        movieTitleLabel.text = movie.title
-    }
-    
-    
 }
