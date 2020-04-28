@@ -18,6 +18,7 @@ class MyMovieTableViewCell: UITableViewCell {
         }
     }
     
+    
     // MARK: - Outlets
     
     @IBOutlet weak var movieTitleLabel: UILabel!

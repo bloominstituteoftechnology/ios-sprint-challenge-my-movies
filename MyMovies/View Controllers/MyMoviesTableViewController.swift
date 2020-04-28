@@ -25,7 +25,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.rowHeight = 55 
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,16 +57,21 @@ class MyMoviesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            guard let movie = fetchedResultsController.fetchedObjects?[indexPath.row] else { return }
-            let context = CoreDataStack.shared.mainContext
-            context.delete(movie)
-            do {
-                try context.save()
-            } catch {
-                context.reset()
-                NSLog("Error saving managed object context: \(error)")
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.deleteMovieFromServer(movie) { result in
+                guard let _ = try? result.get() else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    CoreDataStack.shared.mainContext.delete(movie)
+                    do {
+                        try CoreDataStack.shared.mainContext.save()
+                    } catch {
+                        CoreDataStack.shared.mainContext.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
             }
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 }

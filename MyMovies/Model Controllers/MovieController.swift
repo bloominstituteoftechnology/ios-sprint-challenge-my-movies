@@ -28,7 +28,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    let myURL = URL(string: "https://mymovie-84883.firebaseio.com/")
+    let myURL = URL(string: "https://mymovie-84883.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -73,7 +73,7 @@ class MovieController {
     // MARK: - Core Data 
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = myURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { data, response, error in
             if let error = error {
@@ -104,8 +104,8 @@ class MovieController {
             return
         }
         
-        let requestURL = myURL?.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-        var request = URLRequest(url: myURL!)
+        let requestURL = myURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: myURL)
         request.httpMethod = "PUT"
         
         do {
@@ -137,7 +137,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(identifer.uuidString).appendingPathExtension("json")
+        let requestURL = myURL.appendingPathComponent(identifer.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
