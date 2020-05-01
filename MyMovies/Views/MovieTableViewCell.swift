@@ -22,6 +22,7 @@ class MovieTableViewCell: UITableViewCell {
         guard let movieRep = movieRep else { return }
         
         let movie = Movie(movieRepresentation: movieRep)
+        delegate?.movieController.saveToServer(movie: movie!)
         delegate?.movieController.saveMovies()
     }
     

@@ -85,7 +85,7 @@ class MovieController {
         
         let requestURL = firebaseURL.appendingPathComponent(title).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
-        request.httpMethod = HTTPMethod.put.rawValue
+        request.httpMethod = HTTPMethod.post.rawValue
         
         do {
             guard let representation = movie.movieRepresentation
@@ -100,7 +100,14 @@ class MovieController {
             return
         }
         
-        URLSession.
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error - something went wrong posting your data to firebase \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+        }
         
     }
     
