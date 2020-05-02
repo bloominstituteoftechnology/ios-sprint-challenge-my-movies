@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreData
 
 struct MovieRepresentation: Equatable, Codable {
     let title: String
