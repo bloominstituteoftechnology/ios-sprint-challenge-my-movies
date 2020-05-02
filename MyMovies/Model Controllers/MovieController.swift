@@ -108,7 +108,7 @@ class MovieController {
     
     func updateMovies(with representations: [MovieRepresentation]) throws {
         
-        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier) }
+        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier ?? "") }
         
         let representationsByID = Dictionary(uniqueKeysWithValues:
             zip(identifiersToFetch, representations)
@@ -139,11 +139,12 @@ class MovieController {
                     guard
                         let id = movie.identifier,
                         let representation = representationsByID[id],
-                        let identifier = UUID(uuidString: representation.identifier) else { continue }
+                        let identifier = UUID(uuidString: representation.identifier ?? ""),
+                        let hasWatched = representation.hasWatched else { continue }
                     
                     movie.identifier = identifier
                     movie.title = representation.title
-                    movie.hasWatched = representation.hasWatched
+                    movie.hasWatched = hasWatched
                     
                     // if we updated the movie, already exists in Core Data, don't need to create it
                     moviesToCreate.removeValue(forKey: id)
