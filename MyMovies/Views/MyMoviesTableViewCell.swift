@@ -14,6 +14,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBOutlet weak var wasWatchedButton: UIButton!
     
     var movie: Movie?
+    var movieController: MovieController?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,6 +30,8 @@ class MyMoviesTableViewCell: UITableViewCell {
     @IBAction func wasWatchedButton(_ sender: Any) {
         movie?.hasWatched.toggle()
         updateViews()
+        
+//        movieController.update
         
         do {
             try CoreDataManager.shared.mainContext.save()
