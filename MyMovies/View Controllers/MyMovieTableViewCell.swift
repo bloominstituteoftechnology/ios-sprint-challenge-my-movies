@@ -13,6 +13,10 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: IBOutlets
     @IBOutlet var movieTitleLabel: UILabel!
     
+    //MARK: Properties
+    var movie: Movie?
+    var movieController: MovieFirebaseController?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
