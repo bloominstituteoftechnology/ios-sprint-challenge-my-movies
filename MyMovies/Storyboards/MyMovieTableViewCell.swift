@@ -11,7 +11,12 @@ import UIKit
 class MyMovieTableViewCell: UITableViewCell {
     
     // MARK: - Properties
-    var movie: Movie?
+    var movie: Movie? {
+        didSet{
+            updateViews()
+        }
+    }
+    
     var hasWatched = false
     var movieController: MovieController?
 
@@ -29,4 +34,9 @@ class MyMovieTableViewCell: UITableViewCell {
             hasWatchedButton.titleLabel?.text = "Not Watched"
         }
     }
+    
+    private func updateViews() {
+        titleLabel.text = movie?.title
+    }
+    
 }
