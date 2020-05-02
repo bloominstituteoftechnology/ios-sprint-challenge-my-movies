@@ -35,9 +35,9 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else { return UITableViewCell()}
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieLabel.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
@@ -50,22 +50,4 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    // MARK: - IBActions
-    
-    @IBAction func addMovieButtonTapped(_ sender: Any) {
-        guard let title = movie. else { return }
-        
-        let identifier = UUID()
-        
-        let hasWatched = false
-        
-        let movie = Movie(title: title, identifier: identifier, hasWatched: hasWatched, context: CoreDataStack.shared.mainContext)
-        movieController.sendMovieToServer(movie: movie, completion: { _ in })
-        do {
-            try CoreDataStack.shared.mainContext.save()
-            navigationController?.dismiss(animated: true, completion: nil)
-        } catch {
-            NSLog("Error saving Movie to persistent store: \(error)")
-        }
-    }
 }
