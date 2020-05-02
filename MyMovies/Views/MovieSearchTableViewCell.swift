@@ -14,6 +14,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var addMovieButton: UIButton!
     
     var movie: MovieRepresentation?
+    var movieController: MovieController?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,7 +32,7 @@ class MovieSearchTableViewCell: UITableViewCell {
 
         let movie = Movie(title: title)
         
-//        taskController?.sendTaskToServer(movie: movie) // TODO: send task to server
+        movieController?.sendMovieToServer(movie: movie)
         
         do {
             try CoreDataManager.shared.mainContext.save()
