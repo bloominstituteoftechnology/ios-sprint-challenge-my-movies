@@ -44,9 +44,8 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMovieCell
 
-        let movie = fetchedResultsController.object(at: indexPath)
-        cell.movieTitleLabel.text = movie.title
-
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        
         return cell
     }
     
