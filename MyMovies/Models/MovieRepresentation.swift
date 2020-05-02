@@ -9,6 +9,7 @@
 import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
+    
     let title: String
     
     /*
