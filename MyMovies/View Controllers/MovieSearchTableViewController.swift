@@ -9,11 +9,23 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    var movie: Movie?
+    let movieController = MovieController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
+    
+    }
+    
+    // MARK: - IBActions
+    @IBAction func refresh(_ sender: Any) {
+            movieController.fetchMoviesFromServer { (_)  in
+            
+                self.refreshControl?.endRefreshing()
+            }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -41,7 +53,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         return cell
     }
     
-    var movieController = MovieController()
-    
+    // MARK: = IBOutlets
     @IBOutlet weak var searchBar: UISearchBar!
 }
+
