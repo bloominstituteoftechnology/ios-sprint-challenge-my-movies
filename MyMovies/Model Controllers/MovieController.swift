@@ -106,9 +106,8 @@ class MovieController {
                 completion(.failure(.otherError))
                 return
             }
-            
-        }
-        
+            return completion(.success(true))
+        }.resume()
     }
     
     
