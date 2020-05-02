@@ -9,6 +9,10 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
+    
+    private var addButton: UIButton = UIButton()
+    private let buttonTextColor = UIColor.blue
+    private let buttonBgColor = UIColor.blue
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +38,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? SearchTableViewCell else { return UITableViewCell()}
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.movieRepresentation = movieController.searchedMovies[indexPath.row]
+        
+//        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        
         
         return cell
     }
