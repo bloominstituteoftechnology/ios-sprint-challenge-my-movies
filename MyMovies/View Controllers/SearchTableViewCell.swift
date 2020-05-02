@@ -8,15 +8,20 @@
 
 import UIKit
 
+protocol MovieAddedDelegate {
+    func movieWasAdded(movie: MovieRepresentation)
+}
+
 class SearchTableViewCell: UITableViewCell {
     
     // MARK: - Properties
-    var movieController: MovieController?
-    var movie: Movie? {
+    var movieController = MovieController()
+    var movieRepresentation: MovieRepresentation? {
         didSet {
             updateViews()
         }
     }
+    var delegate: MovieAddedDelegate?
     
     // MARK: - Outlets
     @IBOutlet weak var addMovieLabel: UIButton!
@@ -24,13 +29,14 @@ class SearchTableViewCell: UITableViewCell {
     
     // MARK: - Actions
     @IBAction func addButtonTapped(_ sender: UIButton) {
-        guard let movieTitle = titleLabel.text,
-            movieTitle.isEmpty else { return }
-        movieController?.addMovie(title: movieTitle, identifier: UUID(), hasWatched: false)
+        guard let movieRep = movieRepresentation else { return}
+        movieController.addMovie(title: movieRep.title)
+        print("\(movieRep.title)")
+        
     }
 
     func updateViews() {
-        guard let movie = movie else { return }
+        guard let movie = movieRepresentation else { return }
         titleLabel.text = movie.title
         
     }

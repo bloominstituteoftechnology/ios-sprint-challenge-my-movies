@@ -23,7 +23,7 @@ extension Movie {
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
                 
-        guard let identifier = UUID(uuidString: movieRepresentation.identifier.uuidString),
+        guard let identifier = UUID(uuidString: movieRepresentation.identifier!.uuidString),
             let hasWatched = movieRepresentation.hasWatched else {
                 return nil
         }

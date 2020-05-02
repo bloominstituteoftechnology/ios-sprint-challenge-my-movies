@@ -20,6 +20,10 @@ enum NetworkError: Error {
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
@@ -66,26 +70,26 @@ class MovieController {
     let moc = CoreDataStack.shared.mainContext
     
     // Core data
-    var firebaseURL = URL(string: "https://my-movies-2e66b.firebaseio.com/")
+    var firebaseURL = URL(string: "https://my-movies-2e66b.firebaseio.com/")!
     
     // Send movies to server
     func putMoviesToServer(movie: Movie, completion: @escaping CompletionHandler = {_ in}) {
-        guard let identifier = movie.identifier else {
-            completion(.failure(.noIdentifier))
-            return
-        }
-        let requestURL = baseURL
+         let identifier = movie.identifier ?? UUID()
+                movie.identifier = identifier
+
+        let requestURL = firebaseURL
             .appendingPathComponent(identifier.uuidString)
             .appendingPathExtension("json")
-        
+               
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
-
         do {
             guard let movieRepresentation = movie.movieRepresentation else {
                 completion(.failure(.noRep))
                 return
             }
+            movie.identifier = identifier
+            try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(movieRepresentation)
         } catch {
             NSLog("Error encoding movie \(movie): \(error)")
@@ -106,44 +110,51 @@ class MovieController {
         }.resume()
     }
     
-//    // Get movies from server
-//    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
-//
-//        let requestURL = baseURL.appendingPathExtension("json")
-//
-//        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-//
-//            if let error = error {
-//                NSLog("Error fetching tasks: \(error)")
-//                DispatchQueue.main.async {
-//                    completion(.failure(.otherError))
-//                }
-//                return
-//            }
-//
-//            guard let data = data else {
-//                NSLog("Error: No data returned from data task")
-//                DispatchQueue.main.async {
-//                    completion(.failure(.noData))
-//                }
-//                return
-//            }
-//            do {
-//                let movieRepresentation = try JSONDecoder().decode( MovieRepresentation.self, from: data).results
-//                self.updateMovies(with: movieRepresentation)
-//                DispatchQueue.main.async {
-//                    completion(.success(true))
-//                }
-//            } catch {
-//                NSLog("Error decoding movie representations: \(error)")
-//                DispatchQueue.main.async {
-//                    completion(.failure(.noDecode))
-//                }
-//            }
-//        }.resume()
-//    }
+    // Get movies from server
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = firebaseURL
+            .appendingPathExtension("json")
+               
+        var request = URLRequest(url: requestURL)
+//        request.httpMethod = "GET"
+
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+
+            guard let data = data else {
+                NSLog("Error: No data returned from data task")
+                DispatchQueue.main.async {
+                    completion(.failure(.noData))
+                }
+                return
+            }
+            
+//            var movieRepresentation: [MovieRepresentation] = []
+            do {
+                let movieRepresentations = Array(try JSONDecoder().decode([String: MovieRepresentation].self, from: data).values)
+//                movieRepresentation = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({ $0.value })
+                print("movieRepresentation = \(movieRepresentations)")
+                try self.updateMovies(with: movieRepresentations)
+                DispatchQueue.main.async {
+                    completion(.success(true))
+                }
+            } catch {
+                NSLog("Error decoding movie representations: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.noDecode))
+                }
+            }
+        }.resume()
+    }
     
-    func updateMovies(with representations: [MovieRepresentation]) throws {
+    private func updateMovies(with representations: [MovieRepresentation]) throws {
         
         let moviesByID = representations.filter { $0.identifier != nil}
         let identifiersToFetch = moviesByID.compactMap { $0.identifier }
@@ -211,7 +222,7 @@ class MovieController {
             completion(.failure(.noIdentifier))
             return
         }
-        let requestURL = baseURL
+        let requestURL = firebaseURL
             .appendingPathComponent(identifier.uuidString)
             .appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
@@ -233,12 +244,11 @@ class MovieController {
             DispatchQueue.main.async {
                 completion(.success(true))
             }
-        }
+        }.resume()
     }
     
-    func addMovie(title: String, identifier: UUID, hasWatched: Bool, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        let newMovie = Movie(identifier: identifier, title: title, hasWatched: hasWatched, context: context)
-        context.insert(newMovie)
+    func addMovie(title: String) {
+        let newMovie = Movie(title: title)
         putMoviesToServer(movie: newMovie)
         do {
             try CoreDataStack.shared.save()
@@ -249,6 +259,7 @@ class MovieController {
     
     func deleteMovie(movie: Movie, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         context.delete(movie)
+        deleteMoviesFromServer(movie)
         do {
             try CoreDataStack.shared.save()
         } catch {

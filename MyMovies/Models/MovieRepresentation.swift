@@ -16,7 +16,7 @@ struct MovieRepresentation: Equatable, Codable {
      In order make the MovieRepresentation struct decode properly when fetching from the API, their types should stay optional.
      */
     
-    var identifier: UUID
+    var identifier: UUID?
     var hasWatched: Bool?
 }
 

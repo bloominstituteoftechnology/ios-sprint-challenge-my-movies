@@ -37,21 +37,21 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return fetchedResultsController.sections?.count ?? 1
+        return fetchedResultsController.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 1
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Not Watched"
-        } else if section == 1 {
+        
+        if fetchedResultsController.sections?[section].name == "0" {
+            return "Unwatched"
+        } else {
             return "Watched"
         }
-        return nil
     }
 
     

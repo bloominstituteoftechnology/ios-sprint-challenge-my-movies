@@ -24,13 +24,8 @@ class MovieTableViewCell: UITableViewCell {
     // MARK: - Actions
     @IBAction func toggleWatched(_ sender: UIButton) {
         movie?.hasWatched.toggle()
-        guard let movie = movie else { return }
-        
-        if movie.hasWatched == false {
-            watchedButton.setTitle("Unwatched", for: .normal)
-        } else {
-            watchedButton.setTitle("Watched", for: .normal)
-        }
+        guard let updatedMovie = movie else { return }
+        movieController?.putMoviesToServer(movie: updatedMovie)
         updateViews()
     }
 
@@ -38,6 +33,11 @@ class MovieTableViewCell: UITableViewCell {
         guard let movie = movie else { return }
         titleLabel.text = movie.title
         
+        if movie.hasWatched == false {
+            watchedButton.setTitle("Unwatched", for: .normal)
+        } else {
+            watchedButton.setTitle("Watched", for: .normal)
+        }
         
     }
     
