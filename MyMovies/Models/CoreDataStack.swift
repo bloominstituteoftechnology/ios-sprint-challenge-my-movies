@@ -24,10 +24,18 @@ class CoreDataStack {
         return container
     }()
     
-    // Makes the access to the context faster
-    //remind you to use the context on the main queue
-    
     var mainContext: NSManagedObjectContext {
         return container.viewContext
+    }
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        var error: Error?
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        if let error = error { throw error }
     }
 }
