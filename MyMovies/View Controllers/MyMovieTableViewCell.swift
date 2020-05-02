@@ -10,6 +10,8 @@ import UIKit
 
 class MyMovieTableViewCell: UITableViewCell {
     
+    var movieController = MovieController()
+    
     static let reuseIdentifier = "MyMovieCell"
     var movie: Movie? {
          didSet {
@@ -25,7 +27,10 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: - IBActions
     
     @IBAction func toggleHasWatched(_ sender: Any) {
-        movie?.hasWatched.toggle()
+        
+        guard let movie = movie else { return }
+        movie.hasWatched.toggle()
+        movieController.sendMovieToServer(movie: movie, completion: { _ in })
         
         do {
                try CoreDataStack.shared.mainContext.save()

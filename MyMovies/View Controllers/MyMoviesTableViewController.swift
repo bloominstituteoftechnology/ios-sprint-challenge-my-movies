@@ -38,6 +38,11 @@ class MyMoviesTableViewController: UITableViewController {
         movieController.fetchMovieFromServer()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        movieController.fetchMovieFromServer()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
