@@ -18,9 +18,10 @@ class MyMoviesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true),
+                                        NSSortDescriptor(key: "hasWatched", ascending: true)]
         let context = CoreDataManager.shared.mainContext
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         fetchedResultsController.delegate = self
         try! fetchedResultsController.performFetch()
         return fetchedResultsController
@@ -40,7 +41,15 @@ class MyMoviesTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        fetchedResultsController.fetchedObjects?.count ?? 0
+        fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        fetchedResultsController.sections?.count ?? 1
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ? "Watched" : "Not Watched"
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
