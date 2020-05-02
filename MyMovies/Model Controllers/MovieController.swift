@@ -7,6 +7,16 @@
 //
 
 import Foundation
+import CoreData
+
+enum NetworkError: Error {
+    case noIdentifier
+    case otherError
+    case noData
+    case noDecode
+    case noEncode
+    case noRep
+}
 
 class MovieController {
     
@@ -55,4 +65,132 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
+    
+    
+    // MARK: - Firebase
+    
+    private let firebaseBaseURL = URL(string: "http://mymovies-57e9e.firebaseio.com/")!
+    
+    init() {
+        fetchMoviesFromServer()
+    }
+    
+    typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
+    
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, response, error in
+            if let error = error {
+                NSLog("Error fetching movies: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from fetch")
+                completion(.failure(.noData))
+                return
+            }
+            
+            do {
+                let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                try self.updateMovies(with: movieRepresentations)
+                completion(.success(true))
+            } catch {
+                NSLog("Error decoding tasks from server: \(error)")
+                completion(.failure(.noDecode))
+            }
+        }.resume()
+    }
+    
+    func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard let representation = movie.movieRepresentation else {
+                completion(.failure(.noRep))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error encoding movie \(movie): \(error)")
+            completion(.failure(.noEncode))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error sending movie to server: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            completion(.success(true))
+        }.resume()
+    }
+    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error deleting movie from server: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            completion(.success(true))
+        }.resume()
+    }
+    
+    private func updateMovies(with representations: [MovieRepresentation]) throws {
+        let identifiersToFetch = representations.compactMap { $0.identifier }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        var moviesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataManager.shared.mainContext
+        
+        do {
+            let existingMovies = try context.fetch(fetchRequest)
+            
+            for movie in existingMovies {
+                guard let id = movie.identifier,
+                    let representation = representationsByID[id] else { continue }
+                self.update(movie: movie, with: representation)
+                moviesToCreate.removeValue(forKey: id)
+            }
+            
+            for representation in moviesToCreate.values {
+                Movie(movieRepresentation: representation)
+            }
+        } catch {
+            NSLog("Error fetching movies with UUIDs: \(identifiersToFetch), with error: \(error)")
+        }
+        
+        try CoreDataManager.shared.mainContext.save()
+    }
+    
+    private func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.hasWatched = representation.hasWatched ?? false
+    }
+    
 }
