@@ -14,6 +14,8 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet var movieTitleLabel: UILabel!
     @IBOutlet var addMovieButton: UIButton!
     
+    // MARK: - Properties
+    var movieController = MovieFirebaseController()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,6 +30,20 @@ class MovieTableViewCell: UITableViewCell {
     
     // MARK: - IBActions
     @IBAction func addMovieButtonPressed(_ sender: Any) {
+        
+        guard let title = movieTitleLabel.text, !title.isEmpty else { return }
+
+        let movie = Movie(title: title)
+        //Save the movie in firebase and persistence
+        movieController.addMovie(movie: movie)
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            DispatchQueue.main.async {
+                self.addMovieButton.isEnabled = false
+            }
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
         
     }
     
