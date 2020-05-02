@@ -9,25 +9,30 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
     var movieController: MovieController?
     var movie: Movie? {
         didSet {
-            
+            updateViews()
         }
     }
     
+    // MARK: - Outlets
     @IBOutlet weak var addMovieLabel: UIButton!
     @IBOutlet var titleLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    // MARK: - Actions
+    @IBAction func addButtonTapped(_ sender: UIButton) {
+        guard let movieTitle = titleLabel.text,
+            movieTitle.isEmpty else { return }
+        movieController?.addMovie(title: movieTitle, identifier: UUID(), hasWatched: false)
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func updateViews() {
+        guard let movie = movie else { return }
+        titleLabel.text = movie.title
+        
     }
 
 }
