@@ -10,11 +10,28 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    @IBOutlet weak var movieTitle: UILabel!
+    var movieController = MovieController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
+    
+    @IBAction func AddMovieTapped(_ sender: UIButton) {
+        guard let title = movieTitle.text else { return }
+
+        let movie = Movie(title: title)
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            movieController.sendMovieToServer(movie: movie)
+        } catch {
+            NSLog("Failed to save coredata context: \(error)")
+            return
+        }
+    }
+    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
@@ -40,8 +57,6 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         return cell
     }
-    
-    var movieController = MovieController()
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
