@@ -11,7 +11,7 @@ import UIKit
 class MovieTableViewCell: UITableViewCell {
 
     // MARK: - IBOutlets
-    @IBOutlet var movieTitleLabel: UIView!
+    @IBOutlet var movieTitleLabel: UILabel!
     @IBOutlet var addMovieButton: UIButton!
     
     
