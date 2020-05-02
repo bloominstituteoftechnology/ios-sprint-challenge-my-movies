@@ -8,6 +8,8 @@
 
 import Foundation
 
+//Initial Commit
+
 struct MovieRepresentation: Equatable, Codable {
     let title: String
     
