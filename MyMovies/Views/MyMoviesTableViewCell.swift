@@ -28,10 +28,12 @@ class MyMoviesTableViewCell: UITableViewCell {
     }
     
     @IBAction func wasWatchedButton(_ sender: Any) {
-        movie?.hasWatched.toggle()
-        updateViews()
+        guard let movie = movie else { return }
         
-//        movieController.update
+        movie.hasWatched.toggle()
+        
+        movieController?.deleteMovieFromServer(movie: movie)
+        movieController?.sendMovieToServer(movie: movie)
         
         do {
             try CoreDataManager.shared.mainContext.save()
@@ -39,6 +41,8 @@ class MyMoviesTableViewCell: UITableViewCell {
             NSLog("Error saving managed object context: \(error)")
             return
         }
+        
+        updateViews()
     }
     
     private func updateViews() {
