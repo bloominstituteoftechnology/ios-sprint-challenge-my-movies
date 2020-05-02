@@ -47,7 +47,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lav-IB-30W">
-                                            <rect key="frame" x="282" y="0.0" width="73" height="45"/>
+                                            <rect key="frame" x="282" y="10" width="73" height="25"/>
                                             <state key="normal" title="Add Movie"/>
                                             <connections>
                                                 <action selector="addMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="G0j-AU-2Xm"/>
@@ -55,8 +55,8 @@
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="lav-IB-30W" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" id="4s8-wR-0Xd"/>
-                                        <constraint firstAttribute="bottom" secondItem="lav-IB-30W" secondAttribute="bottom" id="6n4-2m-UlV"/>
+                                        <constraint firstItem="lav-IB-30W" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="10" id="4s8-wR-0Xd"/>
+                                        <constraint firstAttribute="bottom" secondItem="lav-IB-30W" secondAttribute="bottom" constant="10" id="6n4-2m-UlV"/>
                                         <constraint firstAttribute="trailing" secondItem="lav-IB-30W" secondAttribute="trailing" constant="20" id="r1a-58-HCc"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -98,18 +98,18 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="255" translatesAutoresizingMaskIntoConstraints="NO" id="bFO-1L-b7a">
-                                            <rect key="frame" x="16" y="17" width="343" height="30"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="200" translatesAutoresizingMaskIntoConstraints="NO" id="bFO-1L-b7a">
+                                            <rect key="frame" x="20" y="10" width="335" height="35"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pQ-Gk-3ou">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
+                                                <label verifyAmbiguity="ignoreSizes" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pQ-Gk-3ou">
+                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="35"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a46-3q-H8C">
-                                                    <rect key="frame" x="297" y="0.0" width="46" height="30"/>
-                                                    <state key="normal" title="Button"/>
+                                                    <rect key="frame" x="245" y="0.0" width="90" height="35"/>
+                                                    <state key="normal" title="Not Watched"/>
                                                     <connections>
                                                         <action selector="hasWatchedButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="E0n-Bj-Id7"/>
                                                         <action selector="hasWatchedButtonTapped:" destination="1Gb-tL-YFt" eventType="touchUpInside" id="HOY-fj-jV9"/>
@@ -118,6 +118,12 @@
                                             </subviews>
                                         </stackView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="bFO-1L-b7a" secondAttribute="trailing" constant="20" id="mfe-4r-Qgi"/>
+                                        <constraint firstItem="bFO-1L-b7a" firstAttribute="top" secondItem="F0q-Pd-Woa" secondAttribute="top" constant="10" id="xeD-Q9-zad"/>
+                                        <constraint firstItem="bFO-1L-b7a" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leading" constant="20" id="yqp-Zy-cWA"/>
+                                        <constraint firstAttribute="bottom" secondItem="bFO-1L-b7a" secondAttribute="bottom" constant="10" id="yrO-xm-xF3"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="hasWatchedButton" destination="a46-3q-H8C" id="kuf-f5-F62"/>

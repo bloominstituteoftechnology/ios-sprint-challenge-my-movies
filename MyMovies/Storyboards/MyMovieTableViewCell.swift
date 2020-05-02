@@ -26,17 +26,10 @@ class MyMovieTableViewCell: UITableViewCell {
     
     // MARK: - IBActions
     @IBAction func hasWatchedButtonTapped(_ sender: Any) {
-        hasWatched.toggle()
-        
-        if hasWatched == true {
-            hasWatchedButton.titleLabel?.text = "Watched"
-        } else {
-            hasWatchedButton.titleLabel?.text = "Not Watched"
-        }
+        hasWatchedButton.setTitle("Watched", for: .normal)
     }
     
     private func updateViews() {
         titleLabel.text = movie?.title
     }
-    
 }
