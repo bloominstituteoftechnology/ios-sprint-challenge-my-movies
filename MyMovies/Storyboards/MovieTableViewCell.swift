@@ -9,18 +9,24 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-    
+
+    // MARK: - Properties
     var movie: Movie?
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var movieController: MovieController?
+    
+    @IBAction func addMovieButtonTapped(_ sender: Any) {
+        
+        guard let title = self.textLabel?.text else { return }
+        
+        let movie = Movie(title: title,
+                          identifier: UUID(),
+                          hasWatched: false)
+        movieController?.put(movie: movie, completion: { _ in })
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

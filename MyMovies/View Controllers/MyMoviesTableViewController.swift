@@ -13,8 +13,7 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - Properties
-    
-    let movieController = MovieController()
+    var movieController: MovieController?
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -35,11 +34,10 @@ class MyMoviesTableViewController: UITableViewController {
     }()
     
     // MARK: - IBActions
-    @IBAction func refresh(_ sender: Any) {
-        movieController.fetchMoviesFromServer { (_) } in
+    @IBAction func hasWatchedButtonTapped(_ sender: Any) {
         
-        self.refreshControl?.endRefreshing()
     }
+    
     
     
 
@@ -66,8 +64,8 @@ class MyMoviesTableViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MovieTableViewCell else {
-            fatalError("Can't dequeue cell of type MyMovieCell")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieTableViewCell else {
+            fatalError("Unable to dequeue cell.")
         }
 
         cell.movie = fetchedResultsController.object(at: indexPath)
@@ -84,6 +82,8 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let movie = fetchedResultsController.object(at: indexPath)
+            
+            guard let movieController = movieController else { return }
             
             movieController.deleteMovieFromServer(movie)
             
