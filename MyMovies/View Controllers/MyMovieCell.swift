@@ -1,5 +1,5 @@
 //
-//  MyMoviesCell.swift
+//  MyMovieCell.swift
 //  MyMovies
 //
 //  Created by Chad Parker on 5/1/20.
@@ -8,17 +8,21 @@
 
 import UIKit
 
-class MyMoviesCell: UITableViewCell {
-
+class MyMovieCell: UITableViewCell {
+    
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var hasWatchedButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 
+    @IBAction func toggleHasWatched(_ sender: Any) {
+        
+    }
 }

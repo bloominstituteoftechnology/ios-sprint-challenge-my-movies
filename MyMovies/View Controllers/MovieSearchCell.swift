@@ -11,6 +11,7 @@ import UIKit
 class MovieSearchCell: UITableViewCell {
 
     @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
