@@ -24,6 +24,10 @@ class MovieController {
     
     let baseURL = URL(string: "https://lambda-mymovies.firebaseio.com/")!
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     func put(movie: Movie, completion: @escaping CompletionHandler) {
         // Check to make sure an id exists, otherwise we can't PUT the Movie to a unique place in Firebase
         guard let identifier = movie.identifier else {
