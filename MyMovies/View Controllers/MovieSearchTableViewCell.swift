@@ -12,7 +12,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
-    var movieController: MovieController?
+    var movieController = MovieController()
     
     // MARK: - IBOutlets
     
@@ -24,7 +24,7 @@ class MovieSearchTableViewCell: UITableViewCell {
         guard let title = movieLabel.text else { return }
         
         let movie = Movie(title: title, context: CoreDataStack.shared.mainContext)
-        movieController?.sendMovieToServer(movie: movie, completion: { _ in })
+        movieController.sendMovieToServer(movie: movie, completion: { _ in })
         do {
             try CoreDataStack.shared.mainContext.save()
                     } catch {
