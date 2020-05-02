@@ -78,7 +78,7 @@ class MovieController {
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
-        let requestURL = baseURL.appendingPathExtension("json")
+        let requestURL = firebaseBaseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { data, response, error in
             if let error = error {
@@ -110,7 +110,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -143,7 +143,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = firebaseBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
