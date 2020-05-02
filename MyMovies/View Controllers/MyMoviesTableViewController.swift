@@ -44,6 +44,13 @@ class MyMoviesTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyMovieTableViewCell.reuseIdentifier, for: indexPath) as? MyMovieTableViewCell else { return UITableViewCell()}
+        
+          cell.movie = fetchedResultsController.object(at: indexPath)
+              return cell
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
@@ -72,11 +79,8 @@ class MyMoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else {
-            return nil
-        }
-        
-        return sectionInfo.name
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+            return sectionInfo.name.capitalized
     }
 }
 
