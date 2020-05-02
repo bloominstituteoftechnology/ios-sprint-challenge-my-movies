@@ -9,7 +9,7 @@
 import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var addMovieButton: UIButton!
     
@@ -18,7 +18,7 @@ class MovieSearchTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
@@ -26,7 +26,21 @@ class MovieSearchTableViewCell: UITableViewCell {
     }
     
     @IBAction func addMovieButtonTapped(_ sender: Any) {
-        // TODO: add movie to myMoviesTVC
+        guard let title = movieTitleLabel.text,
+            !title.isEmpty else { return }
+
+        let movie = Movie(title: title)
+        
+//        taskController?.sendTaskToServer(movie: movie) // TODO: send task to server
+        
+        do {
+            try CoreDataManager.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+            return
+        }
+        
+        addMovieButton.setTitle("Added!", for: .normal)
     }
     
     private func updateViews() {
@@ -34,5 +48,5 @@ class MovieSearchTableViewCell: UITableViewCell {
         
         movieTitleLabel.text = movie.title
     }
-
+    
 }
