@@ -26,6 +26,12 @@ class MyMovieTableViewCell: UITableViewCell {
     
     @IBAction func toggleHasWatched(_ sender: Any) {
         movie?.hasWatched.toggle()
+        
+        do {
+               try CoreDataStack.shared.mainContext.save()
+           } catch {
+               NSLog("Error saving managed object context: \(error)")
+           }
     }
     
     override func awakeFromNib() {
