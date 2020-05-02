@@ -11,6 +11,33 @@ import CoreData
 
 extension Movie {
     
+    //    var movieRepresentation: MovieRepresentation? {
+    //        // TODO: unwrapping
+    //
+    //    return MovieRepresentation(title: <#T##String#>,
+    //                               identifier: <#T##UUID?#>,
+    //                               hasWatched: <#T##Bool?#>)
+    //    }
     
+    @discardableResult convenience init(title: String,
+                                        identifier: UUID = UUID(),
+                                        hasWatched: Bool = false,
+                                        context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+        self.init(context: context)
+        self.title = title
+        self.identifier = identifier
+        self.hasWatched = hasWatched
+    }
     
+//    // converts JSON to CoreData
+//    @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
+//                                         context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+//        // TODO: unwrapping
+//    }
+//
+//    self.init(title: movieRepresentation.title,
+//              identifier: movieRepresentation.identifier,
+//              hasWatched: movieRepresentation.hasWatched)
+//}
+
 }
