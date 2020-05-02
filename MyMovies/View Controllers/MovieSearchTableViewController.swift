@@ -10,13 +10,41 @@ import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    //MARK: - Properties -
+
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    var movieController = MovieController()
+    
+    
+    //MARK: - Life Cycles -
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    
+    //MARK: - Table View Data Source -
+    
+        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return movieController.searchedMovies.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieTableViewCell
+        
+        cell?.titleLabel.text = movieController.searchedMovies[indexPath.row].title
+        cell?.movieRep = movieController.searchedMovies[indexPath.row]
+        cell?.delegate = self
+        
+        return cell ?? UITableViewCell()
+    }
+    
+    //MARK: - Actions -
+    
+        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
         movieController.searchForMovie(with: searchTerm) { (error) in
@@ -29,19 +57,5 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieController.searchedMovies.count
-    }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
-        
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
-        
-        return cell
-    }
-    
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
 }
