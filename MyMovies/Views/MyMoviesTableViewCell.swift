@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol WasWatchedButtonWasPressedDelegate {
+    func reloadTableView()
+}
+
 class MyMoviesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -15,6 +19,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     
     var movie: Movie?
     var movieController: MovieController?
+    var wasWatchedButtonDelegate: WasWatchedButtonWasPressedDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,9 +36,12 @@ class MyMoviesTableViewCell: UITableViewCell {
         guard let movie = movie else { return }
         
         movie.hasWatched.toggle()
-        
+    
+        let updatedMovie = movie
+            
+        movieController?.sendMovieToServer(movie: updatedMovie)
         movieController?.deleteMovieFromServer(movie: movie)
-        movieController?.sendMovieToServer(movie: movie)
+
         
         do {
             try CoreDataManager.shared.mainContext.save()
@@ -41,8 +49,12 @@ class MyMoviesTableViewCell: UITableViewCell {
             NSLog("Error saving managed object context: \(error)")
             return
         }
-        
+                
         updateViews()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.wasWatchedButtonDelegate?.reloadTableView()
+        }
     }
     
     private func updateViews() {

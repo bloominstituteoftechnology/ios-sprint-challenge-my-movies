@@ -57,6 +57,7 @@ class MyMoviesTableViewController: UITableViewController {
         // Configure the cell...
         cell.movie = fetchedResultsController.object(at: indexPath)
         cell.movieController = movieController
+        cell.wasWatchedButtonDelegate = self
         return cell
     }
     
@@ -76,6 +77,13 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
     
+}
+
+// MARK: - wasWatchedButtonDelegate
+extension MyMoviesTableViewController: WasWatchedButtonWasPressedDelegate {
+    func reloadTableView() {
+        tableView.reloadData()
+    }
 }
 
 // MARK: - FetchedResultsControllerImplementation
