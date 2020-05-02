@@ -25,7 +25,7 @@ class MyMovieTableViewCell: UITableViewCell {
     // MARK: - IBActions
     
     @IBAction func toggleHasWatched(_ sender: Any) {
-        
+        movie?.hasWatched.toggle()
     }
     
     override func awakeFromNib() {
