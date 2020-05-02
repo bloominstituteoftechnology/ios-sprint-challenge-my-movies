@@ -9,6 +9,7 @@
 import Foundation
 
 struct MovieRepresentation: Equatable, Codable {
+    
     let title: String
     
     /*
@@ -16,7 +17,7 @@ struct MovieRepresentation: Equatable, Codable {
      In order make the MovieRepresentation struct decode properly when fetching from the API, their types should stay optional.
      */
     
-    let identifier: UUID?
+    let identifier: String?
     let hasWatched: Bool?
 }
 
