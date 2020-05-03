@@ -45,3 +45,12 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     
     @IBOutlet weak var searchBar: UISearchBar!
 }
+
+extension MovieSearchTableViewController: MovieSearchTableViewCellDelegate {
+    func saveMovieToMyMovies(for cell: MovieSearchTableViewCell) {
+        guard let title = cell.movieSearchTitle.text else { return }
+        self.movieController.createMovie(withTitle: title)
+    }
+}
+        
+
