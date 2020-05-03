@@ -98,6 +98,7 @@ class MovieFirebaseController {
             }
         }.resume()
     }
+    
     // Get changes from server
     func getChangesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
