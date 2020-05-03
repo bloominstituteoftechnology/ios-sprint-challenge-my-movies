@@ -21,19 +21,7 @@ class MyMovieTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-    var movieController: MovieFirebaseController?
-    
-    // MARK: - Do we need these?
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    var movieController = MovieFirebaseController()
     
     // MARK: - Functions
     

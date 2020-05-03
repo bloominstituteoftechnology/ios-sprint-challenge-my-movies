@@ -64,4 +64,38 @@ class MovieFirebaseController {
             }
         }.resume()
     }
+    
+    // Delete
+    func deleteTaskFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseURL
+            .appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                NSLog("Error status code is not the expected 200. Instead it is \(response.statusCode)")
+            }
+            
+            if let error = error {
+                NSLog("Error deleting task for id \(identifier.uuidString): \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+        }.resume()
+    }
 }
