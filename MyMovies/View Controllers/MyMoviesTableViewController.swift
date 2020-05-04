@@ -7,8 +7,29 @@
 //
 
 import UIKit
+import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    var movieController = MovieController()
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        
+        fetchRequest.sortDescriptors = [
+        NSSortDescriptor(key: "title", ascending: true)
+        ]
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: CoreDataStack.shared.mainContext,
+                                             sectionNameKeyPath: "title",
+                                             cacheName: nil)
+        frc.delegate = self
+        try! frc.performFetch()
+        return frc
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
