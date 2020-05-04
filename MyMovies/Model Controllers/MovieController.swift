@@ -73,6 +73,50 @@ class MovieController {
     var searchedMovies: [MovieRepresentation] = []
     
     
+    let baseMoviesURL = "https://mymovies-c37fb.firebaseio.com/"
+    
+    func put(movie: Movie, completion: @escaping CompletionHandler) {
+        guard let identifier =  movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseMoviesURL
+            .appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard let movieRepresentation = movie.movieRepresentation else {
+                completion(.failure(.noRep))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            NSLog("Error encoding entry: \(error)")
+            completion(.failure(.noEncode))
+            return
+        }
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting task to server: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+            
+        }.resume()
+    }
+    
+    
+    
+    
+    
     func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = movie.identifier else {
             completion(.failure(.noIdentifier))
@@ -185,8 +229,7 @@ class MovieController {
             
             do {
                 let movieRepresentations = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({ $0.value })
-                
-                // Figure out which entry representions don't exist in Core Data, so we can add them and figure out which ones have changed
+              
                 try self.updateMovies(with: movieRepresentations)
                 
                 DispatchQueue.main.async {
@@ -200,5 +243,4 @@ class MovieController {
             }
         }.resume()
     }
-    
 }
