@@ -41,32 +41,35 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           
+           tableView.reloadData()
+       }
+    
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
 
-        // Configure the cell...
+       let movie = fetchedResultsController.object(at: indexPath)
+        cell?.movie = movie
 
-        return cell
+        return cell!
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -76,17 +79,30 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     }
     */
 
-    /*
+ 
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+          
+            let movie = fetchedResultsController.object(at: indexPath)
+            
+            movieController.deleteMovieFromServer(movie: movie) { (result) in
+                
+                guard let _ = try? result.get() else {
+                    return
+                }
+                
+                let context = CoreDataStack.shared.mainContext
+                do {
+                    try context.save()
+                } catch {
+                    NSLog("Error saving context after deleting Entry: \(error)")
+                                       context.reset()
+                }
+            }
+        }
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
