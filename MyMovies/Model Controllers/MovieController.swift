@@ -20,7 +20,12 @@ enum NetworkError: Error {
 
 class MovieController {
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
+    typealias errorCompletionHandler = (Error?) -> Void
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let searchBaseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -101,6 +106,81 @@ class MovieController {
                 completion(.success(true))
             }
         }.resume()
+    }
+    
+    func fetchMoviesFromServer(completion: @escaping errorCompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error GETTING movies from Firebase: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            var movieRepresentations: [MovieRepresentation] = []
+            
+            do {
+                movieRepresentations = try JSONDecoder().decode([String : MovieRepresentation].self, from: data).map({ $0.value })
+                try self.updateMovies(with: movieRepresentations)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding movieRepresentations: \(error)")
+                completion(error)
+            }
+        }.resume()
+    }
+    
+    func updateMovies(with representations: [MovieRepresentation]) throws {
+        
+        let identifiersToFetch = representations.compactMap({ $0.identifier })
+        
+        let representationsById = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        var moviesToCreate = representationsById
+        
+        let predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.performAndWait {
+            
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsById[id] else { continue }
+                    
+                    update(movie: movie, movieRepresentation: representation)
+                    
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+                
+            } catch {
+                NSLog("Error fetching entries for UUIDs: \(error)")
+            }
+        }
+        try CoreDataStack.shared.save(context: context)
+    }
+    
+    func update(movie: Movie, movieRepresentation: MovieRepresentation) {
+        if let hasWatched = movieRepresentation.hasWatched {
+            movie.title = movieRepresentation.title
+            movie.hasWatched = hasWatched
+        }
     }
     
     // MARK: - Properties
