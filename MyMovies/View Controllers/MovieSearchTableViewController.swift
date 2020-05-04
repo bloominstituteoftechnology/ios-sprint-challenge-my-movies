@@ -12,7 +12,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+         print(UUID())
         searchBar.delegate = self
     }
     
