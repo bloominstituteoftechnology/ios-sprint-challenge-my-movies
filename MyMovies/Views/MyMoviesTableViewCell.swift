@@ -9,6 +9,8 @@
 import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
+    
+    var movieController: MovieController? = nil
 
     var movie: Movie? {
         didSet {
@@ -45,6 +47,9 @@ class MyMoviesTableViewCell: UITableViewCell {
             NSLog("Error saving hasWatchedButton toggle: \(error)")
             context.reset()
         }
+        
+        movieController?.sendMovieToServer(movie: movie, completion: { _ in })
+        
     }
     
 }

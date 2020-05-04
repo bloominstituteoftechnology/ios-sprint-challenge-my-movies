@@ -73,6 +73,7 @@ class MyMoviesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as! MyMoviesTableViewCell
 
         cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.movieController = movieController
 
         return cell
     }
