@@ -17,9 +17,10 @@ class MyMoviesTableViewController: UITableViewController {
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
-        let titleSortDescriptor = NSSortDescriptor(key: "hasWatched", ascending: true)
+        let hasWatchedSortDescriptor = NSSortDescriptor(key: "hasWatched", ascending: true)
+        let titleSortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
-        fetchRequest.sortDescriptors = [titleSortDescriptor]
+        fetchRequest.sortDescriptors = [hasWatchedSortDescriptor, titleSortDescriptor]
         
         let context = CoreDataStack.shared.mainContext
         
