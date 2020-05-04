@@ -183,6 +183,29 @@ class MovieController {
         }
     }
     
+    func deleteMovieFromServer(movie: Movie, completion: @escaping () -> Void = {}) {
+        guard let identifier = movie.identifier else {
+            completion()
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString)
+                                .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting task from server: \(error)")
+                DispatchQueue.main.async {
+                    completion()
+                }
+                return
+            }
+        }.resume()
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieRepresentation] = []
