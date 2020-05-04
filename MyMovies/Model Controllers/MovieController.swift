@@ -7,15 +7,29 @@
 //
 
 import Foundation
+import CoreData
+
+enum NetworkError: Error {
+    case noIdentifier
+    case otherError
+    case noData
+    case noDecode
+    case noEncode
+    case noRep
+}
 
 class MovieController {
     
+    typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
-    private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let searchBaseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
+    private let baseURL = URL(string: "https://mymovie-sprint-challenge.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
-        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
+        var components = URLComponents(url: searchBaseURL, resolvingAgainstBaseURL: true)
         
         let queryParameters = ["query": searchTerm,
                                "api_key": apiKey]
@@ -48,6 +62,43 @@ class MovieController {
             } catch {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(error)
+            }
+        }.resume()
+    }
+    
+    func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler) {
+        guard let identifier = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard let movieRepresentation = movie.movieRepresentation else {
+                completion(.failure(.noRep))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(movieRepresentation)
+        } catch {
+            NSLog("Error encoding movie: \(movie): \(error)")
+            completion(.failure(.noEncode))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error putting movie to server: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(.success(true))
             }
         }.resume()
     }
