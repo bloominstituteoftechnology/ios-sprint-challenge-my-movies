@@ -19,15 +19,11 @@ class SearchedMovieCell: UITableViewCell {
     @IBAction func addButtonTapped(_ sender: Any) {
         
         let context = CoreDataStack.shared.mainContext
-        Movie(title: titleLabel.text!, hasWatched: false, identifier: UUID(), context: context)
-        
-        do {
-            try context.save()
-        } catch {
-            NSLog("Could not save changes to the main context: \(error)")
-            return
-        }
+        let movie = Movie(title: titleLabel.text!, hasWatched: false, identifier: UUID(), context: context)
+        let movieController = MovieController()
+        movieController.sendMovieToServer(movie)
+        movieController.save(context: CoreDataStack.shared.mainContext)
         
     }
     
-}
+} //End of class

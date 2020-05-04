@@ -17,6 +17,7 @@ class SavedMovieCell: UITableViewCell {
             updateViews()
         }
     }
+    
     @IBOutlet var movieTitleLabel: UILabel!
     @IBOutlet var hasWatchedButton: UIButton!
     
@@ -25,18 +26,26 @@ class SavedMovieCell: UITableViewCell {
     func updateViews() {
         movieTitleLabel.text = movie?.title
         if movie!.hasWatched {
-            hasWatchedButton.setTitle("Unwatched", for: .normal)
-        } else {
             hasWatchedButton.setTitle("Watched", for: .normal)
+        } else {
+            hasWatchedButton.setTitle("Unwatched", for: .normal)
         }
     }
     
     @IBAction func hasWatchedButtonTapped(_ sender: Any) {
+        
         if movie!.hasWatched {
+            movie?.hasWatched = false
             hasWatchedButton.setTitle("Unwatched", for: .normal)
         } else {
+            movie?.hasWatched = true
             hasWatchedButton.setTitle("Watched", for: .normal)
         }
+        
+        let movieController = MovieController()
+        movieController.sendMovieToServer(movie!)
+        movieController.save(context: CoreDataStack.shared.mainContext)
+        
     }
     
-}
+} //End of class
