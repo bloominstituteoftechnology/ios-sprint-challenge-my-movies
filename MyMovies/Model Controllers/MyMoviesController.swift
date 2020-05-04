@@ -12,6 +12,7 @@ import CoreData
 class MyMoviesController {
     static let shared = MyMoviesController()
     
+    // URL we will send Movie to
     let baseURL = URL(string: "https://thomasallendye.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
     
@@ -31,6 +32,7 @@ class MyMoviesController {
         }
     }
     
+    // Function to add Movie
     func addMovie(title: String) {
         let movie = Movie(title: title)
         put(movie: movie)
@@ -42,6 +44,7 @@ class MyMoviesController {
         }
     }
     
+    // Function to toggle if movie has been seen
     func toggleSeen(movie: Movie) {
         do {
             movie.hasWatched.toggle()
@@ -54,6 +57,7 @@ class MyMoviesController {
         
     }
     
+    // Function to delete movie
     func deleteMovie(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         CoreDataStack.shared.mainContext.delete(movie)
         do {
@@ -65,13 +69,12 @@ class MyMoviesController {
         completion(nil)
     }
     
+    // Toggle the has been seen
     func toggleHasSeen(representation: MovieRepresentation) {
         guard let movie = Movie(representation: representation) else { return }
         toggleSeen(movie: movie)
     }
-    
 
-    
     func update(movie: Movie, with representation: MovieRepresentation) {
         guard let hasWatched = representation.hasWatched else { return }
         movie.hasWatched = hasWatched
