@@ -19,6 +19,7 @@
 		C943FE0F245FA6EF0083B45C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943FE0E245FA6EF0083B45C /* CoreDataStack.swift */; };
 		C943FE11245FA77F0083B45C /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943FE10245FA77F0083B45C /* Movie+Convenience.swift */; };
 		C943FE13245FB3EF0083B45C /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943FE12245FB3EF0083B45C /* MovieSearchTableViewCell.swift */; };
+		C943FE16245FBA350083B45C /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943FE15245FBA350083B45C /* MyMoviesTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		C943FE0E245FA6EF0083B45C /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		C943FE10245FA77F0083B45C /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		C943FE12245FB3EF0083B45C /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
+		C943FE15245FBA350083B45C /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				C943FE12245FB3EF0083B45C /* MovieSearchTableViewCell.swift */,
+				C943FE15245FBA350083B45C /* MyMoviesTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C943FE16245FBA350083B45C /* MyMoviesTableViewCell.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				C943FE0D245FA6340083B45C /* Movie.xcdatamodeld in Sources */,
