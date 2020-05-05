@@ -20,11 +20,8 @@ enum NetworkError: Error {
 
 class MovieController {
     
-    
-    
      typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
-    
-    
+
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
@@ -72,7 +69,6 @@ class MovieController {
     
     var searchedMovies: [MovieRepresentation] = []
     
-    
     let baseMoviesURL = "https://mymovies-c37fb.firebaseio.com/"
     
     func put(movie: Movie, completion: @escaping CompletionHandler) {
@@ -112,10 +108,6 @@ class MovieController {
         }.resume()
     }
     
-    
-    
-    
-    
     func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = movie.identifier else {
             completion(.failure(.noIdentifier))
@@ -147,8 +139,6 @@ class MovieController {
         movie.hasWatched = representation.hasWatched!
        }
        
-    
-    
     func updateMovies(with representations: [MovieRepresentation]) throws {
     /// identifier shouldn't be force upwrapped
         let identifiersToFetch = representations.compactMap({ UUID(uuidString: $0.identifier!.uuidString) })

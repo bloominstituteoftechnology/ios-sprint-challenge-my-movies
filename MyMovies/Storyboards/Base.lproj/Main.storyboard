@@ -39,7 +39,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
@@ -59,6 +59,7 @@
                                                     <rect key="frame" x="313" y="0.0" width="30" height="50.5"/>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
+                                                        <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="P8T-ha-S9H"/>
                                                         <action selector="addMovieTapped:" destination="YE2-Zi-kUT" eventType="touchUpInside" id="25b-MW-UHZ"/>
                                                     </connections>
                                                 </button>
@@ -71,6 +72,10 @@
                                         <constraint firstItem="PGC-ki-kKr" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="UAJ-5o-JrC"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="addMovieLabel" destination="F2O-AB-m9g" id="SO7-x0-UeW"/>
+                                    <outlet property="movieTitleLabel" destination="V0I-3V-45E" id="eKc-FA-Zds"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

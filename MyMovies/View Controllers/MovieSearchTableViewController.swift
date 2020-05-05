@@ -9,7 +9,10 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
+    
+    
+    var movieController = MovieController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,10 +43,10 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         
         return cell
     }
-    
-    var movieController = MovieController()
+  
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBAction func addMovieTapped(_ sender: Any) {
+        print("Yay.  Someone tapped me: ")
     }
 }
