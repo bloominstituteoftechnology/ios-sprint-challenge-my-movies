@@ -42,7 +42,7 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
             fatalError("Can't dequeue cell of type 'MovieCell' ")
         }
         
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        cell.searchedMovieLabel?.text = movieController.searchedMovies[indexPath.row].title
         
         return cell
     }
