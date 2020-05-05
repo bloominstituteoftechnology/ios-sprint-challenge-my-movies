@@ -69,6 +69,8 @@ class MovieController {
     
     var searchedMovies: [MovieRepresentation] = []
     
+    var movieList: [Movie] = []
+    
     let baseMoviesURL = "https://mymovies-c37fb.firebaseio.com/"
     
     func put(movie: Movie, completion: @escaping CompletionHandler) {

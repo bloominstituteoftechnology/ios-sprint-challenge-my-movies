@@ -60,6 +60,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { fatalError("Can't dequeue cell") }
         
         let movie = fetchedResultsController.object(at: indexPath)
+        cell.titleLabel?.text = movie.title
         cell.movie = movie
         
         return cell
@@ -91,10 +92,11 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     
    
     // MARK: - Navigation
-
+/*
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
+ */
 }

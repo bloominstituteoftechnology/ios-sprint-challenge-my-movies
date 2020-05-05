@@ -35,7 +35,7 @@ class MovieSearchTableViewCell: UITableViewCell {
                     hasWatched: false,
                     context: CoreDataStack.shared.mainContext)
             
-           movieController.movieList.append(movie)
+        movieController?.movieList.append(movie)
         movieController?.put(movie: movie) { _ in }
             
            do {
@@ -43,6 +43,5 @@ class MovieSearchTableViewCell: UITableViewCell {
            } catch {
              NSLog("Error saving managed object context: \(error)")
            }
-            
     }
 }

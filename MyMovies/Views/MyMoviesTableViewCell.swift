@@ -26,7 +26,6 @@ class MyMoviesTableViewCell: UITableViewCell {
         titleLabel.text = movie.title
     }
     
-
     @IBAction func haveWatched(_ sender: Any) {
         movie?.hasWatched.toggle()
     }
