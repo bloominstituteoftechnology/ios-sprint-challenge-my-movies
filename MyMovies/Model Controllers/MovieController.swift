@@ -159,37 +159,26 @@ class MovieController {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = predicate
         
-        // Create a new background context. The thread that this context is created on is completely random; you have no control over it.
-        
         let context = CoreDataStack.shared.container.newBackgroundContext()
-        
-        
-        // I want to make sure I'm using this context on the right thread, so I will call .perform
         
         context.performAndWait {
             do {
+                let existingMovies = try context.fetch(fetchRequest)
                 
-                // This will only fetch the tasks that match the criteria in our predicate
-                let existingTasks = try context.fetch(fetchRequest)
-                
-                // Let's update the tasks that already exist in Core Data
-                
-                for task in existingTasks {
-                    guard let id = task.identifier,
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
                         let representation = representationsByID[id] else { continue }
                     
-                    task.name = representation.name
-                    task.notes = representation.notes
-                    task.complete = representation.complete
-                    task.priority = representation.priority
+                    movie.hasWatched = representation.hasWatched!
+                    movie.title = representation.title
                     
                     // If we updated the task, that means we don't need to make a copy of it. It already exists in Core Data, so remove it from the tasks we still need to create
-                    tasksToCreate.removeValue(forKey: id)
+                    moviesToCreate.removeValue(forKey: id)
                 }
                 
                 // Add the tasks that don't exist
-                for representation in tasksToCreate.values {
-                    Task(taskRepresentation: representation, context: context)
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
                 }
                 
             } catch {

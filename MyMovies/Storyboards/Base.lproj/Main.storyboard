@@ -39,41 +39,42 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="375" height="43.666667938232422"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="55" id="ZWb-Uu-07y" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZWb-Uu-07y" id="jon-Rl-Qht">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Ahd-8i-mUa">
-                                            <rect key="frame" x="16" y="7" width="343" height="30"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Rty-7G-fOU">
+                                            <rect key="frame" x="16" y="12.666666666666664" width="343" height="30"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Movie Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3FU-yP-kzV">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Movie Title " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="D2M-Q0-rda">
                                                     <rect key="frame" x="0.0" y="0.0" width="254" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="irN-YC-SQc" userLabel="Add Movie">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="huJ-B5-jLK">
                                                     <rect key="frame" x="270" y="0.0" width="73" height="30"/>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
-                                                        <action selector="addMovie:" destination="d7W-qE-xfL" eventType="touchUpInside" id="DuE-bF-BTF"/>
+                                                        <action selector="addMovie:" destination="ZWb-Uu-07y" eventType="touchUpInside" id="l9g-Xs-Xaw"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Ahd-8i-mUa" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="QsL-CM-SCW"/>
-                                        <constraint firstItem="Ahd-8i-mUa" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="lgy-QP-BjW"/>
-                                        <constraint firstAttribute="trailing" secondItem="Ahd-8i-mUa" secondAttribute="trailing" constant="16" id="xbH-SH-f9K"/>
+                                        <constraint firstAttribute="trailing" secondItem="Rty-7G-fOU" secondAttribute="trailing" constant="16" id="25l-fm-fKu"/>
+                                        <constraint firstItem="Rty-7G-fOU" firstAttribute="leading" secondItem="jon-Rl-Qht" secondAttribute="leading" constant="16" id="ikw-rC-T30"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <constraints>
+                                    <constraint firstItem="Rty-7G-fOU" firstAttribute="centerY" secondItem="ZWb-Uu-07y" secondAttribute="centerY" id="YKy-ZE-IOi"/>
+                                </constraints>
                                 <connections>
-                                    <outlet property="movieName" destination="3FU-yP-kzV" id="Jtm-n7-D2L"/>
+                                    <outlet property="movieNameLabel" destination="D2M-Q0-rda" id="k8N-j5-bj7"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

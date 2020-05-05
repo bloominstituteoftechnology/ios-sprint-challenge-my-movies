@@ -17,7 +17,7 @@ class MovieSearchTableViewCell: UITableViewCell {
             }
         }
         
-        @IBOutlet weak var movieName: UILabel!
+        @IBOutlet weak var movieNameLabel: UILabel!
         
         @IBAction func addMovie(_ sender: Any) {
             guard let movie = searchedMovie else { return }
@@ -27,6 +27,6 @@ class MovieSearchTableViewCell: UITableViewCell {
         // MARK: - Functions
         
         func updateViews() {
-            movieName.text = searchedMovie?.title
+            movieNameLabel.text = searchedMovie?.title
         }
     }
