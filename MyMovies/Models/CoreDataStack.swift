@@ -10,14 +10,13 @@ import Foundation
 import CoreData
 
 class CoreDataStack {
-    
     static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "MyMovies")
         container.loadPersistentStores { (_, error) in
             if let error = error {
-                fatalError("Error loading persistent stores: \(error)")
+                fatalError("Failed to load persistent stores: \(error)")
             }
         }
         
