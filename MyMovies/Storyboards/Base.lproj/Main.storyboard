@@ -39,40 +39,36 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="375" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="60" id="d7W-qE-xfL" customClass="MovieSearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Fgj-It-8aH">
-                                            <rect key="frame" x="16" y="11" width="343" height="30"/>
+                                            <rect key="frame" x="16" y="5" width="343" height="50"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yUQ-Ux-W7g">
-                                                    <rect key="frame" x="0.0" y="0.0" width="293" height="30"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yUQ-Ux-W7g">
+                                                    <rect key="frame" x="0.0" y="0.0" width="293" height="50"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="laj-vn-zaR">
-                                                    <rect key="frame" x="309" y="0.0" width="34" height="30"/>
+                                                    <rect key="frame" x="309" y="0.0" width="34" height="50"/>
                                                     <state key="normal" title="Save"/>
                                                     <connections>
                                                         <action selector="saveMovieToMyMovies:" destination="d7W-qE-xfL" eventType="touchUpInside" id="CwL-A1-6tu"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="laj-vn-zaR" firstAttribute="centerY" secondItem="Fgj-It-8aH" secondAttribute="centerY" id="Khr-KS-tXq"/>
-                                                <constraint firstItem="laj-vn-zaR" firstAttribute="leading" secondItem="yUQ-Ux-W7g" secondAttribute="trailing" constant="16" id="jJF-9f-hHH"/>
-                                            </constraints>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Fgj-It-8aH" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="ByW-qZ-e47"/>
-                                        <constraint firstAttribute="trailing" secondItem="Fgj-It-8aH" secondAttribute="trailing" constant="16" id="QGj-h5-gBV"/>
-                                        <constraint firstItem="Fgj-It-8aH" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" id="xL7-w5-DZB"/>
+                                        <constraint firstItem="Fgj-It-8aH" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="1yQ-pw-DhG"/>
+                                        <constraint firstItem="Fgj-It-8aH" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="9fY-Bu-bMk"/>
+                                        <constraint firstItem="Fgj-It-8aH" firstAttribute="trailing" secondItem="8Bc-u1-IMl" secondAttribute="trailingMargin" id="Pr7-no-o35"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -92,7 +88,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bg1-No-cUb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1497" y="-27"/>
+            <point key="canvasLocation" x="1496.8" y="-27.436281859070466"/>
         </scene>
         <!--My Movies-->
         <scene sceneID="COr-3j-4xq">

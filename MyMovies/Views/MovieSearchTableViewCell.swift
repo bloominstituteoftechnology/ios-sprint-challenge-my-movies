@@ -10,7 +10,7 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var movieSearchTitle: UILabel!
+    @IBOutlet var movieSearchTitle: UILabel!
     
     weak var delegate: MovieSearchTableViewCellDelegate?
 

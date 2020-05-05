@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-let firebaseURL = URL(string: "https://")!
+let firebaseURL = URL(string: "https://mymovies-c04fa.firebaseio.com/")!
 
 class MovieController {
     
@@ -17,6 +17,10 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    
+    // MARK: - Properties
+    
+    var searchedMovies: [MovieRepresentation] = []
     
     init() {
         self.fetchEntrysFromServer()
@@ -226,8 +230,4 @@ class MovieController {
             }
         }.resume()
     }
-    
-    // MARK: - Properties
-    
-    var searchedMovies: [MovieRepresentation] = []
 }
