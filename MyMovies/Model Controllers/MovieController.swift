@@ -80,9 +80,8 @@ class MovieController {
             completion(.failure(.noIdentifier))
             return
         }
-        
-        let requestURL = baseMoviesURL
-            .appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+
+        let requestURL = URL(fileURLWithPath: baseMoviesURL).appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"

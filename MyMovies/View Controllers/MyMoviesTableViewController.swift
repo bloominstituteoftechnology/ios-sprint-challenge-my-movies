@@ -57,15 +57,15 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
-
-       let movie = fetchedResultsController.object(at: indexPath)
-        cell?.movie = movie
-
-        return cell!
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { fatalError("Can't dequeue cell") }
+        
+        let movie = fetchedResultsController.object(at: indexPath)
+        cell.movie = movie
+        
+        return cell
     }
     
-
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

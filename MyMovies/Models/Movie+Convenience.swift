@@ -23,26 +23,23 @@ extension Movie {
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        guard let identifier = UUID(uuidString: movieRepresentation.identifier) else {
+        guard let identifier = UUID(uuidString: movieRepresentation.identifier!.uuidString),
+            let hasWatched = movieRepresentation.hasWatched else {
         return nil
         }
         
         self.init(identifier: identifier,
-                  title: title,
+                  title: movieRepresentation.title,
                   hasWatched: hasWatched,
                   context: context)
     }
     
-    
-    var movieRepresentation: MovieRepresentation {
+    var movieRepresentation: MovieRepresentation? {
         
-        guard let title = title,
-           let identifier = identifier else { return nil }
+        guard let title = title else { return nil }
         
-        let id = identifier
+        let id = identifier ?? UUID()
         
-        return MovieRepresentation(title: title, identifier: id, hasWatched: hasWatched)
-        
+        return MovieRepresentation(title: title, identifier: id, hasWatched: hasWatched)        
     }
-    
 }
