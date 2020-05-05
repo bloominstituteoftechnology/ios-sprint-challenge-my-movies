@@ -113,6 +113,107 @@ class MovieController {
         
     }
     
+    func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        
+        let requestURL = fireBaseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error fetching movies: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("Error: No data returned from data task")
+                DispatchQueue.main.async {
+                    completion(.failure(.noData))
+                }
+                return
+            }
+            
+            // Pull the JSON out of the data, and turn it into [TaskRepresentation]
+            do {
+                let movieRepresentation = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({ $0.value })
+                
+                // Figure out which task representations don't exist in Core Data, so we can add them, and figure out which ones have changed
+                try self.updateMovies(with: movieRepresentation)
+                
+                DispatchQueue.main.async {
+                    completion(.success(true))
+                }
+            } catch {
+                NSLog("Error decoding movie representations: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.noDecode))
+                }
+            }
+        }.resume()
+    }
+    
+    func updateMovies(with representations: [MovieRepresentation]) throws {
+        
+        let identifiersToFetch = representations.compactMap({ $0.identifier })
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues:
+            zip(identifiersToFetch, representations)
+        )
+        
+        // Make a copy of the representationsByID for later use
+        var moviesToCreate = representationsByID
+        
+        // Ask Core Data to find any tasks with these identifiers
+        
+        // if identifiersToFetch.contains(someTaskInCoreData)
+        let predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        // Create a new background context. The thread that this context is created on is completely random; you have no control over it.
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        
+        // I want to make sure I'm using this context on the right thread, so I will call .perform
+        
+        context.performAndWait {
+            
+            do {
+                
+                // This will only fetch the tasks that match the criteria in our predicate
+                let existingMovies = try context.fetch(fetchRequest)
+                
+                // Let's update the tasks that already exist in Core Data
+                
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    movie.title = representation.title
+                    movie.hasWatched = representation.hasWatched!
+                    movie.identifier = id
+                    
+                    // If we updated the task, that means we don't need to make a copy of it. It already exists in Core Data, so remove it from the tasks we still need to create
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                
+                // Add the tasks that don't exist
+                for representation in moviesToCreate.values {
+                    Movie(representation, context)
+                }
+                
+            } catch {
+                NSLog("Error fetching movies for UUIDs: \(error)")
+            }
+        }
+        // This will save the correct context (background context)
+        try CoreDataStack.shared.save(context: context)
+    }
+    
     func deleteFromServer( _ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         
         guard let id = movie.identifier?.uuidString else {

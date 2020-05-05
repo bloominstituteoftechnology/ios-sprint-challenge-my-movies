@@ -16,7 +16,7 @@ extension Movie {
         return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
 
-   @discardableResult convenience init(title: String, hasWatched: Bool = false, identifier: UUID, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+   @discardableResult convenience init(title: String, hasWatched: Bool = false, identifier: UUID, context: NSManagedObjectContext) {
         self.init(context: context)
         self.title = title
         self.hasWatched = hasWatched
@@ -26,7 +26,7 @@ extension Movie {
     @discardableResult convenience init( _ movieRepresentation: MovieRepresentation, _ context: NSManagedObjectContext) {
         
         let rep = movieRepresentation
-        self.init(title: rep.title, hasWatched: rep.hasWatched!, identifier: UUID())
+        self.init(title: rep.title, hasWatched: rep.hasWatched!, identifier: rep.identifier ?? UUID(), context: context)
         
     }
     

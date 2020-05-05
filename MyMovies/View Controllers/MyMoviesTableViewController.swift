@@ -25,7 +25,12 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
-    // MARK: - Table view data source -
+    // MARK: - TableView Methods -
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        movieController.fetchTasksFromServer()
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 2

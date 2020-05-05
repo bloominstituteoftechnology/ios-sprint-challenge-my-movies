@@ -16,7 +16,7 @@ class SearchedMovieCell: UITableViewCell {
     
     //MARK: - Methods and IBActions -
     
-    @IBAction func addButtonTapped(_ sender: Any) {
+    @IBAction func addButtonTapped(_ sender: UIButton) {
         
         let context = CoreDataStack.shared.mainContext
         let movie = Movie(title: titleLabel.text!, hasWatched: false, identifier: UUID(), context: context)

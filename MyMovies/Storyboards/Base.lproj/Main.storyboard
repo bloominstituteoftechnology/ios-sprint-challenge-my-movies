@@ -46,32 +46,33 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="250" translatesAutoresizingMaskIntoConstraints="NO" id="NAN-Vv-kTM">
-                                            <rect key="frame" x="24.5" y="7" width="365" height="30"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="VdV-U9-qJi">
+                                            <rect key="frame" x="16" y="7" width="382" height="30"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fnR-Nz-6p0">
-                                                    <rect key="frame" x="0.0" y="0.0" width="42" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8Rm-Ja-5ZJ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="293" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZtG-GA-opi">
-                                                    <rect key="frame" x="292" y="0.0" width="73" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QFp-HQ-UDi">
+                                                    <rect key="frame" x="309" y="0.0" width="73" height="30"/>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
-                                                        <action selector="addButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="ZNE-OA-kwJ"/>
+                                                        <action selector="addButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="aiV-jd-HBa"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="NAN-Vv-kTM" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="7U2-Yt-3bx"/>
-                                        <constraint firstItem="NAN-Vv-kTM" firstAttribute="centerX" secondItem="8Bc-u1-IMl" secondAttribute="centerX" id="xXF-wk-eYM"/>
+                                        <constraint firstItem="VdV-U9-qJi" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="06u-hM-d2E"/>
+                                        <constraint firstItem="VdV-U9-qJi" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="3Gv-CQ-Uw5"/>
+                                        <constraint firstAttribute="trailing" secondItem="VdV-U9-qJi" secondAttribute="trailing" constant="16" id="t7h-df-ed9"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="titleLabel" destination="fnR-Nz-6p0" id="MWR-n8-f0c"/>
+                                    <outlet property="titleLabel" destination="8Rm-Ja-5ZJ" id="XSq-fj-pxD"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
