@@ -16,6 +16,5 @@ class MovieSearchTableViewCell: UITableViewCell {
 
     @IBAction func saveMovieToMyMovies(_ sender: Any) {
         delegate?.saveMovieToMyMovies(for: self)
-        
     }
 }
