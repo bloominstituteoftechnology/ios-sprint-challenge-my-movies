@@ -29,12 +29,18 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
         }
     }
     
+    func updateViews() {
+        
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? SearchMovieTableViewCell else {
+            fatalError("Can't dequeue cell of type 'MovieCell' ")
+        }
         
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         
@@ -46,6 +52,5 @@ class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate
     // MARK: IBOutlets
     
     @IBOutlet weak var searchBar: UISearchBar!
-    
     
 }

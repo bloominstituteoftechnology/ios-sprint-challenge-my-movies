@@ -18,7 +18,7 @@ extension Movie {
     
     @discardableResult convenience init(identifier: UUID = UUID(),
                                         title: String,
-                                        hasWatched: Bool,
+                                        hasWatched: Bool = false,
                                         priority: SeenPriority = .unwatched,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
@@ -29,9 +29,9 @@ extension Movie {
     }
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
-                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        guard let priority = SeenPriority(rawValue: movieRepresentation.priority),
+        guard let priority = SeenPriority(rawValue: movieRepresentation.priority!),
             let identifier = UUID(uuidString: movieRepresentation.identifier!),
             let hasWatched = movieRepresentation.hasWatched else {
                 return nil
@@ -45,8 +45,7 @@ extension Movie {
     }
     
     var movieRepresentation: MovieRepresentation? {
-        guard let title = title,
-            let priority = priority else { return nil }
+        guard let title = title else { return nil }
         
         let id = identifier ?? UUID()
         

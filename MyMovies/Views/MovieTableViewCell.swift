@@ -35,7 +35,16 @@ class MovieTableViewCell: UITableViewCell {
         
         guard let movie = movie else { return }
         
-        hasWatchedButton.setTitle((movie.hasWatched) ? "Watched" : "Unwatched", for: .normal)
+        hasWatchedButton.setTitle((movie.hasWatched) ? "Unwatched" : "Watched", for: .normal)
+        
+        if movie.hasWatched {
+            movie.hasWatched = false
+            movie.priority = SeenPriority.unwatched.rawValue
+        } else {
+            movie.hasWatched = true
+            movie.priority = SeenPriority.watched.rawValue
+        }
+        
         
         do {
             try CoreDataStack.shared.mainContext.save()

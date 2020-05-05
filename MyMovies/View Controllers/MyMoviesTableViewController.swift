@@ -20,14 +20,14 @@ class MyMoviesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched",
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "priority",
                                                          ascending: true),
                                         NSSortDescriptor(key: "title",
                                                          ascending: true)]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
-                                             sectionNameKeyPath: "hasWatched",
+                                             sectionNameKeyPath: "priority",
                                              cacheName: nil)
         frc.delegate = self
         try! frc.performFetch()
@@ -50,7 +50,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.reuseIdentifier, for: indexPath) as? MovieTableViewCell else {
-            fatalError("Can't deqeue cell of typ \(MovieTableViewCell.reuseIdentifier)")
+            fatalError("Can't deqeue cell of type \(MovieTableViewCell.reuseIdentifier)")
         }
         
         cell.movie = fetchedResultsController.object(at: indexPath)
@@ -58,25 +58,35 @@ class MyMoviesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        return sectionInfo.name.capitalized
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = fetchedResultsController.object(at: indexPath)
+            
+            movieController.deleteTaskFromServer(movie)
 
-    /*
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(movie)
+            do {
+                try moc.save()
+            } catch {
+                moc.reset()
+                NSLog("Error saving managed object context: \(error)")
+            }
+        }
+    }
+
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
-
     
-    // Override to support editing the table view.
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            // Delete the row from the data source
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        } else if editingStyle == .insert {
-//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-//        }
-//    }
 
     
     // MARK: - Navigation

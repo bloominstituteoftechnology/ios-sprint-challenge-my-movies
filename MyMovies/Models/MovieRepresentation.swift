@@ -18,7 +18,7 @@ struct MovieRepresentation: Equatable, Codable {
     
     let identifier: String?
     let hasWatched: Bool?
-    let priority: String
+    let priority: String?
 }
 
 /*
