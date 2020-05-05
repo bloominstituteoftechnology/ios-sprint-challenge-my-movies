@@ -20,6 +20,11 @@ enum NetworkError: Error {
 
 class MovieController {
     
+    init(){
+        fetchMoviesFromServer()
+    }
+    
+    
      typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
 
     
@@ -76,11 +81,12 @@ class MovieController {
     func put(movie: Movie, completion: @escaping CompletionHandler) {
         guard let identifier =  movie.identifier else {
             completion(.failure(.noIdentifier))
+            print("Caught")
             return
         }
 
         let requestURL = URL(fileURLWithPath: baseMoviesURL).appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
-        
+       
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -116,7 +122,7 @@ class MovieController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = URL(fileURLWithPath: baseMoviesURL).appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         

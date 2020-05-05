@@ -9,9 +9,11 @@
 import UIKit
 
 class MyMoviesTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var haveWatchedButtonLabel: UIButton!
+    
+    let movieController = MovieController()
     
     var movie: Movie? {
         didSet {
@@ -19,14 +21,28 @@ class MyMoviesTableViewCell: UITableViewCell {
         }
     }
     
-    
     func updateViews() {
         guard let movie = movie else { return }
         
         titleLabel.text = movie.title
+        if movie.hasWatched {
+            haveWatchedButtonLabel.setTitle("Seen", for: .normal)
+        } else {
+            haveWatchedButtonLabel.setTitle("Unseen", for: .normal)
+        }
     }
     
     @IBAction func haveWatched(_ sender: Any) {
-        movie?.hasWatched.toggle()
+        guard let movie = movie else { print("No Movie"); return }
+        movie.hasWatched.toggle()
+        
+        updateViews()
+        movieController.put(movie: movie) { _ in }
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
 }

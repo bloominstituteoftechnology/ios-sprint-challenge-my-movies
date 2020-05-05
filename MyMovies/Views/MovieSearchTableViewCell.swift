@@ -15,33 +15,34 @@ class MovieSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var addMovieLabel: UIButton!
     
-    var movie: Movie? {
+    var movierepresentation: MovieRepresentation? {
         didSet {
             updateViews()
         }
     }
     
     func updateViews() {
-           guard let movie = movie else { return }
+           guard let movie = movierepresentation else { return }
            
            movieTitleLabel.text = movie.title
        }
        
     
     @IBAction func addMovie(_ sender: Any) {
-  guard let movieTitle = movieTitleLabel.text else { return }
-           let movie = Movie(identifier: UUID(),
-                    title: movieTitle,
-                    hasWatched: false,
-                    context: CoreDataStack.shared.mainContext)
-            
-        movieController?.movieList.append(movie)
+        guard let movieTitle = movieTitleLabel.text else { return }
+        let movie = Movie(
+            title: movieTitle,
+            hasWatched: false,
+            context: CoreDataStack.shared.mainContext)
+        
+      //  movieController?.movieList.append(movie)
         movieController?.put(movie: movie) { _ in }
-            
-           do {
-             try CoreDataStack.shared.mainContext.save()
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
            } catch {
              NSLog("Error saving managed object context: \(error)")
            }
+        
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MyMoviesTableViewController: UITableViewController {
     
     var movieController = MovieController()
     
@@ -18,7 +18,8 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
         fetchRequest.sortDescriptors = [
-        NSSortDescriptor(key: "hasWatched", ascending: true)
+        NSSortDescriptor(key: "hasWatched", ascending: true),
+        NSSortDescriptor(key: "title", ascending: true)
         ]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -55,12 +56,46 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if fetchedResultsController.sections?[section].name == "0" {
+            return "Unseen"
+        } else {
+            return "Seen"
+        }
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+           
+           func headerImage(_ num: Int) {
+           let header = view as! UITableViewHeaderFooterView
+                  header.textLabel?.textColor = UIColor.white
+                  let headerImage = UIImage(named: "headerImage\(num).png")
+                  let headerImageView = UIImageView(image: headerImage)
+                  header.backgroundView = headerImageView
+           }
+           
+           
+           switch section {
+           case 0:
+             //  (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.green.withAlphaComponent(0.75)
+               headerImage(section)
+           case 1:
+              // (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.orange.withAlphaComponent(0.75)
+            headerImage(section)
+           default:
+               break
+           }
+       }
+    
+    
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { fatalError("Can't dequeue cell") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
         
         let movie = fetchedResultsController.object(at: indexPath)
-        cell.titleLabel?.text = movie.title
+    
         cell.movie = movie
         
         return cell
@@ -80,11 +115,12 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
                 }
                 
                 let context = CoreDataStack.shared.mainContext
+                context.delete(movie)
                 do {
                     try context.save()
                 } catch {
-                    NSLog("Error saving context after deleting Entry: \(error)")
-                                       context.reset()
+                    NSLog("Error saving context after deleting Movie: \(error)")
+                    context.reset()
                 }
             }
         }
@@ -99,4 +135,50 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         // Pass the selected object to the new view controller.
     }
  */
+}
+
+extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
+    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let oldIndexPath = indexPath,
+            let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        @unknown default:
+            break
+        }
+    }
 }
