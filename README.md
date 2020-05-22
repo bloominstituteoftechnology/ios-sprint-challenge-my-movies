@@ -4,8 +4,6 @@
 
 **Please read this entire README to make sure you understand what is expected of you before you begin.**
 
-This sprint challenge is designed to ensure that you are competent with the concepts taught throughout Sprint 4.
-
 In your solution, it is especially important that you follow best practices such as MVC and good, consistent code style. You will be scored on these aspects as well as the project requirements below.
 
 Begin by forking this repository. Clone your forked repository to your machine. Use the provided Xcode project in the repository as it contains starter code. Commit as appropriate while you work. Push your final project to GitHub, then create a pull request back to this original repository.
@@ -14,36 +12,29 @@ Begin by forking this repository. Clone your forked repository to your machine. 
 
 Good luck!
 
-### Screen Recordings
-
-Please view the screen recordings so you will know what your finished project should look like:
-
-Adding, updating, and deleting movies to/from Core Data and Firebase:
-
-![](https://user-images.githubusercontent.com/16965587/44258815-18b9d680-a1cd-11e8-8c0f-f1fcef5de1c0.gif)
-
-Syncing between Firebase and Core Data:
-
-![](https://user-images.githubusercontent.com/16965587/44258613-a648f680-a1cc-11e8-9073-67e548947afc.gif)
-
-
-(The gifs are fairly large in size. It may take a few seconds for them to appear)
-
 ## Requirements
 
 This project uses The Movie DB API. The starter project has search functionality working for you already, as that isn't the point of this Sprint Challenge. There is no need to reference the API's documentation whatsoever.
 
 The requirements for this project are as follows:
 
-1. A `Movie` Core Data object. Its attributes should match the properties found in the `MovieRepresentation` object in the starter project.
+### Data Modeling
 
-2. Update the `MovieSearchTableViewController`'s prototype cell to have a button that allows the user to save a movie to their list of saved movies. These saved movies should be stored in Core Data.
+1. A `Movie` Core Data object. It should be comprised of the following attributes: `identifier` of type `UUID`, `title` of type `String`, and `hasWatched` of type `Bool`. You'll need to create a Core Data model file and set up your entity with the above attributes. Remember to consider things like Core Data optionality and default values for your attributes. You'll also need to create an extension to the Movie type so you can create convenience initializers for use elsewhere in the project.
+2. A `MovieRepresentation` object for sending data to/from Firebase. Its attributes should match the properties found in the `Movie` managed object (remember the `UUID` type isn't supported in JSON).
+3. The `MovieController` has already been set up to fetch data from TheMovieDB. You'll add more functionality to this class to perform syncing with Firebase as well as any other manipulation of your models you might need.
 
-3. Display the list of saved movies in the `MyMoviesTableViewController`. You must use an `NSFetchedResultsController` to display the movies. Separate the movies into two sections in the table view by whether they have been watched or not.
+### Changes to `MovieSearchTableViewController`
 
-4. This table view's prototype cell should let the user update whether they have seen the movie or not.
+4. Update the `MovieSearchTableViewController`'s `viewWillDisappear` method to turn the movies that were selected by the user into managed objects and stored in Core Data. The search tableview has been set to allow for multiple cell selection, so the user just needs to tap which movies from the results they want to save.
 
-5. Send changes to the user's saved movies to a Firebase Database when creating, saving, and deleting movies.
+### Changes to `MyMoviesTableViewController`
 
-6. Synchronize the movies in Firebase with the device's `NSPersistentStore`. This must be done on a background `NSManagedObjectContext`.
+5. Display the list of saved movies in the `MyMoviesTableViewController`. You must use an `NSFetchedResultsController` to display the movies. Separate the movies into two sections in the table view by whether they have been watched or not.
+6. This table view's prototype cell should let the user update whether they have seen the movie or not. You will toggle the button on the right side of the cell between two different SF Symbols: "film" for unwatched, and "film.fill" for watched.
+
+### Firebase Syncing
+
+7. Send changes to the user's saved movies to a Firebase Database when creating, saving, and deleting movies. The database will be one you create in your own Firebase account.
+8. Synchronize the movies in Firebase with the device's local database in Core Data. Be sure to use a background `NSManagedObjectContext` where necessary to ensure Core Data concurrency is respected. Use the Core Data concurrency debug flag in your scheme to check your work (`-com.apple.CoreData.ConcurrencyDebug 1`).
 
