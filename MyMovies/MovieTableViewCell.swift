@@ -10,15 +10,38 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    // MARK: - Properties
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    // MARK: - IBOutlets
+    @IBOutlet weak var completedButton: UIButton!
+    @IBOutlet weak var movieTitle: UILabel!
+    
+    private func updateViews() {
+        guard let movie = movie else { return }
+        
+        movieTitle.text = movie.title
+        completedButton.setImage(movie.hasWatched ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
     }
+    
+    @IBAction func toggleComplete(_ sender: UIButton) {
+        guard let movie = movie else { return }
+        
+        movie.hasWatched.toggle()
+        
+        sender.setImage(movie.hasWatched ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            CoreDataStack.shared.mainContext.reset()
+            NSLog("Error saving context (changing movie hasWatched boolean): \(error)")
+        }
+    }
+    
+    
 
 }

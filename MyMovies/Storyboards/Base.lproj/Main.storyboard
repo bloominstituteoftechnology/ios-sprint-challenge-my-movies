@@ -104,7 +104,7 @@
                     <navigationItem key="navigationItem" title="My Movies" id="kFq-a3-ocR">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="IDO-Mg-zV3">
                             <connections>
-                                <segue destination="oX8-Z5-5b3" kind="presentation" id="DLp-eA-fna"/>
+                                <segue destination="oX8-Z5-5b3" kind="presentation" identifier="searchMovieSegue" id="DLp-eA-fna"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
