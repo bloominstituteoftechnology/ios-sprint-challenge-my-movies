@@ -17,6 +17,7 @@
 		46E20A022126A91800E7FF73 /* MovieDBMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E20A012126A91800E7FF73 /* MovieDBMovie.swift */; };
 		5E399FAA247837E10081C3EA /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5E399FA8247837E10081C3EA /* MyMovies.xcdatamodeld */; };
 		5E399FAC247838C90081C3EA /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E399FAB247838C90081C3EA /* MovieRepresentation.swift */; };
+		5E399FAE247839DF0081C3EA /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E399FAD247839DF0081C3EA /* CoreDataStack.swift */; };
 		CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE491A8E2477713300012147 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		46E20A012126A91800E7FF73 /* MovieDBMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBMovie.swift; sourceTree = "<group>"; };
 		5E399FA9247837E10081C3EA /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		5E399FAB247838C90081C3EA /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
+		5E399FAD247839DF0081C3EA /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		CE491A8E2477713300012147 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				5E399FA8247837E10081C3EA /* MyMovies.xcdatamodeld */,
+				5E399FAD247839DF0081C3EA /* CoreDataStack.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				5E399FAA247837E10081C3EA /* MyMovies.xcdatamodeld in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
+				5E399FAE247839DF0081C3EA /* CoreDataStack.swift in Sources */,
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieDBMovie.swift in Sources */,
