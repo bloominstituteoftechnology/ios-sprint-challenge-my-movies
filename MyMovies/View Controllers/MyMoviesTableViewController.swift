@@ -32,6 +32,8 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
+    @IBAction func hasBeenSeenButton(_ sender: UIButton) {
+    }
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -49,6 +51,11 @@ class MyMoviesTableViewController: UITableViewController {
         cell.textLabel?.text = movieController?.searchedMovies[indexPath.row].title
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+           guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        return sectionInfo.name.capitalized
+       }
     
     // MARK: - Navigation
     
