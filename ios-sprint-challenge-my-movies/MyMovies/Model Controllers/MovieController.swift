@@ -145,6 +145,41 @@ class MovieController {
         }.resume()
     }
     
+    func updateMovieOnServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let id = movie.identifier else { return }
+        
+        let requestURL = firebaseURL.appendingPathComponent(id.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "PUT"
+        
+        do {
+            guard let rep = movie.movieRepresentation else {
+                completion(.failure(.otherError))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(rep)
+        } catch {
+            NSLog("Error updating movie: \(error)")
+            completion(.failure(.otherError))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error sending movie to server: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            completion(.success(true))
+        }.resume()
+    }
+    
+    func updateMovie(movie: Movie, title: String, hasWatched: Bool) {
+        movie.title = title
+        movie.hasWatched = hasWatched
+    }
+    
     private func updateMovies(with representations: [MovieRepresentation]) throws {
         let identifiersToFetch = representations.compactMap { $0.identifier }
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
@@ -184,4 +219,5 @@ class MovieController {
         movie.hasWatched = representation.hasWatched ?? false
         movie.identifier = representation.identifier
     }
+    
 }

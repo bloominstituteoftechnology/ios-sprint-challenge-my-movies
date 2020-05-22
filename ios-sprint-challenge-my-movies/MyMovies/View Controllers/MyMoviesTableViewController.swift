@@ -69,6 +69,29 @@ class MyMoviesTableViewController: UITableViewController {
                 }
                 return headerTitle
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.deleteMovieFromServer(movie) { result in
+                guard let _ = try? result.get() else {
+                    return
+                }
+                
+                // b/c this is deleting a task and is a cheap process, it's fine to do this on the main async
+                DispatchQueue.main.async {
+                    let context = CoreDataStack.shared.mainContext
+                    context.delete(movie)
+                    do {
+                        try context.save()
+                    } catch {
+                        context.reset()
+                        NSLog("Error saving managed object context (delete task): \(error)")
+                    }
+                }
+            }
+        }
+    }
 
 
     // MARK: - Navigation

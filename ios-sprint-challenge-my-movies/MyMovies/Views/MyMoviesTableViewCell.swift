@@ -17,6 +17,7 @@ class MyMoviesTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    var movieController: MovieController?
     // MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
