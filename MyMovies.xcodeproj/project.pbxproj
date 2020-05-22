@@ -19,6 +19,7 @@
 		5A5E78592478291F00D52417 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E78582478291F00D52417 /* CoreDataStack.swift */; };
 		5A5E785B24782A3300D52417 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E785A24782A3300D52417 /* Movie+Convenience.swift */; };
 		5A5E785D24782BB200D52417 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E785C24782BB200D52417 /* MovieRepresentation.swift */; };
+		5A5E785F247839D000D52417 /* GoogleService-Info-4.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A5E785E247839D000D52417 /* GoogleService-Info-4.plist */; };
 		CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE491A8E2477713300012147 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		5A5E78582478291F00D52417 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		5A5E785A24782A3300D52417 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		5A5E785C24782BB200D52417 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
+		5A5E785E247839D000D52417 /* GoogleService-Info-4.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-4.plist"; sourceTree = "<group>"; };
 		CE491A8E2477713300012147 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,6 +142,7 @@
 			children = (
 				46E209E42126A63600E7FF73 /* AppDelegate.swift */,
 				CE491A8E2477713300012147 /* SceneDelegate.swift */,
+				5A5E785E247839D000D52417 /* GoogleService-Info-4.plist */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A5E785F247839D000D52417 /* GoogleService-Info-4.plist in Resources */,
 				46E209EF2126A63700E7FF73 /* LaunchScreen.storyboard in Resources */,
 				46E209EC2126A63700E7FF73 /* Assets.xcassets in Resources */,
 				46E209EA2126A63600E7FF73 /* Main.storyboard in Resources */,
