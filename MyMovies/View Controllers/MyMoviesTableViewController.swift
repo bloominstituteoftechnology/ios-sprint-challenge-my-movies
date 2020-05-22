@@ -7,10 +7,26 @@
 //
 
 import UIKit
+import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     //MARK: - Properties -
-    
+    lazy var frc: NSFetchedResultsController<Movie> = {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true)]
+        let context = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: context,
+                                             sectionNameKeyPath: "hasWatched",
+                                             cacheName: nil)
+        frc.delegate = self
+        do {
+            try frc.performFetch()
+        } catch {
+            NSLog("Error performing initial fetch inside NSFetchedResultsController: \(error) \(error.localizedDescription)")
+        }
+        return frc
+    }()
     
     
     //MARK: - Life Cycles -
