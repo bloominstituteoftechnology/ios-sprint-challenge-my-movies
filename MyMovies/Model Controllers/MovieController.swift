@@ -15,18 +15,17 @@ enum NetworkError: Error {
 }
 
 class MovieController {
-    
-    private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
-    private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    
+    //MARK: - Enums & Type Aliases -
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
-    // MARK: - Properties
     
+    // MARK: - Properties
+    private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
+    private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     var searchedMovies: [MovieDBMovie] = []
     
-    // MARK: - TheMovieDB API
     
+    // MARK: - TheMovieDB API
     func searchForMovie(with searchTerm: String, completion: @escaping CompletionHandler) {
         var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
         let queryParameters = ["query": searchTerm,
@@ -61,4 +60,15 @@ class MovieController {
             }
         }.resume()
     }
+    
+    
+    //MARK: - CRUD Methods -
+    
+    
+    
+    
+    //MARK: - Helper Methods -
+    
+    
+    
 }

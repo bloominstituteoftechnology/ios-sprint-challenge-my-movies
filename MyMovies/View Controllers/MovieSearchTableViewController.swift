@@ -9,17 +9,15 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController {
-
     // MARK: - Properties
-    
     var movieController = MovieController()
     
-    // MARK: - Outlets
     
+    // MARK: - Outlets
     @IBOutlet weak var searchBar: UISearchBar!
     
-    // MARK: - View Lifecycle
     
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,14 +33,14 @@ class MovieSearchTableViewController: UITableViewController {
         }
     }
     
-    // MARK: - Actions
     
+    // MARK: - Actions
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    // MARK: - Table View Data Source
     
+    // MARK: - Table View Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -52,7 +50,11 @@ class MovieSearchTableViewController: UITableViewController {
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         return cell
    }
+    
+    
 }
+
+
 
 extension MovieSearchTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
