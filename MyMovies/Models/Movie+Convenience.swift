@@ -21,7 +21,6 @@ extension Movie {
     }
     
     
-    
     //MARK: - Initializers -
     @discardableResult convenience init(identifier: UUID = UUID(),
                                         title: String,
@@ -43,7 +42,5 @@ extension Movie {
                   context: context)
     }
     
-    
-    
-    
+
 }
