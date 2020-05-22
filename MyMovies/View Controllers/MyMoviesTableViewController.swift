@@ -7,8 +7,29 @@
 //
 
 import UIKit
+import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
+class MyMoviesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    // MARK: - Properties
+    lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: false)]
+        
+        let context = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
+        
+        frc.delegate = self
+        
+        do {
+            try frc.performFetch()
+        } catch {
+            NSLog("Error performing initial fetch inside fetchedResultsController: \(error)")
+        }
+        return frc
+    }()
+    
+    let movieController = MovieController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,23 +39,19 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchResultCell", for: indexPath)
 
-        // Configure the cell...
 
         return cell
     }
-    */
 
     // MARK: - Navigation
 
@@ -43,4 +60,6 @@ class MyMoviesTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
+    
+    // MARK: - NSFetchedResultsControllerDelegate
 }
