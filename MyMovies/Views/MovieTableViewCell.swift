@@ -30,8 +30,10 @@ class MovieTableViewCell: UITableViewCell {
     
     
     
-    @IBAction func toggleWatched(_ sender: Any) {
+    @IBAction func toggleWatched(_ sender: UIButton) {
+        movie?.hasWatched.toggle()
         
+        hasWatchedButton.setImage((movie?.hasWatched ?? false) ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
     }
     
     
