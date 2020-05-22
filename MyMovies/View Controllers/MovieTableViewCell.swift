@@ -29,9 +29,9 @@ class MovieTableViewCell: UITableViewCell {
     
     private func updateWatchedStatus(watched: Bool) {
         if watched {
-            watchedImageView.image = UIImage(named: "film.fill")
+            watchedImageView.image = UIImage(systemName: "film.fill")
         } else {
-            watchedImageView.image = UIImage(named: "film")
+            watchedImageView.image = UIImage(systemName: "film")
         }
     }
 }

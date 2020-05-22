@@ -27,7 +27,7 @@ class MovieSearchTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-
+        
     }
     
     // MARK: - Actions
