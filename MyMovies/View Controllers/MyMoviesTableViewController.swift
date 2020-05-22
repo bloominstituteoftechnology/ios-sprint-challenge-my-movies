@@ -13,9 +13,9 @@ class MyMoviesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "priority", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true)]
         let context = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "priority", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
         do {
             try frc.performFetch()
@@ -40,12 +40,38 @@ class MyMoviesTableViewController: UITableViewController {
     }
     
     
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MovieTableViewCell else { fatalError("Incorrect Identifier")}
         
         cell.movie = fetchedResultsController.object(at: indexPath)
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.deleteMovieFromServer(movie) { result in
+                guard let _ = try? result.get() else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    let context = CoreDataStack.shared.mainContext
+                    
+                    context.delete(movie)
+                    do {
+                        try context.save()
+                    } catch {
+                        context.reset()
+                        NSLog("Error saving managed object context (delete movie): \(error)")
+                    }
+                }
+            }
+        }
     }
     
     // MARK: - Navigation

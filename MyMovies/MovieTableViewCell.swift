@@ -41,7 +41,4 @@ class MovieTableViewCell: UITableViewCell {
             NSLog("Error saving context (changing movie hasWatched boolean): \(error)")
         }
     }
-    
-    
-
 }

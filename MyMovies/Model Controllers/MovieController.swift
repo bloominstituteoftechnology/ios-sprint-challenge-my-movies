@@ -92,7 +92,7 @@ class MovieController {
         }.resume()
     }
     
-    func sendTaskToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+    func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = movie.identifier else {
             completion(.failure(.noIdentifier))
             return
