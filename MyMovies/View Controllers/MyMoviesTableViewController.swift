@@ -27,6 +27,7 @@ class MyMoviesTableViewController: UITableViewController {
     
     let movieController = MovieController()
     
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -37,9 +38,23 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        
     }
     
-    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        var barTitle: String
+        //let sectionTitle = "🎬🎥 \(String(sectionInfo.numberOfObjects))"
+        
+        if sectionInfo.name.capitalized == "0" {
+            barTitle = "🎬  Unwatched Movies"
+        } else {
+            barTitle = "✅ 🎬  Watched Movies"
+        }
+        
+        return barTitle
+    }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
