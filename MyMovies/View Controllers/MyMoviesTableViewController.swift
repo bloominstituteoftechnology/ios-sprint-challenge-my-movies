@@ -57,7 +57,7 @@ class MyMoviesTableViewController: UITableViewController {
         var sectionTitle: String
         
         if sectionInfo.name.capitalized == "0" {
-            sectionTitle = "Unwatched Movies"
+            sectionTitle = "Unwatched Movie"
         } else {
             sectionTitle = "Watched Movies"
         }
