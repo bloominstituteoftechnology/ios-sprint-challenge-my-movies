@@ -27,10 +27,20 @@ class MovieSearchTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
                 // TODO: Save this movie representation as a managed object in Core Data
+                let title = movieDBMovie.title
+                let movie = Movie(title: title)
+                movieController.sendMoviesToServer(movie: movie)
+                do {
+                    try CoreDataStack.shared.save()
+                } catch {
+                    NSLog("Error saving managed object context (during movie selection): \(error)")
+                }
             }
         }
     }
