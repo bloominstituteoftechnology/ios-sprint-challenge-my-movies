@@ -29,6 +29,7 @@ class MovieSearchTableViewController: UITableViewController {
     }()
     
     var movieController = MovieController()
+    var movie: Movie?
     
     // MARK: - Outlets
     
@@ -47,6 +48,13 @@ class MovieSearchTableViewController: UITableViewController {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
                 // TODO: Save this movie representation as a managed object in Core Data
+                guard let movie = movie else { return }
+                movieController.sendMovieToServer(movie: movie)
+                do {
+                    try CoreDataStack.shared.save()
+                } catch {
+                    print("Error saving managed object context (during movie save): \(error)")
+                }
             }
         }
     }
