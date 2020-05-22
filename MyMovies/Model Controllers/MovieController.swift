@@ -25,6 +25,10 @@ class MovieController {
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieDBMovie] = []
