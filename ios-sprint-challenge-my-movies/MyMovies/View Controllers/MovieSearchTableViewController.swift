@@ -37,7 +37,7 @@ class MovieSearchTableViewController: UITableViewController {
                 let movie = Movie(title: title)
                 movieController.sendMoviesToServer(movie: movie)
                 do {
-                    try CoreDataStack.shared.save()
+                    try CoreDataStack.shared.saveWait()
                 } catch {
                     NSLog("Error saving managed object context (during movie selection): \(error)")
                 }

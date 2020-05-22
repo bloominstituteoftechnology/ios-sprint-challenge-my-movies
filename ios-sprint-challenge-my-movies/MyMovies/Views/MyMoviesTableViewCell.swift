@@ -30,11 +30,10 @@ class MyMoviesTableViewCell: UITableViewCell {
         movie.hasWatched.toggle()
         
         sender.setImage(movie.hasWatched ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
-        
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
-            CoreDataStack.shared.mainContext.reset()
+//            CoreDataStack.shared.mainContext.reset()
             NSLog("Error saving context (changing movie hasWatched boolean): \(error)")
         }
     }

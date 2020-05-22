@@ -84,7 +84,9 @@ class MyMoviesTableViewController: UITableViewController {
                     context.delete(movie)
                     do {
                         try context.save()
+//                        tableView.reloadData()
                     } catch {
+                        print("tripped")
                         context.reset()
                         NSLog("Error saving managed object context (delete task): \(error)")
                     }

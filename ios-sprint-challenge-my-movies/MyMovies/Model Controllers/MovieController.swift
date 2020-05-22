@@ -211,7 +211,7 @@ class MovieController {
             }
         }
         if let error = error { throw error }
-        try CoreDataStack.shared.save(context: context)
+        try CoreDataStack.shared.saveWait(context: context)
     }
     
     private func update(movie: Movie, with representation: MovieRepresentation) {
