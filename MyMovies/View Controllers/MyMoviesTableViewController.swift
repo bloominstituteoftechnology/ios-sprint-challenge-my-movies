@@ -11,6 +11,8 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
+    // MARK: - Fetched Results Controller
+
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true)]
@@ -102,6 +104,9 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
 }
+
+// MARK: - Extension
+
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

@@ -66,6 +66,8 @@ class MovieController {
         }.resume()
     }
     
+    //MARK: - Interacting with firebase
+    
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = firebaseURL.appendingPathExtension("json")
         
