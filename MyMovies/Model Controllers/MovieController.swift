@@ -179,7 +179,6 @@ class MovieController {
                error = fetchError
            }
            
-           // tasksToCreate should now contain FB tasks that we DON'T have in Core Data
            for representation in moviesToCreate.values {
                Movie(movieRepresentation: representation, context: context)
            }
