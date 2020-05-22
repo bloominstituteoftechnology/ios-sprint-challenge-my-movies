@@ -76,30 +76,34 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Movie Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                            <rect key="frame" x="20" y="17" width="304" height="21"/>
+                                            <rect key="frame" x="20" y="17" width="294" height="21"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="film.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dIr-Wr-dhQ">
-                                            <rect key="frame" x="344" y="3.5" width="50" height="47.5"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xqx-vv-5ld">
+                                            <rect key="frame" x="334" y="2.5" width="50" height="50"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="RZg-fW-xnQ"/>
-                                                <constraint firstAttribute="height" constant="50" id="aXl-59-U0D"/>
+                                                <constraint firstAttribute="height" constant="50" id="NO9-fa-wps"/>
+                                                <constraint firstAttribute="width" constant="50" id="mtl-PZ-ard"/>
+                                                <constraint firstAttribute="width" secondItem="xqx-vv-5ld" secondAttribute="height" multiplier="1:1" id="yoE-4E-AMb"/>
                                             </constraints>
-                                        </imageView>
+                                            <connections>
+                                                <action selector="watchedButtonPressed:" destination="9cK-VO-zdo" eventType="touchUpInside" id="wKH-qK-Ica"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="a6O-zS-fmH" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leadingMargin" id="2dT-ld-seE"/>
+                                        <constraint firstItem="xqx-vv-5ld" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="3El-9k-kVq"/>
                                         <constraint firstItem="a6O-zS-fmH" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="JYW-iG-Hpc"/>
-                                        <constraint firstAttribute="trailing" secondItem="dIr-Wr-dhQ" secondAttribute="trailing" constant="20" id="VZP-n4-90J"/>
-                                        <constraint firstItem="dIr-Wr-dhQ" firstAttribute="leading" secondItem="a6O-zS-fmH" secondAttribute="trailing" constant="20" id="mD6-8W-beS"/>
-                                        <constraint firstItem="dIr-Wr-dhQ" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="xQ9-Gf-hF3"/>
+                                        <constraint firstItem="xqx-vv-5ld" firstAttribute="leading" secondItem="a6O-zS-fmH" secondAttribute="trailing" constant="20" id="Nci-LI-tlA"/>
+                                        <constraint firstItem="xqx-vv-5ld" firstAttribute="trailing" secondItem="F0q-Pd-Woa" secondAttribute="trailingMargin" constant="-10" id="bIp-HZ-Syg"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="titleLabel" destination="a6O-zS-fmH" id="3L8-cn-nQD"/>
-                                    <outlet property="watchedImageView" destination="dIr-Wr-dhQ" id="LQq-Cf-zmo"/>
+                                    <outlet property="watchedButton" destination="xqx-vv-5ld" id="gEW-8b-suS"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -117,6 +121,7 @@
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="7cQ-M3-D40"/>
             </objects>
             <point key="canvasLocation" x="2405.7971014492755" y="699.10714285714278"/>
         </scene>
@@ -159,7 +164,4 @@
             <point key="canvasLocation" x="3366.666666666667" y="160.71428571428569"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="film.fill" catalog="system" width="128" height="93"/>
-    </resources>
 </document>

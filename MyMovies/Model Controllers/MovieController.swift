@@ -109,6 +109,15 @@ class MovieController {
         }.resume()
     }
     
+    func toggleHasWatched(_ movie: Movie) {
+        movie.hasWatched = !movie.hasWatched
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        try? context.save()
+        sendMovieToServer(movie: movie)
+    }
+    
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = firebaseURL.appendingPathExtension("json")
         
@@ -155,6 +164,12 @@ class MovieController {
             
             completion(.success(true))
         }.resume()
+        
+        DispatchQueue.main.async {
+            let context = CoreDataStack.shared.mainContext
+            context.delete(movie)
+            try? context.save()
+        }
     }
     
     private func updateMovies(with representations: [MovieRepresentation]) throws {

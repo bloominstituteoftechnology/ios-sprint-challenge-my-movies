@@ -38,6 +38,9 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
+        tableView.allowsSelection = false
+        tableView.isUserInteractionEnabled = true
+        
         tableView.reloadData()
     }
 
@@ -59,10 +62,32 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         }
 
         cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.movieController = movieController
         
         return cell
     }
-
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = fetchedResultsController.object(at: indexPath)
+            movieController.deleteMovieFromServer(movie) { result in
+                guard let _ = try? result.get() else {
+                    return
+                }
+            }
+            DispatchQueue.main.async {
+                let context = CoreDataStack.shared.mainContext
+                
+                context.delete(movie)
+                do {
+                    try context.save()
+                } catch {
+                    context.reset()
+                    NSLog("Error saving managed object context (delete movie): \(movie)")
+                }
+            }
+        }
+    }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

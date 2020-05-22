@@ -11,7 +11,9 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var watchedImageView: UIImageView!
+    @IBOutlet var watchedButton: UIButton!
+    
+    var movieController: MovieController?
     
     var movie: Movie? {
         didSet {
@@ -29,9 +31,15 @@ class MovieTableViewCell: UITableViewCell {
     
     private func updateWatchedStatus(watched: Bool) {
         if watched {
-            watchedImageView.image = UIImage(systemName: "film.fill")
-        } else {
-            watchedImageView.image = UIImage(systemName: "film")
+            watchedButton.setImage(UIImage(systemName: "film.fill"), for: .normal)
+            } else {
+            watchedButton.setImage(UIImage(systemName: "film"), for: .normal)
+        }
+    }
+    
+    @IBAction func watchedButtonPressed(_ sender: UIButton) {
+        if let movie = movie {
+            movieController?.toggleHasWatched(movie)
         }
     }
 }
