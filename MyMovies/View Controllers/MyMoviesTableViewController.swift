@@ -51,6 +51,21 @@ class MyMoviesTableViewController: UITableViewController {
         return cell
     }
     
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+//
+//        var barTitle: String
+//        //let sectionTitle = "🎬🎥 \(String(sectionInfo.numberOfObjects))"
+//
+//        if sectionInfo.name.capitalized == "0" {
+//            barTitle = "🎬  Unwatched Movies"
+//        } else {
+//            barTitle = "✅ 🎬  Watched Movies"
+//        }
+//
+//        return barTitle
+//    }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
