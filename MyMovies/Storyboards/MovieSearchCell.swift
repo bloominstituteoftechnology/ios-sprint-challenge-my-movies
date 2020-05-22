@@ -9,16 +9,18 @@
 import UIKit
 
 class MovieSearchCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    // MARK: - OUTLETS
+    @IBOutlet weak var movieTitle: UILabel!
+    var movieController: MovieController?
+    var movieRepresentation: MovieRepresentation? {
+        didSet {
+            updateView()
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    private func updateView() {
+        guard let movieRepresentation = movieRepresentation else {return}
+        movieTitle.text = movieRepresentation.title
     }
-
 }
+

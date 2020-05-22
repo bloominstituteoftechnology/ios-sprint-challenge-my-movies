@@ -9,7 +9,7 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController {
-
+    
     // MARK: - Properties
     
     var movieController = MovieController()
@@ -51,7 +51,7 @@ class MovieSearchTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchResultCell", for: indexPath)
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         return cell
-   }
+    }
 }
 
 extension MovieSearchTableViewController: UISearchBarDelegate {

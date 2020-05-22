@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+struct MovieRepresentation: Codable {
+    var identifier: String
+    var title: String
+    var hasWatched: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case identifier
+        case title
+        case hasWatched
+    }
+}
