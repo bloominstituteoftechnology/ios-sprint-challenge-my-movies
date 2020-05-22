@@ -96,7 +96,7 @@ class MovieController {
                 self.updateMovies(with: movieRepresentations)
                 completion(.success(true))
             } catch {
-                NSLog("Error decoding tasks from firebase: \(error) \(error.localizedDescription)")
+                NSLog("Error decoding entries from firebase: \(error) \(error.localizedDescription)")
                 completion(.failure(.failedDecode))
                 return
             }

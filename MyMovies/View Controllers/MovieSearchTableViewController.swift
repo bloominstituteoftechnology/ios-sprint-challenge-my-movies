@@ -40,6 +40,7 @@ class MovieSearchTableViewController: UITableViewController {
                 }
             }
         }
+        self.movieController.fetchMyMovies()
     }
     
     

@@ -28,6 +28,8 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
+    var movieController = MovieController()
+    
     
     //MARK: - Life Cycles -
     override func viewDidLoad() {
@@ -46,22 +48,43 @@ class MyMoviesTableViewController: UITableViewController {
         return frc.sections?[section].numberOfObjects ?? 0
     }
     
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.reuseIdentifier, for: indexPath) as? MovieTableViewCell else { fatalError("Could not dequeue cell of type \(MovieTableViewCell.reuseIdentifier)")}
 
         // Configure the cell...
-
+        cell.movie = frc.object(at: indexPath)
         return cell
     }
-    */
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionTitles = frc.sections?[section] else { return nil }
+        return sectionTitles.name.capitalized
+    }
     
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = frc.object(at: indexPath)
+            movieController.deleteMovieFromServer(movie) { result in
+                do {
+                    let _ = try result.get()
+                } catch {
+                    NSLog("Error deleting movie from server.")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    let context = CoreDataStack.shared.mainContext
+                    context.delete(movie)
+                    
+                    do {
+                        try context.save()
+                    } catch {
+                        NSLog("Error saving managed object context during deletion from CoreData: \(error)")
+                    }
+                }
+            }
+        }
     }
     
     
