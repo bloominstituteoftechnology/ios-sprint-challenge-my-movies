@@ -27,8 +27,17 @@ class MovieSearchTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
+                let context = CoreDataStack.shared.container.newBackgroundContext()
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
-                // TODO: Save this movie representation as a managed object in Core Data
+                let newMovie = Movie(title: movieDBMovie.title, context: context)
+                context.performAndWait {
+                    movieController.sendMoviesToServer(movie: newMovie)
+                    do {
+                        try CoreDataStack.shared.save(context: context)
+                    } catch {
+                        NSLog("Error saving movie to CoreData: \(error) \(error.localizedDescription)")
+                    }
+                }
             }
         }
     }
