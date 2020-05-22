@@ -19,6 +19,7 @@
 		79012E882478346E00215081 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012E872478346E00215081 /* MovieRepresentation.swift */; };
 		79012E8A2478347D00215081 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012E892478347D00215081 /* CoreDataStack.swift */; };
 		79012E8C2478349A00215081 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012E8B2478349A00215081 /* Movie+Convenience.swift */; };
+		79012E8E2478379800215081 /* MyMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012E8D2478379800215081 /* MyMoviesTableViewCell.swift */; };
 		CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE491A8E2477713300012147 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		79012E872478346E00215081 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		79012E892478347D00215081 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		79012E8B2478349A00215081 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
+		79012E8D2478379800215081 /* MyMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMoviesTableViewCell.swift; sourceTree = "<group>"; };
 		CE491A8E2477713300012147 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +107,7 @@
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				79012E8D2478379800215081 /* MyMoviesTableViewCell.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 			files = (
 				79012E8C2478349A00215081 /* Movie+Convenience.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				79012E8E2478379800215081 /* MyMoviesTableViewCell.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				79012E862478344500215081 /* Movie.xcdatamodeld in Sources */,
 				79012E8A2478347D00215081 /* CoreDataStack.swift in Sources */,

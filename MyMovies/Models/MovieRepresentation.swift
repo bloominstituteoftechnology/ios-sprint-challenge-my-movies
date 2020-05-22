@@ -7,3 +7,10 @@
 //
 
 import Foundation
+
+
+struct MovieRepresentation: Codable {
+    var identifier: String
+    var title: String
+    var hasWatched: Bool
+}
