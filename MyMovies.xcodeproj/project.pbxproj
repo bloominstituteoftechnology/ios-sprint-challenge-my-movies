@@ -86,10 +86,9 @@
 			isa = PBXGroup;
 			children = (
 				46E20A012126A91800E7FF73 /* MovieDBMovie.swift */,
-				FE753DF624782B0700A37BE6 /* Movie.xcdatamodeld */,
 				FE753DF924782B6100A37BE6 /* MovieRepresentation.swift */,
-				FE753DFB24782D7A00A37BE6 /* CoreDataStack.swift */,
 				FE753DFD24782E5000A37BE6 /* Movie+Convenience.swift */,
+				FE753E02247839BB00A37BE6 /* CoreData */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -107,7 +106,7 @@
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
-				FE753DFF2478333D00A37BE6 /* MyMovieTableViewCell.swift */,
+				FE753E01247839AA00A37BE6 /* Views */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -137,6 +136,23 @@
 				CE491A8E2477713300012147 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		FE753E01247839AA00A37BE6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FE753DFF2478333D00A37BE6 /* MyMovieTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FE753E02247839BB00A37BE6 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				FE753DF624782B0700A37BE6 /* Movie.xcdatamodeld */,
+				FE753DFB24782D7A00A37BE6 /* CoreDataStack.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
