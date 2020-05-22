@@ -29,14 +29,15 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.rowHeight = 55
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
@@ -46,8 +47,22 @@ class MyMoviesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MyMovieTableViewCell.reuseIdentifier, for: indexPath) as? MyMovieTableViewCell else { fatalError("Can't dequeue cell of type \(MyMovieTableViewCell.reuseIdentifier)")}
         
         cell.movie = fetchedResultsController.object(at: indexPath)
-
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        var sectionTitle: String
+        
+        if sectionInfo.name.capitalized == "0" {
+            sectionTitle = "Unwatched Movies"
+        } else {
+            sectionTitle = "Watched Movies"
+        }
+        
+        return sectionTitle
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -72,11 +87,11 @@ class MyMoviesTableViewController: UITableViewController {
             }
         }
     }
-
+    
     // MARK: - Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "searchMovieSegue" {
+        if segue.identifier == "SearchMovieSegue" {
             if let navC = segue.destination as? UINavigationController,
                 let searchMovieVC = navC.viewControllers.first as? MovieSearchTableViewController {
                 searchMovieVC.movieController = movieController

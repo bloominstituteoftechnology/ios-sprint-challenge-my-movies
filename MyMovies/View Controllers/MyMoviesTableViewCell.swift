@@ -21,30 +21,33 @@ class MyMovieTableViewCell: UITableViewCell {
         
         // MARK: - Outlets
         
-        @IBOutlet weak var movieTitleLabel: UILabel!
-        @IBOutlet weak var hasWatchedButtonTapped: UIButton!
+    @IBOutlet weak var completedButton: UIButton!
+    @IBOutlet weak var movieTitleLabel: UILabel!
+
         
         // MARK: - Action
         
-        @IBAction func hasWatched(_ sender: UIButton) {
-            guard let movie = movie else { return }
-            
-            movie.hasWatched.toggle()
-            
-            sender.setImage(movie.hasWatched ? UIImage(systemName: "film") : UIImage(systemName: "film.fill"), for: .normal)
-            
-            do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch {
-                NSLog("Error saving managed object context (changing movie hasWatched boolean): \(error)")
-            }
-        }
+    @IBAction func toggleComplete(_ sender: UIButton) {
+        guard let movie = movie else { return }
+                
+                movie.hasWatched.toggle()
+                
+                sender.setImage(movie.hasWatched ? UIImage(systemName: "film") : UIImage(systemName: "film.fill"), for: .normal)
+                
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                } catch {
+                    CoreDataStack.shared.mainContext.reset()
+                    NSLog("Error saving managed object context (changing movie hasWatched boolean): \(error)")
+                }
+    }
+   
         
         private func updateViews() {
             guard let movie = movie else { return }
             
             movieTitleLabel.text = movie.title
-            hasWatchedButtonTapped.setImage(movie.hasWatched ? UIImage(systemName: "film") : UIImage(systemName: "film.fill"), for: .normal)
+            completedButton.setImage(movie.hasWatched ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
         }
     }
 
