@@ -30,6 +30,12 @@ class MovieSearchTableViewController: UITableViewController {
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
+                
+                do {
+                    try CoreDataStack.shared.save()
+                } catch {
+                    NSLog("Error saving managed object context \(error)")
+                }
                 // TODO: Save this movie representation as a managed object in Core Data
             }
         }
