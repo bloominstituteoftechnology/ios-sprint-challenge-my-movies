@@ -22,7 +22,10 @@ extension Movie {
         return MovieRepresentation(identifier: id.uuidString, title: title, hasWatched: hasWatched)
     }
     
-    @discardableResult convenience init(title: String, hasWatched: Bool = false, identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String,
+                                        hasWatched: Bool = false,
+                                        identifier: UUID = UUID(),
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.hasWatched = hasWatched

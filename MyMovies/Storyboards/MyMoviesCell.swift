@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MyMoviesCell: UITableViewCell {
+class MyMovieCell: UITableViewCell {
     // MARK: - PROPERTIES
     var movieController: MovieController?
     // MARK: - OUTLETS

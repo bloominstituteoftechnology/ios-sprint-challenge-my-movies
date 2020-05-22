@@ -42,12 +42,13 @@ class MyMoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMoviesCell", for: indexPath) as? MyMoviesCell else { fatalError("Unable to connect") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMovieCell else { fatalError("Unable to connect") }
         cell.movie = fetchedResultsController.object(at: indexPath)
         
         return cell
     }
     
+    // MARK: - EDIT/DELETE
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source

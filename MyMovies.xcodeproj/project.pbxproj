@@ -124,10 +124,10 @@
 		46E20A0A2126AFCB00E7FF73 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				B4FCA9F124782408003ECE17 /* CoreDataStack.swift */,
 				46E209E82126A63600E7FF73 /* Main.storyboard */,
 				B4FCA9F824782851003ECE17 /* MovieSearchCell.swift */,
 				B4FCA9F62478283F003ECE17 /* MyMoviesCell.swift */,
-				B4FCA9F124782408003ECE17 /* CoreDataStack.swift */,
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;

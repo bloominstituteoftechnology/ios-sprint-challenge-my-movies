@@ -12,13 +12,15 @@ class MovieSearchCell: UITableViewCell {
     
     // MARK: - OUTLETS
     @IBOutlet weak var movieTitle: UILabel!
+    
     var movieController: MovieController?
+    
     var movieRepresentation: MovieRepresentation? {
         didSet {
-            updateView()
+            updateViews()
         }
     }
-    private func updateView() {
+    private func updateViews() {
         guard let movieRepresentation = movieRepresentation else {return}
         movieTitle.text = movieRepresentation.title
     }
