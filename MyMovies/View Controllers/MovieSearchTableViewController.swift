@@ -31,6 +31,7 @@ class MovieSearchTableViewController: UITableViewController {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
                 // TODO: Save this movie representation as a managed object in Core Data
+                movieController.createMovie(title: movieDBMovie.title, identifier: UUID())
             }
         }
     }
@@ -48,8 +49,9 @@ class MovieSearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchResultCell", for: indexPath)
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchResultCell", for: indexPath) as! MovieSearchTableViewCell
+        cell.movieRep = movieController.searchedMovies[indexPath.row]
+        cell.movieController = movieController
         return cell
    }
 }
@@ -58,11 +60,10 @@ extension MovieSearchTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         
-        movieController.searchForMovie(with: searchTerm) { result in
-            if let _ = try? result.get() {
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+        movieController.searchForMovie(with: searchTerm) { (error) in
+            guard error == nil else { return }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
