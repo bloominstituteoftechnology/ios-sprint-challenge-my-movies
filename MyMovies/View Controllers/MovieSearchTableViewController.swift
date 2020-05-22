@@ -9,17 +9,15 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController {
-
     // MARK: - Properties
-    
     var movieController = MovieController()
     
-    // MARK: - Outlets
     
+    // MARK: - Outlets
     @IBOutlet weak var searchBar: UISearchBar!
     
-    // MARK: - View Lifecycle
     
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,20 +27,30 @@ class MovieSearchTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
+                let context = CoreDataStack.shared.container.newBackgroundContext()
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
-                // TODO: Save this movie representation as a managed object in Core Data
+                let newMovie = Movie(title: movieDBMovie.title, context: context)
+                context.performAndWait {
+                    movieController.sendMoviesToServer(movie: newMovie)
+                    do {
+                        try CoreDataStack.shared.save(context: context)
+                    } catch {
+                        NSLog("Error saving movie to CoreData: \(error) \(error.localizedDescription)")
+                    }
+                }
             }
         }
+        self.movieController.fetchMyMovies()
     }
     
-    // MARK: - Actions
     
+    // MARK: - Actions
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    // MARK: - Table View Data Source
     
+    // MARK: - Table View Data Source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movieController.searchedMovies.count
     }
@@ -52,7 +60,11 @@ class MovieSearchTableViewController: UITableViewController {
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         return cell
    }
+    
+    
 }
+
+
 
 extension MovieSearchTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
