@@ -13,10 +13,10 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // movieController.fetchTaskFromServer()
+        movieController.fetchMoviesFromServer()
     }
     
-     var movieController = MovieController()
+    var movieController = MovieController()
 
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         
@@ -41,12 +41,10 @@ class MyMoviesTableViewController: UITableViewController {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMoviesCell", for: indexPath) as? MyMoviesCell else { fatalError("Unable to connect") }
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        
         return cell
     }
     
@@ -58,7 +56,6 @@ class MyMoviesTableViewController: UITableViewController {
                 guard let result = try? result.get() else {
                     return
                 }
-
                 DispatchQueue.main.async {
                     let context = CoreDataStack.shared.mainContext
 
@@ -73,8 +70,6 @@ class MyMoviesTableViewController: UITableViewController {
             }
         }
     }
-
-
 
     // MARK: - NAVIGATION
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
