@@ -85,8 +85,7 @@
                                             <rect key="frame" x="370" y="16.5" width="24" height="22"/>
                                             <state key="normal" image="film" catalog="system"/>
                                             <connections>
-                                                <action selector="hasBeenSeenButton:" destination="1Gb-tL-YFt" eventType="touchUpInside" id="Fvi-Ly-Asr"/>
-                                                <action selector="hasBeenWatchedButton:" destination="9cK-VO-zdo" eventType="touchUpInside" id="tWs-Iv-x2B"/>
+                                                <action selector="hasBeenWatchedButton:" destination="9cK-VO-zdo" eventType="touchUpInside" id="xvS-EH-fWZ"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -99,6 +98,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="hasBeenWatchedButton" destination="3Ay-OW-Mt0" id="Odd-n9-mhc"/>
                                     <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="6m1-KX-X8G"/>
                                 </connections>
                             </tableViewCell>

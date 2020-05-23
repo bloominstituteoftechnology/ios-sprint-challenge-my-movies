@@ -9,9 +9,14 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-
     
+    var movie: Movie? {
+        didSet {
+            updateViews()
+        }
+    }
     
+    @IBOutlet weak var hasBeenWatchedButton: UIButton!
     @IBOutlet weak var movieTitleLabel: UILabel!
     
     override func awakeFromNib() {
@@ -20,6 +25,10 @@ class MovieTableViewCell: UITableViewCell {
     }
 
     @IBAction func hasBeenWatchedButton(_ sender: UIButton) {
+        movie?.hasWatched.toggle()
+        updateViews()
+        print("movie button tapped")
+    
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -27,4 +36,10 @@ class MovieTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    private func updateViews() {
+        guard let movie = movie else { return }
+        movieTitleLabel.text = movie.title
+        
+        hasBeenWatchedButton.setImage(movie.hasWatched ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
+    }
 }

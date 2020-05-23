@@ -10,12 +10,13 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
+
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true)]
         let context = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
         do {
             try frc.performFetch()
@@ -32,8 +33,6 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func hasBeenSeenButton(_ sender: UIButton) {
-    }
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -47,14 +46,26 @@ class MyMoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath)
-        cell.textLabel?.text = movieController?.searchedMovies[indexPath.row].title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
+        let movie = fetchedResultsController.object(at: indexPath)
+        cell.movie = movie
+        cell.movieTitleLabel.text = movie.title
+//        cell.hasBeenWatchedButton.setImage(movie.hasWatched ?? false ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
            guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name.capitalized
+        switch section {
+        case 0:
+            return "Not Watched"
+        case 1:
+            return "Watched"
+        default:
+            return ""
+        }
+        
+//        return sectionInfo.name.capitalized
        }
     
     // MARK: - Navigation
