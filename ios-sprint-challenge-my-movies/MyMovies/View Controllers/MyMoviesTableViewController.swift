@@ -34,23 +34,23 @@ class MyMoviesTableViewController: UITableViewController {
     
     let movieController = MovieController()
     var headerTitle: String = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         movieController.fetchSavedMovieFromServer()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MyMoviesTableViewCell.reuseIdentifier, for: indexPath) as? MyMoviesTableViewCell else {
             fatalError("Can't dequeue cell of type \(MyMoviesTableViewCell.reuseIdentifier)")
@@ -62,12 +62,12 @@ class MyMoviesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-                if sectionInfo.name == "0" {
-                    headerTitle = "Not Seen"
-                } else if sectionInfo.name == "1" {
-                    headerTitle = "Seen"
-                }
-                return headerTitle
+        if sectionInfo.name == "0" {
+            headerTitle = "Not Seen"
+        } else if sectionInfo.name == "1" {
+            headerTitle = "Seen"
+        }
+        return headerTitle
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -78,13 +78,11 @@ class MyMoviesTableViewController: UITableViewController {
                     return
                 }
                 
-                // b/c this is deleting a task and is a cheap process, it's fine to do this on the main async
                 DispatchQueue.main.async {
                     let context = CoreDataStack.shared.mainContext
-                    context.delete(movie)
                     do {
+                        context.delete(movie)
                         try context.save()
-//                        tableView.reloadData()
                     } catch {
                         print("tripped")
                         context.reset()
@@ -94,10 +92,8 @@ class MyMoviesTableViewController: UITableViewController {
             }
         }
     }
-
-
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.

@@ -29,8 +29,6 @@ class CoreDataStack {
     
     func saveWait(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
         var error: Error?
-        
-        // if we did perform (asynchronous call) in this case, it would automatically jump to line 43 and it would think that the error is always nil but that isn't true. That's why we need to performAndWait (synchronous call) to actually have to closure (do/catch block) finish and see if there is an error and handle it if necessary!!!!
         context.performAndWait {
             do {
                 try context.save()

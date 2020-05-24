@@ -175,9 +175,11 @@ class MovieController {
         }.resume()
     }
     
-    func updateMovie(movie: Movie, title: String, hasWatched: Bool) {
-        movie.title = title
+    func updateMovie(movie: Movie, hasWatched: Bool) {
+        
         movie.hasWatched = hasWatched
+        
+        
     }
     
     private func updateMovies(with representations: [MovieRepresentation]) throws {
