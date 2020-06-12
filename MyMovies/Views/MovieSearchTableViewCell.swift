@@ -10,10 +10,25 @@ import UIKit
 
 class MovieSearchTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var movieTitle: UILabel!
+    var myMoviesController: MyMovieController?
+    var movie: MovieRepresentation? {
+         didSet {
+             updateViews()
+         }
+     }
+
+    @IBOutlet weak var titleLabel: UILabel!
     
     @IBAction func addMovie(_ sender: UIButton) {
+        guard let movie = movie else {return}
+
+        let newMovie = Movie(title: movie.title)
+        myMoviesController?.sendMovieToServer(movie: newMovie)
     }
-    
+
+    private func updateViews() {
+        titleLabel.text = movie?.title
+    }
+ 
   
 }
