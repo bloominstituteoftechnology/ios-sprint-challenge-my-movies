@@ -47,12 +47,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="JAx-oZ-xh2">
-                                            <rect key="frame" x="5" y="5" width="365" height="31"/>
+                                            <rect key="frame" x="20" y="5" width="350" height="31"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elb-Dv-aYG">
-                                                    <rect key="frame" x="0.0" y="0.0" width="284" height="31"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="269" height="31"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="284" id="NGS-4O-axb"/>
+                                                        <constraint firstAttribute="width" constant="290" id="Cvl-Vi-BwY"/>
                                                         <constraint firstAttribute="height" constant="30.5" id="z7l-UE-4Yg"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -60,9 +60,9 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="woz-UD-SlB">
-                                                    <rect key="frame" x="292" y="0.0" width="73" height="31"/>
+                                                    <rect key="frame" x="277" y="0.0" width="73" height="31"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="73" id="Xdc-zm-zdb"/>
+                                                        <constraint firstAttribute="width" constant="73" id="cd7-sn-rNU"/>
                                                     </constraints>
                                                     <state key="normal" title="Add Movie"/>
                                                     <connections>
@@ -78,7 +78,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="JAx-oZ-xh2" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="5" id="HBM-eW-VRP"/>
-                                        <constraint firstItem="JAx-oZ-xh2" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="5" id="I4N-ou-rBn"/>
+                                        <constraint firstAttribute="leading" secondItem="JAx-oZ-xh2" secondAttribute="leading" constant="-20" id="I4N-ou-rBn"/>
                                         <constraint firstAttribute="bottom" secondItem="JAx-oZ-xh2" secondAttribute="bottom" constant="5" id="dhZ-cJ-shO"/>
                                         <constraint firstItem="JAx-oZ-xh2" firstAttribute="trailing" secondItem="8Bc-u1-IMl" secondAttribute="trailing" constant="-5" id="uMr-Mx-cuq"/>
                                     </constraints>
@@ -158,6 +158,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="H1C-pG-1Ug">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
                             <action selector="refreshData:" destination="1Gb-tL-YFt" eventType="valueChanged" id="KXj-lX-7T2"/>
