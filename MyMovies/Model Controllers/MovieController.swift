@@ -101,7 +101,7 @@ class MovieController {
                     completion(.success(true))
                 }
             } catch {
-                print("Error decoding task representations: \(error)")
+                print("Error decoding movie representations: \(error)")
                 DispatchQueue.main.async {
                     completion(.failure(.failedDecode))
                 }
