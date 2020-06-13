@@ -14,7 +14,7 @@ enum NetworkErrors: Error {
 }
 
 
-class FarebaseController {
+class FirebaseController {
     
     //MARK: Propertirs
     
