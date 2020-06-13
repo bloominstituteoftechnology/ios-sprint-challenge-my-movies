@@ -12,6 +12,7 @@ class MovieSearchTableViewController: UITableViewController {
 
     // MARK: - Properties
     
+    var hasWatched = false
     var movieController = MovieController()
     
     // MARK: - Outlets
@@ -30,7 +31,15 @@ class MovieSearchTableViewController: UITableViewController {
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
-                // TODO: Save this movie representation as a managed object in Core Data
+                let movie = Movie(title: movieDBMovie.title, hasWatched: self.hasWatched)
+                movieController.sendMovieToServer(movie: movie)
+                
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                    navigationController?.dismiss(animated: true, completion: nil)
+                } catch {
+                    NSLog("Error saving managed object context: \(error)")
+                }
             }
         }
     }
