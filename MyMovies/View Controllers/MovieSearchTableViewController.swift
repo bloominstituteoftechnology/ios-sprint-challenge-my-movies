@@ -75,3 +75,11 @@ extension MovieSearchTableViewController: UISearchBarDelegate {
         }
     }
 }
+
+extension MovieSearchTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.3) {
+            tableView.cellForRow(at: indexPath)?.contentView.backgroundColor = .systemBlue
+        }
+    }
+}
