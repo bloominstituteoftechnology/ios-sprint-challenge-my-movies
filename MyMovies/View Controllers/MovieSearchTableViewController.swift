@@ -35,6 +35,7 @@ class MovieSearchTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchResultCell", for: indexPath) as? SearchedMoviesTableViewCell else { return UITableViewCell() }
         cell.movieTitleLabel.text = movieController.searchedMovies[indexPath.row].title
+        cell.saveMovieButton.isEnabled = true
         return cell
    }
 }

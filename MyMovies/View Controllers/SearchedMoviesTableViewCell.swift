@@ -17,6 +17,7 @@ class SearchedMoviesTableViewCell: UITableViewCell {
     var movieController = MovieFirebaseController()
     var movie: Movie?
     
+    
     //MARK: - IBAction
     @IBAction func saveMovieButtonTapped(_ sender: UIButton) {
         guard let title = movieTitleLabel.text else { return }
