@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum NetworkError: Error {
     case otherError
@@ -18,6 +19,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebaseURL = URL(string:"https://mymovies-3dd00.firebaseio.com/")!
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
@@ -60,5 +62,93 @@ class MovieController {
                 completion(.failure(.failedDecode))
             }
         }.resume()
+    }
+
+    func sendMoviesToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else { completion(.failure(.otherError))
+            return
+        }
+
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+
+        do {
+            guard let representation = movie.movieRepresentation else {
+                completion(.failure(.otherError))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding task \(movie): \(error)")
+            completion(.failure(.otherError))
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("Error PUTting movie to server: \(error)")
+                DispatchQueue.main.sync {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+        }.resume()
+    }
+
+    private func updateMovie(with representations: [MovieRepresentation]) throws {
+
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+
+        let identifiersToFetch = representations.compactMap({ UUID(uuidString: $0.identifier )})
+
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        var movieToCreate = representationsByID
+
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+
+        context.performAndWait {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    self.update(movie: movie, with: representation)
+                    movieToCreate.removeValue(forKey: id)
+                }
+
+                for representation in movieToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching movies for UUIDs: \(error)")
+            }
+        }
+        try CoreDataStack.shared.save(context: context)
+    }
+
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+           guard let uuid = movie.identifier else {
+               completion(.failure(.otherError))
+               return
+           }
+           let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+           var request = URLRequest(url: requestURL)
+           request.httpMethod = "DELETE"
+           URLSession.shared.dataTask(with: request) { (data, response, error) in
+               print(response!)
+               completion(.success(true))
+           }.resume()
+       }
+
+    private func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.hasWatched = representation.hasWatched
     }
 }
