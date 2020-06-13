@@ -59,7 +59,7 @@
             </objects>
             <point key="canvasLocation" x="4276.811594202899" y="160.71428571428569"/>
         </scene>
-        <!--My Movies-->
+        <!--Movie Library-->
         <scene sceneID="COr-3j-4xq">
             <objects>
                 <tableViewController id="1Gb-tL-YFt" customClass="MyMoviesTableViewController" customModule="MyMovies" customModuleProvider="target" sceneMemberID="viewController">
@@ -101,7 +101,7 @@
                             <outlet property="delegate" destination="1Gb-tL-YFt" id="4Hh-DX-Gi9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="My Movies" id="kFq-a3-ocR">
+                    <navigationItem key="navigationItem" title="Movie Library" id="kFq-a3-ocR">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="IDO-Mg-zV3">
                             <connections>
                                 <segue destination="oX8-Z5-5b3" kind="presentation" id="DLp-eA-fna"/>
@@ -119,8 +119,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xhk-iX-GhA" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LHS-Ob-B4s">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="LHS-Ob-B4s">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
