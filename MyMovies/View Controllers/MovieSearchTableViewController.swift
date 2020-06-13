@@ -14,11 +14,11 @@ class MovieSearchTableViewController: UITableViewController {
     
     var movieController = MovieController()
     
-    // MARK: - Outlets
+    // MARK: - IBOutlets
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    // MARK: - View Lifecycle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,7 @@ class MovieSearchTableViewController: UITableViewController {
         }
     }
     
-    // MARK: - Actions
+    // MARK: - IBActions
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
@@ -54,10 +54,12 @@ class MovieSearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchResultCell", for: indexPath)
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.reuseIdentifier, for: indexPath) as? SearchResultTableViewCell else {
+            fatalError("Could not dequeue cell: \(SearchResultTableViewCell.reuseIdentifier)")
+        }
+        cell.movieTitleLabel.text = movieController.searchedMovies[indexPath.row].title
         return cell
-   }
+    }
 }
 
 extension MovieSearchTableViewController: UISearchBarDelegate {
