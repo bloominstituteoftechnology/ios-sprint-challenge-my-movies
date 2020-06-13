@@ -9,7 +9,7 @@
 import UIKit
 
 class SavedMovieTableViewCell: UITableViewCell {
-    let movieController = MovieController()
+    var movieController: MovieController?
     var movie: Movie? {
         didSet {
             updateViews()
@@ -21,7 +21,7 @@ class SavedMovieTableViewCell: UITableViewCell {
 
     @IBAction func watchedButtonTapped(_ sender: Any) {
         guard let movie = movie else { return }
-        movieController.updateWatched(movie: movie)
+        movieController?.updateWatched(movie: movie)
     }
     
     func updateViews() {
