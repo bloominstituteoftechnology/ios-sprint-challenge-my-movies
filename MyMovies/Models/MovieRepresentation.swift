@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MovieRepresentation {
+struct MovieRepresentation: Codable, Equatable {
     var title: String
     var identifier: UUID?
     var hasWatched: Bool?

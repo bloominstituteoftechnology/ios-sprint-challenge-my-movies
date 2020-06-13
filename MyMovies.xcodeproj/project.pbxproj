@@ -19,6 +19,7 @@
 		CA49CB5B24954393004BBA6F /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA49CB5A24954393004BBA6F /* Movie+Convenience.swift */; };
 		CA49CB5D24954404004BBA6F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA49CB5C24954404004BBA6F /* CoreDataStack.swift */; };
 		CA49CB5F2495471A004BBA6F /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA49CB5E2495471A004BBA6F /* MovieRepresentation.swift */; };
+		CA49CB6124954981004BBA6F /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA49CB6024954981004BBA6F /* FirebaseController.swift */; };
 		CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE491A8E2477713300012147 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		CA49CB5A24954393004BBA6F /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Movie+Convenience.swift"; path = "MyMovies/Model Controllers/Movie+Convenience.swift"; sourceTree = SOURCE_ROOT; };
 		CA49CB5C24954404004BBA6F /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		CA49CB5E2495471A004BBA6F /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
+		CA49CB6024954981004BBA6F /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		CE491A8E2477713300012147 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				46E209FF2126A91300E7FF73 /* MovieController.swift */,
+				CA49CB6024954981004BBA6F /* FirebaseController.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 				46E20A002126A91300E7FF73 /* MovieController.swift in Sources */,
 				46E209E52126A63600E7FF73 /* AppDelegate.swift in Sources */,
 				46E20A022126A91800E7FF73 /* MovieDBMovie.swift in Sources */,
+				CA49CB6124954981004BBA6F /* FirebaseController.swift in Sources */,
 				CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
