@@ -27,7 +27,8 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let firebaseURL = URL(string: "https://mymovies-79a4a.firebaseio.com/")!
+   // private let firebaseURL = URL(string: "https://mymovies-79a4a.firebaseio.com/")!
+    private let firebaseURL = URL(string: "https://mymovies2-cfce7.firebaseio.com/")!
     
     func searchForMovie(with searchTerm: String, completion: @escaping (Error?) -> Void) {
         
@@ -69,42 +70,42 @@ class MovieController {
     }
     
     func put(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        guard let identifier = movie.identifier else {
-            completion(.failure(.noIdentifier))
-            return
-        }
-        let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let uuid = movie.identifier ?? UUID()
+        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
         do {
-            guard let representation = movie
-                .movieRepresentation else {
-                    completion(.failure(.noRep))
-                    return
-            }
-            
-            request.httpBody = try JSONEncoder().encode(representation)
-            } catch {
-                NSLog("Error encoding movie \(movie): \(error)")
-                completion(.failure(.noEncode))
+            guard var representation = movie.movieRepresentation else {
+                completion(.failure(.noRep))
                 return
             }
-            
-            URLSession.shared.dataTask(with: request) { (data, _, error) in
-                if let error = error {
-                    NSLog("Error PUTting task to server: \(error)")
-                    DispatchQueue.main.async {
-                        completion(.failure(.otherError))
-                    }
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    completion(.success(true))
-                }
-            }.resume()
+            representation.identifier = uuid
+            movie.identifier = uuid
+            try CoreDataStack.shared.save()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding movie \(movie): \(error)")
+            DispatchQueue.main.async {
+                completion(.failure(.noEncode))
+            }
+            return
         }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                print("error putting movie to server: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+            // it works
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+        }.resume()
+    }
     
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = firebaseURL.appendingPathExtension("json")
@@ -146,14 +147,15 @@ class MovieController {
     
     func updateMovies(with representations: [MovieRepresentation]) throws {
         
-        let identifiersToFetch = representations.compactMap({ UUID(uuidString: $0.identifier!) })
+        //        let identifiersToFetch = representations.compactMap({ UUID(uuidString: $0.identifier!) })
+        let identifiersToFetch = representations.compactMap({ $0.identifier! })
         
         let representationsByID = Dictionary(uniqueKeysWithValues:
             zip(identifiersToFetch, representations)
         )
         
         var moviesToCreate = representationsByID
-
+        
         let predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -215,7 +217,7 @@ class MovieController {
     }
     
     func updateWatched(movie: Movie) {
-            movie.hasWatched.toggle()
-            put(movie: movie)
+        movie.hasWatched.toggle()
+        put(movie: movie)
     }
 }

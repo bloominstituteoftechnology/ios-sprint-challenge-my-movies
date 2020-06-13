@@ -11,34 +11,29 @@ import CoreData
 
 extension Movie {
     
-    @discardableResult convenience init(hasWatched: Bool,
+    @discardableResult convenience init(title: String,
+                                        hasWatched: Bool? = false,
                                         identifier: UUID? = UUID(),
-                                        title: String,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        
         self.init(context: context)
-        self.hasWatched = hasWatched
-        self.identifier = identifier
         self.title = title
+        self.hasWatched = hasWatched ?? false
+        self.identifier = identifier
     }
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        
-        guard let identifierString = movieRepresentation.identifier,
-            let identifier = UUID(uuidString: identifierString) else { return nil }
-        
-        self.init(hasWatched: movieRepresentation.hasWatched ?? false,
+        guard let identifier = movieRepresentation.identifier else {return nil}
+        print("stuff")
+        self.init(title: movieRepresentation.title,
+                  hasWatched: movieRepresentation.hasWatched ?? false,
                   identifier: identifier,
-                  title: movieRepresentation.title,
                   context: context)
     }
-
+    
     var movieRepresentation: MovieRepresentation? {
-        guard let title = title else { return nil }
-        
-        return MovieRepresentation(title: title,
-                                   identifier: identifier?.uuidString ?? "",
-                                   hasWatched: hasWatched)
+        guard let title = title else {return nil}
+        return MovieRepresentation(title: title, identifier: identifier, hasWatched: hasWatched)
     }
+    
 }
