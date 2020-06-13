@@ -15,7 +15,7 @@ extension Movie {
     var movieRepresentation: MovieRepresentation? {
         guard let title = title else { return nil }
         let id = identifier ?? UUID()
-        return MovieRepresentation(title: title, identifer: id, hasWatched: hasWatched)
+        return MovieRepresentation(title: title, identifier: id, hasWatched: hasWatched)
     }
     
     //MARK: - Convienece Initializers
@@ -33,7 +33,7 @@ extension Movie {
     
     // A second initializer to turn a Movie into a more digestable object format for json
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
-        guard let identifier = movieRepresentation.identifer else { return nil}
+        guard let identifier = movieRepresentation.identifier else { return nil}
         
         self.init(identifier: identifier,
                   title: movieRepresentation.title,

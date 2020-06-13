@@ -10,6 +10,6 @@ import Foundation
 
  struct MovieRepresentation: Equatable, Codable{
     var title: String
-    var identifer: UUID?
+    var identifier: UUID?
     var hasWatched: Bool?
  }
