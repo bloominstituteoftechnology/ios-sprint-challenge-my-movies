@@ -9,7 +9,7 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController {
-
+    
     // MARK: - Properties
     
     var movieController = MovieController()

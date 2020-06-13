@@ -13,6 +13,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     static let reuseIdentifier = "MyMovieCell"
+    var movieController: MovieController?
     
     var movie: Movie? {
         didSet {
@@ -33,6 +34,12 @@ class MyMoviesTableViewCell: UITableViewCell {
         movie.hasWatched.toggle()
         
         sender.setImage(movie.hasWatched ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
     
     // MARK: - Private
@@ -46,9 +53,9 @@ class MyMoviesTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
+    
 }
