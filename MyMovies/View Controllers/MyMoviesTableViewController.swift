@@ -28,6 +28,13 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
+    //MARK: - IBAction
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        movieController.fetchMoviesFromFirebase { (_) in
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
