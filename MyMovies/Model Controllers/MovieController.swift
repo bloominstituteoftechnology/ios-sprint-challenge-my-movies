@@ -33,7 +33,7 @@ class MovieController {
     // MARK: - Initializers
     
     init() {
-        // TODO
+        fetchMoviesFromServer()
     }
     
     // MARK: - TheMovieDB API
@@ -100,7 +100,7 @@ class MovieController {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 NSLog("Error PUTing movie to server: \(error)")
                 DispatchQueue.main.async {
@@ -186,7 +186,7 @@ class MovieController {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        context.perform {
+        context.performAndWait {
             do {
                 let existingMovies = try context.fetch(fetchRequest)
                 
@@ -204,13 +204,8 @@ class MovieController {
             } catch {
                 NSLog("Error fetching movies for UUIDs: \(error)")
             }
-            
-            do {
-                try CoreDataStack.shared.save(context: context)
-            } catch {
-                NSLog("Error saving")
-            }
         }
+        try CoreDataStack.shared.save(context: context)
     }
     
     private func update(movie: Movie, with representation: MovieRepresentation) {

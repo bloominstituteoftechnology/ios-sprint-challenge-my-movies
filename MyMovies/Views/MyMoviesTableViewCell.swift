@@ -13,7 +13,7 @@ class MyMoviesTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     static let reuseIdentifier = "MyMovieCell"
-    var movieController: MovieController?
+    var movieController = MovieController()
     
     var movie: Movie? {
         didSet {
@@ -34,6 +34,8 @@ class MyMoviesTableViewCell: UITableViewCell {
         movie.hasWatched.toggle()
         
         sender.setImage(movie.hasWatched ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
+        
+        movieController.sendMovieToServer(movie: movie)
         
         do {
             try CoreDataStack.shared.mainContext.save()

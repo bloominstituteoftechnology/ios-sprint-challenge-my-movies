@@ -21,7 +21,7 @@ extension Movie {
     // Inititalizer to convert Movie into representation
     @discardableResult convenience init(identifier: UUID = UUID(),
                                         title: String,
-                                        hasWatched: Bool,
+                                        hasWatched: Bool = false,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.identifier = identifier

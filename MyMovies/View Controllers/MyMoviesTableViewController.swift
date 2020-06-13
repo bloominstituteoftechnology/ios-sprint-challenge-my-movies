@@ -45,13 +45,6 @@ class MyMoviesTableViewController: UITableViewController {
         }
     }
     
-    // MARK: - Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        movieController.fetchMoviesFromServer()
-    }
-    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
