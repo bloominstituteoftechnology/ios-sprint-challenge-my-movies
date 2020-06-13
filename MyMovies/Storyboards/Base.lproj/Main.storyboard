@@ -21,22 +21,45 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieSearchResultCell" textLabel="EgU-i6-cdC" style="IBUITableViewCellStyleDefault" id="d7W-qE-xfL">
-                                <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieSearchResultCell" rowHeight="64" id="d7W-qE-xfL" customClass="SearchedMoviesTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="414" height="64"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EgU-i6-cdC">
-                                            <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jki-KA-5eZ">
+                                            <rect key="frame" x="20" y="10" width="83.5" height="44"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Act-f1-kjZ">
+                                            <rect key="frame" x="360" y="17" width="34" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="63a-9E-3TK"/>
+                                                <constraint firstAttribute="width" constant="34" id="LwL-3T-x1E"/>
+                                            </constraints>
+                                            <state key="normal" title="Save"/>
+                                            <connections>
+                                                <action selector="saveMovieButtonTapped:" destination="d7W-qE-xfL" eventType="touchUpInside" id="Oef-BT-9BJ"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Act-f1-kjZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="jki-KA-5eZ" secondAttribute="trailing" constant="8" id="4ia-kZ-20j"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Act-f1-kjZ" secondAttribute="trailing" id="BRL-iQ-mJe"/>
+                                        <constraint firstItem="jki-KA-5eZ" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="10" id="FQU-em-1sT"/>
+                                        <constraint firstAttribute="bottom" secondItem="jki-KA-5eZ" secondAttribute="bottom" constant="10" id="I7B-pg-fju"/>
+                                        <constraint firstItem="jki-KA-5eZ" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="SnO-JG-wVL"/>
+                                        <constraint firstItem="Act-f1-kjZ" firstAttribute="centerY" secondItem="8Bc-u1-IMl" secondAttribute="centerY" id="T9b-i1-2uq"/>
+                                        <constraint firstItem="jki-KA-5eZ" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leadingMargin" id="f8i-FP-gQm"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="movieTitleLabel" destination="jki-KA-5eZ" id="FX1-wW-iSE"/>
+                                    <outlet property="saveMovieButton" destination="Act-f1-kjZ" id="HgB-qw-LIY"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -68,32 +91,41 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyMovieCell" rowHeight="55" id="9cK-VO-zdo" customClass="MyMoviesTableViewCell" customModule="MyMovies" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9cK-VO-zdo" id="F0q-Pd-Woa">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Movie Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
-                                            <rect key="frame" x="20" y="17" width="88" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Movie Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a6O-zS-fmH">
+                                            <rect key="frame" x="20" y="10" width="83.5" height="35"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-OW-Mt0">
                                             <rect key="frame" x="370" y="16.5" width="24" height="22"/>
                                             <state key="normal" image="film" catalog="system"/>
+                                            <connections>
+                                                <action selector="hasWatchButtonTapped:" destination="9cK-VO-zdo" eventType="touchUpInside" id="rSy-fP-MFB"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="a6O-zS-fmH" firstAttribute="leading" secondItem="F0q-Pd-Woa" secondAttribute="leadingMargin" id="2dT-ld-seE"/>
                                         <constraint firstItem="a6O-zS-fmH" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="JYW-iG-Hpc"/>
                                         <constraint firstItem="3Ay-OW-Mt0" firstAttribute="centerY" secondItem="F0q-Pd-Woa" secondAttribute="centerY" id="Otx-vb-bP3"/>
+                                        <constraint firstItem="a6O-zS-fmH" firstAttribute="top" secondItem="F0q-Pd-Woa" secondAttribute="top" constant="10" id="ZOi-Cd-nDo"/>
                                         <constraint firstItem="3Ay-OW-Mt0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a6O-zS-fmH" secondAttribute="trailing" constant="8" id="sTc-Ow-ZB8"/>
+                                        <constraint firstAttribute="bottom" secondItem="a6O-zS-fmH" secondAttribute="bottom" constant="10" id="w3q-YF-gBN"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="3Ay-OW-Mt0" secondAttribute="trailing" id="zw4-Oa-ny8"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="hasWatchedButton" destination="3Ay-OW-Mt0" id="cWW-9Y-Qo5"/>
+                                    <outlet property="movieTitleLabel" destination="a6O-zS-fmH" id="fGw-Qc-nk4"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -108,6 +140,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="dVf-a0-1Ph">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="1Gb-tL-YFt" eventType="valueChanged" id="ccc-p6-m8h"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8A-fd-5T4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -119,8 +157,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xhk-iX-GhA" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="My Movies" id="y85-fk-XTV"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LHS-Ob-B4s">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="LHS-Ob-B4s">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -138,8 +176,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oX8-Z5-5b3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Movie Search" id="sdT-54-ch4"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="g9R-dI-51k">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="g9R-dI-51k">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
