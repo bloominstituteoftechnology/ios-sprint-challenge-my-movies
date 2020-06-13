@@ -18,6 +18,7 @@
 		CA49CB5924954211004BBA6F /* MyMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA49CB5724954211004BBA6F /* MyMovies.xcdatamodeld */; };
 		CA49CB5B24954393004BBA6F /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA49CB5A24954393004BBA6F /* Movie+Convenience.swift */; };
 		CA49CB5D24954404004BBA6F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA49CB5C24954404004BBA6F /* CoreDataStack.swift */; };
+		CA49CB5F2495471A004BBA6F /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA49CB5E2495471A004BBA6F /* MovieRepresentation.swift */; };
 		CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE491A8E2477713300012147 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		CA49CB5824954211004BBA6F /* MyMovies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMovies.xcdatamodel; sourceTree = "<group>"; };
 		CA49CB5A24954393004BBA6F /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Movie+Convenience.swift"; path = "MyMovies/Model Controllers/Movie+Convenience.swift"; sourceTree = SOURCE_ROOT; };
 		CA49CB5C24954404004BBA6F /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		CA49CB5E2495471A004BBA6F /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		CE491A8E2477713300012147 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,6 +87,7 @@
 				46E20A012126A91800E7FF73 /* MovieDBMovie.swift */,
 				CA49CB5C24954404004BBA6F /* CoreDataStack.swift */,
 				CA49CB5A24954393004BBA6F /* Movie+Convenience.swift */,
+				CA49CB5E2495471A004BBA6F /* MovieRepresentation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
+				CA49CB5F2495471A004BBA6F /* MovieRepresentation.swift in Sources */,
 				CA49CB5924954211004BBA6F /* MyMovies.xcdatamodeld in Sources */,
 				CA49CB5B24954393004BBA6F /* Movie+Convenience.swift in Sources */,
 				CA49CB5D24954404004BBA6F /* CoreDataStack.swift in Sources */,
