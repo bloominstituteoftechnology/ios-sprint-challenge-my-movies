@@ -19,6 +19,7 @@
 		E11B5A12249704DB009699D7 /* Movie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E11B5A10249704DB009699D7 /* Movie.xcdatamodeld */; };
 		E11B5A1424970673009699D7 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11B5A1324970673009699D7 /* MovieRepresentation.swift */; };
 		E11B5A18249724B3009699D7 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11B5A17249724B3009699D7 /* CoreDataStack.swift */; };
+		E11B5A1A24972782009699D7 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11B5A1924972782009699D7 /* Movie+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		E11B5A11249704DB009699D7 /* Movie.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Movie.xcdatamodel; sourceTree = "<group>"; };
 		E11B5A1324970673009699D7 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
 		E11B5A17249724B3009699D7 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		E11B5A1924972782009699D7 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +85,9 @@
 			children = (
 				E11B5A10249704DB009699D7 /* Movie.xcdatamodeld */,
 				46E20A012126A91800E7FF73 /* MovieDBMovie.swift */,
-				E11B5A1324970673009699D7 /* MovieRepresentation.swift */,
 				E11B5A17249724B3009699D7 /* CoreDataStack.swift */,
+				E11B5A1324970673009699D7 /* MovieRepresentation.swift */,
+				E11B5A1924972782009699D7 /* Movie+Convenience.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E11B5A1A24972782009699D7 /* Movie+Convenience.swift in Sources */,
 				46E209FA2126A89C00E7FF73 /* MovieSearchTableViewController.swift in Sources */,
 				46E209FC2126A8A100E7FF73 /* MyMoviesTableViewController.swift in Sources */,
 				E11B5A12249704DB009699D7 /* Movie.xcdatamodeld in Sources */,
