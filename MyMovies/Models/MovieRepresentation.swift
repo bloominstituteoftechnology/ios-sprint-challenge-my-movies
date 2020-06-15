@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MovieRepresentation {
+struct MovieRepresentation: Codable {
     var identifier: String
     var title: String
     var hasWatched: Bool

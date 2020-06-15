@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum NetworkError: Error {
     case otherError
@@ -61,4 +62,10 @@ class MovieController {
             }
         }.resume()
     }
+
+    // Sending Task
+//    func sendMovieToServer(movie: MovieDBMovie, completion: @escaping CompletionHandler = { _ in }) {
+//        guard let uuid = movie.
+//    }
+
 }
