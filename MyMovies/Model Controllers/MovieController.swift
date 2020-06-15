@@ -2,8 +2,8 @@
 //  MovieController.swift
 //  MyMovies
 //
-//  Created by Spencer Curtis on 8/17/18.
-//  Copyright © 2018 Lambda School. All rights reserved.
+//  Created by Bronson Mullens on 6/12/20.
+//  Copyright © 2020 Lambda School. All rights reserved.
 //
 
 import Foundation
@@ -29,12 +29,6 @@ class MovieController {
     // MARK: - Properties
     
     var searchedMovies: [MovieDBMovie] = []
-    
-    // MARK: - Initializers
-    
-    init() {
-        fetchMoviesFromServer()
-    }
     
     // MARK: - TheMovieDB API
     
@@ -136,18 +130,12 @@ class MovieController {
                 }
                 return
             }
-            
             do {
-                let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
-                try self.updateMovies(with: movieRepresentations)
-                DispatchQueue.main.async {
-                    completion(.success(true))
-                }
+                let movieRep = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({$0.value})
+                try self.updateMovies(with: movieRep)
             } catch {
-                NSLog("Error decoding movie representations: \(error)")
-                DispatchQueue.main.async {
-                    completion(.failure(.failedEncode))
-                }
+                NSLog("Error decoding movies from Firebase: \(error)")
+                completion(.failure(.failedDecode))
                 return
             }
         }.resume()

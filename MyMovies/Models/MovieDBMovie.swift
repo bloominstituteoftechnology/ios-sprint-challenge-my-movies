@@ -2,8 +2,8 @@
 //  MovieRepresentation.swift
 //  MyMovies
 //
-//  Created by Spencer Curtis on 8/17/18.
-//  Copyright © 2018 Lambda School. All rights reserved.
+//  Created by Bronson Mullens on 6/12/20.
+//  Copyright © 2020 Lambda School. All rights reserved.
 //
 
 import Foundation
