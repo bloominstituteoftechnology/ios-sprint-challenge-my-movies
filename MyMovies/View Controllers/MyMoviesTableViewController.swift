@@ -18,9 +18,8 @@ class MyMoviesTableViewController: UITableViewController {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         
         fetchRequest.sortDescriptors = [
-        NSSortDescriptor(key: "hasWatched", ascending: true),
-        NSSortDescriptor(key: "title", ascending: true)
-        ]
+            NSSortDescriptor(key: "hasWatched", ascending: true),
+            NSSortDescriptor(key: "title", ascending: true)]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: CoreDataStack.shared.mainContext,
@@ -31,89 +30,60 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-           super.viewWillAppear(animated)
-           
-           tableView.reloadData()
-       }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         
         return fetchedResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if fetchedResultsController.sections?[section].name == "0" {
-            return "Unseen"
+            return "Have Not Seen"
         } else {
-            return "Seen"
+            return "Have Seen"
         }
     }
-    
-    
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-           
-           func headerImage(_ num: Int) {
-           let header = view as! UITableViewHeaderFooterView
-                  header.textLabel?.textColor = UIColor.white
-                  let headerImage = UIImage(named: "headerImage\(num).png")
-                  let headerImageView = UIImageView(image: headerImage)
-                  header.backgroundView = headerImageView
-           }
-           
-           
-           switch section {
-           case 0:
-             //  (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.green.withAlphaComponent(0.75)
-               headerImage(section)
-           case 1:
-              // (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.orange.withAlphaComponent(0.75)
-            headerImage(section)
-           default:
-               break
-           }
-       }
-    
-    
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? MyMoviesTableViewCell else { return UITableViewCell() }
         
         let movie = fetchedResultsController.object(at: indexPath)
-    
+        
         cell.movie = movie
         
         return cell
     }
     
-    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-          
+            
             let movie = fetchedResultsController.object(at: indexPath)
             
             movieController.deleteMovieFromServer(movie: movie) { (result) in
-                
                 guard let _ = try? result.get() else {
                     return
                 }
-                
                 let context = CoreDataStack.shared.mainContext
                 context.delete(movie)
                 do {
@@ -125,16 +95,6 @@ class MyMoviesTableViewController: UITableViewController {
             }
         }
     }
-    
-   
-    // MARK: - Navigation
-/*
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
- */
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
@@ -171,7 +131,7 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
             tableView.reloadRows(at: [indexPath], with: .automatic)
         case .move:
             guard let oldIndexPath = indexPath,
-            let newIndexPath = newIndexPath else { return }
+                let newIndexPath = newIndexPath else { return }
             tableView.deleteRows(at: [oldIndexPath], with: .automatic)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .delete:

@@ -27,17 +27,20 @@ class MyMoviesTableViewCell: UITableViewCell {
         titleLabel.text = movie.title
         if movie.hasWatched {
             haveWatchedButtonLabel.setTitle("Seen", for: .normal)
+            haveWatchedButtonLabel.setTitleColor(.systemRed, for: .normal)
         } else {
             haveWatchedButtonLabel.setTitle("Unseen", for: .normal)
+            haveWatchedButtonLabel.setTitleColor(.systemOrange, for: .normal)
         }
     }
     
     @IBAction func haveWatched(_ sender: Any) {
         guard let movie = movie else { print("No Movie"); return }
+        
         movie.hasWatched.toggle()
         
         updateViews()
-        movieController.put(movie: movie) { _ in }
+        movieController.sendMovieToServer(movie: movie) { _ in }
         
         do {
             try CoreDataStack.shared.mainContext.save()

@@ -27,7 +27,7 @@ class MovieController {
     
      typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
 
-    
+
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
@@ -76,16 +76,15 @@ class MovieController {
     
     var movieList: [Movie] = []
     
-    let baseMoviesURL = "https://mymovies-c37fb.firebaseio.com/"
+    let baseMoviesURL = URL(string: "https://mymovies-c37fb.firebaseio.com/")!
     
-    func put(movie: Movie, completion: @escaping CompletionHandler) {
+    func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler) {
         guard let identifier =  movie.identifier else {
             completion(.failure(.noIdentifier))
-            print("Caught")
             return
         }
 
-        let requestURL = URL(fileURLWithPath: baseMoviesURL).appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL =  baseMoviesURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
        
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
@@ -122,7 +121,7 @@ class MovieController {
             return
         }
         
-        let requestURL = URL(fileURLWithPath: baseMoviesURL).appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let requestURL = baseMoviesURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
@@ -139,13 +138,6 @@ class MovieController {
             }
         }.resume()
     }
-    
-    func update(movie: Movie, representation: MovieRepresentation) {
- 
-    /// hasWatched Boolean should be unwrapped...?
-           movie.title = representation.title
-        movie.hasWatched = representation.hasWatched!
-       }
        
     func updateMovies(with representations: [MovieRepresentation]) throws {
     /// identifier shouldn't be force upwrapped
@@ -175,39 +167,27 @@ class MovieController {
                     
                     // Let's update the entries that already exist in Core Data
                     
-                    for entry in existingEntries {
-                        guard let id = entry.identifier,
-                            let representation = representationsByID[id] else { continue }
-                        
-                        update(movie: entry, representation: representation)
-                        
-   
+                    for movie in existingEntries {
+                        guard let id = movie.identifier else { continue }
                         moviesToCreate.removeValue(forKey: id)
                     }
  
-                    
                     for representation in moviesToCreate.values {
                         Movie(movieRepresentation: representation, context: context)
                     }
-                    
                 } catch {
                     NSLog("Error fetching tasks for UUIDs: \(error)")
                 }
             }
             try CoreDataStack.shared.save(context: context)
         }
-        
-    
+            
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
-        
-        let requestURL = baseURL.appendingPathExtension("json")
-        
+        let requestURL = baseMoviesURL.appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "GET"
         
-        
         URLSession.shared.dataTask(with: request) { (data, _, error) in
-            
             if let error = error {
                 NSLog("Error fetching tasks: \(error)")
                 DispatchQueue.main.async {
@@ -215,7 +195,6 @@ class MovieController {
                 }
                 return
             }
-            
             guard let data = data else {
                 NSLog("Error: No data returned from fetch")
                 DispatchQueue.main.async {
@@ -223,7 +202,6 @@ class MovieController {
                 }
                 return
             }
-            
             do {
                 let movieRepresentations = try JSONDecoder().decode([String: MovieRepresentation].self, from: data).map({ $0.value })
               
