@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+struct MovieRepresentation {
+    var identifier: String
+    var title: String
+    var hasWatched: Bool
+}
