@@ -11,6 +11,13 @@ import CoreData
 
 extension Movie {
     
+    var movieRepresentation: MovieRepresentation? {
+        guard let title = title else { return nil }
+        let id = identifier ?? UUID()
+        
+        return MovieRepresentation(title: title, identifier: id, hasWatched: hasWatched)
+    }
+    
     @discardableResult convenience init(identifier: UUID = UUID(),
                                         title: String,
                                         hasWatched: Bool = false,
@@ -23,6 +30,9 @@ extension Movie {
     
     @discardableResult convenience init?(movieRepresentation: MovieRepresentation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        // I cannot get away from force unwrapping movieRepresentation.identifier!.uuidString without disrupting
+        // the keyValue dictionary match - it errors when attempting to eliminate the bang
         guard let identifier = UUID(uuidString: movieRepresentation.identifier!.uuidString),
             let hasWatched = movieRepresentation.hasWatched else {
         return nil
@@ -32,14 +42,5 @@ extension Movie {
                   title: movieRepresentation.title,
                   hasWatched: hasWatched,
                   context: context)
-    }
-    
-    var movieRepresentation: MovieRepresentation? {
-        
-        guard let title = title else { return nil }
-        
-        let id = identifier ?? UUID()
-        
-        return MovieRepresentation(title: title, identifier: id, hasWatched: hasWatched)        
     }
 }

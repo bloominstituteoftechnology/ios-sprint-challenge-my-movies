@@ -81,6 +81,7 @@ class MovieController {
     func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler) {
         guard let identifier =  movie.identifier else {
             completion(.failure(.noIdentifier))
+            print("Caught")
             return
         }
 
@@ -181,7 +182,8 @@ class MovieController {
             }
             try CoreDataStack.shared.save(context: context)
         }
-            
+        
+    
     func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = baseMoviesURL.appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
