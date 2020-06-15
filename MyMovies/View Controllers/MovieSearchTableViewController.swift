@@ -2,23 +2,23 @@
 //  MovieSearchTableViewController.swift
 //  MyMovies
 //
-//  Created by Spencer Curtis on 8/17/18.
-//  Copyright © 2018 Lambda School. All rights reserved.
+//  Created by Bronson Mullens on 6/12/20.
+//  Copyright © 2020 Lambda School. All rights reserved.
 //
 
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController {
-
+    
     // MARK: - Properties
     
     var movieController = MovieController()
     
-    // MARK: - Outlets
+    // MARK: - IBOutlets
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    // MARK: - View Lifecycle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +30,18 @@ class MovieSearchTableViewController: UITableViewController {
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
-                // TODO: Save this movie representation as a managed object in Core Data
+                let movie = Movie(title: movieDBMovie.title, hasWatched: false)
+                movieController.sendMovieToServer(movie: movie)
+                do {
+                    try CoreDataStack.shared.save()
+                } catch {
+                    NSLog("Error saving movie: \(error)")
+                }
             }
         }
     }
     
-    // MARK: - Actions
+    // MARK: - IBActions
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
@@ -48,10 +54,12 @@ class MovieSearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieSearchResultCell", for: indexPath)
-        cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.reuseIdentifier, for: indexPath) as? SearchResultTableViewCell else {
+            fatalError("Could not dequeue cell: \(SearchResultTableViewCell.reuseIdentifier)")
+        }
+        cell.movieTitleLabel.text = movieController.searchedMovies[indexPath.row].title
         return cell
-   }
+    }
 }
 
 extension MovieSearchTableViewController: UISearchBarDelegate {
@@ -64,6 +72,14 @@ extension MovieSearchTableViewController: UISearchBarDelegate {
                     self.tableView.reloadData()
                 }
             }
+        }
+    }
+}
+
+extension MovieSearchTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.3) {
+            tableView.cellForRow(at: indexPath)?.contentView.backgroundColor = .systemBlue
         }
     }
 }
