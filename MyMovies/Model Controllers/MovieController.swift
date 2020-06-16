@@ -200,21 +200,27 @@ class MovieController {
         let requestURL = firebaseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
+  
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(.success(true))
         
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
-            if let error = error {
-                NSLog("Error deleting task for id \(identifier.uuidString): \(error)")
-                DispatchQueue.main.async {
-                    completion(.failure(.otherError))
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                completion(.success(true))
-            }
+//        URLSession.shared.dataTask(with: request) { (_, _, error) in
+//            if let error = error {
+//                NSLog("Error deleting task for id \(identifier.uuidString): \(error)")
+//                DispatchQueue.main.async {
+//                    completion(.failure(.otherError))
+//                }
+//                return
+//            }
+//
+//            DispatchQueue.main.async {
+//                completion(.success(true))
+//            }
         }.resume()
     }
+    
+    
     
     func updateWatched(movie: Movie) {
         movie.hasWatched.toggle()
