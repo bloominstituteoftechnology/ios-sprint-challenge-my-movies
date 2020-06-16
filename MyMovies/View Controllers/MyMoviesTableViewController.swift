@@ -11,7 +11,7 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
-
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: true),
@@ -25,33 +25,38 @@ class MyMoviesTableViewController: UITableViewController {
         try! frc.performFetch() 
         return frc
     }()
-   
+    
     let movieController = MovieController()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMovieCell", for: indexPath) as? SavedMovieTableViewCell else { return UITableViewCell() }
         cell.movie = fetchedResultsController.object(at: indexPath)
         cell.movieController = self.movieController 
-    
+        
         return cell
     }
- 
-// To-do: Sections, delete
+    
+    // To-do: Sections
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let section = fetchedResultsController.sections?[section] else { return nil }
+        return section.name == "0" ? "Unwatched" : "Watched"
+    }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -72,13 +77,6 @@ class MyMoviesTableViewController: UITableViewController {
             }
         }
     }
-    
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            let movie = fetchedResultsController.object(at: indexPath)
-//            movieController.deleteMovieFromServer(movie)
-//        }
-//    }
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
