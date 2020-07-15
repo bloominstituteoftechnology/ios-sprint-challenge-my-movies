@@ -9,58 +9,48 @@
 import UIKit
 
 class MovieSearchTableViewController: UITableViewController, UISearchBarDelegate {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        searchBar.delegate = self
-    }
+  
+  var movieController = MovieController.shared
+  
+  @IBOutlet weak var searchBar: UISearchBar!
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchTerm = searchBar.text else { return }
-        
-        movieController.searchForMovie(with: searchTerm) { (error) in
-            
-            guard error == nil else { return }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    searchBar.delegate = self
+  }
+  
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    guard let searchTerm = searchBar.text else { return }
     
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return movieController.searchedMovies.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! CloudMovieCell
-        
-        cell.movie = movieController.searchedMovies[indexPath.row]
-        cell.delegate = self
-        return cell
-    }
-    
-    var movieController = MovieController()
-    
-    @IBOutlet weak var searchBar: UISearchBar!
-}
-
-
-
-extension MovieSearchTableViewController : ClouldMovieCellDelegate {
-    
-    func didAddMovie(movie: MovieRepresentation) {
-     
-              movieController.put(movie: movie)
-        movieController.saveMovie(movieRepresentation: movie)
+    movieController.searchForMovie(with: searchTerm) { (error) in
       
+      guard error == nil else { return }
+      
+      DispatchQueue.main.async {
+        self.tableView.reloadData()
+      }
     }
+  }
+  
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return movieController.searchedMovies.count
+  }
+  
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieSearchTableViewCell else {
+      print("Cell cannot be downcast as MovieSearchTableViewCell!")
+      return UITableViewCell()
+    }
+    let title = movieController.searchedMovies[indexPath.row].title
     
-   
-   
+    cell.movieRep = MovieRepresentation(title: title, identifier: nil, hasWatched: nil)
+    cell.titleLabel.text = title
+    cell.movieController = movieController
     
+    // TODO: fix title label overlap
     
+    return cell
+  }
 }
+
