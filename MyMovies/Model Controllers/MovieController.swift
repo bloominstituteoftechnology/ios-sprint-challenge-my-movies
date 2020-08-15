@@ -7,17 +7,28 @@
 //
 
 import Foundation
+import CoreData
+
+enum HTTPMethod: String {
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
+}
 
 enum NetworkError: Error {
     case otherError
     case noData
     case failedDecode
+    case noRep
+    case noEncode
 }
 
 class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
+    private let firebase = URL(string: "https://movies-base-55e80.firebase.com/")!
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
@@ -60,5 +71,72 @@ class MovieController {
                 completion(.failure(.failedDecode))
             }
         }.resume()
+    }
+    
+    func fetch(completion: @escaping CompletionHandler = { _ in }) {
+        
+        let requestURL = firebase.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, response, error in
+            if let error = error {
+                NSLog("error fetching movies: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("no data returned from fetch")
+                completion(.failure(.noData))
+                return
+            }
+            
+            do {
+                let movieRepresentation = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
+                try self.updateMovies(with: movieRepresentation)
+            } catch {
+                NSLog("error decoding movie from server: \(error)")
+                completion(.failure(.failedDecode))
+            }
+        }
+    }
+    
+    func sendMovieToFirebase(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+        
+        guard let uuid = movie.identifier else {
+            completion(.failure(.noData))
+            print("failed")
+            return
+        }
+        
+        let requestURL = firebase.appendingPathComponent(uuid.uuidString).appendingPathComponent("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            guard let rep = movie.movieRepresentation else {
+                completion(.failure(.noRep))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(rep)
+        } catch {
+            NSLog("error encoding movie \(movie): \(error)")
+            completion(.failure(.noEncode))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("error sending movie to database: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            completion(.success(true))
+        }.resume()
+    }
+    
+    
+    
+    func updateMovies(with representation: [MovieRepresentation]) throws {
+        
     }
 }

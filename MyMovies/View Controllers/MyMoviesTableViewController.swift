@@ -35,6 +35,8 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        movieController.fetch()
     }
 
     // MARK: - Table view data source
