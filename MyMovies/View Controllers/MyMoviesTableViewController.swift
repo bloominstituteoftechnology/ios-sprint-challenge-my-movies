@@ -59,14 +59,33 @@ class MyMoviesTableViewController: UITableViewController {
 
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard (fetch.sections?[section]) != nil else { return nil }
+        
+        switch section {
+        case 0:
+            return "not watched"
+        case 1:
+            return "watched"
+        default:
+            return "coming soon"
+        }
+    }
 
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = fetch.object(at: indexPath)
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(movie)
+            
+            do {
+                try moc.save()
+            } catch {
+                moc.reset()
+                NSLog("error saving managed object context: \(error)")
+            }
+        }
     }
 }
 

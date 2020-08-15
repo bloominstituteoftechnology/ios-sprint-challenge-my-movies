@@ -33,7 +33,7 @@ class MovieSearchTableViewController: UITableViewController {
                 // TODO: Save this movie representation as a managed object in Core Data
                 
                 let movie = Movie(title: movieDBMovie.title)
-                movieController.sendMovieToServer(movie: movie)
+                movieController.sendMovieToFirebase(movie: movie!)
                 
                 do {
                     try CoreDataStack.shared.mainContext.save()
