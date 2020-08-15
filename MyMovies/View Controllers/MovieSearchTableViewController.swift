@@ -31,6 +31,10 @@ class MovieSearchTableViewController: UITableViewController {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
                 // TODO: Save this movie representation as a managed object in Core Data
+                
+                
+                
+                
             }
         }
     }
