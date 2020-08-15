@@ -31,6 +31,14 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
     }
 
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        movieController.fetchMoviesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -58,6 +66,11 @@ class MyMoviesTableViewController: UITableViewController {
         default:
             return "Unwatched"
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.purple
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
