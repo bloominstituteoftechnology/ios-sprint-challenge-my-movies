@@ -52,8 +52,8 @@ class MyMoviesTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       guard let cell = tableView.dequeueReusableCell(withIdentifier: MyMoviesTableViewCell.reuseIdentifier, for: indexPath) as? MyMoviesTableViewCell else {
-           fatalError("Can't dequeue cell of type \(MyMoviesTableViewCell.reuseIdentifier)")
+       guard let cell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.reuseIdentifier, for: indexPath) as? MoviesTableViewCell else {
+           fatalError("Can't dequeue cell of type \(MoviesTableViewCell.reuseIdentifier)")
        }
        cell.movie = fetchedResultsController.object(at: indexPath)
        return cell
@@ -96,16 +96,16 @@ class MyMoviesTableViewController: UITableViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        if segue.identifier == "SearchMovieSegue" {
-            if let nav = segue.destination as? UINavigationController,
-                let searchMovieVC = nav.viewControllers.first as? MovieSearchTableViewController {
-                searchMovieVc.movieController = movieController
-            }
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        // Get the new view controller using segue.destinationViewController.
+//        // Pass the selected object to the new view controller.
+//        if segue.identifier == "SearchMovieSegue" {
+//            if let nav = segue.destination as? UINavigationController,
+//                let searchMovieVC = nav.viewControllers.first as? MovieSearchTableViewController {
+//                searchMovieVc.movieController = movieController
+//            }
+//        }
+//    }
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
