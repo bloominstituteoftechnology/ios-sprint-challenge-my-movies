@@ -27,12 +27,12 @@ class MovieSearchTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if let indexPaths = tableView.indexPathsForSelectedRows {
-            for indexPath in indexPaths {
-                let movieDBMovie = movieController.searchedMovies[indexPath.row]
+//        if let indexPaths = tableView.indexPathsForSelectedRows {
+//            for indexPath in indexPaths {
+//                let movieDBMovie = movieController.searchedMovies[indexPath.row]
                 // TODO: Save this movie representation as a managed object in Core Data
-            }
-        }
+//            }
+//        }
     }
     
     // MARK: - Actions
