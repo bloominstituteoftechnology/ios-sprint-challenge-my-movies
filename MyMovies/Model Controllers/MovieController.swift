@@ -21,12 +21,12 @@ enum NetworkError: Error {
 class MovieController {
     
     init() {
-        fetchTasksFromServer()
+        fetchMoviesFromServer()
     }
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let firebaseURL = URL(string: "mymovies-199d0.firebaseio.com/")!
+    private let firebaseURL = URL(string: "https://mymovies-199d0.firebaseio.com/")!
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
@@ -73,13 +73,19 @@ class MovieController {
     
     // MARK: - Firebase
     
-    func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
+    func fetchMoviesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = firebaseURL.appendingPathExtension("json")
-        let task = URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+        let task = URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
             if let error = error {
-                print("Error fetching tasks: \(error)")
+                print("Error fetching movies: \(error)")
                 completion(.failure(.otherError))
                 return
+            }
+            if let response = response as? HTTPURLResponse {
+                if response.statusCode == 200 {
+                    completion(.failure(.noData))
+                    return
+                }
             }
             guard let data = data else {
                 print("No data returned by data task.")
@@ -108,8 +114,7 @@ class MovieController {
     var request = URLRequest(url: requestURL)
     request.httpMethod = "DELETE"
     
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-    print(response!)
+    let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
     completion(.success(true))
     }
     task.resume()
