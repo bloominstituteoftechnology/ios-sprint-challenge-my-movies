@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+struct MovieSearch: Decodable {
+    let results: [MovieRepresentation]
+}
+
+struct MovieRepresentation: Decodable {
+    let hasWatched: Bool
+    let identifier: UUID
+    let title: String 
+}
+
+
