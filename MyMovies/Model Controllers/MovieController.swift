@@ -97,7 +97,7 @@ class MovieController {
                 NSLog("error decoding movie from server: \(error)")
                 completion(.failure(.failedDecode))
             }
-        }
+        }.resume()
     }
     
     func sendMovieToFirebase(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
@@ -134,7 +134,22 @@ class MovieController {
         }.resume()
     }
     
-    
+    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+        guard let uuid = movie.identifier else { return }
+        
+        let requestURL = firebase.appendingPathComponent(uuid.uuidString).appendingPathComponent("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("error deleting task: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            completion(.success(true))
+        }.resume()
+    }
     
     func updateMovies(with representation: [MovieRepresentation]) throws {
         
