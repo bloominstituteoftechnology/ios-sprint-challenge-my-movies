@@ -151,7 +151,40 @@ class MovieController {
         }.resume()
     }
     
-    func updateMovies(with representation: [MovieRepresentation]) throws {
+    func updateMovies(with representations: [MovieRepresentation]) throws {
         
+        let identifiersToFetch = representations.compactMap {UUID(uuidString: $0.identifier!)}
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        var moviesToCreate = representationsByID
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.perform {
+            do {
+                let existingMovies = try context.fetch(fetchRequest)
+                for movie in existingMovies {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    self.update(movie: movie, with: representation)
+                    moviesToCreate.removeValue(forKey: id)
+                }
+                for representation in moviesToCreate.values {
+                    Movie(movieRepresentation: representation, context: context)
+                }
+                try context.save()
+                } catch {
+                    NSLog("error fetching movies with UUIDs: \(identifiersToFetch)")
+                }
+            }
+        }
+    
+    private func update(movie: Movie, with representation: MovieRepresentation) {
+        movie.title = representation.title
+        movie.hasWatched = representation.hasWatched
     }
+    
 }
