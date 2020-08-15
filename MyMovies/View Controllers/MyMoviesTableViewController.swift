@@ -24,7 +24,7 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: request,
                                              managedObjectContext: context,
-                                             sectionNameKeyPath: "name",
+                                             sectionNameKeyPath: "hasWatched",
                                              cacheName: nil)
         frc.delegate = self
         try? frc.performFetch()
@@ -36,29 +36,28 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
-    /*
+   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyMoviesCell", for: indexPath)
+        
         return cell
     }
-    */
+  
 
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
         
         if let navController = segue.destination as? UINavigationController,
             let movieSearchTVC = navController.topViewController as? MovieSearchTableViewController {
@@ -66,7 +65,6 @@ class MyMoviesTableViewController: UITableViewController, NSFetchedResultsContro
             
         }
         
-        // Pass the selected object to the new view controller.
         
     }
 }
