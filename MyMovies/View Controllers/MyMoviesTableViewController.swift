@@ -72,6 +72,32 @@ class MyMoviesTableViewController: UITableViewController {
         return cell
     }
     
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = fetchedResultsController.object(at: indexPath)
+            // Deleting in the server
+            movieController.deleteMovieFromServer(movie) { (result) in
+                guard let _ = try? result.get() else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    let context = CoreDataStack.shared.mainContext
+                    context.delete(movie)
+                            
+                    do {
+                        try context.save()
+                    } catch {
+                        context.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
+                
+            }
+        }
+    }
+    
 
     // MARK: - Navigation
 
