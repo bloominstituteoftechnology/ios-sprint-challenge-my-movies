@@ -1,30 +1,14 @@
 //
-//  MyMoviesTableViewCell.swift
+//  MoviesTableViewCell.swift
 //  MyMovies
 //
-//  Created by Gladymir Philippe on 8/14/20.
+//  Created by Gladymir Philippe on 8/15/20.
 //  Copyright © 2020 Lambda School. All rights reserved.
 //
 
 import UIKit
 
-class MyMoviesTableViewCell: UITableViewCell {
-    
-  
-    
-   // static let reuseIdentifier = "MyMovieCell"
-//    var movie: Movie? {
-//        didSet {
-//            
-//        }
-//    }
-    
-    
-    
-    
-    
-    
-    
+class MoviesTableViewCell: UITableViewCell {
     
     
     
