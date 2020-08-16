@@ -10,21 +10,20 @@ import Foundation
 import CoreData
 
 extension Movie {
+    
     var movieRepresentation: MovieRepresentation? {
-        guard let title = title,
-            let identifier = identifier else { return nil }
+        guard let title = title else { return nil }
         
-        return MovieRepresentation(title: title, identifier: identifier.uuidString, hasWatched: hasWatched)
+        return MovieRepresentation(title: title, identifier: identifier?.uuidString, hasWatched: hasWatched)
     }
     
     //  to conveniently initialize a movie object
     @discardableResult convenience init?(title: String,
                                          identifier: UUID = UUID(),
-                                         hasWatched: Bool = false,
+                                         hasWatched: Bool,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
-        
         self.title = title
         self.identifier = identifier
         self.hasWatched = hasWatched

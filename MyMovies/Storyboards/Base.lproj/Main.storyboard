@@ -21,45 +21,22 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieSearchResultCell" id="d7W-qE-xfL" customClass="SearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="414" height="37.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MovieSearchResultCell" textLabel="tPq-2s-X6L" style="IBUITableViewCellStyleDefault" id="d7W-qE-xfL" customClass="SearchTableViewCell" customModule="MyMovies" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d7W-qE-xfL" id="8Bc-u1-IMl">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="37.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecv-Tz-gq4">
-                                            <rect key="frame" x="16" y="8" width="287" height="21.5"/>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tPq-2s-X6L">
+                                            <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Yc-Ae-alu">
-                                            <rect key="frame" x="351" y="6" width="25" height="25.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="zbW-4q-CGG"/>
-                                            </constraints>
-                                            <connections>
-                                                <action selector="addMovieButton:" destination="d7W-qE-xfL" eventType="touchUpInside" id="64y-Bt-N5T"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="1Yc-Ae-alu" secondAttribute="trailing" constant="18" id="1In-3i-TkG"/>
-                                        <constraint firstItem="1Yc-Ae-alu" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="topMargin" constant="-5" id="A9i-Fd-cDn"/>
-                                        <constraint firstItem="1Yc-Ae-alu" firstAttribute="firstBaseline" secondItem="ecv-Tz-gq4" secondAttribute="firstBaseline" id="Lll-2e-DMj"/>
-                                        <constraint firstItem="ecv-Tz-gq4" firstAttribute="leading" secondItem="8Bc-u1-IMl" secondAttribute="leading" constant="16" id="Wvi-Nu-sfl"/>
-                                        <constraint firstAttribute="bottom" secondItem="ecv-Tz-gq4" secondAttribute="bottom" constant="8" id="Z36-R6-E9K"/>
-                                        <constraint firstItem="ecv-Tz-gq4" firstAttribute="top" secondItem="8Bc-u1-IMl" secondAttribute="top" constant="8" id="fPf-wi-R4R"/>
-                                        <constraint firstItem="1Yc-Ae-alu" firstAttribute="leading" secondItem="ecv-Tz-gq4" secondAttribute="trailing" constant="48" id="h7Y-jZ-sqP"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ecv-Tz-gq4" secondAttribute="trailing" constant="20" symbolic="YES" id="tzn-dE-Igk"/>
-                                        <constraint firstItem="1Yc-Ae-alu" firstAttribute="centerY" secondItem="ecv-Tz-gq4" secondAttribute="centerY" id="uCy-Io-eQT"/>
-                                        <constraint firstItem="1Yc-Ae-alu" firstAttribute="baseline" secondItem="ecv-Tz-gq4" secondAttribute="firstBaseline" id="y5K-Se-0sq"/>
-                                    </constraints>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="titleLabel" destination="ecv-Tz-gq4" id="EY7-sw-1UJ"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
