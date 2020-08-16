@@ -26,6 +26,10 @@ enum NetworkError: Error {
 
 class MovieController {
     
+    init() {
+        fetch()
+    }
+    
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     private let firebase = URL(string: "https://movies-base-55e80.firebase.com/")!
@@ -73,6 +77,7 @@ class MovieController {
         }.resume()
     }
     
+    //  MARK: - Firebase methods
     func fetch(completion: @escaping CompletionHandler = { _ in }) {
         
         let requestURL = firebase.appendingPathExtension("json")
@@ -83,7 +88,6 @@ class MovieController {
                 completion(.failure(.otherError))
                 return
             }
-            
             guard let data = data else {
                 NSLog("no data returned from fetch")
                 completion(.failure(.noData))
@@ -134,7 +138,7 @@ class MovieController {
         }.resume()
     }
     
-    func deleteMovieFromServer(movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in}) {
         guard let uuid = movie.identifier else { return }
         
         let requestURL = firebase.appendingPathComponent(uuid.uuidString).appendingPathComponent("json")
@@ -153,7 +157,7 @@ class MovieController {
     
     func updateMovies(with representations: [MovieRepresentation]) throws {
         
-        let identifiersToFetch = representations.compactMap {UUID(uuidString: $0.identifier!)}
+        let identifiersToFetch = representations.compactMap({UUID(uuidString: $0.identifier)})
         
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         
@@ -163,13 +167,15 @@ class MovieController {
         
         let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        context.perform {
+        context.performAndWait {
+            
             do {
                 let existingMovies = try context.fetch(fetchRequest)
                 for movie in existingMovies {
                     guard let id = movie.identifier,
                         let representation = representationsByID[id] else { continue }
-                    self.update(movie: movie, with: representation)
+                    movie.title = representation.title
+                    movie.hasWatched = representation.hasWatched
                     moviesToCreate.removeValue(forKey: id)
                 }
                 for representation in moviesToCreate.values {
@@ -179,8 +185,9 @@ class MovieController {
                 } catch {
                     NSLog("error fetching movies with UUIDs: \(identifiersToFetch)")
                 }
-            }
         }
+        CoreDataStack.shared.save(context: context)
+    }
     
     private func update(movie: Movie, with representation: MovieRepresentation) {
         movie.title = representation.title

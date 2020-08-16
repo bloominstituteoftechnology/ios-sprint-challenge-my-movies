@@ -14,7 +14,7 @@ extension Movie {
     var movieRepresentation: MovieRepresentation? {
         guard let title = title else { return nil }
         
-        return MovieRepresentation(title: title, identifier: identifier?.uuidString, hasWatched: hasWatched)
+        return MovieRepresentation(title: title, identifier: identifier?.uuidString ?? "", hasWatched: hasWatched)
     }
     
     //  to conveniently initialize a movie object
