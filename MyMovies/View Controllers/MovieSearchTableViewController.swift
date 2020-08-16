@@ -33,8 +33,8 @@ class MovieSearchTableViewController: UITableViewController {
                 // TODO: Save this movie representation as a managed object in Core Data
                 
                 guard let title = movieDBMovie?.title else { return }
-                let movie = Movie(title: title, hasWatched: false)
-                movieController?.sendMovieToFirebase(movie: movie!)
+                let movie = Movie(title: title, hasWatched: false)!
+                movieController?.sendMovieToFirebase(movie: movie)
                 
                 do {
                     try CoreDataStack.shared.mainContext.save()

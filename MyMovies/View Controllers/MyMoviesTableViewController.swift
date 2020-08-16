@@ -17,10 +17,12 @@ class MyMoviesTableViewController: UITableViewController {
     lazy var fetch: NSFetchedResultsController<Movie> = {
     
         let request: NSFetchRequest<Movie> = Movie.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: false)]
+        request.sortDescriptors = [ NSSortDescriptor(key: "hasWatched", ascending: true),
+                                    NSSortDescriptor(key: "title", ascending: true)]
+        let moc = CoreDataStack.shared.mainContext
         
         //  fetched results controller
-        let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "hasWatched", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
         
         frc.delegate = self
         
@@ -36,7 +38,15 @@ class MyMoviesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        movieController.fetch()
+    }
+    
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        movieController.fetch {_ in 
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+        
     }
 
     // MARK: - Table view data source
@@ -54,19 +64,20 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.resuseIdentifier, for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
-
+        
+        cell.delegate = self
         cell.movie = fetch.object(at: indexPath)
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard (fetch.sections?[section]) != nil else { return nil }
+        guard let sectionInfo = fetch.sections?[section] else { return nil }
         
-        switch section {
-        case 0:
-            return "not watched"
-        case 1:
+        switch sectionInfo.name {
+        case "0":
+            return "unwatched"
+        case "1":
             return "watched"
         default:
             return "coming soon"
@@ -131,5 +142,11 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
         default:
             return
         }
+    }
+}
+
+extension MyMoviesTableViewController: MovieCellDelegate {
+    func didUpdateMovie(movie: Movie) {
+        movieController.sendMovieToFirebase(movie: movie)
     }
 }
