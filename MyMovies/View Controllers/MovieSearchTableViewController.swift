@@ -28,7 +28,9 @@ class MovieSearchTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-
+        
+        navigationController?.dismiss(animated: true, completion: nil)
+        
     }
     
     // MARK: - Actions
@@ -59,7 +61,7 @@ class MovieSearchTableViewController: UITableViewController {
 
                 let movie = Movie(title: movieDBMovie.title, hasWatched: false)
                 movieController.sendMovieToServer(movie: movie)
-                
+
                 do {
                     try CoreDataStack.shared.mainContext.save()
                     navigationController?.dismiss(animated: true, completion: nil)

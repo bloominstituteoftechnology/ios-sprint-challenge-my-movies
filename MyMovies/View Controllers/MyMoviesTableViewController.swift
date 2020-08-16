@@ -16,10 +16,10 @@ class MyMoviesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: false)]
         
         let context = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
         
         frc.delegate = self
         
