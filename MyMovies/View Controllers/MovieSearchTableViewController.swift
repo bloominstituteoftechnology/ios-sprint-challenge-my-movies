@@ -11,7 +11,7 @@ import UIKit
 class MovieSearchTableViewController: UITableViewController {
 
     // MARK: - Properties
-    
+    var movie: MovieRepresentation?
     var movieController = MovieController()
     
     // MARK: - Outlets
@@ -39,6 +39,10 @@ class MovieSearchTableViewController: UITableViewController {
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
+    }
+    @IBAction func addToFavorites(_ sender: Any) {
+        guard let movie = movie else { return }
+        try? CoreDataStack.shared.save()
     }
     
     // MARK: - Table View Data Source
