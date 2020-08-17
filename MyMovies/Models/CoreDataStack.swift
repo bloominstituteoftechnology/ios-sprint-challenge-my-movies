@@ -11,7 +11,7 @@ import CoreData
 
 class CoreDataStack {
     static let shared = CoreDataStack()
-
+    
     lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Movie")
         container.loadPersistentStores { (_, error) in
@@ -22,11 +22,19 @@ class CoreDataStack {
         container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
-
-//    func saveMovie(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
-//        
-//    }
-
+    
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        var error: Error?
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        if let error = error { throw error }
+    }
+    
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }

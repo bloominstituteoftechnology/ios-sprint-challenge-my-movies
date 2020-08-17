@@ -7,11 +7,15 @@
 //
 
 import Foundation
+import CoreData
 
 enum NetworkError: Error {
     case otherError
     case noData
     case failedDecode
+    case failedEncode
+    case noIdentifier
+    case noRep
 }
 
 class MovieController {
@@ -60,5 +64,59 @@ class MovieController {
                 completion(.failure(.failedDecode))
             }
         }.resume()
+    }
+
+    func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuid = movie.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+
+        let movie = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(.success(true))
+        }
+        movie.resume()
+    }
+
+    private func updateMovie(with representations: [MovieRepresentation]) throws {
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+
+        let identifiersToFetch = representations.compactMap({UUID(uuidString: $0.identifier)})
+
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        var taskToCreate = representationsByID
+
+        let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+
+        let contexts = CoreDataStack.shared.mainContext
+
+        context.performAndWait {
+            do {
+                let exisitingTasks = try contexts.fetch(fetchRequest)
+
+                for movie in exisitingTasks {
+                    guard let id = movie.identifier,
+                        let representation = representationsByID[id] else { continue }
+
+                    movie.title = representation.title
+                    movie.hasWatched = representation.hasWatched
+
+                    taskToCreate.removeValue(forKey: id)
+                }
+
+                for representation in taskToCreate.values {
+                    Movie(movieRespresentation: representation, context: contexts)
+                }
+            } catch {
+                print("Error fetching tasks for UUIDs: \(error)")
+            }
+        }
+        try CoreDataStack.shared.save(context: context)
     }
 }
