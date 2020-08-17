@@ -11,15 +11,12 @@ import UIKit
 class MovieSearchTableViewController: UITableViewController {
 
     // MARK: - Properties
-    
     var movieController = MovieController()
     
     // MARK: - Outlets
-    
     @IBOutlet weak var searchBar: UISearchBar!
     
     // MARK: - View Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +27,14 @@ class MovieSearchTableViewController: UITableViewController {
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
-                // TODO: Save this movie representation as a managed object in Core Data
+                let moc = CoreDataStack.shared.mainContext
+                let _ = Movie(title: movieDBMovie.title, context: moc)
+                
+                do {
+                    try moc.save()
+                } catch {
+                    NSLog("Unable to save movieDBMovie as Movie+Convenience object.")
+                }
             }
         }
     }
