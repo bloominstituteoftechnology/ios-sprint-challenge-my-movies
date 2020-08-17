@@ -19,6 +19,8 @@ class MovieController {
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     
+    private let firebaseUrl = URL(string: "https://moviessc-26b6b.firebaseio.com/")!
+    
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     // MARK: - Properties
@@ -59,6 +61,36 @@ class MovieController {
                 NSLog("Error decoding JSON data: \(error)")
                 completion(.failure(.failedDecode))
             }
+        }.resume()
+    }
+    
+    
+    func fbGetAllMovies(completion: @escaping  ((Error?) -> Void) = { _ in}) {
+        
+        let url = firebaseUrl.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                completion(error)
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                let movies = try decoder.decode([MovieRepresentation].self, from: data)
+                let moc = CoreDataStack.shared.container.newBackgroundContext()
+                
+                completion(nil)
+            } catch {
+                
+            }
+            
         }.resume()
     }
 }

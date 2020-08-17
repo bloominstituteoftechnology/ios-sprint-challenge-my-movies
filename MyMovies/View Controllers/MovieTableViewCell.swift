@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MovieTableViewCellDelegate {
-    func watchedStatusChanged(for: MovieTableViewCell)
+    func watchedStatusChanged(for cell: MovieTableViewCell)
 }
 
 class MovieTableViewCell: UITableViewCell {
@@ -19,6 +19,7 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var movieHasWatchedButton: UIButton!
     
     //MARK: Properties
+    var delegate: MovieTableViewCellDelegate?
     var movie: Movie? {
         didSet {
             updateViews()
@@ -37,6 +38,12 @@ class MovieTableViewCell: UITableViewCell {
         case false:
             movieHasWatchedButton.setImage(UIImage(systemName: "film"), for: .normal)
         }
+    }
+    
+    //MARK: IBActions
+    
+    @IBAction func watchedStatusToggle(_ sender: Any) {
+        delegate?.watchedStatusChanged(for: self)
     }
     
     override func awakeFromNib() {

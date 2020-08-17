@@ -26,4 +26,8 @@ extension Movie {
         self.init(title: title, context: context)
     }
     
+    var movieRepresentation: MovieRepresentation {
+        return MovieRepresentation(identifier: identifier?.uuidString, title: title, hasWatched: hasWatched)
+    }
+    
 }

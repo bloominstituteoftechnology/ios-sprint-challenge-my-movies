@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 struct MovieRepresentation: Codable, Equatable {
-    let identifier: UUID?
+    let identifier: String?
     let title: String?
     let hasWatched: Bool?
 }

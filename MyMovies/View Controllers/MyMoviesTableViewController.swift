@@ -9,8 +9,13 @@
 import UIKit
 import CoreData
 
-class MyMoviesTableViewController: UITableViewController {
-
+class MyMoviesTableViewController: UITableViewController, MovieTableViewCellDelegate {
+    
+    func watchedStatusChanged(for cell: MovieTableViewCell) {
+        guard let movie = cell.movie else { return }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -34,9 +39,10 @@ class MyMoviesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as? MovieTableViewCell else { return UITableViewCell() }
 
-        
+        cell.delegate = self
+        cell.movie = fetchedResultsController.object(at: indexPath)
 
         return cell
     }
