@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>336126194319-3ju1vfuuofqgben11m340g4dtr6or1p0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.336126194319-3ju1vfuuofqgben11m340g4dtr6or1p0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBQV7zfCm4nAXFXVS_uVQkL9W9icMaC6T4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>336126194319</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.Dojo.Journal</string>
+	<key>PROJECT_ID</key>
+	<string>journal-day-three</string>
+	<key>STORAGE_BUCKET</key>
+	<string>journal-day-three.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:336126194319:ios:443af9ca6c2fb5146f76fa</string>
+	<key>DATABASE_URL</key>
+	<string>https://journal-day-three.firebaseio.com</string>
+</dict>
+</plist>
