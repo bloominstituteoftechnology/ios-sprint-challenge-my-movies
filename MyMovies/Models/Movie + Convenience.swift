@@ -14,7 +14,9 @@ extension Movie {
     var movieRepresentation: MovieRepresentation? {
         guard let id = identifier, let title = title else { return nil }
 
-        return MovieRepresentation(identifier: id.uuidString, title: title, hasWatched: hasWatched)
+        return MovieRepresentation(identifier: id.uuidString,
+                                   title: title,
+                                   hasWatched: hasWatched)
     }
 
     @discardableResult convenience init(identifier: UUID = UUID(),

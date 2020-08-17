@@ -24,6 +24,19 @@ class MovieTableViewCell: UITableViewCell {
            }
        }
     
+    private func updateViews() {
+            guard let movie = movie else { return }
+            
+            movieTitleLabel.text = movie.title
+            
+            updateWatchButton(button: movie.hasWatched)
+            
+    //        watchedButton.setImage((movie.hasWatched) ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
+            
+
+            
+        }
+    
     
      // MARK: - Actions
     
@@ -40,16 +53,15 @@ class MovieTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    private func updateViews() {
-        guard let movie = movie else { return }
-        
-        movieTitleLabel.text = movie.title
-        
-        watchedButton.setImage((movie.hasWatched) ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
-        
-
-        
-    }
+    
+    
+    private func updateWatchButton(button: Bool) {
+           if button {
+               watchedButton.setImage(UIImage(systemName: "film.fill"), for: .normal)
+           } else {
+               watchedButton.setImage(UIImage(systemName: "film"), for: .normal)
+           }
+       }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

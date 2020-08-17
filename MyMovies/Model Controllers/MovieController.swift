@@ -25,6 +25,11 @@ class MovieController {
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
+    init() {
+        fetchMoviesFromServer()
+    }
+    
+    
     // MARK: - Properties
     
     var searchedMovies: [MovieDBMovie] = []
@@ -66,9 +71,6 @@ class MovieController {
         }.resume()
     }
     
-    init() {
-        fetchMoviesFromServer()
-    }
     
     func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
             guard let uuid = movie.identifier else {

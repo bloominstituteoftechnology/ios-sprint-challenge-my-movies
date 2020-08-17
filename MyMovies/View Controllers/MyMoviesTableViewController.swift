@@ -11,13 +11,14 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
-    let movieController = MovieController()
+    //let movieController = MovieController()
     
     // MARK: - Properties
       
       lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
           let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-          fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: false)]
+          fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true),
+                                         NSSortDescriptor(key: "hasWatched", ascending: true)]
           
           let context = CoreDataStack.shared.mainContext
           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
@@ -31,10 +32,13 @@ class MyMoviesTableViewController: UITableViewController {
           }
           return frc
       }()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -50,26 +54,32 @@ class MyMoviesTableViewController: UITableViewController {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.reuseIdentifier, for: indexPath) as? MovieTableViewCell else {
-//            fatalError("Can't dequeue cell of type \(MovieTableViewCell.reuseIdentifier)")
-//        }
-//
-//        cell.movie = fetchedResultsController.object(at: indexPath)
-//        cell.movieController = MovieController()
-//        
-//        return cell
-//    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.reuseIdentifier, for: indexPath) as? MovieTableViewCell else {
+            fatalError("Can't dequeue cell of type \(MovieTableViewCell.reuseIdentifier)")
+        }
+        
+
+        cell.movie = fetchedResultsController.object(at: indexPath)
+        cell.movieController = MovieController()
+        
+        return cell
+    }
 
     // MARK: - Navigation
+    
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "ToMovieSearch" {
+//        if let detailVC = segue.destination as? MovieSearchTableViewController,
+//            let index = self.tableView.indexPathForSelectedRow {
+//            detailVC.movie = fetchedResultsController.object(at: index)
+//            detailVC.movieController = movieController
+//        }
+//    }
+//}
 }
-
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     
@@ -121,3 +131,4 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     }
     
 }
+

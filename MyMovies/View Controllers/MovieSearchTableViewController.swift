@@ -13,6 +13,7 @@ class MovieSearchTableViewController: UITableViewController {
     // MARK: - Properties
     
     var movieController = MovieController()
+    var movie: Movie?
     
     // MARK: - Outlets
     
@@ -30,7 +31,7 @@ class MovieSearchTableViewController: UITableViewController {
 //        if let indexPaths = tableView.indexPathsForSelectedRows {
 //            for indexPath in indexPaths {
 //                let movieDBMovie = movieController.searchedMovies[indexPath.row]
-                // TODO: Save this movie representation as a managed object in Core Data
+//                 //TODO: Save this movie representation as a managed object in Core Data
 //            }
 //        }
     }
@@ -52,7 +53,30 @@ class MovieSearchTableViewController: UITableViewController {
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         return cell
    }
-}
+    
+     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            if let indexPaths = tableView.indexPathsForSelectedRows {
+                for indexPath in indexPaths {
+                    let movieDBMovie = movieController.searchedMovies[indexPath.row]
+
+                    let movie = Movie(title: movieDBMovie.title, hasWatched: false)
+                    movieController.sendMovieToServer(movie: movie)
+                    
+                    do {
+                        try CoreDataStack.shared.mainContext.save()
+                        navigationController?.dismiss(animated: true, completion: nil)
+                    } catch {
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
+            }
+        }
+        
+        
+    }
+    
+    
+
 
 extension MovieSearchTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
