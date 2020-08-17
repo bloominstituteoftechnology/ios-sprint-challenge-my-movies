@@ -24,7 +24,7 @@ class MovieController {
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
     //add url for updating movies
-    private let firebaseURL = URL(string: "String")!
+    private let firebaseURL = URL(string: "https://mymovies-a674b.firebaseio.com/")!
     
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
