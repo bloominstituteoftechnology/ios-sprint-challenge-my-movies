@@ -8,11 +8,19 @@
 
 import UIKit
 
+
+protocol MovieTableViewCellDelegate: class {
+    func updateMovie(movie: Movie)
+}
+
+
 class MovieTableViewCell: UITableViewCell {
     
     // Outlets
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var watchButton: UIButton!
+    
+    weak var delegate: MovieTableViewCellDelegate?
     
     static let reuseIdentifier = "MyMovieCell"
     
@@ -29,7 +37,7 @@ class MovieTableViewCell: UITableViewCell {
         
         titleLabel.text = movie.title
         
-        updateWatchButton(button: movie.hasWatched)
+        watchButton.setImage(movie.hasWatched ? UIImage(systemName: "checkmark.square.fill") : UIImage(systemName: "square"), for: .normal)
     }
     
     private func updateWatchButton(button: Bool) {
@@ -42,11 +50,18 @@ class MovieTableViewCell: UITableViewCell {
     
     
     @IBAction func watchBtn(_ sender: UIButton) {
+        guard let movie = movie else { return }
         
-        if let movie = movie {
-            movieController?.toggleHasWatched(movie)
+        movie.hasWatched.toggle()
+        
+        watchButton.setImage(movie.hasWatched ? UIImage(systemName: "checkmark.square.fill") : UIImage(systemName: "square"), for: .normal)
+        
+        delegate?.updateMovie(movie: movie)
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
         }
-        
     }
     
 

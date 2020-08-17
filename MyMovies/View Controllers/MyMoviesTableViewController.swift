@@ -12,11 +12,14 @@ import CoreData
 class MyMoviesTableViewController: UITableViewController {
     
     
+    let movieController = MovieController()
+    
     // MARK: - Properties
     
     lazy var fetchedResultsController: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "hasWatched", ascending: false)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true),
+                                        NSSortDescriptor(key: "hasWatched", ascending: true)]
         
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
@@ -31,21 +34,18 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
-    let movieController = MovieController()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
+       
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
-//        tableView.allowsSelection = false
-//        tableView.isUserInteractionEnabled = true
-//
-//        tableView.reloadData()
+
+        tableView.reloadData()
     }
     
     
@@ -61,13 +61,27 @@ class MyMoviesTableViewController: UITableViewController {
     }
     
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+//        return sectionInfo.name.capitalized
+        
+        switch section {
+        case 1:
+            return "Watched"
+        default:
+            return "Not Watched"
+        }
+
+    }
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.reuseIdentifier, for: indexPath) as? MovieTableViewCell else {
             fatalError("Can't dequeue cell of type \(MovieTableViewCell.reuseIdentifier)")
         }
 
         cell.movie = fetchedResultsController.object(at: indexPath)
-        cell.movieController = MovieController()
+        cell.delegate = self
         
         return cell
     }
@@ -78,9 +92,7 @@ class MyMoviesTableViewController: UITableViewController {
             let movie = fetchedResultsController.object(at: indexPath)
             // Deleting in the server
             movieController.deleteMovieFromServer(movie) { (result) in
-                guard let _ = try? result.get() else {
-                    return
-                }
+                guard let _ = try? result.get() else { return }
                 
                 DispatchQueue.main.async {
                     let context = CoreDataStack.shared.mainContext
@@ -88,6 +100,7 @@ class MyMoviesTableViewController: UITableViewController {
                             
                     do {
                         try context.save()
+                        tableView.reloadData()
                     } catch {
                         context.reset()
                         NSLog("Error saving managed object context: \(error)")
@@ -105,13 +118,19 @@ class MyMoviesTableViewController: UITableViewController {
         if segue.identifier == "GoToSearchVCSegue" {
             if let navController = segue.destination as? UINavigationController,
                 let searchVC = navController.viewControllers.first as? MovieSearchTableViewController {
-                searchVC.movieController = movieController
+                searchVC.movieController = self.movieController
             }
         }
     }
     
     
 } // Class
+
+extension MyMoviesTableViewController: MovieTableViewCellDelegate {
+    func updateMovie(movie: Movie) {
+        movieController.sendMovieToServer(movie: movie)
+    }
+}//
 
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
@@ -163,4 +182,4 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-} // Extension
+} //

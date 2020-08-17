@@ -29,7 +29,21 @@ class MovieSearchTableViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        navigationController?.dismiss(animated: true, completion: nil)
+        if let indexPaths = tableView.indexPathsForSelectedRows {
+            for indexPath in indexPaths {
+                let movieDBMovie = movieController.searchedMovies[indexPath.row]
+
+                let movie = Movie(title: movieDBMovie.title)
+                movieController.sendMovieToServer(movie: movie)
+
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                    navigationController?.dismiss(animated: true, completion: nil)
+                } catch {
+                    NSLog("Error saving managed object context: \(error)")
+                }
+            }
+        }
         
     }
     
@@ -54,23 +68,23 @@ class MovieSearchTableViewController: UITableViewController {
    }
     
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let indexPaths = tableView.indexPathsForSelectedRows {
-            for indexPath in indexPaths {
-                let movieDBMovie = movieController.searchedMovies[indexPath.row]
-
-                let movie = Movie(title: movieDBMovie.title, hasWatched: false)
-                movieController.sendMovieToServer(movie: movie)
-
-                do {
-                    try CoreDataStack.shared.mainContext.save()
-                    navigationController?.dismiss(animated: true, completion: nil)
-                } catch {
-                    NSLog("Error saving managed object context: \(error)")
-                }
-            }
-        }
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if let indexPaths = tableView.indexPathsForSelectedRows {
+//            for indexPath in indexPaths {
+//                let movieDBMovie = movieController.searchedMovies[indexPath.row]
+//
+//                let movie = Movie(title: movieDBMovie.title)
+//                movieController.sendMovieToServer(movie: movie)
+//
+//                do {
+//                    try CoreDataStack.shared.mainContext.save()
+//                    navigationController?.dismiss(animated: true, completion: nil)
+//                } catch {
+//                    NSLog("Error saving managed object context: \(error)")
+//                }
+//            }
+//        }
+//    }
     
     
 } //

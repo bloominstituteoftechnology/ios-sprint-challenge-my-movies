@@ -69,10 +69,6 @@ class MovieController {
     
     // MARK: - Firebase
     
-    init() {
-        fetchMoviesFromServer()
-    }
-    
     
     func sendMovieToServer(movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = movie.identifier else {
@@ -87,7 +83,7 @@ class MovieController {
         
         do {
             guard let representation = movie.movieRepresentation else {
-                completion(.failure(.failedEncode))
+                completion(.failure(.otherError))
                 return
             }
             
@@ -105,7 +101,10 @@ class MovieController {
                 return
             }
             
-            completion(.success(true))
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+            
         }.resume()
     }
     
@@ -137,37 +136,11 @@ class MovieController {
         }.resume()
     }
     
-    func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
-        guard let uuid = movie.identifier else {
-            completion(.failure(.noIdentifier))
-            return
-        }
-        
-        let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
-        
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: request) { _, _, error in
-            if let error = error {
-                NSLog("Error deleting movie from server \(movie): \(error)")
-                completion(.failure(.otherError))
-                return
-            }
-            
-            completion(.success(true))
-        }.resume()
-        
-        DispatchQueue.main.async {
-            let context = CoreDataStack.shared.mainContext
-            context.delete(movie)
-            try? context.save()
-        }
-    }
     
     private func updateMovies(with representations: [MovieRepresentation]) throws {
         
-        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier) }
+        let identifiersToFetch = representations.compactMap({ UUID(uuidString: $0.identifier )})
+        
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         
         var moviesToCreate = representationsByID
@@ -205,6 +178,37 @@ class MovieController {
         
         try CoreDataStack.shared.save(context: context)
     }
+    
+    
+        func deleteMovieFromServer(_ movie: Movie, completion: @escaping CompletionHandler = { _ in }) {
+            guard let uuid = movie.identifier else {
+                completion(.failure(.otherError))
+                return
+            }
+            
+            let requestURL = firebaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+            
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = "DELETE"
+            
+            URLSession.shared.dataTask(with: request) { _, _, error in
+                if let error = error {
+                    NSLog("Error deleting movie from server \(movie): \(error)")
+                    completion(.failure(.otherError))
+                    return
+                }
+                
+                completion(.success(true))
+            }.resume()
+            
+    //        DispatchQueue.main.async {
+    //            let context = CoreDataStack.shared.mainContext
+    //            context.delete(movie)
+    //            try? context.save()
+    //        }
+        }
+    
+    
     
     private func update(movie: Movie, with representation: MovieRepresentation) {
         movie.title = representation.title
