@@ -19,6 +19,7 @@
 		A4B0553224EA164400D12446 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B0553124EA164400D12446 /* CoreDataStack.swift */; };
 		A4B0553424EA167F00D12446 /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B0553324EA167F00D12446 /* Movie+Convenience.swift */; };
 		A4B0553624EA177900D12446 /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B0553524EA177900D12446 /* MovieRepresentation.swift */; };
+		A4B0553824EA206700D12446 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B0553724EA206700D12446 /* MovieTableViewCell.swift */; };
 		CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE491A8E2477713300012147 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		A4B0553124EA164400D12446 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A4B0553324EA167F00D12446 /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		A4B0553524EA177900D12446 /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
+		A4B0553724EA206700D12446 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		CE491A8E2477713300012147 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +107,7 @@
 			children = (
 				46E209F92126A89C00E7FF73 /* MovieSearchTableViewController.swift */,
 				46E209FB2126A8A100E7FF73 /* MyMoviesTableViewController.swift */,
+				A4B0553724EA206700D12446 /* MovieTableViewCell.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 				46E20A022126A91800E7FF73 /* MovieDBMovie.swift in Sources */,
 				CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */,
 				A4B0553224EA164400D12446 /* CoreDataStack.swift in Sources */,
+				A4B0553824EA206700D12446 /* MovieTableViewCell.swift in Sources */,
 				A4B0553424EA167F00D12446 /* Movie+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
