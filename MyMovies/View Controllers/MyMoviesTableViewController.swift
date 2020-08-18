@@ -10,11 +10,11 @@ import UIKit
 import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     //Properties
     let movieController = MovieController()
     
@@ -34,38 +34,85 @@ class MyMoviesTableViewController: UITableViewController {
         super.viewWillAppear(true)
         tableView.reloadData()
     }
-
+    
+    @IBAction func refresh(_ sender: Any) {
+           movieController.fetchMoviesFromServer { (_) in
+               DispatchQueue.main.async {
+                   self.refreshControl?.endRefreshing()
+               }
+           }
+       }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchResultsController.sections? [section].numberOfObjects ?? 0
     }
-
+    
     //HAVE TO ADD REFRESH
     
-//    @IBAction func refresh(_ sender: Any) {
-//        movieController.fetchMoviesFromServer { (_) in
-//            DispatchQueue.main.async {
-//                self.refreshControl?.endRefreshing()
-//            }
+    //    @IBAction func refresh(_ sender: Any) {
+    //        movieController.fetchMoviesFromServer { (_) in
+    //            DispatchQueue.main.async {
+    //                self.refreshControl?.endRefreshing()
+    //            }
+    //        }
+    //    }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchResultsController.sections?[section] else {return nil}
+        return sectionInfo.name.capitalized
+    }
+    
+//    func tableViewSectionTitle(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//
+//        var sections: String {
+//
+//        switch section
+//        {
+//        case 0:
+//            return "Not Watched"
+//        case 1:
+//            return "Watched"
+//        default:
+//            break
 //        }
+//        return section
+//    }
 //    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.reuseIdentifier, for: indexPath) as? MovieTableViewCell else { fatalError("Cannot deque cell \(MovieTableViewCell.reuseIdentifier)")}
-         
-         // Configure the cell...
-         cell.delegate = self
-         cell.movie = fetchResultsController.object(at: indexPath)
-         return cell
-     }
-
-    // MARK: - Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.reuseIdentifier, for: indexPath) as? MovieTableViewCell else { fatalError("Cannot deque cell \(MovieTableViewCell.reuseIdentifier)")}
+        
+        // Configure the cell...
+        cell.delegate = self
+        cell.movie = fetchResultsController.object(at: indexPath)
+        return cell
     }
+    
+    //delete movies
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            let movie = fetchResultsController.object(at: indexPath)
+            movieController.deleteMoviesFromServer(movie) { (result) in
+                guard let _ = try? result.get() else {return}
+                let moc = CoreDataStack.shared.mainContext
+                moc.delete(movie)
+                
+                do {
+                    try moc.save()
+                    // tableView.reloadData()
+                } catch {
+                    moc.reset()
+                    NSLog("Error saving \(error)")
+                }
+                
+            }
+        }
+    }
+    
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
