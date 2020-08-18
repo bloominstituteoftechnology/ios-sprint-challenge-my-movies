@@ -31,9 +31,21 @@ class MovieSearchTableViewController: UITableViewController {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
                 // TODO: Save this movie representation as a managed object in Core Data
+                let movie = Movie(title: movieDBMovie.title, hasWatched: false)
+                movieController.sendMovieToServer(movie: movie)
+                 do {
+                           try CoreDataStack.shared.mainContext.save()
+                       } catch {
+                           NSLog("Error saving managed object context \(error)")
+                       }
             }
         }
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.contentView.backgroundColor = .lightGray
+    }
+
     
     // MARK: - Actions
     
