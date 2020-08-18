@@ -37,7 +37,7 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-//        tableView.reloadData()
+        //        tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -165,9 +165,16 @@ extension MyMoviesTableViewController: MovieCellDelegate {
 
         let movie = fetchedResultsControllers.object(at: indexPath)
         movie.hasWatched.toggle()
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Errer not able to save move title: \(error)")
+        }
+        
     }
 
-    }
+}
 
 
 

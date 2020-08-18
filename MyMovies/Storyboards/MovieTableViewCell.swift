@@ -31,15 +31,8 @@ class MovieTableViewCell: UITableViewCell {
 
     @IBAction func hasWatchedButton(_ sender: Any) {
         delegate?.didUpdateMove(cell: self)
-//        movie?.hasWatched.toggle()
-//        updateViews()
-//        movieController.fetchMovieFromServer()
-
-//        do {
-//            try CoreDataStack.shared.mainContext.save()
-//        } catch {
-//            NSLog("Error saving managed object context: \(error)")
-//        }
+        updateViews()
+        
     }
 
     private func updateViews() {

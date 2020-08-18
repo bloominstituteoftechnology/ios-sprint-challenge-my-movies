@@ -35,7 +35,7 @@ extension Movie {
 
         self.init(identifier: identifier,
                   title: movieRespresentation.title,
-                  hasWatched: movieRespresentation.hasWatched,
+                  hasWatched: movieRespresentation.hasWatched ?? false,
                   context: context)
     }
 

@@ -30,7 +30,7 @@ class MovieController {
     var searchedMovies: [MovieDBMovie] = []
 
     init() {
-//        fetchMovieFromServer()
+        fetchMovieFromServer()
     }
 
     // MARK: - TheMovieDB API
@@ -87,6 +87,9 @@ class MovieController {
             }
 
             do {
+                let json = try! JSONSerialization.jsonObject(with: data, options: [])
+                print(json)
+                
                 let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
                 try self.updateMovie(with: movieRepresentations)
                 completion(.success(true))
@@ -119,11 +122,8 @@ class MovieController {
     private func updateMovie(with representations: [MovieRepresentation]) throws {
         let context = CoreDataStack.shared.container.newBackgroundContext()
 
-        let moviesWithID = representations.filter {
-            $0.identifier != nil
-        }
 
-        let identifiersToFetch = moviesWithID.compactMap({$0.identifier})
+        let identifiersToFetch = representations.compactMap({$0.identifier})
 
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         var movieToCreate = representationsByID
@@ -157,7 +157,7 @@ class MovieController {
 
     private func update(movie: Movie, with represenation: MovieRepresentation) {
         movie.title = represenation.title
-        movie.hasWatched = represenation.hasWatched
+        movie.hasWatched = represenation.hasWatched ?? false
     }
 
     func sendMovieToServer(movie: Movie,completion: @escaping CompletionHandler = { _ in }) {
