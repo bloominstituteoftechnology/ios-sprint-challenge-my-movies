@@ -20,9 +20,17 @@ The requirements for this project are as follows:
 
 ### Data Modeling
 
+//create files
+
 1. A `Movie` Core Data object. It should be comprised of the following attributes: `identifier` of type `UUID`, `title` of type `String`, and `hasWatched` of type `Bool`. You'll need to create a Core Data model file and set up your entity with the above attributes. Remember to consider things like Core Data optionality and default values for your attributes. You'll also need to create an extension to the Movie type so you can create convenience initializers for use elsewhere in the project.
+//step 1 done
+
 2. A `MovieRepresentation` object for sending data to/from Firebase. Its attributes should match the properties found in the `Movie` managed object (remember the `UUID` type isn't supported in JSON).
+// step 2 done
+
 3. The `MovieController` has already been set up to fetch data from TheMovieDB. You'll add more functionality to this class to perform syncing with Firebase as well as any other manipulation of your models you might need.
+^^ come back to this
+
 
 ### Changes to `MovieSearchTableViewController`
 
@@ -35,6 +43,11 @@ The requirements for this project are as follows:
 
 ### Firebase Syncing
 
+//
+
 7. Send changes to the user's saved movies to a Firebase Database when creating, saving, and deleting movies. The database will be one you create in your own Firebase account.
+
+//COMPLETE
+
 8. Synchronize the movies in Firebase with the device's local database in Core Data. Be sure to use a background `NSManagedObjectContext` where necessary to ensure Core Data concurrency is respected. Use the Core Data concurrency debug flag in your scheme to check your work (`-com.apple.CoreData.ConcurrencyDebug 1`).
 
