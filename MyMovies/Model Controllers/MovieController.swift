@@ -199,7 +199,7 @@ class MovieController {
                 for representation in moviesToAdd.values {
                     Movie(movieRep: representation, context: context)
                 }
-                
+            
             } catch {
                 print("Error fetching tasks for UUIDs: \(error)")
             }

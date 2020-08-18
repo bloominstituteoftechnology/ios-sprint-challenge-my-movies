@@ -9,6 +9,11 @@
 import Foundation
 import CoreData
 
+enum MovieWatched: String, CaseIterable {
+    case unwatched
+    case watched
+}
+
 extension Movie {
     
     //get representation from Movie

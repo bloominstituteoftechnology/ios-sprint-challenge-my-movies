@@ -51,18 +51,18 @@ class MyMoviesTableViewController: UITableViewController {
         return fetchResultsController.sections? [section].numberOfObjects ?? 0
     }
     
-    //HAVE TO ADD REFRESH
-    
-    //    @IBAction func refresh(_ sender: Any) {
-    //        movieController.fetchMoviesFromServer { (_) in
-    //            DispatchQueue.main.async {
-    //                self.refreshControl?.endRefreshing()
-    //            }
-    //        }
-    //    }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchResultsController.sections?[section] else {return nil}
-        return sectionInfo.name.capitalized
+       // guard let sectionInfo = fetchResultsController.sections?[section] else {return nil}
+        
+        switch section {
+        case 0:
+            return "Not Watched"
+        case 1:
+            return "Watched"
+        default:
+            break
+        }
+        return "\(section)"
     }
     
 //    func tableViewSectionTitle(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -78,10 +78,10 @@ class MyMoviesTableViewController: UITableViewController {
 //        default:
 //            break
 //        }
-//        return section
+//        return sections
 //    }
 //    }
-    
+//
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.reuseIdentifier, for: indexPath) as? MovieTableViewCell else { fatalError("Cannot deque cell \(MovieTableViewCell.reuseIdentifier)")}
         
