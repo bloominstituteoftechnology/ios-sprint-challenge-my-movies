@@ -55,6 +55,7 @@ class MyMovieTableViewCell: UITableViewCell {
             movie.hasWatched.toggle()
             hasWatchedButton.setImage(UIImage(systemName: "film"), for: .normal)
             movieController.sendMovieToServer(movie: movie)
+            try? CoreDataStack.shared.save()
         }
     
     }

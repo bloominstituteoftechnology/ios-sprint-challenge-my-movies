@@ -30,8 +30,8 @@ The requirements for this project are as follows:
 
 ### Changes to `MyMoviesTableViewController`
 
-5. Display the list of saved movies in the `MyMoviesTableViewController`. You must use an `NSFetchedResultsController` to display the movies. Separate the movies into two sections in the table view by whether they have been watched or not.
-6. This table view's prototype cell should let the user update whether they have seen the movie or not. You will toggle the button on the right side of the cell between two different SF Symbols: "film" for unwatched, and "film.fill" for watched.
+5. Display the list of saved movies in the `MyMoviesTableViewController`. You must use an `NSFetchedResultsController` to display the movies. Separate the movies into two sections in the table view by whether they have been watched or not. 
+6. This table view's prototype cell should let the user update whether they have seen the movie or not. You will toggle the button on the right side of the cell between two different SF Symbols: "film" for unwatched, and "film.fill" for watched. -Done
 
 ### Firebase Syncing
 
