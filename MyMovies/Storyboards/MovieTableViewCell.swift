@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import CoreData
 
 protocol MovieCellDelegate: class {
-    func didUpdateMove(movie: Movie)
+    func didUpdateMove(cell: MovieTableViewCell)
 }
 
 class MovieTableViewCell: UITableViewCell {
@@ -29,15 +30,16 @@ class MovieTableViewCell: UITableViewCell {
     weak var delegate: MovieCellDelegate?
 
     @IBAction func hasWatchedButton(_ sender: Any) {
-        movie?.hasWatched.toggle()
-        updateViews()
-        movieController.fetchMovieFromServer()
+        delegate?.didUpdateMove(cell: self)
+//        movie?.hasWatched.toggle()
+//        updateViews()
+//        movieController.fetchMovieFromServer()
 
-        do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
+//        do {
+//            try CoreDataStack.shared.mainContext.save()
+//        } catch {
+//            NSLog("Error saving managed object context: \(error)")
+//        }
     }
 
     private func updateViews() {
@@ -46,18 +48,26 @@ class MovieTableViewCell: UITableViewCell {
         movieTitle.text = movie.title
         hasWatchedToggle.setImage((movie.hasWatched) ? UIImage(systemName: "film.fill") : UIImage(systemName: "film"), for: .normal)
     }
+
+
+//       override func awakeFromNib() {
+//           super.awakeFromNib()
+//           // Initialization code
+//       }
+//
+//       override func setSelected(_ selected: Bool, animated: Bool) {
+//           super.setSelected(selected, animated: animated)
+//
+//        if selected {
+//            backgroundColor = .blue
+//        } else {
+//            backgroundColor = .clear
+//        }
+//
+//           // Configure the view for the selected state
+//       }
+
 }
 
 
-/*
-   override func awakeFromNib() {
-       super.awakeFromNib()
-       // Initialization code
-   }
 
-   override func setSelected(_ selected: Bool, animated: Bool) {
-       super.setSelected(selected, animated: animated)
-
-       // Configure the view for the selected state
-   }
-*/

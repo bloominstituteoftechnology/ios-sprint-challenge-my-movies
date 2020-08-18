@@ -10,6 +10,6 @@ import Foundation
 
 struct MovieRepresentation: Codable {
     var hasWatched: Bool
-    var identifier: String
+    var identifier: String?
     var title: String 
 }

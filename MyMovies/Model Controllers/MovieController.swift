@@ -30,7 +30,7 @@ class MovieController {
     var searchedMovies: [MovieDBMovie] = []
 
     init() {
-        fetchMovieFromServer()
+//        fetchMovieFromServer()
     }
 
     // MARK: - TheMovieDB API
@@ -119,10 +119,14 @@ class MovieController {
     private func updateMovie(with representations: [MovieRepresentation]) throws {
         let context = CoreDataStack.shared.container.newBackgroundContext()
 
-        let identifiersToFetch = representations.compactMap({UUID(uuidString: $0.identifier)})
+        let moviesWithID = representations.filter {
+            $0.identifier != nil
+        }
+
+        let identifiersToFetch = moviesWithID.compactMap({$0.identifier})
 
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
-        var taskToCreate = representationsByID
+        var movieToCreate = representationsByID
 
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
@@ -133,16 +137,15 @@ class MovieController {
                 let exisitingMovie = try context.fetch(fetchRequest)
 
                 for movie in exisitingMovie {
-                    guard let id = movie.identifier,
+                    guard let id = movie.identifier?.uuidString,
                         let representation = representationsByID[id] else { continue }
 
-                    movie.title = representation.title
-                    movie.hasWatched = representation.hasWatched
+                    self.update(movie: movie, with: representation)
 
-                    taskToCreate.removeValue(forKey: id)
+                    movieToCreate.removeValue(forKey: id)
                 }
 
-                for representation in taskToCreate.values {
+                for representation in movieToCreate.values {
                     Movie(movieRespresentation: representation, context: context)
                 }
             } catch {
@@ -163,7 +166,7 @@ class MovieController {
             return
         }
 
-        let requestURL = fireBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("jason")
+        let requestURL = fireBaseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
 

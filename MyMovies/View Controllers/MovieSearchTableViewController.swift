@@ -12,8 +12,6 @@ import CoreData
 class MovieSearchTableViewController: UITableViewController {
 
     // MARK: - Properties
-    var movie: Movie?
-    var wasSelected = false
     var movieController = MovieController()
 
     // MARK: - Outlets
@@ -27,22 +25,25 @@ class MovieSearchTableViewController: UITableViewController {
 
         searchBar.delegate = self
         tableView.allowsSelection = true
+        
     }
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        if wasSelected {
-
-
-        }
-        
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
                 // TODO: Save this movie representation as a managed object in Core Data
-//                movieController.sendMovieToServer(movie: movie)
-//                movieDBMovie.title = i
+
+                let movie = Movie(title: movieDBMovie.title)
+                movieController.sendMovieToServer(movie: movie)
+
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                } catch {
+                    NSLog("Errer not able to save move title: \(error)")
+                }
             }
         }
     }
@@ -51,8 +52,6 @@ class MovieSearchTableViewController: UITableViewController {
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
-        wasSelected = true
-//        sender
         
     }
     
@@ -67,6 +66,27 @@ class MovieSearchTableViewController: UITableViewController {
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         return cell
    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        if cell.isSelected {
+            cell.selectionStyle = .default
+        } else {
+            cell.selectionStyle = .none
+        }
+    }
+
+//    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+//        if let cell = tableView.cellForRow(at: indexPath) {
+//            cell.contentView.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+//        }
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+//        if let cell = collectionView.cellForItem(at: indexPath) {
+//            cell.contentView.backgroundColor = nil
+//        }
+//    }
 }
 
 extension MovieSearchTableViewController: UISearchBarDelegate {

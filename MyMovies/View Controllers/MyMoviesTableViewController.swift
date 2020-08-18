@@ -19,7 +19,7 @@ class MyMoviesTableViewController: UITableViewController {
                                         NSSortDescriptor(key: "title", ascending: true)]
         
         let moc = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatced", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "hasWatched", cacheName: nil)
         frc.delegate = self
         
         do {
@@ -32,6 +32,12 @@ class MyMoviesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+//        tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -57,14 +63,49 @@ class MyMoviesTableViewController: UITableViewController {
         
         return cell
     }
+
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsControllers.sections?[section] else { return nil }
+        return sectionInfo.name.capitalized
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let movie = fetchedResultsControllers.object(at: indexPath)
+            movieController.deleteMovieFromServer(movie) { (result) in
+                DispatchQueue.main.async {
+                    guard let _ = try? result.get() else { return }
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(movie)
+                    do {
+                        try moc.save()
+                    } catch {
+                        moc.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
+
+
+            }
+        }
+    }
     
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+
+        switch segue.identifier {
+        case "AddMovieSegue":
+            if let navController = segue.destination as? UINavigationController,
+                let movieVC = navController.viewControllers.first as? MovieSearchTableViewController {
+                movieVC.movieController = self.movieController
+            }
+        default:
+            break
+        }
+
     }
 }
 
@@ -119,10 +160,14 @@ extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
 }
 
 extension MyMoviesTableViewController: MovieCellDelegate {
-    func didUpdateMove(movie: Movie) {
-        movieController.sendMovieToServer(movie: movie)
+    func didUpdateMove(cell: MovieTableViewCell) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+
+        let movie = fetchedResultsControllers.object(at: indexPath)
+        movie.hasWatched.toggle()
     }
-}
+
+    }
 
 
 
