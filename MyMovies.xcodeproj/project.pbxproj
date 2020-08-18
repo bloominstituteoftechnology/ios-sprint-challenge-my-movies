@@ -20,6 +20,7 @@
 		E166D5E024EA13DD00526B1E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166D5DF24EA13DD00526B1E /* CoreDataStack.swift */; };
 		E166D5E224EA15DD00526B1E /* Movie+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166D5E124EA15DD00526B1E /* Movie+Convenience.swift */; };
 		E166D5E424EA16F100526B1E /* MovieRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166D5E324EA16F100526B1E /* MovieRepresentation.swift */; };
+		E166D5E824EA457800526B1E /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166D5E724EA457800526B1E /* MovieTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		E166D5DF24EA13DD00526B1E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E166D5E124EA15DD00526B1E /* Movie+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Convenience.swift"; sourceTree = "<group>"; };
 		E166D5E324EA16F100526B1E /* MovieRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepresentation.swift; sourceTree = "<group>"; };
+		E166D5E724EA457800526B1E /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 			children = (
 				46E209E82126A63600E7FF73 /* Main.storyboard */,
 				46E209ED2126A63700E7FF73 /* LaunchScreen.storyboard */,
+				E166D5E724EA457800526B1E /* MovieTableViewCell.swift */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 				46E20A022126A91800E7FF73 /* MovieDBMovie.swift in Sources */,
 				CE491A8F2477713300012147 /* SceneDelegate.swift in Sources */,
 				E166D5E024EA13DD00526B1E /* CoreDataStack.swift in Sources */,
+				E166D5E824EA457800526B1E /* MovieTableViewCell.swift in Sources */,
 				E166D5E224EA15DD00526B1E /* Movie+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

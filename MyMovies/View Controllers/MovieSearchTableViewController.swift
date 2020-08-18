@@ -7,13 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieSearchTableViewController: UITableViewController {
 
     // MARK: - Properties
-    
+    var movie: Movie?
+    var wasSelected = false
     var movieController = MovieController()
-    
+
     // MARK: - Outlets
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -22,15 +24,25 @@ class MovieSearchTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         searchBar.delegate = self
+        tableView.allowsSelection = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if wasSelected {
+
+
+        }
+        
         if let indexPaths = tableView.indexPathsForSelectedRows {
             for indexPath in indexPaths {
                 let movieDBMovie = movieController.searchedMovies[indexPath.row]
                 // TODO: Save this movie representation as a managed object in Core Data
+//                movieController.sendMovieToServer(movie: movie)
+//                movieDBMovie.title = i
             }
         }
     }
@@ -39,6 +51,9 @@ class MovieSearchTableViewController: UITableViewController {
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
+        wasSelected = true
+//        sender
+        
     }
     
     // MARK: - Table View Data Source
@@ -67,3 +82,5 @@ extension MovieSearchTableViewController: UISearchBarDelegate {
         }
     }
 }
+
+
