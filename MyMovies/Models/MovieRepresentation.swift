@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+
 
 
 struct MovieRepresentation: Codable {

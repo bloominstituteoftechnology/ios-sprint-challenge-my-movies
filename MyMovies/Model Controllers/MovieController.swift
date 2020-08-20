@@ -21,7 +21,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    private let firebaseURL = URL(string: "https://iosjournalproject.firebaseio.com/")!
+    private let firebaseURL = URL(string: "https://iosmymoviesproject.firebaseio.com/")!
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
@@ -99,7 +99,9 @@ class MovieController {
             URLSession.shared.dataTask(with: request) { data, _, error in
                 if let error = error {
                     NSLog("Error sending movie to server \(movie): \(error)")
+                    DispatchQueue.main.async {
                     completion(.failure(.otherError))
+                    }
                     return
                 }
                 

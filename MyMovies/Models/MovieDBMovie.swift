@@ -10,6 +10,7 @@ import Foundation
 
 struct MovieDBMovie: Codable {
     let title: String
+//    let hasWathed: Bool = false
 }
 
 /*

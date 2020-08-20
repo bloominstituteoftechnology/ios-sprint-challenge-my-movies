@@ -11,7 +11,7 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
     
-    //let movieController = MovieController()
+    let movieController = MovieController()
     
     // MARK: - Properties
       
@@ -21,7 +21,7 @@ class MyMoviesTableViewController: UITableViewController {
                                          NSSortDescriptor(key: "hasWatched", ascending: true)]
           
           let context = CoreDataStack.shared.mainContext
-          let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
+          let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "hasWatched", cacheName: nil)
           
           frc.delegate = self
           
@@ -37,7 +37,7 @@ class MyMoviesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
+        //tableView.delegate = self
         tableView.reloadData()
     }
 
@@ -61,25 +61,46 @@ class MyMoviesTableViewController: UITableViewController {
         
 
         cell.movie = fetchedResultsController.object(at: indexPath)
-        cell.movieController = MovieController()
+        cell.movieController = self.movieController
         
         return cell
     }
-
-    // MARK: - Navigation
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionTitle = fetchedResultsController.sections?[section] else { return nil }
+        
+        if sectionTitle.name == "0" {
+            return "Not Seen"
+        } else {
+            return "Seen"
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                let movie = fetchedResultsController.object(at: indexPath)
+                movieController.deleteMovieFromServer(movie) { (result) in
+                    guard let _ = try? result.get() else { return }
+                    DispatchQueue.main.async {
+                        let moc = CoreDataStack.shared.mainContext
+                        moc.delete(movie)
+                        do {
+                            try moc.save()
+                            tableView.reloadData()
+                        } catch {
+                            NSLog("Error saving managed object context: \(error)")
+                            moc.reset()
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+  
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ToMovieSearch" {
-//        if let detailVC = segue.destination as? MovieSearchTableViewController,
-//            let index = self.tableView.indexPathForSelectedRow {
-//            detailVC.movie = fetchedResultsController.object(at: index)
-//            detailVC.movieController = movieController
-//        }
-//    }
-//}
-}
+  
+
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
     
