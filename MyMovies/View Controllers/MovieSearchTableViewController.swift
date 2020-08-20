@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieSearchTableViewController: UITableViewController {
 
     // MARK: - Properties
     
     var movieController = MovieController()
+    var movie: Movie?
     
     // MARK: - Outlets
     
@@ -27,12 +29,18 @@ class MovieSearchTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if let indexPaths = tableView.indexPathsForSelectedRows {
-            for indexPath in indexPaths {
-                let movieDBMovie = movieController.searchedMovies[indexPath.row]
-                // TODO: Save this movie representation as a managed object in Core Data
-            }
-        }
+      if let indexPaths = tableView.indexPathsForSelectedRows {
+                 for indexPath in indexPaths {
+                     let movieDBMovie = movieController.searchedMovies[indexPath.row]
+                     let movie = Movie(title: movieDBMovie.title, hasWatched: false)
+                     movieController.sendMovieToServer(movie: movie)
+                     do {
+                          try CoreDataStack.shared.mainContext.save()
+                     } catch {
+                         NSLog("Error saving movie: \(error)")
+                     }
+                 }
+             }
     }
     
     // MARK: - Actions
@@ -52,7 +60,15 @@ class MovieSearchTableViewController: UITableViewController {
         cell.textLabel?.text = movieController.searchedMovies[indexPath.row].title
         return cell
    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.dismiss(animated: true, completion: nil)
+        
+    }
 }
+    
+    
+
 
 extension MovieSearchTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
