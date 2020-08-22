@@ -98,6 +98,15 @@ class MyMoviesTableViewController: UITableViewController {
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "movieSearchModalSegue" {
+            if let navVC = segue.destination as? UINavigationController,
+                let movieSearchVC = navVC.viewControllers.first as? MovieSearchTableViewController {
+                movieSearchVC.movieController = movieController
+            }
+        }
+    }
 }
 
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
