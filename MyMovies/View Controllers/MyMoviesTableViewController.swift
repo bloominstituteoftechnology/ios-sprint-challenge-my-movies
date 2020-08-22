@@ -11,7 +11,7 @@ import CoreData
 
 class MyMoviesTableViewController: UITableViewController {
 
-    var movieController = MovieController()
+    let movieController = MovieController()
     
     lazy var fetchedResultsControllers: NSFetchedResultsController<Movie> = {
         let fetchRequest: NSFetchRequest<Movie> = Movie.fetchRequest()
@@ -30,14 +30,19 @@ class MyMoviesTableViewController: UITableViewController {
         return frc
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.delegate = self
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        tableView.delegate = self
+//    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        //        tableView.reloadData()
+        // made change??
+        tableView.reloadData()
+//        DispatchQueue.main.async {
+//            self.refreshControl?.endRefreshing()
+//
+//        }
     }
     
     // MARK: - Table view data source
@@ -77,6 +82,7 @@ class MyMoviesTableViewController: UITableViewController {
                     guard let _ = try? result.get() else { return }
                     let moc = CoreDataStack.shared.mainContext
                     moc.delete(movie)
+
                     do {
                         try moc.save()
                     } catch {
@@ -84,8 +90,6 @@ class MyMoviesTableViewController: UITableViewController {
                         NSLog("Error saving managed object context: \(error)")
                     }
                 }
-
-
             }
         }
     }
@@ -112,11 +116,11 @@ class MyMoviesTableViewController: UITableViewController {
 extension MyMoviesTableViewController: NSFetchedResultsControllerDelegate {
 
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
+        self.tableView.beginUpdates()
     }
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
+        self.tableView.endUpdates()
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
@@ -171,9 +175,7 @@ extension MyMoviesTableViewController: MovieCellDelegate {
         } catch {
             NSLog("Errer not able to save move title: \(error)")
         }
-        
     }
-
 }
 
 

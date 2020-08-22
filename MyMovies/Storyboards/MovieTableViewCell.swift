@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 protocol MovieCellDelegate: class {
     func didUpdateMove(cell: MovieTableViewCell)
@@ -19,7 +18,8 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var hasWatchedToggle: UIButton!
 
     static let resuseIdentifier = "MyMovieCell"
-    var movieController = MovieController()
+//    var movieController = MovieController()
+
 
     var movie: Movie? {
         didSet {

@@ -87,14 +87,14 @@ class MovieController {
             }
 
             do {
-                let json = try! JSONSerialization.jsonObject(with: data, options: [])
-                print(json)
-                
+//                let json = try! JSONSerialization.jsonObject(with: data, options: [])
+//                print(json)
+
                 let movieRepresentations = Array(try JSONDecoder().decode([String : MovieRepresentation].self, from: data).values)
                 try self.updateMovie(with: movieRepresentations)
                 completion(.success(true))
             } catch {
-                print("Error decoding task representations: \(error)")
+                print("Error decoding movie representations: \(error)")
                 completion(.failure(.failedDecode))
                 return
             }
