@@ -29,7 +29,7 @@ class CoreDataStack {
     }()
     
     var mainContext: NSManagedObjectContext {
-        return container.newBackgroundContext()
+        return container.viewContext
     }
     
     var backgroundContext: NSManagedObjectContext {
